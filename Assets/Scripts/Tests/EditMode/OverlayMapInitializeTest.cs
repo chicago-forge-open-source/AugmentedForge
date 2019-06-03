@@ -13,9 +13,9 @@ namespace Tests.EditMode
         public void Setup()
         {
             _map = GameObject.Find("Overlay Map");
-            Debug.Log(_map);
+            Debug.Log("1MAP " + _map);
             _mapScript = _map.GetComponent<OverlayMapInitialize>();
-            Debug.Log(_mapScript);
+            Debug.Log("1SCRIPT " + _mapScript);
         }
 
         [Test]
