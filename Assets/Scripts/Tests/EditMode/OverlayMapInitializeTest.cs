@@ -6,12 +6,13 @@ namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
-        private readonly GameObject _map = GameObject.Find("Overlay Map");
+        private GameObject _map;
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
         public void Setup()
         {
+            _map = GameObject.Find("Overlay Map");
             _mapScript = _map.GetComponent<OverlayMapInitialize>();
         }
 
