@@ -8,8 +8,7 @@ namespace Main
         // Start is called before the first frame update
         public void Start()
         {
-            Debug.Log("Start for Overlay Map");
-
+            transform.rotation = Quaternion.Euler(0,0,0);
         }
 
         // Update is called once per frame

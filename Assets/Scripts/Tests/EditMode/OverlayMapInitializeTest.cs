@@ -11,15 +11,11 @@ namespace Tests.EditMode
         [Test]
         public void WhenNoCompassDetectedMapIsRotatedToZero()
         {
-            GameObject map = GameObject.Find("Overlay Map");
+            var map = GameObject.Find("Overlay Map");
             var overlayMapInitialize = map.GetComponent<OverlayMapInitialize>();
             overlayMapInitialize.Start();
-        }
-
-        [UnityTest]
-        public IEnumerator NewTestScriptWithEnumeratorPasses()
-        {
-            yield return null;
+            var defaultQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 1f);
+            Assert.AreEqual(defaultQuaternion, map.transform.rotation);
         }
     }
 }
