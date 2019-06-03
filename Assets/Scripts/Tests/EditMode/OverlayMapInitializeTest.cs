@@ -1,21 +1,21 @@
-﻿using Main;
+﻿using System.Collections.Generic;
+using Main;
 using NUnit.Framework;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
-        private GameObject _map;
+        private readonly GameObject _map = new GameObject("Overlay Map");
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
         public void Setup()
         {
-            EditorSceneManager.OpenScene("./Assets/Scenes/SampleScene.unity");
-            _map = GameObject.Find("Overlay Map");
-            _mapScript = _map.GetComponent<OverlayMapInitialize>();
+            _mapScript = _map.AddComponent<OverlayMapInitialize>();
         }
 
         [Test]
