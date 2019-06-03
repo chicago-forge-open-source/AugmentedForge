@@ -1,5 +1,6 @@
 ﻿using Main;
 using NUnit.Framework;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Tests.EditMode
@@ -12,10 +13,9 @@ namespace Tests.EditMode
         [SetUp]
         public void Setup()
         {
+            EditorSceneManager.OpenScene("./Assets/Scenes/SampleScene.unity");
             _map = GameObject.Find("Overlay Map");
-            Debug.Log("1MAP " + _map);
             _mapScript = _map.GetComponent<OverlayMapInitialize>();
-            Debug.Log("1SCRIPT " + _mapScript);
         }
 
         [Test]
