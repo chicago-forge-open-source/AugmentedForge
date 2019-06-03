@@ -17,14 +17,15 @@ namespace Main
 
         public void AlignMapWithCompass(CompassInterface compass)
         {
-            transform.rotation = compass == null
-                ? Quaternion.Euler(0, 0, 0)
-                : Quaternion.Euler(0, -compass.TrueHeading, 0);
+            transform.rotation = compass.IsEnabled
+                ? Quaternion.Euler(0, -compass.TrueHeading, 0)
+                : Quaternion.Euler(0, 0, 0);
         }
     }
 
-    public class RealCompass : CompassInterface
+    internal class RealCompass : CompassInterface
     {
+        public bool IsEnabled => Input.compass.enabled;
         public float TrueHeading => Input.compass.trueHeading;
     }
 }

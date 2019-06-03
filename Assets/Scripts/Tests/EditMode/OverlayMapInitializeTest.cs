@@ -1,37 +1,47 @@
-﻿using System.Collections;
-using Main;
+﻿using Main;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
+        private readonly GameObject _map = GameObject.Find("Overlay Map");
+        private OverlayMapInitialize _mapScript;
+
+        [SetUp]
+        public void Setup()
+        {
+            _mapScript = _map.GetComponent<OverlayMapInitialize>();
+        }
+
         [Test]
         public void WhenNoCompassDetectedMapIsRotatedToZero()
         {
-            var map = GameObject.Find("Overlay Map");
-            var overlayMapInitialize = map.GetComponent<OverlayMapInitialize>();
-            overlayMapInitialize.AlignMapWithCompass(null);
-            var defaultQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 1f);
-            Assert.AreEqual(defaultQuaternion, map.transform.rotation);
+            _mapScript.AlignMapWithCompass(new NoCompass());
+            var defaultQuaternion = Quaternion.Euler(0, 0, 0);
+            Assert.AreEqual(defaultQuaternion, _map.transform.rotation);
         }
 
         [Test]
         public void WhenCompassDetectedMapIsRotatedToMatchNorth()
         {
-            var map = GameObject.Find("Overlay Map");
-            var overlayMapInitialize = map.GetComponent<OverlayMapInitialize>();
             var mockCompass = new MockCompass();
-            overlayMapInitialize.AlignMapWithCompass(mockCompass);
+            _mapScript.AlignMapWithCompass(mockCompass);
             var compassQuaternion = Quaternion.Euler(0, -mockCompass.TrueHeading, 0);
-            Assert.AreEqual(compassQuaternion,map.transform.rotation);
+            Assert.AreEqual(compassQuaternion, _map.transform.rotation);
         }
     }
 
-    public class MockCompass : CompassInterface
+    internal class NoCompass : CompassInterface
     {
+        public bool IsEnabled => false;
+        public float TrueHeading => 0f;
+    }
+
+    internal class MockCompass : CompassInterface
+    {
+        public bool IsEnabled => true;
         public float TrueHeading => 100f;
     }
 }
