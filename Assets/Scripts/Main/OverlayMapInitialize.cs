@@ -1,16 +1,31 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Android;
 
 namespace Main
 {
     public class OverlayMapInitialize : MonoBehaviour
     {
-        // Start is called before the first frame update
-        public void Start()
+        private readonly RealCompass _compass = new RealCompass();
+
+        public void Awake()
         {
-            AlignMapWithCompass(new RealCompass());
+            Input.compass.enabled = true;
+            Input.location.Start();
         }
 
-        // Update is called once per frame
+        public void Start()
+        {
+            StartCoroutine(WaitForCompassEnable());
+        }
+
+        private IEnumerator WaitForCompassEnable()
+        {
+            yield return new WaitUntil(() => _compass.IsEnabled);
+            AlignMapWithCompass(_compass);
+        }
+
         void Update()
         {
         }
@@ -25,7 +40,7 @@ namespace Main
 
     internal class RealCompass : CompassInterface
     {
-        public bool IsEnabled => Input.compass.enabled;
+        public bool IsEnabled => Math.Abs(TrueHeading) > 0;
         public float TrueHeading => Input.compass.trueHeading;
     }
 }
