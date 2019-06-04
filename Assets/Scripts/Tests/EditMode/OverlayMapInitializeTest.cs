@@ -33,12 +33,6 @@ namespace Tests.EditMode
             var compassQuaternion = Quaternion.Euler(0, -mockCompass.TrueHeading, 0);
             Assert.That(_map.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
         }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Object.Destroy(_map.gameObject);
-        }
     }
 
     internal class NoCompass : CompassInterface
