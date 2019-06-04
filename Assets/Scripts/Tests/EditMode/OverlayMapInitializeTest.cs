@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using Main;
+﻿using Main;
 using NUnit.Framework;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.TestTools.Utils;
 
 namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
         private readonly GameObject _map = new GameObject("Overlay Map");
+        private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
@@ -23,7 +22,7 @@ namespace Tests.EditMode
         {
             _mapScript.AlignMapWithCompass(new NoCompass());
             var defaultQuaternion = Quaternion.Euler(0, 0, 0);
-            Assert.AreEqual(defaultQuaternion, _map.transform.rotation);
+            Assert.That(_map.transform.rotation, Is.EqualTo(defaultQuaternion).Using(_comparer));
         }
 
         [Test]
@@ -32,7 +31,13 @@ namespace Tests.EditMode
             var mockCompass = new MockCompass();
             _mapScript.AlignMapWithCompass(mockCompass);
             var compassQuaternion = Quaternion.Euler(0, -mockCompass.TrueHeading, 0);
-            Assert.AreEqual(compassQuaternion, _map.transform.rotation);
+            Assert.That(_map.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Object.Destroy(_map.gameObject);
         }
     }
 
