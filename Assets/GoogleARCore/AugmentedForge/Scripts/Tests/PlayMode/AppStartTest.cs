@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace AugmentedForge.Tests.PlayMode
+namespace GoogleARCore.AugmentedForge.Scripts.Tests.PlayMode
 {
     public class AppStartTest
     {

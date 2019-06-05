@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using GoogleARCore.AugmentedForge.Scripts.Main;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
-using GoogleARCore.AugmentedForge.Scripts.Main;
 
-namespace AugmentedForge.Tests.EditMode
+namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
