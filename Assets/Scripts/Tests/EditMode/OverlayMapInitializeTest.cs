@@ -35,6 +35,37 @@ namespace Tests.EditMode
             var compassQuaternion = Quaternion.Euler(0, 0, -mockCompass.TrueHeading);
             Assert.That(_camera.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
         }
+
+        [Test]
+        public void GivenSyncPointLocationMarkerPositionIsSetToVector()
+        {
+            var locationMarker = new GameObject();
+            _mapScript.locationMarker = locationMarker;
+
+            var vector = new Vector3(3, 6, 9);
+            var syncPoint = new GameObject();
+            syncPoint.transform.position = vector;
+
+            _mapScript.LocationSync(syncPoint);
+            var position = locationMarker.transform.position;
+            Assert.AreEqual(vector, position);
+        }
+
+        [Test]
+        public void GivenLocationSyncCameraIsMovedToViewLocation()
+        {
+            var locationMarker = new GameObject();
+            _mapScript.locationMarker = locationMarker;
+
+            var vector = new Vector3(1,2,3);
+            var syncPoint = new GameObject();
+            syncPoint.transform.position = vector;
+
+            _mapScript.LocationSync(syncPoint);
+            var position = _camera.transform.position;
+            Assert.AreEqual(vector.x, position.x);
+            Assert.AreEqual(vector.y, position.y);
+        }
     }
 
     internal class NoCompass : CompassInterface

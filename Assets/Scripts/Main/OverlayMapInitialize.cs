@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Android;
 
 namespace Main
 {
@@ -20,7 +19,7 @@ namespace Main
 
         public void Start()
         {
-            MoveLocationToSyncPoint(GameObject.Find("Sync Point 1"));
+            LocationSync(GameObject.Find("Sync Point 1"));
             StartCoroutine(WaitForCompassEnable());
         }
 
@@ -37,14 +36,28 @@ namespace Main
 
         public void AlignCameraWithCompass(CompassInterface compass)
         {
-           mainCamera.transform.rotation = compass.IsEnabled
-                ? Quaternion.Euler(0,0, -compass.TrueHeading)
+            mainCamera.transform.rotation = compass.IsEnabled
+                ? Quaternion.Euler(0, 0, -compass.TrueHeading)
                 : Quaternion.Euler(0, 0, 0);
         }
 
-        private void MoveLocationToSyncPoint(GameObject syncPoint)
+        private void SetLocationMarkerPosition(Vector3 position)
         {
-            locationMarker.transform.position = syncPoint.transform.position;
+            locationMarker.transform.position = position;
+        }
+        
+        private void SetCameraXyPosition(float x, float y)
+        {
+            var cameraTransform = mainCamera.transform;
+            var camPosition = new Vector3(x, y, cameraTransform.position.z);
+            cameraTransform.position = camPosition;
+        }
+
+        public void LocationSync(GameObject syncPoint)
+        {
+            var syncPos = syncPoint.transform.position;
+            SetLocationMarkerPosition(syncPos);
+            SetCameraXyPosition(syncPos.x, syncPos.y);
         }
     }
 

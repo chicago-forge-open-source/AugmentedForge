@@ -10,34 +10,53 @@ namespace Tests.PlayMode
 {
     public class AppStartTest
     {
-        private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
+        private GameObject _camera;
+        private GameObject _syncPoint;
 
+        [SetUp]
+        public void SetUp()
+        {
+            SceneManager.LoadScene("MapScene");
+        }
+
+        private IEnumerator SetupTestObjects()
+        {
+            yield return null;
+            _camera = GameObject.Find("Main Camera");
+            _syncPoint = GameObject.Find("Sync Point 1");
+        }
+        
         [UnityTest]
         [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator WhenCompassEnabledCameraIsRotated()
         {
-            SceneManager.LoadScene("MapScene");
-            yield return null;
-
-            var camera = GameObject.Find("Main Camera");
+            yield return SetupTestObjects();
+            var comparer = new QuaternionEqualityComparer(10e-6f);
             var defaultQuaternion = Quaternion.Euler(0, 0, 0);
-
             yield return new WaitUntil(() => Math.Abs(Input.compass.trueHeading) > 0);
-
-            Assert.That(camera.transform.rotation, Is.Not.EqualTo(defaultQuaternion).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.Not.EqualTo(defaultQuaternion).Using(comparer));
         }
 
         [UnityTest]
         [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
         {
-            SceneManager.LoadScene("MapScene");
-            yield return null;
-
+            yield return SetupTestObjects();
             var locationMarker = GameObject.Find("Location Marker");
-            var syncPoint = GameObject.Find("Sync Point 1");
 
-            Assert.AreEqual(syncPoint.transform.position, locationMarker.transform.position);
+            Assert.AreEqual(_syncPoint.transform.position, locationMarker.transform.position);
+        }
+
+        [UnityTest]
+        [UnityPlatform(RuntimePlatform.Android)]
+        public IEnumerator OnStartCameraViewsLocationMarker()
+        {
+            yield return SetupTestObjects();
+            var position = _syncPoint.transform.position;
+
+            var cameraPos = _camera.transform.position;
+            Assert.AreEqual(position.x, cameraPos.x);
+            Assert.AreEqual(position.y, cameraPos.y);
         }
     }
 }
