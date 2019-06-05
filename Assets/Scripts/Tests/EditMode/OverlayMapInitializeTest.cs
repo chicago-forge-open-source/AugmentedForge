@@ -30,7 +30,7 @@ namespace Tests.EditMode
         {
             var mockCompass = new MockCompass();
             _mapScript.AlignMapWithCompass(mockCompass);
-            var compassQuaternion = Quaternion.Euler(0, -mockCompass.TrueHeading, 0);
+            var compassQuaternion = Quaternion.Euler(0, 0, -mockCompass.TrueHeading);
             Assert.That(_map.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
         }
     }

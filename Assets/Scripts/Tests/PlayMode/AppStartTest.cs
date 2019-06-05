@@ -14,7 +14,7 @@ namespace Tests.PlayMode
         [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator WhenSceneIsLoadedAndCompassEnabledOverlayMapIsRotated()
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("MapScene");
             yield return null;
 
             var map = GameObject.Find("Overlay Map");

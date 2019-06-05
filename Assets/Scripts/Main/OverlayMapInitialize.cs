@@ -26,14 +26,15 @@ namespace Main
             AlignMapWithCompass(_compass);
         }
 
-        void Update()
+        public void OnApplicationFocus(bool hasFocus)
         {
+            StartCoroutine(WaitForCompassEnable());
         }
 
         public void AlignMapWithCompass(CompassInterface compass)
         {
             transform.rotation = compass.IsEnabled
-                ? Quaternion.Euler(0, -compass.TrueHeading, 0)
+                ? Quaternion.Euler(0,0, -compass.TrueHeading)
                 : Quaternion.Euler(0, 0, 0);
         }
     }
