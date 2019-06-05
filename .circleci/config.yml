@@ -4,13 +4,13 @@ executors:
     docker:
       - image: gableroux/unity3d:2019.1.3f1
 jobs:
-  build-test:
+  build-test:t
     executor: unity
     steps:
       - checkout
       - run: echo $UNITY_LICENSE | base64 --decode >> .circleci/Unity_License.ulf
       - run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .circleci/Unity_License.ulf || exit 0
-      - run: /opt/Unity/Editor/Unity -projectPath "./" -importPackage "./Packages" -quit
+      - run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -executeMethod Autobuilder.PerformBuild
       - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -noUpm -logFile -projectPath . -runEditorTests -editorTestsResultFile ./test-results/editMode/results.xml
 #      - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -noUpm -logFile -projectPath . -runTests -testPlatform playMode -editorTestsResultFile ./test-results/playMode/results.xml
       - store_test_results:
