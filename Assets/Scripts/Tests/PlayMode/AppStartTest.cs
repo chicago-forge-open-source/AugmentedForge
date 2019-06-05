@@ -10,20 +10,34 @@ namespace Tests.PlayMode
 {
     public class AppStartTest
     {
+        private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
+
         [UnityTest]
         [UnityPlatform(RuntimePlatform.Android)]
-        public IEnumerator WhenSceneIsLoadedAndCompassEnabledOverlayMapIsRotated()
+        public IEnumerator WhenCompassEnabledCameraIsRotated()
         {
             SceneManager.LoadScene("MapScene");
             yield return null;
 
-            var map = GameObject.Find("Overlay Map");
+            var camera = GameObject.Find("Main Camera");
             var defaultQuaternion = Quaternion.Euler(0, 0, 0);
-            var comparer = new QuaternionEqualityComparer(10e-6f);
 
             yield return new WaitUntil(() => Math.Abs(Input.compass.trueHeading) > 0);
 
-            Assert.That(map.transform.rotation, Is.Not.EqualTo(defaultQuaternion).Using(comparer));
+            Assert.That(camera.transform.rotation, Is.Not.EqualTo(defaultQuaternion).Using(_comparer));
+        }
+
+        [UnityTest]
+        [UnityPlatform(RuntimePlatform.Android)]
+        public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
+        {
+            SceneManager.LoadScene("MapScene");
+            yield return null;
+
+            var locationMarker = GameObject.Find("Location Marker");
+            var syncPoint = GameObject.Find("Sync Point 1");
+
+            Assert.AreEqual(syncPoint.transform.position, locationMarker.transform.position);
         }
     }
 }

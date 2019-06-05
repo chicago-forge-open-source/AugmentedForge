@@ -7,31 +7,33 @@ namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
-        private readonly GameObject _map = new GameObject("Overlay Map");
         private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
+        private readonly GameObject _map = new GameObject("Overlay Map");
+        private readonly Camera _camera = Camera.main;
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
         public void Setup()
         {
             _mapScript = _map.AddComponent<OverlayMapInitialize>();
+            _mapScript.mainCamera = _camera;
         }
 
         [Test]
-        public void WhenNoCompassDetectedMapIsRotatedToZero()
+        public void WhenNoCompassDetectedCameraIsRotatedToZero()
         {
-            _mapScript.AlignMapWithCompass(new NoCompass());
+            _mapScript.AlignCameraWithCompass(new NoCompass());
             var defaultQuaternion = Quaternion.Euler(0, 0, 0);
-            Assert.That(_map.transform.rotation, Is.EqualTo(defaultQuaternion).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(defaultQuaternion).Using(_comparer));
         }
 
         [Test]
-        public void WhenCompassDetectedMapIsRotatedToMatchNorth()
+        public void WhenCompassDetectedCameraIsRotatedToMatchNorth()
         {
             var mockCompass = new MockCompass();
-            _mapScript.AlignMapWithCompass(mockCompass);
+            _mapScript.AlignCameraWithCompass(mockCompass);
             var compassQuaternion = Quaternion.Euler(0, 0, -mockCompass.TrueHeading);
-            Assert.That(_map.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
         }
     }
 

@@ -7,6 +7,9 @@ namespace Main
 {
     public class OverlayMapInitialize : MonoBehaviour
     {
+        public Camera mainCamera;
+        public GameObject locationMarker;
+
         private readonly RealCompass _compass = new RealCompass();
 
         public void Awake()
@@ -17,13 +20,8 @@ namespace Main
 
         public void Start()
         {
+            MoveLocationToSyncPoint(GameObject.Find("Sync Point 1"));
             StartCoroutine(WaitForCompassEnable());
-        }
-
-        private IEnumerator WaitForCompassEnable()
-        {
-            yield return new WaitUntil(() => _compass.IsEnabled);
-            AlignMapWithCompass(_compass);
         }
 
         public void OnApplicationFocus(bool hasFocus)
@@ -31,11 +29,22 @@ namespace Main
             StartCoroutine(WaitForCompassEnable());
         }
 
-        public void AlignMapWithCompass(CompassInterface compass)
+        private IEnumerator WaitForCompassEnable()
         {
-            transform.rotation = compass.IsEnabled
+            yield return new WaitUntil(() => _compass.IsEnabled);
+            AlignCameraWithCompass(_compass);
+        }
+
+        public void AlignCameraWithCompass(CompassInterface compass)
+        {
+           mainCamera.transform.rotation = compass.IsEnabled
                 ? Quaternion.Euler(0,0, -compass.TrueHeading)
                 : Quaternion.Euler(0, 0, 0);
+        }
+
+        private void MoveLocationToSyncPoint(GameObject syncPoint)
+        {
+            locationMarker.transform.position = syncPoint.transform.position;
         }
     }
 
