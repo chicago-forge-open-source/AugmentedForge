@@ -5,7 +5,7 @@ using UnityEngine.TestTools.Utils;
 
 namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
 {
-    public class OverlayMapInitializeTest
+    public class stOverlayMapInitializeTest
     {
         private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
@@ -65,7 +65,7 @@ namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
         [Test]
         public void GivenChangeInPhysicalLocationMoveLocationTracker()
         {
-            
+            Assert.AreEqual(1, 0);
         }
         
     }
