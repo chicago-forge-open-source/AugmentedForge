@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Editor
 {
-    static class Autobuilder
+    class Autobuilder
     {
         [MenuItem("File/AutoBuilder/Android")]
         static void PerformBuild()
