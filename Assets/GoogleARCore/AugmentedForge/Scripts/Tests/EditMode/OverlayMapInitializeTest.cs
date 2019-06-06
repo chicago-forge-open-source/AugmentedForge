@@ -62,11 +62,11 @@ namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
             Assert.AreEqual(vector.y, position.y);
         }
 
-        [Test]
-        public void GivenChangeInPhysicalLocationMoveLocationTracker()
-        {
-            Assert.AreEqual(1, 0);
-        }
+//        [Test]
+//        public void GivenChangeInPhysicalLocationMoveLocationTracker()
+//        {
+//            Assert.AreEqual(1, 0);
+//        }
         
     }
 
