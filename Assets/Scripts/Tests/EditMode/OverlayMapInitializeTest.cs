@@ -1,11 +1,11 @@
-﻿using GoogleARCore.AugmentedForge.Scripts.Main;
+﻿using Main;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 
-namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
+namespace Tests.EditMode
 {
-    public class stOverlayMapInitializeTest
+    public class OverlayMapInitializeTest
     {
         private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
@@ -52,7 +52,7 @@ namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
         [Test]
         public void GivenLocationSyncCameraIsMovedToViewLocation()
         {
-            var vector = new Vector3(1,2,3);
+            var vector = new Vector3(1, 2, 3);
             var syncPoint = new GameObject();
             syncPoint.transform.position = vector;
 
@@ -62,12 +62,11 @@ namespace GoogleARCore.AugmentedForge.Scripts.Tests.EditMode
             Assert.AreEqual(vector.y, position.y);
         }
 
-//        [Test]
-//        public void GivenChangeInPhysicalLocationMoveLocationTracker()
-//        {
-//            
-//        }
-//        
+        [Test]
+        public void GivenChangeInPhysicalLocationMoveLocationTracker()
+        {
+//            Frame.Pose.position
+        }
     }
 
     internal class NoCompass : ICompassInterface

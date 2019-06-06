@@ -1,0 +1,15 @@
+{
+    "name": "MainScripts",
+    "references": [
+        "GUID:4d1fdf21cafae4fa28b1f84b7e41eaf1"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

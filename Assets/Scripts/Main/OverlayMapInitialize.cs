@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
+using GoogleARCore;
 using UnityEngine;
 
-namespace GoogleARCore.AugmentedForge.Scripts.Main
+namespace Main
 {
     public class OverlayMapInitialize : MonoBehaviour
     {

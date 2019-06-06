@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace GoogleARCore.AugmentedForge.Scripts.Tests.PlayMode
+namespace Tests.PlayMode
 {
     public class AppStartTest
     {
@@ -20,7 +20,7 @@ namespace GoogleARCore.AugmentedForge.Scripts.Tests.PlayMode
             _camera = GameObject.Find("Main Camera");
             _syncPoint = GameObject.Find("Sync Point 1");
         }
-        
+
         [UnityTest]
         [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator WhenCompassEnabledCameraIsRotated()

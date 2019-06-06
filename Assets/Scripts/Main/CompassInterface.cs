@@ -1,4 +1,4 @@
-namespace GoogleARCore.AugmentedForge.Scripts.Main
+namespace Main
 {
     public interface ICompassInterface
     {
