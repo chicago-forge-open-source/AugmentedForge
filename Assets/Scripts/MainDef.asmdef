@@ -1,7 +1,7 @@
 {
-    "name": "MainScripts",
+    "name": "MainDef",
     "references": [
-        "GUID:4d1fdf21cafae4fa28b1f84b7e41eaf1"
+        "GUID:a9420e37d7990b54abdef6688edbe313"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

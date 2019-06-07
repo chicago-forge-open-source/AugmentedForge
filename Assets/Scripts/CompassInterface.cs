@@ -1,4 +1,4 @@
-namespace Main
+namespace AugmentedForge
 {
     public interface ICompassInterface
     {

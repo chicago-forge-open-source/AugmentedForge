@@ -1,9 +1,12 @@
-﻿using System;
+﻿using UnityEditor;
+using UnityEngine.Experimental.XR;
+using UnityEngine.XR;
+using System;
 using System.Collections;
-//using GoogleARCore;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
-namespace Main
+namespace AugmentedForge
 {
     public class OverlayMapInitialize : MonoBehaviour
     {
@@ -11,6 +14,7 @@ namespace Main
         public GameObject locationMarker;
 
         private readonly RealCompass _compass = new RealCompass();
+        public Vector3 CameraPrevPosition { get; set; }
 
         public void Awake()
         {
@@ -42,23 +46,23 @@ namespace Main
                 : Quaternion.Euler(0, 0, 0);
         }
 
-        private void SetLocationMarkerPosition(Vector3 position)
-        {
-            locationMarker.transform.position = position;
-        }
-
-        private void SetCameraXyPosition(float x, float y)
-        {
-            var cameraTransform = mainCamera.transform;
-            var camPosition = new Vector3(x, y, cameraTransform.position.z);
-            cameraTransform.position = camPosition;
-        }
-
         public void LocationSync(GameObject syncPoint)
         {
             var syncPos = syncPoint.transform.position;
-            SetLocationMarkerPosition(syncPos);
-            SetCameraXyPosition(syncPos.x, syncPos.y);
+            SetObjectXyPosition(locationMarker.transform, syncPos.x, syncPos.y);
+            SetObjectXyPosition(mainCamera.transform, syncPos.x, syncPos.y);
+        }
+
+        public void MoveLocationMarker(Vector3 cameraPosition)
+        {
+            var deltaPosition = cameraPosition - CameraPrevPosition;
+            SetObjectXyPosition(locationMarker.transform, deltaPosition.x, deltaPosition.y);
+        }
+
+        private void SetObjectXyPosition(Transform objectTransform, float x, float y)
+        {
+            var position = new Vector3(x, y, objectTransform.position.z);
+            objectTransform.position = position;
         }
     }
 
