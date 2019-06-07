@@ -16,8 +16,6 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
-      - store_artifacts:
-          path: logs
 workflows:
   version: 2
   build:
