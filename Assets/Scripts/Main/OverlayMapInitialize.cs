@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using GoogleARCore;
+//using GoogleARCore;
 using UnityEngine;
 
 namespace Main
