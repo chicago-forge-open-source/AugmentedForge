@@ -4,6 +4,7 @@ using UnityEngine.XR;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 namespace AugmentedForge
 {
@@ -19,6 +20,7 @@ namespace AugmentedForge
         {
             Input.compass.enabled = true;
             Input.location.Start();
+            locationMarker.AddComponent<ARSession>();
         }
 
         public void Start()
