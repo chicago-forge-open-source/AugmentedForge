@@ -4,7 +4,6 @@ using UnityEngine.XR;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
 namespace AugmentedForge
 {

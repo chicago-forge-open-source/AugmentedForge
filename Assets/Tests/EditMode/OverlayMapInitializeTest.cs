@@ -1,6 +1,4 @@
-﻿using UnityEngine.XR.ARFoundation;
-
-namespace AugmentedForge.Tests
+﻿namespace AugmentedForge.Tests
 {
     using NUnit.Framework;
     using UnityEngine;

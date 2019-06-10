@@ -137,3 +137,5 @@ lint/tmp/
 
 # Mac Files
 .DS_Store 
+
+test-results
