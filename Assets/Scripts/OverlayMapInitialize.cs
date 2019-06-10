@@ -12,11 +12,10 @@ namespace AugmentedForge
         public Camera arCamera;
         public GameObject locationMarker;
         public Text debugText;
+        public GameObject startPoint;
 
         private readonly RealCompass _compass = new RealCompass();
         public Vector3 CameraPrevPosition { get; set; }
-
-        private TrackedPoseDriver cameraDriver;
 
         public void Awake()
         {
@@ -26,16 +25,19 @@ namespace AugmentedForge
 
         public void Start()
         {
-            LocationSync(GameObject.Find("Sync Point 1"));
+            LocationSync(startPoint);
             StartCoroutine(WaitForCompassEnable());
-            cameraDriver = arCamera.GetComponent<TrackedPoseDriver>();
-            
         }
 
         public void Update()
         {
-            Debug.Log(arCamera.transform.position + " " + cameraDriver.transform.position);
-            debugText.text = arCamera.transform.position.ToString();
+            var arCameraPosition = arCamera.transform.position;
+            debugText.text = arCameraPosition.ToString();
+
+            var startPointPosition = startPoint.transform.position;
+            var locationMarkerX = startPointPosition.x + arCameraPosition.x;
+            var locationMarkerY = startPointPosition.y + arCameraPosition.z;
+            locationMarker.transform.position = new Vector3(locationMarkerX, locationMarkerY);
         }
 
         public void OnApplicationFocus(bool hasFocus)

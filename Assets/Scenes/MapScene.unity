@@ -645,6 +645,7 @@ MonoBehaviour:
   arCamera: {fileID: 165585584}
   locationMarker: {fileID: 1317246971}
   debugText: {fileID: 40919616}
+  startPoint: {fileID: 2135615481}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,7 +658,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Map Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

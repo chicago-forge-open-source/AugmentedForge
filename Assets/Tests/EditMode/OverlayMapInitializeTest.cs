@@ -1,4 +1,6 @@
-﻿namespace AugmentedForge.Tests
+﻿using UnityEngine.UI;
+
+namespace AugmentedForge.Tests
 {
     using NUnit.Framework;
     using UnityEngine;
@@ -79,6 +81,24 @@
             var expectedVector = new Vector3(3, 3, 0);
             Assert.AreEqual(expectedVector, _locationMarker.transform.position);
         }
+
+        [Test]
+        public void Update_WillChangeThePositionOfLocationMarkerBasedOnArCameraLocation()
+        {
+            var arCamera = _game.AddComponent<Camera>();
+            _mapScript.debugText = _game.AddComponent<Text>();
+            _mapScript.arCamera = arCamera;
+            
+            var startPoint = new GameObject();
+            _mapScript.startPoint = startPoint;
+            
+            arCamera.transform.position = new Vector3(15,90,34);
+            startPoint.transform.position = new Vector3(100, 20);
+            _mapScript.Update();
+            
+            Assert.AreEqual(new Vector3(115,54), _locationMarker.transform.position);
+        }
+        
     }
 
     internal class NoCompass : ICompassInterface
