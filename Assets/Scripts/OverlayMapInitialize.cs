@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-//using UnityEngine.SpatialTracking;
+using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 
 namespace AugmentedForge
@@ -16,7 +16,7 @@ namespace AugmentedForge
         private readonly RealCompass _compass = new RealCompass();
         public Vector3 CameraPrevPosition { get; set; }
 
-//        private TrackedPoseDriver cameraDriver;
+        private TrackedPoseDriver cameraDriver;
 
         public void Awake()
         {
@@ -28,13 +28,14 @@ namespace AugmentedForge
         {
             LocationSync(GameObject.Find("Sync Point 1"));
             StartCoroutine(WaitForCompassEnable());
-//            cameraDriver = arCamera.GetComponent<TrackedPoseDriver>();
+            cameraDriver = arCamera.GetComponent<TrackedPoseDriver>();
+            
         }
 
         public void Update()
         {
-//            Debug.Log(arCamera.transform.position + " " + cameraDriver.transform.position);
-//            debugText.text = arCamera.transform.position.ToString();
+            Debug.Log(arCamera.transform.position + " " + cameraDriver.transform.position);
+            debugText.text = arCamera.transform.position.ToString();
         }
 
         public void OnApplicationFocus(bool hasFocus)
