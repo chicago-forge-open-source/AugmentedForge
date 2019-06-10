@@ -1,12 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine.Experimental.XR;
-using UnityEngine.XR;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
-using UnityEngine.XR.ARFoundation;
 
 namespace AugmentedForge
 {
