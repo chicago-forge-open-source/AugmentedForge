@@ -1,7 +1,8 @@
 {
     "name": "MainDef",
     "references": [
-        "GUID:a9420e37d7990b54abdef6688edbe313"
+        "GUID:a9420e37d7990b54abdef6688edbe313",
+        "GUID:ba171b3dd2a51234ab864770f99741a5"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
