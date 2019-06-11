@@ -1,6 +1,6 @@
 namespace AugmentedForge
 {
-    public interface ICompassInterface
+    public interface ICompass
     {
         bool IsEnabled { get; }
         float TrueHeading { get; }

@@ -8,15 +8,17 @@ namespace AugmentedForge.Tests
 
     public class OverlayMapInitializeTest
     {
-        private readonly GameObject _game = new GameObject();
+        private GameObject _game;
         private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
-        private readonly GameObject _locationMarker = new GameObject();
+        private GameObject _locationMarker;
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
         public void Setup()
         {
+            _game = new GameObject();
+            _locationMarker = new GameObject();
             _mapScript = _game.AddComponent<OverlayMapInitialize>();
             _mapScript.mainCamera = _camera;
             _mapScript.locationMarker = _locationMarker;
@@ -76,28 +78,44 @@ namespace AugmentedForge.Tests
             var arCamera = _game.AddComponent<Camera>();
             _mapScript.debugText = _game.AddComponent<Text>();
             _mapScript.arCamera = arCamera;
-            
+
             var startPoint = new GameObject();
             _mapScript.startPoint = startPoint;
-            
-            arCamera.transform.position = new Vector3(15,90,34);
+
+            arCamera.transform.position = new Vector3(15, 90, 34);
             startPoint.transform.position = new Vector3(100, 20);
             _mapScript.Update();
-            
-            Assert.AreEqual(new Vector3(115,54), _locationMarker.transform.position);
+
+            Assert.AreEqual(new Vector3(115, 54), _locationMarker.transform.position);
         }
-        
+
+        [Test]
+        public void Update_WillOrientTheCameraRotationBasedOnTheCompass()
+        {
+            _mapScript.arCamera = _game.AddComponent<Camera>();
+            _mapScript.debugText = _game.AddComponent<Text>();
+            _mapScript.startPoint = new GameObject();
+
+            _mapScript.compass = new MockCompass {TrueHeading = 70f};
+            _mapScript.mainCamera = _camera;
+
+            _mapScript.arCamera.transform.position = new Vector3(15, 90, 34);
+            _mapScript.Update();
+
+            var compassQuaternion = Quaternion.Euler(0, 0, -_mapScript.compass.TrueHeading);
+            Assert.That(_camera.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
+        }
     }
 
-    internal class NoCompass : ICompassInterface
+    internal class NoCompass : ICompass
     {
         public bool IsEnabled => false;
         public float TrueHeading => 0f;
     }
 
-    internal class MockCompass : ICompassInterface
+    internal class MockCompass : ICompass
     {
         public bool IsEnabled => true;
-        public float TrueHeading => 100f;
+        public float TrueHeading { get; set; } = 100f;
     }
 }

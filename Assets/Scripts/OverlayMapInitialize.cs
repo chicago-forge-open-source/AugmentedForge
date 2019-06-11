@@ -14,7 +14,7 @@ namespace AugmentedForge
         public Text debugText;
         public GameObject startPoint;
 
-        private readonly RealCompass _compass = new RealCompass();
+        public ICompass compass = new RealCompass();
         public Vector3 CameraPrevPosition { get; set; }
 
         public void Awake()
@@ -35,9 +35,11 @@ namespace AugmentedForge
             debugText.text = arCameraPosition.ToString();
 
             var startPointPosition = startPoint.transform.position;
-            var locationMarkerX = startPointPosition.x + arCameraPosition.x;
-            var locationMarkerY = startPointPosition.y + arCameraPosition.z;
-            locationMarker.transform.position = new Vector3(locationMarkerX, locationMarkerY);
+            var locationX = startPointPosition.x + arCameraPosition.x;
+            var locationY = startPointPosition.y + arCameraPosition.z;
+            locationMarker.transform.position = new Vector3(locationX, locationY);
+            
+            AlignCameraWithCompass(compass);
         }
 
         public void OnApplicationFocus(bool hasFocus)
@@ -47,14 +49,14 @@ namespace AugmentedForge
 
         private IEnumerator WaitForCompassEnable()
         {
-            yield return new WaitUntil(() => _compass.IsEnabled);
-            AlignCameraWithCompass(_compass);
+            yield return new WaitUntil(() => compass.IsEnabled);
+            AlignCameraWithCompass(compass);
         }
 
-        public void AlignCameraWithCompass(ICompassInterface compass)
+        public void AlignCameraWithCompass(ICompass theCompass)
         {
-            mainCamera.transform.rotation = compass.IsEnabled
-                ? Quaternion.Euler(0, 0, -compass.TrueHeading)
+            mainCamera.transform.rotation = theCompass.IsEnabled
+                ? Quaternion.Euler(0, 0, -theCompass.TrueHeading)
                 : Quaternion.Euler(0, 0, 0);
         }
 
@@ -72,7 +74,7 @@ namespace AugmentedForge
         }
     }
 
-    internal class RealCompass : ICompassInterface
+    internal class RealCompass : ICompass
     {
         public bool IsEnabled => Math.Abs(TrueHeading) > 0;
         public float TrueHeading => Input.compass.trueHeading;
