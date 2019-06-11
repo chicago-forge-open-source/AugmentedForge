@@ -65,12 +65,6 @@ namespace AugmentedForge
             SetObjectXyPosition(mainCamera.transform, syncPos.x, syncPos.y);
         }
 
-        public void MoveLocationMarker(Vector3 cameraPosition)
-        {
-            var deltaPosition = cameraPosition - CameraPrevPosition;
-            SetObjectXyPosition(locationMarker.transform, deltaPosition.x, deltaPosition.y);
-        }
-
         private void SetObjectXyPosition(Transform objectTransform, float x, float y)
         {
             var position = new Vector3(x, y, objectTransform.position.z);

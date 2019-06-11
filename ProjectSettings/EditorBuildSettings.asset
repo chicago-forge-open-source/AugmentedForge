@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MapScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
-    com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 3a6a236e0a405475c95cf47d1badfdde,
+    com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 2680739fc2df2491c9c2f65829981e55,
       type: 2}
     com.unity.xr.arkit.PlayerSettings: {fileID: 11400000, guid: d34a7b0ed80a04beeb10a62ba2f8c5e4,
       type: 2}

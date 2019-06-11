@@ -71,18 +71,6 @@ namespace AugmentedForge.Tests
         }
 
         [Test]
-        public void GivenChangeInLocationMoveLocationTracker()
-        {
-            _mapScript.CameraPrevPosition = new Vector3(1, 2, 3);
-            var cameraPosition = new Vector3(4, 5, 6);
-
-            _mapScript.MoveLocationMarker(cameraPosition);
-
-            var expectedVector = new Vector3(3, 3, 0);
-            Assert.AreEqual(expectedVector, _locationMarker.transform.position);
-        }
-
-        [Test]
         public void Update_WillChangeThePositionOfLocationMarkerBasedOnArCameraLocation()
         {
             var arCamera = _game.AddComponent<Camera>();
