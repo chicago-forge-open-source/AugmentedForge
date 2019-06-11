@@ -37,9 +37,17 @@ namespace AugmentedForge
             var locationX = startPointPosition.x + arCameraPosition.x;
             var locationY = startPointPosition.y + arCameraPosition.z;
             locationMarker.transform.position = new Vector3(locationX, locationY);
+
+
+            var currentRotation = mapCamera.transform.rotation;
+            var compassHeading = Quaternion.Euler(0, 0, -compass.TrueHeading);
+            var rotation = compassHeading.eulerAngles - currentRotation.eulerAngles;
+
+            var quarterDifference = rotation / 60;
             
-            AlignCameraWithCompass(compass);
-            debugText.text = "" + arCameraPosition + "\n" + mapCamera.transform.rotation + "\n" + compass.TrueHeading;
+            mapCamera.transform.rotation = Quaternion.Euler(currentRotation.eulerAngles + quarterDifference).normalized;
+            
+            debugText.text = "Current:" + currentRotation.eulerAngles + "\nCompass:" + compassHeading.eulerAngles + "\nDiff:" + rotation + "\nNew:" + mapCamera.transform.rotation.eulerAngles;
         }
 
         public void OnApplicationFocus(bool hasFocus)
