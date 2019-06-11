@@ -8,7 +8,7 @@ namespace AugmentedForge
 {
     public class OverlayMapInitialize : MonoBehaviour
     {
-        public Camera mainCamera;
+        public Camera mapCamera;
         public Camera arCamera;
         public GameObject locationMarker;
         public Text debugText;
@@ -32,7 +32,6 @@ namespace AugmentedForge
         public void Update()
         {
             var arCameraPosition = arCamera.transform.position;
-            debugText.text = arCameraPosition.ToString();
 
             var startPointPosition = startPoint.transform.position;
             var locationX = startPointPosition.x + arCameraPosition.x;
@@ -40,6 +39,7 @@ namespace AugmentedForge
             locationMarker.transform.position = new Vector3(locationX, locationY);
             
             AlignCameraWithCompass(compass);
+            debugText.text = "" + arCameraPosition + "\n" + mapCamera.transform.rotation + "\n" + compass.TrueHeading;
         }
 
         public void OnApplicationFocus(bool hasFocus)
@@ -55,7 +55,7 @@ namespace AugmentedForge
 
         public void AlignCameraWithCompass(ICompass theCompass)
         {
-            mainCamera.transform.rotation = theCompass.IsEnabled
+            mapCamera.transform.rotation = theCompass.IsEnabled
                 ? Quaternion.Euler(0, 0, -theCompass.TrueHeading)
                 : Quaternion.Euler(0, 0, 0);
         }
@@ -64,7 +64,7 @@ namespace AugmentedForge
         {
             var syncPos = syncPoint.transform.position;
             SetObjectXyPosition(locationMarker.transform, syncPos.x, syncPos.y);
-            SetObjectXyPosition(mainCamera.transform, syncPos.x, syncPos.y);
+            SetObjectXyPosition(mapCamera.transform, syncPos.x, syncPos.y);
         }
 
         private void SetObjectXyPosition(Transform objectTransform, float x, float y)

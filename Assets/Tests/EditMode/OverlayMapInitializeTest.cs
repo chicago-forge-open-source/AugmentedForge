@@ -20,7 +20,7 @@ namespace AugmentedForge.Tests
             _game = new GameObject();
             _locationMarker = new GameObject();
             _mapScript = _game.AddComponent<OverlayMapInitialize>();
-            _mapScript.mainCamera = _camera;
+            _mapScript.mapCamera = _camera;
             _mapScript.locationMarker = _locationMarker;
         }
 
@@ -96,8 +96,8 @@ namespace AugmentedForge.Tests
             _mapScript.debugText = _game.AddComponent<Text>();
             _mapScript.startPoint = new GameObject();
 
-            _mapScript.compass = new MockCompass {TrueHeading = 70f};
-            _mapScript.mainCamera = _camera;
+            _mapScript.compass = new MockCompass {TrueHeading = 30f};
+            _mapScript.mapCamera = _camera;
 
             _mapScript.arCamera.transform.position = new Vector3(15, 90, 34);
             _mapScript.Update();
