@@ -31,23 +31,50 @@ namespace AugmentedForge
 
         public void Update()
         {
+            UpdateLocationMarker();
+            UpdateMapCamera();
+        }
+
+        private void UpdateMapCamera()
+        {
+            var divisor = 4f;
+            var compassHeading = 360 - compass.TrueHeading;
+            var mapCameraVector = mapCamera.transform.rotation.eulerAngles;
+            var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
+
+            var finalRotation = mapCameraVector.z + rotationDifference / divisor;
+            mapCamera.transform.rotation = Quaternion.Euler(0, 0, finalRotation);
+            var logLine = "Current:" + Math.Round(mapCamera.transform.rotation.eulerAngles.z)
+                                     + "\n" + "Compass:" + Math.Round(compassHeading)
+                                     + "\n" + "Rotation difference:" + Math.Round(rotationDifference);
+            debugText.text = logLine;
+            Debug.Log(logLine);
+        }
+
+        private void UpdateLocationMarker()
+        {
             var arCameraPosition = arCamera.transform.position;
 
             var startPointPosition = startPoint.transform.position;
             var locationX = startPointPosition.x + arCameraPosition.x;
             var locationY = startPointPosition.y + arCameraPosition.z;
             locationMarker.transform.position = new Vector3(locationX, locationY);
+        }
 
+        private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
+        {
+            var rotationDifference = compassHeading - mapCameraVector.z;
 
-            var currentRotation = mapCamera.transform.rotation;
-            var compassHeading = Quaternion.Euler(0, 0, -compass.TrueHeading);
-            var rotation = compassHeading.eulerAngles - currentRotation.eulerAngles;
+            if (rotationDifference > 180)
+            {
+                rotationDifference -= 360;
+            }
+            else if (rotationDifference < -180)
+            {
+                rotationDifference += 360;
+            }
 
-            var quarterDifference = rotation / 60;
-            
-            mapCamera.transform.rotation = Quaternion.Euler(currentRotation.eulerAngles + quarterDifference).normalized;
-            
-            debugText.text = "Current:" + currentRotation.eulerAngles + "\nCompass:" + compassHeading.eulerAngles + "\nDiff:" + rotation + "\nNew:" + mapCamera.transform.rotation.eulerAngles;
+            return rotationDifference;
         }
 
         public void OnApplicationFocus(bool hasFocus)
