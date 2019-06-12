@@ -85,14 +85,6 @@ namespace AugmentedForge
         private IEnumerator WaitForCompassEnable()
         {
             yield return new WaitUntil(() => compass.IsEnabled);
-            AlignCameraWithCompass(compass);
-        }
-
-        public void AlignCameraWithCompass(ICompass theCompass)
-        {
-            mapCamera.transform.rotation = theCompass.IsEnabled
-                ? Quaternion.Euler(0, 0, -theCompass.TrueHeading)
-                : Quaternion.Euler(0, 0, 0);
         }
 
         public void LocationSync(GameObject syncPoint)

@@ -25,26 +25,6 @@ namespace AugmentedForge.Tests
         }
 
         [Test]
-        public void WhenNoCompassDetectedCameraIsRotatedToZero()
-        {
-            _mapScript.AlignCameraWithCompass(new NoCompass());
-
-            var defaultQuaternion = Quaternion.Euler(0, 0, 0);
-            Assert.That(_camera.transform.rotation, Is.EqualTo(defaultQuaternion).Using(_comparer));
-        }
-
-        [Test]
-        public void WhenCompassDetectedCameraIsRotatedToMatchNorth()
-        {
-            var mockCompass = new MockCompass();
-
-            _mapScript.AlignCameraWithCompass(mockCompass);
-
-            var compassQuaternion = Quaternion.Euler(0, 0, -mockCompass.TrueHeading);
-            Assert.That(_camera.transform.rotation, Is.EqualTo(compassQuaternion).Using(_comparer));
-        }
-
-        [Test]
         public void GivenSyncPointLocationMarkerPositionIsSetToVector()
         {
             var vector = new Vector3(3, 6, 9);
