@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 
 namespace AugmentedForge
@@ -13,9 +12,9 @@ namespace AugmentedForge
         public GameObject locationMarker;
         public Text debugText;
         public GameObject startPoint;
+        public GameObject arSessionOrigin;
 
         public ICompass compass = new RealCompass();
-        public Vector3 CameraPrevPosition { get; set; }
 
         public void Awake()
         {
@@ -27,6 +26,7 @@ namespace AugmentedForge
         {
             LocationSync(startPoint);
             StartCoroutine(WaitForCompassEnable());
+            arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
         }
 
         public void Update()
@@ -44,11 +44,6 @@ namespace AugmentedForge
 
             var finalRotation = mapCameraVector.z + rotationDifference / divisor;
             mapCamera.transform.rotation = Quaternion.Euler(0, 0, finalRotation);
-            var logLine = "Current:" + Math.Round(mapCamera.transform.rotation.eulerAngles.z)
-                                     + "\n" + "Compass:" + Math.Round(compassHeading)
-                                     + "\n" + "Rotation difference:" + Math.Round(rotationDifference);
-            debugText.text = logLine;
-            Debug.Log(logLine);
         }
 
         private void UpdateLocationMarker()
@@ -59,6 +54,10 @@ namespace AugmentedForge
             var locationX = startPointPosition.x + arCameraPosition.x;
             var locationY = startPointPosition.y + arCameraPosition.z;
             locationMarker.transform.position = new Vector3(locationX, locationY);
+
+            var logLine = "ARCamera: " + arCameraPosition;
+            debugText.text = logLine;
+            Debug.Log(logLine);
         }
 
         private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)

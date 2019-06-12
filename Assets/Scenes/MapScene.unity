@@ -651,6 +651,7 @@ MonoBehaviour:
   locationMarker: {fileID: 1317246971}
   debugText: {fileID: 40919616}
   startPoint: {fileID: 2135615481}
+  arSessionOrigin: {fileID: 1577749883}
 --- !u!4 &543973078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 473033526599478953, guid: ad2f19666079a4c20ad91133643504f1,

@@ -106,14 +106,14 @@ namespace AugmentedForge.Tests
 
             _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
-            
+
             var differenceInRotation = (360 - _mapScript.compass.TrueHeading) - originalCameraRotationDegrees;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
                 originalCameraRotationDegrees + differenceInRotation / divisor
             );
-            
+
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
 
@@ -134,19 +134,20 @@ namespace AugmentedForge.Tests
 
             _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
-            
+
             var differenceInRotation = -4;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
                 originalCameraRotationDegrees + differenceInRotation / divisor
             );
-            
+
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
-        
+
         [Test]
-        public void Update_WillOrientCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_ChangesNearNorth_OtherDirection()
+        public void
+            Update_WillOrientCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_ChangesNearNorth_OtherDirection()
         {
             var divisor = 4;
 
@@ -162,15 +163,35 @@ namespace AugmentedForge.Tests
 
             _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
-            
+
             var differenceInRotation = 4;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
                 originalCameraRotationDegrees + differenceInRotation / divisor
             );
-            
+
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
+        }
+
+        [Test]
+        public void Start_WillUpdateArSessionOriginRotationBasedOnCompass()
+        {
+            _mapScript.arCamera = _game.AddComponent<Camera>();
+            _mapScript.debugText = _game.AddComponent<Text>();
+            _mapScript.startPoint = new GameObject();
+
+            _mapScript.compass = new MockCompass {TrueHeading = 180f};
+
+            _mapScript.arSessionOrigin = new GameObject();
+
+            _mapScript.Start();
+
+            var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
+
+            Assert.That(_mapScript.arSessionOrigin.transform.rotation,
+                Is.EqualTo(expectedCameraRotation).Using(_comparer)
+            );
         }
     }
 
