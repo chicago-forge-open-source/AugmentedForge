@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections;
+using AugmentedForge;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AugmentedForge
+namespace Assets.Scripts
 {
     public class OverlayMapInitialize : MonoBehaviour
     {
-        public Camera mapCamera;
-        public Camera arCamera;
-        public GameObject locationMarker;
-        public Text debugText;
-        public GameObject startPoint;
-        public GameObject arSessionOrigin;
-
-        public ICompass compass = new RealCompass();
+        public Camera MapCamera;
+        public Camera ArCamera;
+        public GameObject LocationMarker;
+        public Text DebugText;
+        public GameObject StartPoint;
+        public GameObject ArSessionOrigin;
+        public ICompass Compass = new RealCompass();
 
         public void Awake()
         {
@@ -24,9 +24,9 @@ namespace AugmentedForge
 
         public void Start()
         {
-            LocationSync(startPoint);
+            LocationSync(StartPoint);
             StartCoroutine(WaitForCompassEnable());
-            arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
+            ArSessionOrigin.transform.rotation = Quaternion.Euler(0, Compass.TrueHeading, 0);
         }
 
         public void Update()
@@ -35,28 +35,33 @@ namespace AugmentedForge
             UpdateMapCamera();
         }
 
+        public void OnApplicationFocus(bool hasFocus)
+        {
+            StartCoroutine(WaitForCompassEnable());
+        }
+        
         private void UpdateMapCamera()
         {
             var divisor = 4f;
-            var compassHeading = 360 - compass.TrueHeading;
-            var mapCameraVector = mapCamera.transform.rotation.eulerAngles;
+            var compassHeading = 360 - Compass.TrueHeading;
+            var mapCameraVector = MapCamera.transform.rotation.eulerAngles;
             var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
 
             var finalRotation = mapCameraVector.z + rotationDifference / divisor;
-            mapCamera.transform.rotation = Quaternion.Euler(0, 0, finalRotation);
+            MapCamera.transform.rotation = Quaternion.Euler(0, 0, finalRotation);
         }
 
         private void UpdateLocationMarker()
         {
-            var arCameraPosition = arCamera.transform.position;
+            var arCameraPosition = ArCamera.transform.position;
 
-            var startPointPosition = startPoint.transform.position;
+            var startPointPosition = StartPoint.transform.position;
             var locationX = startPointPosition.x + arCameraPosition.x;
             var locationY = startPointPosition.y + arCameraPosition.z;
-            locationMarker.transform.position = new Vector3(locationX, locationY);
+            LocationMarker.transform.position = new Vector3(locationX, locationY);
 
             var logLine = "ARCamera: " + arCameraPosition;
-            debugText.text = logLine;
+            DebugText.text = logLine;
             Debug.Log(logLine);
         }
 
@@ -76,21 +81,17 @@ namespace AugmentedForge
             return rotationDifference;
         }
 
-        public void OnApplicationFocus(bool hasFocus)
-        {
-            StartCoroutine(WaitForCompassEnable());
-        }
 
         private IEnumerator WaitForCompassEnable()
         {
-            yield return new WaitUntil(() => compass.IsEnabled);
+            yield return new WaitUntil(() => Compass.IsEnabled);
         }
 
-        public void LocationSync(GameObject syncPoint)
+        private void LocationSync(GameObject syncPoint)
         {
             var syncPos = syncPoint.transform.position;
-            SetObjectXyPosition(locationMarker.transform, syncPos.x, syncPos.y);
-            SetObjectXyPosition(mapCamera.transform, syncPos.x, syncPos.y);
+            SetObjectXyPosition(LocationMarker.transform, syncPos.x, syncPos.y);
+            SetObjectXyPosition(MapCamera.transform, syncPos.x, syncPos.y);
         }
 
         private void SetObjectXyPosition(Transform objectTransform, float x, float y)

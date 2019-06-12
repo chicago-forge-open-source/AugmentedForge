@@ -1,204 +1,164 @@
-﻿using UnityEngine.UI;
+﻿using Assets.Scripts;
+using AugmentedForge;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools.Utils;
+using UnityEngine.UI;
 
-namespace AugmentedForge.Tests
+namespace Assets.Tests.EditMode
 {
-    using NUnit.Framework;
-    using UnityEngine;
-    using UnityEngine.TestTools.Utils;
-
     public class OverlayMapInitializeTest
     {
+        private const int MapRotationIncrementDivisor = 4;
+
         private GameObject _game;
         private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
-        private GameObject _locationMarker;
         private OverlayMapInitialize _mapScript;
 
         [SetUp]
         public void Setup()
         {
             _game = new GameObject();
-            _locationMarker = new GameObject();
             _mapScript = _game.AddComponent<OverlayMapInitialize>();
-            _mapScript.mapCamera = _camera;
-            _mapScript.locationMarker = _locationMarker;
+            _mapScript.MapCamera = _camera;
+            _mapScript.LocationMarker = new GameObject();
+            _mapScript.StartPoint = new GameObject();
+            _mapScript.ArSessionOrigin = new GameObject();
+            _mapScript.ArCamera = _game.AddComponent<Camera>();
+            _mapScript.DebugText = _game.AddComponent<Text>();
         }
 
         [Test]
-        public void GivenSyncPointLocationMarkerPositionIsSetToVector()
+        public void Start_WillMoveLocationMarkerToStartPoint()
         {
-            var vector = new Vector3(3, 6, 9);
-            var syncPoint = new GameObject();
-            syncPoint.transform.position = vector;
+            var startPosition = new Vector3(3, 6, 9);
+            _mapScript.StartPoint.transform.position = startPosition;
 
-            _mapScript.LocationSync(syncPoint);
+            _mapScript.Start();
 
-            var position = _locationMarker.transform.position;
-            var expectedVector = new Vector3(vector.x, vector.y, 0);
+            var position = _mapScript.LocationMarker.transform.position;
+            var expectedVector = new Vector3(startPosition.x, startPosition.y, 0);
             Assert.AreEqual(expectedVector, position);
         }
 
         [Test]
-        public void GivenLocationSyncCameraIsMovedToViewLocation()
+        public void Start_WillMoveMapCameraToStartPoint()
         {
-            var vector = new Vector3(1, 2, 3);
-            var syncPoint = new GameObject();
-            syncPoint.transform.position = vector;
+            var startPosition = new Vector3(1, 2, 3);
+            _mapScript.StartPoint.transform.position = startPosition;
 
-            _mapScript.LocationSync(syncPoint);
+            _mapScript.Start();
 
             var position = _camera.transform.position;
-            Assert.AreEqual(vector.x, position.x);
-            Assert.AreEqual(vector.y, position.y);
+            Assert.AreEqual(startPosition.x, position.x);
+            Assert.AreEqual(startPosition.y, position.y);
         }
 
         [Test]
-        public void Update_WillChangeThePositionOfLocationMarkerBasedOnArCameraLocation()
+        public void Start_WillUpdateArSessionOriginRotationBasedOnCompass()
         {
-            var arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.arCamera = arCamera;
+            _mapScript.Compass = new MockCompass {TrueHeading = 180f};
 
-            var startPoint = new GameObject();
-            _mapScript.startPoint = startPoint;
+            _mapScript.Start();
 
-            arCamera.transform.position = new Vector3(15, 90, 34);
-            startPoint.transform.position = new Vector3(100, 20);
+            var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
+
+            Assert.That(_mapScript.ArSessionOrigin.transform.rotation,
+                Is.EqualTo(expectedCameraRotation).Using(_comparer)
+            );
+        }
+
+        [Test]
+        public void Update_WillMoveLocationMarkerBasedOnArCameraLocation()
+        {
+            _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);
+            _mapScript.StartPoint.transform.position = new Vector3(100, 20);
             _mapScript.Update();
 
-            Assert.AreEqual(new Vector3(115, 54), _locationMarker.transform.position);
+            Assert.AreEqual(new Vector3(115, 54), _mapScript.LocationMarker.transform.position);
         }
 
         [Test]
-        public void Update_WillOrientTheCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_NorthStartPosition()
+        public void Update_GivenCompassWillRotateTheMapCameraIncrementally_NorthStartPosition()
         {
-            var divisor = 4;
-
-            _mapScript.arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.startPoint = new GameObject();
-
-            _mapScript.compass = new MockCompass {TrueHeading = 270f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 270f};
             _camera.transform.rotation = Quaternion.Euler(0, 0, 0);
-            _mapScript.mapCamera = _camera;
+            _mapScript.MapCamera = _camera;
 
-            _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
+            _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var expectedCameraRotation = Quaternion.Euler(0, 0, (360 - _mapScript.compass.TrueHeading) / divisor);
+            var expectedCameraRotation =
+                Quaternion.Euler(0, 0, (360 - _mapScript.Compass.TrueHeading) / MapRotationIncrementDivisor);
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
 
         [Test]
-        public void Update_WillOrientCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_EastStartPosition()
+        public void Update_GivenCompassWillRotateTheMapCameraIncrementally_EastStartPosition()
         {
-            var divisor = 4;
-
-            _mapScript.arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.startPoint = new GameObject();
-
-            _mapScript.compass = new MockCompass {TrueHeading = 180f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 180f};
             var originalCameraRotationDegrees = 90;
             var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
             _camera.transform.rotation = originalCameraRotation;
-            _mapScript.mapCamera = _camera;
+            _mapScript.MapCamera = _camera;
 
-            _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
+            _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var differenceInRotation = (360 - _mapScript.compass.TrueHeading) - originalCameraRotationDegrees;
+            var differenceInRotation = (360 - _mapScript.Compass.TrueHeading) - originalCameraRotationDegrees;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
-                originalCameraRotationDegrees + differenceInRotation / divisor
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
 
         [Test]
-        public void Update_WillOrientCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_ChangesNearNorth()
+        public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth()
         {
-            var divisor = 4;
-
-            _mapScript.arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.startPoint = new GameObject();
-
-            _mapScript.compass = new MockCompass {TrueHeading = 2f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 2f};
             var originalCameraRotationDegrees = 2;
             var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
             _camera.transform.rotation = originalCameraRotation;
-            _mapScript.mapCamera = _camera;
+            _mapScript.MapCamera = _camera;
 
-            _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
+            _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
             var differenceInRotation = -4;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
-                originalCameraRotationDegrees + differenceInRotation / divisor
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
 
         [Test]
-        public void
-            Update_WillOrientCameraRotationBasedOnTheCompass_BasedOnFractionOfRotation_ChangesNearNorth_OtherDirection()
+        public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth_OtherDirection()
         {
-            var divisor = 4;
-
-            _mapScript.arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.startPoint = new GameObject();
-
-            _mapScript.compass = new MockCompass {TrueHeading = 358f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 358f};
             var originalCameraRotationDegrees = 358;
             var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
             _camera.transform.rotation = originalCameraRotation;
-            _mapScript.mapCamera = _camera;
+            _mapScript.MapCamera = _camera;
 
-            _mapScript.arCamera.transform.position = new Vector3(15, 35, 34);
+            _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
             var differenceInRotation = 4;
             var expectedCameraRotation = Quaternion.Euler(
                 0,
                 0,
-                originalCameraRotationDegrees + differenceInRotation / divisor
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
-
-        [Test]
-        public void Start_WillUpdateArSessionOriginRotationBasedOnCompass()
-        {
-            _mapScript.arCamera = _game.AddComponent<Camera>();
-            _mapScript.debugText = _game.AddComponent<Text>();
-            _mapScript.startPoint = new GameObject();
-
-            _mapScript.compass = new MockCompass {TrueHeading = 180f};
-
-            _mapScript.arSessionOrigin = new GameObject();
-
-            _mapScript.Start();
-
-            var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
-
-            Assert.That(_mapScript.arSessionOrigin.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_comparer)
-            );
-        }
-    }
-
-    internal class NoCompass : ICompass
-    {
-        public bool IsEnabled => false;
-        public float TrueHeading => 0f;
     }
 
     internal class MockCompass : ICompass

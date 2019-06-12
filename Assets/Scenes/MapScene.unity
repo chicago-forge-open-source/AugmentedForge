@@ -646,12 +646,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57e5a5ddb30e4342bdd6a7e76158ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCamera: {fileID: 963194227}
-  arCamera: {fileID: 165585584}
-  locationMarker: {fileID: 1317246971}
-  debugText: {fileID: 40919616}
-  startPoint: {fileID: 2135615481}
-  arSessionOrigin: {fileID: 1577749883}
+  MapCamera: {fileID: 963194227}
+  ArCamera: {fileID: 165585584}
+  LocationMarker: {fileID: 1317246971}
+  DebugText: {fileID: 40919616}
+  StartPoint: {fileID: 2135615481}
+  ArSessionOrigin: {fileID: 1577749883}
 --- !u!4 &543973078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 473033526599478953, guid: ad2f19666079a4c20ad91133643504f1,

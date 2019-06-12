@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace GoogleARCore.AugmentedForge.Tests
+namespace Assets.Tests.PlayMode
 {
     public class AppStartTest
     {
@@ -39,9 +39,10 @@ namespace GoogleARCore.AugmentedForge.Tests
         public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
         {
             yield return LoadScene();
+            var comparer = new Vector3EqualityComparer(10e-6f);
             var locationMarker = GameObject.Find("Location Marker");
-
-            Assert.AreEqual(_syncPoint.transform.position, locationMarker.transform.position);
+            
+            Assert.That(_syncPoint.transform.position, Is.EqualTo(locationMarker.transform.position).Using(comparer));
         }
 
         [UnityTest]
