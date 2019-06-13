@@ -43,12 +43,12 @@ namespace Assets.Scripts
         private void UpdateMapCamera()
         {
             var divisor = 4f;
-            var compassHeading = 360 - Compass.TrueHeading;
+            var compassHeading = Compass.TrueHeading;
             var mapCameraVector = MapCamera.transform.rotation.eulerAngles;
             var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
 
-            var finalRotation = mapCameraVector.z + rotationDifference / divisor;
-            MapCamera.transform.rotation = Quaternion.Euler(0, 0, finalRotation);
+            var finalRotation = mapCameraVector.y + rotationDifference / divisor;
+            MapCamera.transform.rotation = Quaternion.Euler(90, finalRotation, 0);
         }
 
         private void UpdateLocationMarker()
@@ -57,8 +57,8 @@ namespace Assets.Scripts
 
             var startPointPosition = StartPoint.transform.position;
             var locationX = startPointPosition.x + arCameraPosition.x;
-            var locationY = startPointPosition.y + arCameraPosition.z;
-            LocationMarker.transform.position = new Vector3(locationX, locationY);
+            var locationZ = startPointPosition.z + arCameraPosition.z;
+            LocationMarker.transform.position = new Vector3(locationX, startPointPosition.y,locationZ);
 
             var logLine = "ARCamera: " + arCameraPosition;
             DebugText.text = logLine;
@@ -67,7 +67,7 @@ namespace Assets.Scripts
 
         private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
         {
-            var rotationDifference = compassHeading - mapCameraVector.z;
+            var rotationDifference = compassHeading - mapCameraVector.y;
 
             if (rotationDifference > 180)
             {
@@ -90,13 +90,13 @@ namespace Assets.Scripts
         private void LocationSync(GameObject syncPoint)
         {
             var syncPos = syncPoint.transform.position;
-            SetObjectXyPosition(LocationMarker.transform, syncPos.x, syncPos.y);
-            SetObjectXyPosition(MapCamera.transform, syncPos.x, syncPos.y);
+            SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
+            SetObjectXzPosition(MapCamera.transform, syncPos.x, syncPos.z);
         }
 
-        private void SetObjectXyPosition(Transform objectTransform, float x, float y)
+        private void SetObjectXzPosition(Transform objectTransform, float x, float z)
         {
-            var position = new Vector3(x, y, objectTransform.position.z);
+            var position = new Vector3(x, objectTransform.position.y, z);
             objectTransform.position = position;
         }
     }

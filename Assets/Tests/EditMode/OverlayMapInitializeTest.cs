@@ -38,7 +38,7 @@ namespace Assets.Tests.EditMode
             _mapScript.Start();
 
             var position = _mapScript.LocationMarker.transform.position;
-            var expectedVector = new Vector3(startPosition.x, startPosition.y, 0);
+            var expectedVector = new Vector3(startPosition.x, 0, startPosition.z);
             Assert.AreEqual(expectedVector, position);
         }
 
@@ -52,7 +52,7 @@ namespace Assets.Tests.EditMode
 
             var position = _camera.transform.position;
             Assert.AreEqual(startPosition.x, position.x);
-            Assert.AreEqual(startPosition.y, position.y);
+            Assert.AreEqual(startPosition.z, position.z);
         }
 
         [Test]
@@ -73,24 +73,26 @@ namespace Assets.Tests.EditMode
         public void Update_WillMoveLocationMarkerBasedOnArCameraLocation()
         {
             _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);
-            _mapScript.StartPoint.transform.position = new Vector3(100, 20);
+            _mapScript.StartPoint.transform.position = new Vector3(100, 13, 20);
             _mapScript.Update();
 
-            Assert.AreEqual(new Vector3(115, 54), _mapScript.LocationMarker.transform.position);
+            Assert.AreEqual(new Vector3(115, 13, 54), _mapScript.LocationMarker.transform.position);
         }
 
         [Test]
         public void Update_GivenCompassWillRotateTheMapCameraIncrementally_NorthStartPosition()
         {
-            _mapScript.Compass = new MockCompass {TrueHeading = 270f};
-            _camera.transform.rotation = Quaternion.Euler(0, 0, 0);
+            _mapScript.Compass = new MockCompass {TrueHeading = 90f};
+            _camera.transform.rotation = Quaternion.Euler(90, 0, 0);
             _mapScript.MapCamera = _camera;
 
             _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var expectedCameraRotation =
-                Quaternion.Euler(0, 0, (360 - _mapScript.Compass.TrueHeading) / MapRotationIncrementDivisor);
+            var expectedCameraRotation = Quaternion.Euler(
+                90,
+                _mapScript.Compass.TrueHeading / MapRotationIncrementDivisor,
+                0);
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
 
@@ -99,18 +101,18 @@ namespace Assets.Tests.EditMode
         {
             _mapScript.Compass = new MockCompass {TrueHeading = 180f};
             var originalCameraRotationDegrees = 90;
-            var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
             _camera.transform.rotation = originalCameraRotation;
             _mapScript.MapCamera = _camera;
 
             _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var differenceInRotation = (360 - _mapScript.Compass.TrueHeading) - originalCameraRotationDegrees;
+            var differenceInRotation = _mapScript.Compass.TrueHeading - originalCameraRotationDegrees;
             var expectedCameraRotation = Quaternion.Euler(
-                0,
-                0,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
+                90,
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
+                0
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
@@ -119,9 +121,9 @@ namespace Assets.Tests.EditMode
         [Test]
         public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth()
         {
-            _mapScript.Compass = new MockCompass {TrueHeading = 2f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 358f};
             var originalCameraRotationDegrees = 2;
-            var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
             _camera.transform.rotation = originalCameraRotation;
             _mapScript.MapCamera = _camera;
 
@@ -130,9 +132,9 @@ namespace Assets.Tests.EditMode
 
             var differenceInRotation = -4;
             var expectedCameraRotation = Quaternion.Euler(
-                0,
-                0,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
+                90,
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
+                0
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
@@ -141,9 +143,9 @@ namespace Assets.Tests.EditMode
         [Test]
         public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth_OtherDirection()
         {
-            _mapScript.Compass = new MockCompass {TrueHeading = 358f};
+            _mapScript.Compass = new MockCompass {TrueHeading = 2f};
             var originalCameraRotationDegrees = 358;
-            var originalCameraRotation = Quaternion.Euler(0, 0, originalCameraRotationDegrees);
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
             _camera.transform.rotation = originalCameraRotation;
             _mapScript.MapCamera = _camera;
 
@@ -152,9 +154,9 @@ namespace Assets.Tests.EditMode
 
             var differenceInRotation = 4;
             var expectedCameraRotation = Quaternion.Euler(
-                0,
-                0,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor
+                90,
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
+                0
             );
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
