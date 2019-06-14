@@ -1,11 +1,10 @@
-﻿using Assets.Scripts;
-using AugmentedForge;
+﻿using AugmentedForge;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 
-namespace Assets.Tests.EditMode
+namespace Tests.EditMode
 {
     public class OverlayMapInitializeTest
     {
