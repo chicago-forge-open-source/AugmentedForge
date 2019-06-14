@@ -17,7 +17,6 @@ public class OverlayMapInitialize : MonoBehaviour
     public void Start()
     {
         LocationSync(StartPoint);
-        ArSessionOrigin.transform.rotation = Quaternion.Euler(0, Compass.TrueHeading, 0);
     }
 
     public void Update()
@@ -52,8 +51,8 @@ public class OverlayMapInitialize : MonoBehaviour
         var arCameraPosition = ArCamera.transform.position;
 
         var startPointPosition = StartPoint.transform.position;
-        var locationX = startPointPosition.x + arCameraPosition.x;
-        var locationZ = startPointPosition.z + arCameraPosition.z;
+        var locationX = arCameraPosition.x;
+        var locationZ = arCameraPosition.z;
         LocationMarker.transform.position = new Vector3(locationX, startPointPosition.y, locationZ);
 
         var logLine = "ARCamera: " + arCameraPosition;
@@ -82,6 +81,9 @@ public class OverlayMapInitialize : MonoBehaviour
         var syncPos = syncPoint.transform.position;
         SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
         SetObjectXzPosition(MapCamera.transform, syncPos.x, syncPos.z);
+
+        SetObjectXzPosition(ArSessionOrigin.transform, syncPos.x, syncPos.z);
+        ArSessionOrigin.transform.rotation = Quaternion.Euler(0, Compass.TrueHeading, 0);
     }
 
     private void SetObjectXzPosition(Transform objectTransform, float x, float z)

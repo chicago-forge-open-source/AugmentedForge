@@ -40,6 +40,19 @@ namespace Tests.EditMode
             var expectedVector = new Vector3(startPosition.x, 0, startPosition.z);
             Assert.AreEqual(expectedVector, position);
         }
+        
+        [Test]
+        public void Start_WillMoveArOriginToStartPoint()
+        {
+            var startPosition = new Vector3(3, 6, 9);
+            _mapScript.StartPoint.transform.position = startPosition;
+
+            _mapScript.Start();
+
+            var position = _mapScript.ArSessionOrigin.transform.position;
+            var expectedVector = new Vector3(startPosition.x, 0, startPosition.z);
+            Assert.AreEqual(expectedVector, position);
+        }
 
         [Test]
         public void Start_WillMoveMapCameraToStartPoint()
@@ -69,13 +82,13 @@ namespace Tests.EditMode
         }
 
         [Test]
-        public void Update_WillMoveLocationMarkerBasedOnArCameraLocation()
+        public void Update_WillMoveLocationMarkerToArCameraLocation()
         {
             _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);
             _mapScript.StartPoint.transform.position = new Vector3(100, 13, 20);
             _mapScript.Update();
 
-            Assert.AreEqual(new Vector3(115, 13, 54), _mapScript.LocationMarker.transform.position);
+            Assert.AreEqual(new Vector3(15, 13, 34), _mapScript.LocationMarker.transform.position);
         }
 
         [Test]
