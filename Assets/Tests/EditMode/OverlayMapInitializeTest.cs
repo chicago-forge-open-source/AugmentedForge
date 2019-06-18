@@ -11,7 +11,8 @@ namespace Tests.EditMode
         private const int MapRotationIncrementDivisor = 4;
 
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _comparer = new QuaternionEqualityComparer(10e-6f);
+        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
+        private readonly Vector3EqualityComparer _vector3Comparer = new Vector3EqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
         private OverlayMapInitialize _mapScript;
 
@@ -77,7 +78,7 @@ namespace Tests.EditMode
             var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
 
             Assert.That(_mapScript.ArSessionOrigin.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_comparer)
+                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
             );
         }
 
@@ -105,7 +106,7 @@ namespace Tests.EditMode
                 90,
                 _mapScript.Compass.TrueHeading / MapRotationIncrementDivisor,
                 0);
-            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 
         [Test]
@@ -127,7 +128,7 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 
         [Test]
@@ -149,7 +150,7 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 
         [Test]
@@ -171,7 +172,7 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
+            Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 
         [Test]
@@ -198,5 +199,11 @@ namespace Tests.EditMode
     {
         public bool IsEnabled => true;
         public float TrueHeading { get; set; } = 100f;
+    }
+
+    internal class MockLocationInfo : ILocationInfo
+    {
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
     }
 }

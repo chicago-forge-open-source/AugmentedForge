@@ -13,18 +13,24 @@ public class OverlayMapInitialize : MonoBehaviour
     public GameObject StartPoint;
     public GameObject ArSessionOrigin;
     public ICompass Compass = new RealCompass();
+    public ILocationInfo StartPosition = new RealLocationInfo();
 
     // mHub Center GPS: 41.895888, -87.651995
     // StartPoint GPS: 41.895720, -87.651667
+    //                 41.895680  -87.651569
     public void Start()
     {
-        LocationSync(StartPoint);
+        LocationSync();
     }
 
     public void Update()
     {
         UpdateLocationMarker();
         UpdateMapCameraRotation();
+        var logLine = "ARCamera: " + ArCamera.transform.position;
+        logLine += "\nGPS: " + StartPosition.Latitude + ", " + StartPosition.Longitude;
+        DebugText.text = logLine;
+        Debug.Log(logLine);
     }
 
     public void OnApplicationFocus(bool hasFocus)
@@ -58,9 +64,6 @@ public class OverlayMapInitialize : MonoBehaviour
         var locationZ = arCameraPosition.z;
         LocationMarker.transform.position = new Vector3(locationX, startPointPosition.y, locationZ);
         MapCamera.transform.position = new Vector3(locationX, mapCameraPosition.y, locationZ);
-
-        var logLine = "ARCamera: " + arCameraPosition;
-        DebugText.text = logLine;
     }
 
     private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
@@ -80,9 +83,9 @@ public class OverlayMapInitialize : MonoBehaviour
     }
 
 
-    private void LocationSync(GameObject syncPoint)
+    private void LocationSync()
     {
-        var syncPos = syncPoint.transform.position;
+        var syncPos = StartPoint.transform.position;
         SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
         SetObjectXzPosition(MapCamera.transform, syncPos.x, syncPos.z);
 
@@ -101,4 +104,10 @@ internal class RealCompass : ICompass
 {
     public bool IsEnabled => Math.Abs(TrueHeading) > 0;
     public float TrueHeading => Input.compass.trueHeading;
+}
+
+internal class RealLocationInfo : ILocationInfo
+{
+    public float Latitude => Input.location.lastData.latitude;
+    public float Longitude => Input.location.lastData.longitude;
 }

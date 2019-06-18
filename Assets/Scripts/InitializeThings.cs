@@ -8,7 +8,7 @@ public class InitializeThings : MonoBehaviour
     {
         Input.compass.enabled = true;
         Input.location.Start();
-        
+
         StartCoroutine(WaitForCompassEnable());
     }
 
