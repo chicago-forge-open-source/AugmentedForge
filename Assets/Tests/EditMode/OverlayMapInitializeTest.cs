@@ -173,6 +173,24 @@ namespace Tests.EditMode
 
             Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_comparer));
         }
+
+        [Test]
+        public void Update_GivenChangeInUserLocationMoveMapCameraToSameLocation()
+        {
+            var arCameraPos = new Vector3(5, 1, 5);
+            _mapScript.ArCamera.transform.position = arCameraPos;
+            
+            var mapCameraPos = new Vector3(10, 5, 10);
+            _mapScript.MapCamera.transform.position = mapCameraPos;
+            
+            _mapScript.Update();
+
+            var arCameraPosition = _mapScript.ArCamera.transform.position;
+            
+            Assert.AreEqual(arCameraPosition.x, _mapScript.MapCamera.transform.position.x);
+            Assert.AreEqual(mapCameraPos.y, _mapScript.MapCamera.transform.position.y);
+            Assert.AreEqual(arCameraPosition.z, _mapScript.MapCamera.transform.position.z);
+        }
     }
 
     internal class MockCompass : ICompass

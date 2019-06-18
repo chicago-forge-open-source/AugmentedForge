@@ -22,7 +22,7 @@ public class OverlayMapInitialize : MonoBehaviour
     public void Update()
     {
         UpdateLocationMarker();
-        UpdateMapCamera();
+        UpdateMapCameraRotation();
     }
 
     public void OnApplicationFocus(bool hasFocus)
@@ -35,7 +35,7 @@ public class OverlayMapInitialize : MonoBehaviour
         yield return new WaitUntil(() => Compass.IsEnabled);
     }
 
-    private void UpdateMapCamera()
+    private void UpdateMapCameraRotation()
     {
         var divisor = 4f;
         var compassHeading = Compass.TrueHeading;
@@ -51,9 +51,11 @@ public class OverlayMapInitialize : MonoBehaviour
         var arCameraPosition = ArCamera.transform.position;
 
         var startPointPosition = StartPoint.transform.position;
+        var mapCameraPosition = MapCamera.transform.position;
         var locationX = arCameraPosition.x;
         var locationZ = arCameraPosition.z;
         LocationMarker.transform.position = new Vector3(locationX, startPointPosition.y, locationZ);
+        MapCamera.transform.position = new Vector3(locationX, mapCameraPosition.y, locationZ);
 
         var logLine = "ARCamera: " + arCameraPosition;
         DebugText.text = logLine;
