@@ -191,6 +191,7 @@ namespace Tests.EditMode
             Assert.AreEqual(mapCameraPos.y, _mapScript.MapCamera.transform.position.y);
             Assert.AreEqual(arCameraPosition.z, _mapScript.MapCamera.transform.position.z);
         }
+        
     }
 
     internal class MockCompass : ICompass

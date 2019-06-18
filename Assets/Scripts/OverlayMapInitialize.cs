@@ -14,6 +14,8 @@ public class OverlayMapInitialize : MonoBehaviour
     public GameObject ArSessionOrigin;
     public ICompass Compass = new RealCompass();
 
+    // mHub Center GPS: 41.895888, -87.651995
+    // StartPoint GPS: 41.895720, -87.651667
     public void Start()
     {
         LocationSync(StartPoint);
