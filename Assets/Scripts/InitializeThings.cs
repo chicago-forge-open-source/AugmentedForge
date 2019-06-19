@@ -15,7 +15,7 @@ public class InitializeThings : MonoBehaviour
     private IEnumerator WaitForCompassEnable()
     {
         yield return new WaitUntil(() => Input.compass.enabled);
-        SceneManager.LoadScene("MapScene");
+        SceneManager.LoadScene("ChicagoMapScene");
     }
 
 }

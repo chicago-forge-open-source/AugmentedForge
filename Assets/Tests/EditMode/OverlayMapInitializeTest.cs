@@ -200,10 +200,4 @@ namespace Tests.EditMode
         public bool IsEnabled => true;
         public float TrueHeading { get; set; } = 100f;
     }
-
-    internal class MockLocationInfo : ILocationInfo
-    {
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
-    }
 }
