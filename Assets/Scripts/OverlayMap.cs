@@ -4,7 +4,7 @@ using AugmentedForge;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OverlayMapInitialize : MonoBehaviour
+public class OverlayMap : MonoBehaviour
 {
     public Camera MapCamera;
     public Camera ArCamera;

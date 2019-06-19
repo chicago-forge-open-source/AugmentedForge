@@ -1,7 +1,7 @@
 {
     "name": "EditModeTests",
     "references": [
-        "MainDef",
+        "MainScripts",
         "Unity.XR.ARFoundation"
     ],
     "optionalUnityReferences": [

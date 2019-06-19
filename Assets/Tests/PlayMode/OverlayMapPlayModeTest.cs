@@ -16,7 +16,7 @@ namespace Assets.Tests.PlayMode
 
         private IEnumerator LoadScene()
         {
-            SceneManager.LoadScene("MapScene");
+            SceneManager.LoadScene("ChicagoMapScene");
             yield return null;
             _mainCamera = GameObject.Find("Map Camera");
             _arCamera = GameObject.Find("AR Camera");
@@ -24,7 +24,7 @@ namespace Assets.Tests.PlayMode
         }
 
         [UnityTest]
-        [UnityPlatform(RuntimePlatform.Android)]
+        [UnityPlatform(RuntimePlatform.Android, RuntimePlatform.IPhonePlayer)]
         public IEnumerator WhenCompassEnabledCameraIsRotated()
         {
             yield return LoadScene();
@@ -35,7 +35,6 @@ namespace Assets.Tests.PlayMode
         }
 
         [UnityTest]
-        [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
         {
             yield return LoadScene();
@@ -46,19 +45,19 @@ namespace Assets.Tests.PlayMode
         }
 
         [UnityTest]
-        [UnityPlatform(RuntimePlatform.Android)]
         public IEnumerator OnStartCameraViewsLocationMarker()
         {
             yield return LoadScene();
             var position = _syncPoint.transform.position;
 
             var cameraPos = _mainCamera.transform.position;
+            yield return null;
             Assert.AreEqual(position.x, cameraPos.x);
-            Assert.AreEqual(position.y, cameraPos.y);
+            Assert.AreEqual(position.z, cameraPos.z);
         }
 
         [UnityTest]
-        [UnityPlatform(RuntimePlatform.Android)]
+        [UnityPlatform(RuntimePlatform.Android, RuntimePlatform.IPhonePlayer)]
         public IEnumerator OnRealWorldChangeInLocationLocationMarkerChangesPosition()
         {
             yield return LoadScene();

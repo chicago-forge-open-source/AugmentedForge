@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Tests.EditMode
 {
-    public class OverlayMapInitializeTest
+    public class OverlayMapTest
     {
         private const int MapRotationIncrementDivisor = 4;
 
@@ -14,13 +14,13 @@ namespace Tests.EditMode
         private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private readonly Vector3EqualityComparer _vector3Comparer = new Vector3EqualityComparer(10e-6f);
         private readonly Camera _camera = Camera.main;
-        private OverlayMapInitialize _mapScript;
+        private OverlayMap _mapScript;
 
         [SetUp]
         public void Setup()
         {
             _game = new GameObject();
-            _mapScript = _game.AddComponent<OverlayMapInitialize>();
+            _mapScript = _game.AddComponent<OverlayMap>();
             _mapScript.MapCamera = _camera;
             _mapScript.LocationMarker = new GameObject();
             _mapScript.StartPoint = new GameObject();
