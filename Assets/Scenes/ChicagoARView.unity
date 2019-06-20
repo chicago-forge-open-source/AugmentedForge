@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 543973076}
         m_MethodName: OnClick_LoadMapOnlyView
         m_Mode: 5
         m_Arguments:
@@ -1626,6 +1626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Overlay Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -900807483167195727, guid: ad2f19666079a4c20ad91133643504f1,
         type: 3}
@@ -3109,7 +3114,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 543973076}
         m_MethodName: OnClick_ToggleMapView
         m_Mode: 1
         m_Arguments:
