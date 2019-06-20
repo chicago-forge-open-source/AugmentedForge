@@ -23,6 +23,23 @@ public class AppInitializeTest
 
         Assert.AreEqual("ChicagoMapScene", SceneManager.GetActiveScene().name);
     }
+
+    [UnityTest]
+    public IEnumerator GivenIowaForgeButtonClickLoadIowaForgeMapScene()
+    {
+        SceneManager.LoadScene("InitScene");
+        yield return null;
+
+        var camera = GameObject.Find("Main Camera");
+        var initScript = camera.GetComponent<InitializeThings>();
+        initScript.Compass = new MockCompass();
+
+        initScript.OnClick_LoadIowaForgeMap();
+
+        yield return new WaitForSeconds(0.1f);
+
+        Assert.AreEqual("IowaMapScene", SceneManager.GetActiveScene().name);
+    }
 }
 
 internal class MockCompass : ICompass

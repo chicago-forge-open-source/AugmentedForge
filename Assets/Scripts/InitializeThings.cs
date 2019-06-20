@@ -15,15 +15,20 @@ public class InitializeThings : MonoBehaviour
 
     }
 
-    private IEnumerator WaitForCompassEnable()
+    private IEnumerator WaitForCompassEnable(string sceneName)
     {
         yield return new WaitUntil(() => Compass.IsEnabled);
-        SceneManager.LoadScene("ChicagoMapScene");
+        SceneManager.LoadScene(sceneName);
     }
 
     public void OnClick_LoadChicagoForgeMap()
     {
-        StartCoroutine(WaitForCompassEnable());
+        StartCoroutine(WaitForCompassEnable("ChicagoMapScene"));
+    }
+
+    public void OnClick_LoadIowaForgeMap()
+    {
+        StartCoroutine(WaitForCompassEnable("IowaMapScene"));
     }
 }
 

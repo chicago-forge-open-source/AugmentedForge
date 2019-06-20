@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChicagoMapScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/IowaMapScene.unity
+    guid: 42949a620f5424d089a2105d3b3cdd76
   m_configObjects:
     com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 2680739fc2df2491c9c2f65829981e55,
       type: 2}

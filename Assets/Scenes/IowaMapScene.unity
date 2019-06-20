@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hey kids!
+  m_Text: Iowa Forge Scene
 --- !u!222 &40919617
 CanvasRenderer:
   m_ObjectHideFlags: 0
