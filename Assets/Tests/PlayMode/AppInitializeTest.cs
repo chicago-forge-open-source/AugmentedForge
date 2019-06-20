@@ -21,7 +21,7 @@ public class AppInitializeTest
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual("ChicagoMapScene", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("ChicagoARView", SceneManager.GetActiveScene().name);
     }
 
     [UnityTest]
@@ -38,7 +38,7 @@ public class AppInitializeTest
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual("IowaMapScene", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("IowaARView", SceneManager.GetActiveScene().name);
     }
 }
 
