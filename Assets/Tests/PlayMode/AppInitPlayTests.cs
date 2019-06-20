@@ -7,17 +7,24 @@ using UnityEngine.TestTools;
 
 public class AppInitPlayTests
 {
-    [UnityTest]
-    public IEnumerator GivenChicagoForgeButtonClickLoadChicagoARView()
+    private InitializeThings _initScript;
+    
+    private IEnumerator SetupScene()
     {
         SceneManager.LoadScene("InitScene");
         yield return null;
 
         var camera = GameObject.Find("Main Camera");
-        var initScript = camera.GetComponent<InitializeThings>();
-        initScript.Compass = new MockCompass();
+        _initScript = camera.GetComponent<InitializeThings>();
+        _initScript.Compass = new MockCompass();
+    }
+    
+    [UnityTest]
+    public IEnumerator GivenChicagoForgeButtonClickLoadChicagoARView()
+    {
+        yield return SetupScene();
 
-        initScript.OnClick_LoadLocationARView("ChicagoARView");
+        _initScript.OnClick_LoadLocationARView("ChicagoARView");
 
         yield return new WaitForSeconds(0.1f);
 
@@ -27,14 +34,9 @@ public class AppInitPlayTests
     [UnityTest]
     public IEnumerator GivenIowaForgeButtonClickLoadIowaARView()
     {
-        SceneManager.LoadScene("InitScene");
-        yield return null;
+        yield return SetupScene();
 
-        var camera = GameObject.Find("Main Camera");
-        var initScript = camera.GetComponent<InitializeThings>();
-        initScript.Compass = new MockCompass();
-
-        initScript.OnClick_LoadLocationARView("IowaARView");
+        _initScript.OnClick_LoadLocationARView("IowaARView");
 
         yield return new WaitForSeconds(0.1f);
 

@@ -41,6 +41,22 @@ public class OverlayMapPlayTests
 
         Assert.That(_syncPoint.transform.position, Is.EqualTo(locationMarker.transform.position).Using(comparer));
     }
+    
+    [UnityTest]
+    public IEnumerator OnStartMapSpriteWillLoadIntoOverlayMap()
+    {
+        yield return LoadScene();
+        var map = GameObject.Find("Overlay Map");
+        var mapScript = map.GetComponent<OverlayMap>();
+        
+        mapScript.Start();
+        
+        
+        yield return null;
+        var mapSprite = map.GetComponent<SpriteRenderer>().sprite;
+
+        Assert.AreEqual("ChicagoMapSprite", mapSprite.name);
+    }
 
     [UnityTest]
     public IEnumerator OnStartCameraViewsLocationMarker()

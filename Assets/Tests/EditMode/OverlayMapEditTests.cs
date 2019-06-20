@@ -18,6 +18,7 @@ public class OverlayMapEditTests
     public void Setup()
     {
         _game = new GameObject();
+        _game.AddComponent<SpriteRenderer>();
         _mapScript = _game.AddComponent<OverlayMap>();
         _mapScript.MapCamera = _camera;
         _mapScript.LocationMarker = new GameObject();
