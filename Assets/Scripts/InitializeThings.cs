@@ -21,14 +21,9 @@ public class InitializeThings : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void OnClick_LoadChicagoARView()
+    public void OnClick_LoadLocationARView(string sceneName)
     {
-        StartCoroutine(WaitForCompassEnable("ChicagoARView"));
-    }
-
-    public void OnClick_LoadIowaARView()
-    {
-        StartCoroutine(WaitForCompassEnable("IowaARView"));
+        StartCoroutine(WaitForCompassEnable(sceneName));
     }
 }
 

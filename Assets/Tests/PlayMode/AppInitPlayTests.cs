@@ -17,7 +17,7 @@ public class AppInitPlayTests
         var initScript = camera.GetComponent<InitializeThings>();
         initScript.Compass = new MockCompass();
 
-        initScript.OnClick_LoadChicagoARView();
+        initScript.OnClick_LoadLocationARView("ChicagoARView");
 
         yield return new WaitForSeconds(0.1f);
 
@@ -34,7 +34,7 @@ public class AppInitPlayTests
         var initScript = camera.GetComponent<InitializeThings>();
         initScript.Compass = new MockCompass();
 
-        initScript.OnClick_LoadIowaARView();
+        initScript.OnClick_LoadLocationARView("IowaARView");
 
         yield return new WaitForSeconds(0.1f);
 
