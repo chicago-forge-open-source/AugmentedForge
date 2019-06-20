@@ -1,21 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using AugmentedForge;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class InitializeThings : MonoBehaviour
 {
+    public ICompass Compass = new RealCompass();
+    
     public void Awake()
     {
         Input.compass.enabled = true;
         Input.location.Start();
 
-        StartCoroutine(WaitForCompassEnable());
     }
 
     private IEnumerator WaitForCompassEnable()
     {
-        yield return new WaitUntil(() => Input.compass.enabled);
+        yield return new WaitUntil(() => Compass.IsEnabled);
         SceneManager.LoadScene("ChicagoMapScene");
     }
 
+    public void OnClick_LoadChicagoForgeMap()
+    {
+        StartCoroutine(WaitForCompassEnable());
+    }
 }
+
+

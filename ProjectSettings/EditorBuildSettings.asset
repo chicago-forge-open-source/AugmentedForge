@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Init Scene.unity
+    path: Assets/Scenes/InitScene.unity
     guid: 230b3f378d61a47e8b82e1eb3279767a
   - enabled: 1
     path: Assets/Scenes/ChicagoMapScene.unity
