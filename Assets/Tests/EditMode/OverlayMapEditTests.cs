@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 
-public class OverlayMapTest
+public class OverlayMapEditTests
 {
     private const int MapRotationIncrementDivisor = 4;
 

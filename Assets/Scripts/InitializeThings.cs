@@ -21,14 +21,14 @@ public class InitializeThings : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void OnClick_LoadChicagoForgeMap()
+    public void OnClick_LoadChicagoARView()
     {
-        StartCoroutine(WaitForCompassEnable("ChicagoMapScene"));
+        StartCoroutine(WaitForCompassEnable("ChicagoARView"));
     }
 
-    public void OnClick_LoadIowaForgeMap()
+    public void OnClick_LoadIowaARView()
     {
-        StartCoroutine(WaitForCompassEnable("IowaMapScene"));
+        StartCoroutine(WaitForCompassEnable("IowaARView"));
     }
 }
 

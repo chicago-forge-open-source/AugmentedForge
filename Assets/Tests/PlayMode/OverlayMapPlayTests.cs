@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-public class AppStartTest
+public class OverlayMapPlayTests
 {
     private GameObject _mainCamera;
     private GameObject _arCamera;
@@ -14,7 +14,7 @@ public class AppStartTest
 
     private IEnumerator LoadScene()
     {
-        SceneManager.LoadScene("ChicagoMapScene");
+        SceneManager.LoadScene("ChicagoARView");
         yield return null;
         _mainCamera = GameObject.Find("Map Camera");
         _arCamera = GameObject.Find("AR Camera");
