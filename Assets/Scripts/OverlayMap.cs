@@ -2,6 +2,7 @@
 using System.Collections;
 using AugmentedForge;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OverlayMap : MonoBehaviour
@@ -97,6 +98,11 @@ public class OverlayMap : MonoBehaviour
     public void OnClick_ToggleMapView()
     {
         MapCamera.enabled = !MapCamera.enabled;
+    }
+
+    public void OnClick_LoadMapOnlyView(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
 

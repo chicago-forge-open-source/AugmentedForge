@@ -15,7 +15,7 @@ public class MapViewPlayTests
         var overlayMap = GameObject.Find("Overlay Map");
         var mapViewScript = overlayMap.GetComponent<MapView>();
 
-        mapViewScript.OnClick_LoadARView();
+        mapViewScript.OnClick_LoadARView("ChicagoARView");
         
         yield return new WaitForSeconds(0.1f);
         

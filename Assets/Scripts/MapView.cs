@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,8 +18,8 @@ public class MapView : MonoBehaviour
         
     }
 
-    public void OnClick_LoadARView()
+    public void OnClick_LoadARView(string sceneName)
     {
-        SceneManager.LoadScene("ChicagoARView");
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -552,7 +552,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1918753616}
-        m_MethodName: OnClick_LoadIowaForgeMap
+        m_MethodName: OnClick_LoadIowaARView
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -750,7 +750,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1918753616}
-        m_MethodName: OnClick_LoadChicagoForgeMap
+        m_MethodName: OnClick_LoadChicagoARView
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

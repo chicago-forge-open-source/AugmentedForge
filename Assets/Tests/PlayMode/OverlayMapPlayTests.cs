@@ -66,4 +66,21 @@ public class OverlayMapPlayTests
 
         Assert.AreNotEqual(initialPosition, locationMarker.transform.position);
     }
+
+    [UnityTest]
+    public IEnumerator GivenMapViewButtonClickShowMapOnlyView()
+    {
+        yield return LoadScene();
+
+        var overlayMap = GameObject.Find("Overlay Map");
+        var mapScript = overlayMap.GetComponent<OverlayMap>();
+        
+
+        mapScript.OnClick_LoadMapOnlyView("ChicagoMapView");
+
+        yield return new WaitForSeconds(0.1f);
+        
+        Assert.AreEqual("ChicagoMapView", SceneManager.GetActiveScene().name);
+
+    }
 }
