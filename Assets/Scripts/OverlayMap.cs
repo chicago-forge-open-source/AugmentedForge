@@ -93,6 +93,11 @@ public class OverlayMap : MonoBehaviour
         var position = new Vector3(x, objectTransform.position.y, z);
         objectTransform.position = position;
     }
+
+    public void OnClick_ToggleMapView()
+    {
+        MapCamera.enabled = !MapCamera.enabled;
+    }
 }
 
 internal class RealCompass : ICompass

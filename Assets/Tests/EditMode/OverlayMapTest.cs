@@ -190,6 +190,26 @@ public class OverlayMapTest
         Assert.AreEqual(mapCameraPos.y, _mapScript.MapCamera.transform.position.y);
         Assert.AreEqual(arCameraPosition.z, _mapScript.MapCamera.transform.position.z);
     }
+
+    [Test]
+    public void GivenButtonToggleAndMapViewInArShowingHideTheMap()
+    {
+        _mapScript.MapCamera.enabled = true;
+        
+        _mapScript.OnClick_ToggleMapView();
+        
+        Assert.AreEqual(false, _mapScript.MapCamera.enabled);
+    }
+    
+    [Test]
+    public void GivenButtonToggleAndMapViewInArHidingShowTheMap()
+    {
+        _mapScript.MapCamera.enabled = false;
+        
+        _mapScript.OnClick_ToggleMapView();
+        
+        Assert.AreEqual(true, _mapScript.MapCamera.enabled);
+    }
 }
 
 internal class MockCompass : ICompass
