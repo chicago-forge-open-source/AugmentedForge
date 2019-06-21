@@ -20,15 +20,15 @@ public class AppInitPlayTests
     }
     
     [UnityTest]
-    public IEnumerator GivenChicagoForgeButtonClickLoadChicagoARView()
+    public IEnumerator GivenChicagoForgeButtonClickLoadARViewForChicago()
     {
         yield return SetupScene();
 
-        _initScript.OnClick_LoadLocationARView("ChicagoARView");
+        _initScript.OnClick_LoadLocationARView("ARView");
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual("ChicagoARView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
     }
 
     [UnityTest]

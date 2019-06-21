@@ -14,7 +14,7 @@ public class OverlayMapPlayTests
 
     private IEnumerator LoadScene()
     {
-        SceneManager.LoadScene("ChicagoARView");
+        SceneManager.LoadScene("ARView");
         yield return null;
         _mainCamera = GameObject.Find("Map Camera");
         _arCamera = GameObject.Find("AR Camera");
@@ -92,11 +92,11 @@ public class OverlayMapPlayTests
         var mapScript = overlayMap.GetComponent<OverlayMap>();
         
 
-        mapScript.OnClick_LoadMapOnlyView("ChicagoMapView");
+        mapScript.OnClick_LoadMapOnlyView("MapView");
 
         yield return new WaitForSeconds(0.1f);
         
-        Assert.AreEqual("ChicagoMapView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("MapView", SceneManager.GetActiveScene().name);
 
     }
 }

@@ -10,7 +10,7 @@ public class MapViewPlayTests
     [UnityTest]
     public IEnumerator OnStartMapSpriteWillLoadIntoOverlayMap()
     {
-        SceneManager.LoadScene("ChicagoMapView");
+        SceneManager.LoadScene("MapView");
         yield return null;
         
         var map = GameObject.Find("Overlay Map");
@@ -26,18 +26,18 @@ public class MapViewPlayTests
     }
     
     [UnityTest]
-    public IEnumerator GivenChicagoARViewButtonClickLoadChicagoARView()
+    public IEnumerator GivenChicagoARViewButtonClickLoadARViewForChicago()
     {
-        SceneManager.LoadScene("ChicagoMapView");
+        SceneManager.LoadScene("MapView");
         yield return null;
 
         var overlayMap = GameObject.Find("Overlay Map");
         var mapViewScript = overlayMap.GetComponent<MapView>();
 
-        mapViewScript.OnClick_LoadARView("ChicagoARView");
+        mapViewScript.OnClick_LoadARView("ARView");
         
         yield return new WaitForSeconds(0.1f);
         
-        Assert.AreEqual("ChicagoARView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
     }
 }

@@ -1130,7 +1130,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ChicagoMapView
+          m_StringArgument: MapView
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1522,6 +1522,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
+        type: 3}
+      propertyPath: m_Name
+      value: Overlay Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4300837493814068216, guid: ad2f19666079a4c20ad91133643504f1,
         type: 3}
       propertyPath: m_Name
@@ -1621,16 +1631,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 0.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
-        type: 3}
-      propertyPath: m_Name
-      value: Overlay Map
-      objectReference: {fileID: 0}
-    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -900807483167195727, guid: ad2f19666079a4c20ad91133643504f1,
         type: 3}
