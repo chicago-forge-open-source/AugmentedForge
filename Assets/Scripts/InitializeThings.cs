@@ -15,15 +15,16 @@ public class InitializeThings : MonoBehaviour
 
     }
 
-    private IEnumerator WaitForCompassEnable(string sceneName)
+    private IEnumerator WaitForCompassEnable()
     {
         yield return new WaitUntil(() => Compass.IsEnabled);
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("ARView");
     }
 
-    public void OnClick_LoadLocationARView(string sceneName)
+    public void OnClick_LoadLocationARView(string location)
     {
-        StartCoroutine(WaitForCompassEnable(sceneName));
+        PlayerPrefs.SetString("location", location);
+        StartCoroutine(WaitForCompassEnable());
     }
 }
 

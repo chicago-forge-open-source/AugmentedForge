@@ -24,23 +24,29 @@ public class AppInitPlayTests
     {
         yield return SetupScene();
 
-        _initScript.OnClick_LoadLocationARView("ARView");
+        _initScript.OnClick_LoadLocationARView("Chicago");
 
         yield return new WaitForSeconds(0.1f);
 
+        var location = PlayerPrefs.GetString("location");
+        
         Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("Chicago", location);
     }
 
     [UnityTest]
-    public IEnumerator GivenIowaForgeButtonClickLoadIowaARView()
+    public IEnumerator GivenIowaForgeButtonClickLoadARViewForIowa()
     {
         yield return SetupScene();
 
-        _initScript.OnClick_LoadLocationARView("IowaARView");
+        _initScript.OnClick_LoadLocationARView("Iowa");
 
         yield return new WaitForSeconds(0.1f);
+        
+        var location = PlayerPrefs.GetString("location");
 
-        Assert.AreEqual("IowaARView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+        Assert.AreEqual("Iowa", location);
     }
 }
 
