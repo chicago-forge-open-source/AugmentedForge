@@ -6,6 +6,25 @@ using UnityEngine.TestTools;
 
 public class MapViewPlayTests
 {
+    
+    [UnityTest]
+    public IEnumerator OnStartMapSpriteWillLoadIntoOverlayMap()
+    {
+        SceneManager.LoadScene("ChicagoMapView");
+        yield return null;
+        
+        var map = GameObject.Find("Overlay Map");
+        var mapScript = map.GetComponent<MapView>();
+        
+        mapScript.Start();
+        
+        
+        yield return null;
+        var mapSprite = map.GetComponent<SpriteRenderer>().sprite;
+
+        Assert.AreEqual("ChicagoMapSprite", mapSprite.name);
+    }
+    
     [UnityTest]
     public IEnumerator GivenChicagoARViewButtonClickLoadChicagoARView()
     {

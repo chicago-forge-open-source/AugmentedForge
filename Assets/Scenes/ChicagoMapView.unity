@@ -679,6 +679,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
+        type: 3}
+      propertyPath: m_Name
+      value: Overlay Map
+      objectReference: {fileID: 0}
     - target: {fileID: 4300837493814068216, guid: ad2f19666079a4c20ad91133643504f1,
         type: 3}
       propertyPath: m_Name
@@ -759,11 +764,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 87469919605180194, guid: ad2f19666079a4c20ad91133643504f1,
-        type: 3}
-      propertyPath: m_Name
-      value: Overlay Map
-      objectReference: {fileID: 0}
     - target: {fileID: -900807483167195727, guid: ad2f19666079a4c20ad91133643504f1,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -789,6 +789,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: -1652964636336993158, guid: ad2f19666079a4c20ad91133643504f1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: ad2f19666079a4c20ad91133643504f1,
     type: 3}
