@@ -18,9 +18,7 @@ public class ARView : MonoBehaviour
 
     public void Start()
     {
-        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
-        var mapObject = (GameObject) Resources.Load(spritePath);
-        GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
+        GetComponent<SpriteRenderer>().sprite = AppDelegate.GetMapSprite();
         LocationSync();
     }
 
@@ -44,7 +42,7 @@ public class ARView : MonoBehaviour
 
     private void UpdateMapCameraRotation()
     {
-        var divisor = 4f;
+        const float divisor = 4f;
         var compassHeading = Compass.TrueHeading;
         var mapCameraVector = MapCamera.transform.rotation.eulerAngles;
         var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
