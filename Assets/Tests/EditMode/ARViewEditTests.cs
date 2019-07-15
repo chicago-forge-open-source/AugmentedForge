@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 
-public class OverlayMapEditTests
+public class ARViewEditTests
 {
     private const int MapRotationIncrementDivisor = 4;
 
@@ -12,14 +12,14 @@ public class OverlayMapEditTests
     private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
     private readonly Vector3EqualityComparer _vector3Comparer = new Vector3EqualityComparer(10e-6f);
     private readonly Camera _camera = Camera.main;
-    private OverlayMap _mapScript;
+    private ARView _mapScript;
 
     [SetUp]
     public void Setup()
     {
         _game = new GameObject();
         _game.AddComponent<SpriteRenderer>();
-        _mapScript = _game.AddComponent<OverlayMap>();
+        _mapScript = _game.AddComponent<ARView>();
         _mapScript.MapCamera = _camera;
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
@@ -84,7 +84,7 @@ public class OverlayMapEditTests
     [Test]
     public void Start_WillLoadCorrectMapSpriteBasedOnLocationSelected()
     {
-        var location = "Chicago";
+        const string location = "Chicago";
         PlayerPrefs.SetString("location", location);
         
         _mapScript.Start();
@@ -96,7 +96,7 @@ public class OverlayMapEditTests
     [Test]
     public void Start_WillLoadCorrectMapSpriteOfDifferentLocation()
     {
-        var location = "Iowa";
+        const string location = "Iowa";
         PlayerPrefs.SetString("location", location);
         
         _mapScript.Start();

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class OverlayMap : MonoBehaviour
+public class ARView : MonoBehaviour
 {
     public Camera MapCamera;
     public Camera ArCamera;

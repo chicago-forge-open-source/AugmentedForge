@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-public class OverlayMapPlayTests
+public class ARViewPlayTests
 {
     private GameObject _mainCamera;
     private GameObject _arCamera;
@@ -47,7 +47,9 @@ public class OverlayMapPlayTests
     {
         yield return LoadScene();
         var map = GameObject.Find("Overlay Map");
-        var mapScript = map.GetComponent<OverlayMap>();
+        var mapScript = map.GetComponent<ARView>();
+        const string location = "Chicago";
+        PlayerPrefs.SetString("location", location);
         
         mapScript.Start();
         
@@ -55,7 +57,7 @@ public class OverlayMapPlayTests
         yield return null;
         var mapSprite = map.GetComponent<SpriteRenderer>().sprite;
 
-        Assert.AreEqual("ChicagoMapSprite", mapSprite.name);
+        Assert.AreEqual(location + "MapSprite", mapSprite.name);
     }
 
     [UnityTest]
@@ -89,7 +91,7 @@ public class OverlayMapPlayTests
         yield return LoadScene();
 
         var overlayMap = GameObject.Find("Overlay Map");
-        var mapScript = overlayMap.GetComponent<OverlayMap>();
+        var mapScript = overlayMap.GetComponent<ARView>();
         
 
         mapScript.OnClick_LoadMapOnlyView("MapView");
