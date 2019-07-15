@@ -82,6 +82,30 @@ public class OverlayMapEditTests
     }
 
     [Test]
+    public void Start_WillLoadCorrectMapSpriteBasedOnLocationSelected()
+    {
+        var location = "Chicago";
+        PlayerPrefs.SetString("location", location);
+        
+        _mapScript.Start();
+
+        var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
+        Assert.AreEqual(location + "MapSprite",spriteName);
+    }
+
+    [Test]
+    public void Start_WillLoadCorrectMapSpriteOfDifferentLocation()
+    {
+        var location = "Iowa";
+        PlayerPrefs.SetString("location", location);
+        
+        _mapScript.Start();
+
+        var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
+        Assert.AreEqual(location + "MapSprite",spriteName);
+    }
+
+    [Test]
     public void Update_WillMoveLocationMarkerToArCameraLocation()
     {
         _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);

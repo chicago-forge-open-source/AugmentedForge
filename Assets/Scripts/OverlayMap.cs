@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Resources;
 using AugmentedForge;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,7 +18,8 @@ public class OverlayMap : MonoBehaviour
 
     public void Start()
     {
-        var mapObject = (GameObject) Resources.Load("Sprites/ChicagoMap");
+        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
+        var mapObject = (GameObject) Resources.Load(spritePath);
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
         LocationSync();
     }
