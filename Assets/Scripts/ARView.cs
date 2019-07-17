@@ -4,6 +4,7 @@ using AugmentedForge;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class ARView : MonoBehaviour
 {
@@ -14,11 +15,13 @@ public class ARView : MonoBehaviour
     public GameObject StartPoint;
     public GameObject ArSessionOrigin;
     public ICompass Compass = new RealCompass();
+    private ARCameraBackground _cameraBackground;
 
 
     public void Start()
     {
         GetComponent<SpriteRenderer>().sprite = AppDelegate.GetMapSprite();
+        _cameraBackground = ArCamera.GetComponent<ARCameraBackground>();
         LocationSync();
     }
 
@@ -42,6 +45,7 @@ public class ARView : MonoBehaviour
 
     private void UpdateMapCameraRotation()
     {
+        if (!_cameraBackground.enabled) return;
         const float divisor = 4f;
         var compassHeading = Compass.TrueHeading;
         var mapCameraVector = MapCamera.transform.rotation.eulerAngles;
@@ -103,7 +107,13 @@ public class ARView : MonoBehaviour
 
     public void OnClick_LoadMapOnlyView(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        MapCamera.enabled = true;
+        _cameraBackground.enabled = !_cameraBackground.enabled;
+
+        if (!_cameraBackground.enabled)
+        {
+            MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
     }
 }
 
