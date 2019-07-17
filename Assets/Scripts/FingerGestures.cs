@@ -28,7 +28,15 @@ public class FingerGestures : MonoBehaviour
     private void Pan()
     {
         var delta = input.GetTouch(0).deltaPosition;
-        _camera.transform.Translate(DeltaTimesSpeed(delta.x), DeltaTimesSpeed(delta.y), 0);
+        var camTransform = transform;
+        camTransform.Translate(DeltaTimesSpeed(delta.x), DeltaTimesSpeed(delta.y), 0);
+
+        var position = camTransform.position;
+        camTransform.position = new Vector3(
+            Clamp(position.x),
+            position.y,
+            Clamp(position.z)
+        );
     }
 
     private static float DeltaTimesSpeed(float delta)
@@ -50,7 +58,12 @@ public class FingerGestures : MonoBehaviour
         var deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
         var fieldOfView = _camera.fieldOfView += deltaMagnitudeDiff * 0.5f;
-        _camera.fieldOfView = Mathf.Clamp(fieldOfView, 15f, 150f);
+        _camera.fieldOfView = Clamp(fieldOfView, 15, 150);
+    }
+    
+    private static float Clamp(float value, float min = -50, float max = 50)
+    {
+        return Mathf.Clamp(value, min, max);
     }
 }
 
