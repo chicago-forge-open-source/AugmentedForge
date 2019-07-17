@@ -9,20 +9,15 @@ public class FingerGestures : MonoBehaviour
 
     public void Start()
     {
+        enabled = false;
         _camera = GetComponent<Camera>();
     }
 
     public void Update()
     {
-        if (input.TouchCount == 1)
-        {
-            Pan();
-        }
-
-        if (input.TouchCount == 2)
-        {
-            Zoom();
-        }
+        if (!enabled) return;
+        if (input.TouchCount == 1) Pan();
+        if (input.TouchCount == 2) Zoom();
     }
 
     private void Pan()
@@ -60,7 +55,7 @@ public class FingerGestures : MonoBehaviour
         var fieldOfView = _camera.fieldOfView += deltaMagnitudeDiff * 0.5f;
         _camera.fieldOfView = Clamp(fieldOfView, 15, 150);
     }
-    
+
     private static float Clamp(float value, float min = -50, float max = 50)
     {
         return Mathf.Clamp(value, min, max);

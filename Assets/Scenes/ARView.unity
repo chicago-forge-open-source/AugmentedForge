@@ -780,13 +780,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 543973076}
         m_MethodName: OnClick_LoadMapOnlyView
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MapView
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1006,8 +1006,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaa77d2ba1884c03bb848b9c17ee3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapCamera: {fileID: 963194227}
-  ArCamera: {fileID: 165585584}
+  MapCamera: {fileID: 963194225}
+  ArCamera: {fileID: 165585583}
   LocationMarker: {fileID: 1317246971}
   DebugText: {fileID: 40919616}
   StartPoint: {fileID: 2135615481}

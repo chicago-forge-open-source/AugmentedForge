@@ -26,7 +26,7 @@ public class MapViewPlayTests
     }
     
     [UnityTest]
-    public IEnumerator GivenChicagoARViewButtonClickLoadARViewForChicago()
+    public IEnumerator GivenChicagoArViewButtonClickLoadArViewForChicago()
     {
         SceneManager.LoadScene("MapView");
         yield return null;

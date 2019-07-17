@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class ARViewEditTests
 {
@@ -10,8 +11,7 @@ public class ARViewEditTests
 
     private GameObject _game;
     private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
-    private readonly Vector3EqualityComparer _vector3Comparer = new Vector3EqualityComparer(10e-6f);
-    private readonly Camera _camera = Camera.main;
+    private GameObject _camera;
     private ARView _mapScript;
 
     [SetUp]
@@ -20,12 +20,19 @@ public class ARViewEditTests
         _game = new GameObject();
         _game.AddComponent<SpriteRenderer>();
         _mapScript = _game.AddComponent<ARView>();
+        _mapScript.DebugText = _game.AddComponent<Text>();
+
+        _camera = new GameObject();
         _mapScript.MapCamera = _camera;
+        _mapScript.MapCamera.AddComponent<Camera>();
+        _mapScript.MapCamera.AddComponent<FingerGestures>();
+
+        _mapScript.ArCamera = new GameObject();
+        _mapScript.ArCamera.AddComponent<ARCameraBackground>();
+
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
         _mapScript.ArSessionOrigin = new GameObject();
-        _mapScript.ArCamera = _game.AddComponent<Camera>();
-        _mapScript.DebugText = _game.AddComponent<Text>();
     }
 
     [Test]
@@ -86,11 +93,11 @@ public class ARViewEditTests
     {
         const string location = "Chicago";
         PlayerPrefs.SetString("location", location);
-        
+
         _mapScript.Start();
 
         var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
-        Assert.AreEqual(location + "MapSprite",spriteName);
+        Assert.AreEqual(location + "MapSprite", spriteName);
     }
 
     [Test]
@@ -98,16 +105,18 @@ public class ARViewEditTests
     {
         const string location = "Iowa";
         PlayerPrefs.SetString("location", location);
-        
+
         _mapScript.Start();
 
         var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
-        Assert.AreEqual(location + "MapSprite",spriteName);
+        Assert.AreEqual(location + "MapSprite", spriteName);
     }
 
     [Test]
     public void Update_WillMoveLocationMarkerToArCameraLocation()
     {
+        _mapScript.Start();
+
         _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);
         _mapScript.StartPoint.transform.position = new Vector3(100, 13, 20);
         _mapScript.Update();
@@ -116,8 +125,27 @@ public class ARViewEditTests
     }
 
     [Test]
+    public void Update_RotationWillNotChangeWhenARCameraBackgroundNotEnabled()
+    {
+        _mapScript.Start();
+        _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
+
+        _mapScript.Compass = new MockCompass {TrueHeading = 90f};
+        _camera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        _mapScript.MapCamera = _camera;
+
+        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.Update();
+
+        var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
+        Assert.That(_camera.transform.rotation, Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+    }
+
+    [Test]
     public void Update_GivenCompassWillRotateTheMapCameraIncrementally_NorthStartPosition()
     {
+        _mapScript.Start();
+
         _mapScript.Compass = new MockCompass {TrueHeading = 90f};
         _camera.transform.rotation = Quaternion.Euler(90, 0, 0);
         _mapScript.MapCamera = _camera;
@@ -135,6 +163,8 @@ public class ARViewEditTests
     [Test]
     public void Update_GivenCompassWillRotateTheMapCameraIncrementally_EastStartPosition()
     {
+        _mapScript.Start();
+
         _mapScript.Compass = new MockCompass {TrueHeading = 180f};
         var originalCameraRotationDegrees = 90;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
@@ -157,8 +187,10 @@ public class ARViewEditTests
     [Test]
     public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth()
     {
+        _mapScript.Start();
+
         _mapScript.Compass = new MockCompass {TrueHeading = 358f};
-        var originalCameraRotationDegrees = 2;
+        const int originalCameraRotationDegrees = 2;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
         _camera.transform.rotation = originalCameraRotation;
         _mapScript.MapCamera = _camera;
@@ -179,6 +211,8 @@ public class ARViewEditTests
     [Test]
     public void Update_GivenCompassWillRotateTheMapCameraIncrementally_ChangesNearNorth_OtherDirection()
     {
+        _mapScript.Start();
+
         _mapScript.Compass = new MockCompass {TrueHeading = 2f};
         var originalCameraRotationDegrees = 358;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
@@ -199,8 +233,12 @@ public class ARViewEditTests
     }
 
     [Test]
-    public void Update_GivenChangeInUserLocationMoveMapCameraToSameLocation()
+    public void Update_GivenArCameraBackgroundIsDisabled_MapCameraWillNotChange()
     {
+        _mapScript.Start();
+        _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
+
+
         var arCameraPos = new Vector3(5, 1, 5);
         _mapScript.ArCamera.transform.position = arCameraPos;
 
@@ -211,29 +249,140 @@ public class ARViewEditTests
 
         var arCameraPosition = _mapScript.ArCamera.transform.position;
 
-        Assert.AreEqual(arCameraPosition.x, _mapScript.MapCamera.transform.position.x);
-        Assert.AreEqual(mapCameraPos.y, _mapScript.MapCamera.transform.position.y);
-        Assert.AreEqual(arCameraPosition.z, _mapScript.MapCamera.transform.position.z);
+        var position = _mapScript.MapCamera.transform.position;
+        Assert.AreEqual(10, position.x);
+        Assert.AreEqual(5, position.y);
+        Assert.AreEqual(10, position.z);
+    }
+
+    [Test]
+    public void Update_GivenChangeInUserLocationMoveMapCameraToSameLocation()
+    {
+        _mapScript.Start();
+
+        var arCameraPos = new Vector3(5, 1, 5);
+        _mapScript.ArCamera.transform.position = arCameraPos;
+
+        var mapCameraPos = new Vector3(10, 5, 10);
+        _mapScript.MapCamera.transform.position = mapCameraPos;
+
+        _mapScript.Update();
+
+        var arCameraPosition = _mapScript.ArCamera.transform.position;
+        var position = _mapScript.MapCamera.transform.position;
+
+        Assert.AreEqual(arCameraPosition.x, position.x);
+        Assert.AreEqual(mapCameraPos.y, position.y);
+        Assert.AreEqual(arCameraPosition.z, position.z);
     }
 
     [Test]
     public void GivenButtonToggleAndMapViewInArShowingHideTheMap()
     {
-        _mapScript.MapCamera.enabled = true;
-        
+        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        camera.enabled = true;
+
         _mapScript.OnClick_ToggleMapView();
-        
-        Assert.AreEqual(false, _mapScript.MapCamera.enabled);
+
+        Assert.IsFalse(camera.enabled);
     }
-    
+
     [Test]
     public void GivenButtonToggleAndMapViewInArHidingShowTheMap()
     {
-        _mapScript.MapCamera.enabled = false;
-        
+        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        camera.enabled = false;
+
         _mapScript.OnClick_ToggleMapView();
+
+        Assert.IsTrue(camera.enabled);
+    }
+
+    [Test]
+    public void MapCameraIsAlwaysShown()
+    {
+        _mapScript.Start();
+        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        camera.enabled = false;
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        Assert.IsTrue(camera.enabled);
+    }
+
+    [Test]
+    public void GivenARBackgroundIsEnabled_ARBackgroundIsHidden()
+    {
+        _mapScript.Start();
+        var background = _mapScript.ArCamera.GetComponent<ARCameraBackground>();
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        Assert.IsFalse(background.enabled);
+    }
+
+    [Test]
+    public void GivenARBackgroundIsHidden_ARBackgroundIsShown()
+    {
+        _mapScript.Start();
+        var background = _mapScript.ArCamera.GetComponent<ARCameraBackground>();
+        background.enabled = false;
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        Assert.IsTrue(background.enabled);
+    }
+    
+    [Test]
+    public void GivenArBackgroundTogglesToDisabled_FingerGesturesEnabled()
+    {
+        _mapScript.Start();
+        var gesturesScript = _camera.GetComponent<FingerGestures>();
+        gesturesScript.enabled = false;
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        Assert.IsTrue(gesturesScript.enabled);
+    }
+    
+    [Test]
+    public void GivenArBackgroundTogglesToEnabled_FingerGesturesDisabled()
+    {
+        _mapScript.Start();
+        _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        Assert.IsFalse(_camera.GetComponent<FingerGestures>().enabled);
+    }
+    
+    [Test]
+    public void GivenArBackgroundTogglesToEnabled_MapCameraZoomIsSetToInitialValue()
+    {
+        _mapScript.Start();
+        _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
+        var camera = _camera.GetComponent<Camera>();
+        camera.fieldOfView = 80f;
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
         
-        Assert.AreEqual(true, _mapScript.MapCamera.enabled);
+        Assert.AreEqual(60f, camera.fieldOfView);
+    }
+    
+    [Test]
+    public void GivenArBackgroundTogglesToEnabled_MapCameraRotationIsSetToInitialValue()
+    {
+        _mapScript.Start();
+        var camera = _camera.GetComponent<Camera>();
+        camera.transform.rotation = Quaternion.Euler(100, 10, 70);
+
+        _mapScript.OnClick_LoadMapOnlyView();
+
+        var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
+        Assert.That(_camera.transform.rotation,
+            Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
+        );
     }
 }
 

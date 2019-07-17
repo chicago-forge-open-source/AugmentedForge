@@ -20,12 +20,45 @@ public class FingerGestureTests
     }
 
     [Test]
+    public void Start_ScriptIsDisabled()
+    {
+        Assert.IsFalse(_gesturesScript.enabled);
+    }
+
+    [Test]
+    public void Update_PanIsInitiallyDisabled()
+    {
+        var touch = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
+        _gesturesScript.input = new MockInput(new List<Touch> {touch});
+
+        _gesturesScript.Update();
+
+        var position = _camera.transform.position;
+        Assert.AreEqual(0, position.x);
+        Assert.AreEqual(0, position.y);
+        Assert.AreEqual(0, position.z);
+    }
+
+    [Test]
+    public void Update_ZoomIsInitiallyDisabled()
+    {
+        var touch1 = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
+        var touch2 = new Touch {position = new Vector2(6, 6), deltaPosition = new Vector2(4, 4)};
+        _gesturesScript.input = new MockInput(new List<Touch> {touch1, touch2});
+
+        _gesturesScript.Update();
+
+        Assert.AreEqual(60f, _camera.fieldOfView);
+    }
+
+    [Test]
     public void Update_OneTouchWillNotChangeTheZoom()
     {
         var cameraZoom = _camera.fieldOfView;
         var touch = new Touch {position = new Vector2(0, 1), deltaPosition = new Vector2(2, 4)};
         _gesturesScript.input = new MockInput(new List<Touch> {touch});
 
+        _gesturesScript.enabled = true;
         _gesturesScript.Update();
 
         Assert.AreEqual(cameraZoom, _camera.fieldOfView);
@@ -38,6 +71,7 @@ public class FingerGestureTests
         var touch2 = new Touch {position = new Vector2(6, 6), deltaPosition = new Vector2(4, 4)};
         _gesturesScript.input = new MockInput(new List<Touch> {touch1, touch2});
 
+        _gesturesScript.enabled = true;
         _gesturesScript.Update();
 
         Assert.AreEqual(58.5857849f, _camera.fieldOfView);
@@ -49,11 +83,12 @@ public class FingerGestureTests
         var touch = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
         _gesturesScript.input = new MockInput(new List<Touch> {touch});
 
+        _gesturesScript.enabled = true;
         _gesturesScript.Update();
 
         var position = _camera.transform.position;
-        Assert.AreNotEqual(-0.2, position.x);
-        Assert.AreNotEqual(-0.2, position.y);
+        Assert.AreEqual(-0.200000003f, position.x);
+        Assert.AreEqual(-0.200000003f, position.y);
     }
 }
 
