@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 public class LoadMarkersTests
 {
@@ -52,6 +53,8 @@ public class LoadMarkersTests
     private static void AssertGameObjectCreatedCorrectly(Marker testMarker)
     {
         var marker = GameObject.Find(testMarker.label);
+        var text = marker.GetComponentInChildren<Text>().text;
+        Assert.AreEqual(testMarker.label, text);
         Assert.AreEqual(testMarker.x, marker.transform.position.x);
         Assert.AreEqual(testMarker.z, marker.transform.position.z);
     }

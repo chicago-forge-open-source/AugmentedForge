@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadMarkers : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class LoadMarkers : MonoBehaviour
         {
             var clonedMapMarker = Instantiate(MapMarker);
             clonedMapMarker.name = marker.label;
+            clonedMapMarker.GetComponentInChildren<Text>().text = marker.label;
             clonedMapMarker.transform.position = new Vector3(marker.x, 0, marker.z);
         }
     }
