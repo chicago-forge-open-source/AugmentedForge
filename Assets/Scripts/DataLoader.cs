@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataLoader
+public static class DataLoader
 {
-    public void DataLoad()
+    public static void DataLoad()
     {
         var markers = LoadMarkers();
         Repositories.MarkerRepository.Save(markers);
     }
 
-    private Marker[] LoadMarkers()
+    private static Marker[] LoadMarkers()
     {
         var makerSpace = new Marker(
             "Maker Space",
@@ -19,25 +19,25 @@ public class DataLoader
         );
 
         var crucible = new Marker(
-            "Maker Space",
+            "Crucible",
             27.5f,
             -11.44f
         );
 
         var focusRoom = new Marker(
-            "Maker Space",
+            "Focus Room",
             27.5f,
             -8.03f
         );
 
         var kitchen = new Marker(
-            "Maker Space",
+            "Kitchen",
             43.175f,
             -1.144f
         );
 
         var greaterMHub = new Marker(
-            "Maker Space",
+            "Greater MHub",
             28.875f,
             9.262001f
         );
