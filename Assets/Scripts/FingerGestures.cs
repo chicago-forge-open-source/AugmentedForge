@@ -14,7 +14,30 @@ public class FingerGestures : MonoBehaviour
 
     public void Update()
     {
-        if (input.TouchCount != 2) return;
+        if (input.TouchCount == 1)
+        {
+            Pan();
+        }
+
+        if (input.TouchCount == 2)
+        {
+            Zoom();
+        }
+    }
+
+    private void Pan()
+    {
+        var delta = input.GetTouch(0).deltaPosition;
+        _camera.transform.Translate(DeltaTimesSpeed(delta.x), DeltaTimesSpeed(delta.y), 0);
+    }
+
+    private static float DeltaTimesSpeed(float delta)
+    {
+        return -delta * 0.1f;
+    }
+
+    private void Zoom()
+    {
         var touchZero = input.GetTouch(0);
         var touchOne = input.GetTouch(1);
 

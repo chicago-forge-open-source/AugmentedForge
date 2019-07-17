@@ -42,6 +42,19 @@ public class FingerGestureTests
 
         Assert.AreEqual(58.5857849f, _camera.fieldOfView);
     }
+
+    [Test]
+    public void Update_OneTouchWillChangeTheCameraPosition()
+    {
+        var touch = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
+        _gesturesScript.input = new MockInput(new List<Touch> {touch});
+
+        _gesturesScript.Update();
+
+        var position = _camera.transform.position;
+        Assert.AreNotEqual(-0.2, position.x);
+        Assert.AreNotEqual(-0.2, position.y);
+    }
 }
 
 internal class MockInput : IInput
