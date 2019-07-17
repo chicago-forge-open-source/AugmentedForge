@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 public class LoadMarkers : MonoBehaviour
 {
-    public GameObject MapMarker;
+    public GameObject Marker;
 
     public void Start()
     {
         var markers = Repositories.MarkerRepository.Get();
         foreach (var marker in markers)
         {
-            var clonedMapMarker = Instantiate(MapMarker);
+            var clonedMapMarker = Instantiate(Marker);
             clonedMapMarker.name = marker.label;
             foreach (var label in clonedMapMarker.GetComponentsInChildren<Text>())
             {
