@@ -13,6 +13,7 @@ public class ARViewEditTests
     private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
     private GameObject _camera;
     private ARView _mapScript;
+    private const string Chicago = "Chicago";
 
     [SetUp]
     public void Setup()
@@ -33,6 +34,8 @@ public class ARViewEditTests
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
         _mapScript.ArSessionOrigin = new GameObject();
+
+        PlayerPrefs.SetString("location", Chicago);
     }
 
     [Test]
@@ -91,13 +94,10 @@ public class ARViewEditTests
     [Test]
     public void Start_WillLoadCorrectMapSpriteBasedOnLocationSelected()
     {
-        const string location = "Chicago";
-        PlayerPrefs.SetString("location", location);
-
         _mapScript.Start();
 
         var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
-        Assert.AreEqual(location + "MapSprite", spriteName);
+        Assert.AreEqual(Chicago + "MapSprite", spriteName);
     }
 
     [Test]
@@ -238,7 +238,6 @@ public class ARViewEditTests
         _mapScript.Start();
         _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
 
-
         var arCameraPos = new Vector3(5, 1, 5);
         _mapScript.ArCamera.transform.position = arCameraPos;
 
@@ -246,8 +245,6 @@ public class ARViewEditTests
         _mapScript.MapCamera.transform.position = mapCameraPos;
 
         _mapScript.Update();
-
-        var arCameraPosition = _mapScript.ArCamera.transform.position;
 
         var position = _mapScript.MapCamera.transform.position;
         Assert.AreEqual(10, position.x);
