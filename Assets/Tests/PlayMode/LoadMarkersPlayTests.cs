@@ -8,7 +8,7 @@ public class LoadMarkersTests
 {
     private GameObject _overlayMap;
     private LoadMarkers _loadScript;
-    
+
     private IEnumerator LoadScene()
     {
         SceneManager.LoadScene("ARView");
@@ -17,23 +17,42 @@ public class LoadMarkersTests
         _overlayMap = GameObject.Find("Overlay Map");
         _loadScript = _overlayMap.GetComponent<LoadMarkers>();
     }
-    
+
     [UnityTest]
     public IEnumerator Start_WillLoadMapMarkerOntoAROverlayMap()
     {
-        yield return LoadScene();
-        _loadScript.MapMarker = new GameObject();
-        
         var testMarker = new Marker("Test Marker", 0, 0);
 
-        var markerRepo = new InMemoryMarkerRepository();
-        markerRepo.Save(new []{testMarker});
+        Repositories.MarkerRepository.Save(new[] {testMarker});
 
-        _loadScript.Start();
-        yield return null;
+        yield return LoadScene();
 
-        var loadedMapMarker = GameObject.Find(testMarker.label);
-        Assert.AreEqual(testMarker.x, loadedMapMarker.transform.position.x);
-        Assert.AreEqual(testMarker.z, loadedMapMarker.transform.position.z);
+        AssertGameObjectCreatedCorrectly(testMarker);
+    }
+
+    [UnityTest]
+    public IEnumerator Start_WillLoadMarkersFromRepoOntoAROverlayMap()
+    {
+        var testMarker1 = new Marker("Marker 1", 1, 2);
+        var testMarker2 = new Marker("Marker 2", 10, 20);
+        var markers = new[]
+        {
+            testMarker1,
+            testMarker2,
+        };
+
+        Repositories.MarkerRepository.Save(markers);
+
+        yield return LoadScene();
+
+        AssertGameObjectCreatedCorrectly(testMarker1);
+        AssertGameObjectCreatedCorrectly(testMarker2);
+    }
+
+    private static void AssertGameObjectCreatedCorrectly(Marker testMarker)
+    {
+        var marker = GameObject.Find(testMarker.label);
+        Assert.AreEqual(testMarker.x, marker.transform.position.x);
+        Assert.AreEqual(testMarker.z, marker.transform.position.z);
     }
 }

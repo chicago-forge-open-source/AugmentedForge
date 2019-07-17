@@ -1,12 +1,12 @@
-﻿public class InMemoryMarkerRepository: IMarkerRepository
+﻿public class InMemoryMarkerRepository : IMarkerRepository
 {
     private Marker[] _markers;
 
     public InMemoryMarkerRepository()
     {
-        _markers = new  Marker[0];
+        _markers = new Marker[0];
     }
-    
+
     public Marker[] Get()
     {
         return _markers;
