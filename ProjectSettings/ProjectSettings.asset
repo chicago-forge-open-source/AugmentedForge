@@ -730,10 +730,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: b920cb8b-f440-47a7-9614-81492663b0ab
+  cloudProjectId: 4859bd54-376b-43d7-b0ea-7db637e9a417
   framebufferDepthMemorylessMode: 0
-  projectName: UnityTestFramework
-  organizationId: jebbss
+  projectName: Augmented Forge (1)
+  organizationId: rmoss_unity143
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

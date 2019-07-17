@@ -11,7 +11,7 @@ public class InitializeThings : MonoBehaviour
     {
         Input.compass.enabled = true;
         Input.location.Start();
-
+        DataLoader.DataLoad();
     }
 
     private IEnumerator WaitForCompassEnable()

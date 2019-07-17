@@ -15,5 +15,5 @@
 
     public float x => _x;
 
-    public float Z => _z;
+    public float z => _z;
 }
