@@ -20,7 +20,9 @@ public class ARView : MonoBehaviour
 
     public void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = AppDelegate.GetMapSprite();
+        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
+        var mapObject = (GameObject) Resources.Load(spritePath);
+        GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
         _cameraBackground = ArCamera.GetComponent<ARCameraBackground>();
         LocationSync();
     }

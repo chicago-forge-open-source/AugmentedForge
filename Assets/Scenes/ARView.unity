@@ -564,7 +564,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Show Map Only View
+  m_Text: Toggle Map Only View
 --- !u!222 &209313509
 CanvasRenderer:
   m_ObjectHideFlags: 0
