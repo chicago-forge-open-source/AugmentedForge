@@ -20,7 +20,7 @@ public class LoadMarkersTests
     }
 
     [UnityTest]
-    public IEnumerator Start_WillLoadMapMarkerOntoAROverlayMap()
+    public IEnumerator Start_WillLoadMarkerOntoView()
     {
         var testMarker = new Marker("Test Marker", 0, 0);
 
@@ -32,7 +32,7 @@ public class LoadMarkersTests
     }
 
     [UnityTest]
-    public IEnumerator Start_WillLoadMarkersFromRepoOntoAROverlayMap()
+    public IEnumerator Start_WillLoadMarkersFromRepoOntoView()
     {
         var testMarker1 = new Marker("Marker 1", 1, 2);
         var testMarker2 = new Marker("Marker 2", 10, 20);
