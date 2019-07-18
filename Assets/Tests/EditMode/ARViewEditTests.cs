@@ -381,12 +381,6 @@ public class ARViewEditTests
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
         );
     }
-
-    [Test]
-    public void WillFail()
-    {
-        Assert.IsTrue(false);
-    }
 }
 
 internal class MockCompass : ICompass
