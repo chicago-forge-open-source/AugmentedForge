@@ -382,11 +382,11 @@ public class ARViewEditTests
         );
     }
 
-//    [Test]
-//    public void WillFail()
-//    {
-//        Assert.IsTrue(false);
-//    }
+    [Test]
+    public void WillFail()
+    {
+        Assert.IsTrue(false);
+    }
 }
 
 internal class MockCompass : ICompass
