@@ -16,7 +16,7 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
-      -run: bash ./testParse.sh
+      - run: bash ./testParse.sh
 workflows:
   version: 2
   build:
