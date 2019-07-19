@@ -42,9 +42,6 @@ public static class DataLoader
             9.262001f
         );
 
-        return new[]
-        {
-            makerSpace, crucible, focusRoom, kitchen, greaterMHub
-        };
+        return new[] {makerSpace, crucible, focusRoom, kitchen, greaterMHub};
     }
 }

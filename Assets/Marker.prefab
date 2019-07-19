@@ -119,6 +119,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AR Marker
       objectReference: {fileID: 0}
+    - target: {fileID: 8925934816786696410, guid: b405d8bcb28cd4dbcb5237a3d6fa68dc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8925934816786696409, guid: b405d8bcb28cd4dbcb5237a3d6fa68dc,
         type: 3}
       propertyPath: m_LocalPosition.x

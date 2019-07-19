@@ -2,7 +2,6 @@
 using System.Collections;
 using AugmentedForge;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -16,14 +15,17 @@ public class ARView : MonoBehaviour
     public GameObject ArSessionOrigin;
     public ICompass Compass = new RealCompass();
     private ARCameraBackground _cameraBackground;
-
+    private Camera _mapCamera;
 
     public void Start()
     {
+        _cameraBackground = ArCamera.GetComponent<ARCameraBackground>();
+        _mapCamera = MapCamera.GetComponent<Camera>();
+
         var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
         var mapObject = (GameObject) Resources.Load(spritePath);
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
-        _cameraBackground = ArCamera.GetComponent<ARCameraBackground>();
+
         LocationSync();
     }
 
@@ -99,25 +101,35 @@ public class ARView : MonoBehaviour
 
     public void OnClick_ToggleMapView()
     {
-        var mapCameraComponent = MapCamera.GetComponent<Camera>();
-        mapCameraComponent.enabled = !mapCameraComponent.enabled;
+        ToggleMapCamera(!_mapCamera.enabled);
     }
 
-    public void OnClick_LoadMapOnlyView()
+    public void OnClick_ToggleMapOnlyView()
     {
-        MapCamera.GetComponent<Camera>().enabled = true;
-        var cameraBackgroundEnabled = !_cameraBackground.enabled;
-        _cameraBackground.enabled = cameraBackgroundEnabled;
-        MapCamera.GetComponent<FingerGestures>().enabled = !cameraBackgroundEnabled;
+        var arEnabled = !_cameraBackground.enabled;
+        _cameraBackground.enabled = arEnabled;
+        MapCamera.GetComponent<FingerGestures>().enabled = !arEnabled;
+        ToggleMapCamera(true);
+        ToggleArMarkers(arEnabled);
+        ResetMapView(arEnabled);
+    }
 
-        if (cameraBackgroundEnabled)
-        {
-            MapCamera.GetComponent<Camera>().fieldOfView = 60;
-        }
-        else
-        {
-            MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
-        }
+    private void ToggleMapCamera(bool enableMap)
+    {
+        _mapCamera.enabled = enableMap;
+    }
+
+    private void ToggleArMarkers(bool arEnabled)
+    {
+        var arCamera = ArCamera.GetComponent<Camera>();
+        var oldMask = arCamera.cullingMask;
+        arCamera.cullingMask = arEnabled ? oldMask | (1 << 9) : oldMask & ~(1 << 9);
+    }
+
+    private void ResetMapView(bool arEnabled)
+    {
+        if (arEnabled) _mapCamera.fieldOfView = 60;
+        else MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 }
 

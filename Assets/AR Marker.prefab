@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8925934816350013911}
   - component: {fileID: 8925934816350013909}
   - component: {fileID: 8925934816350013910}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,9 +88,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8925934816786696409}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AR Marker
-  m_TagString: Untagged
+  m_TagString: AROnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 8925934817162973669}
   - component: {fileID: 8925934817162973670}
   - component: {fileID: 8925934817162973671}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 8925934817540877980}
   - component: {fileID: 8925934817540877981}
   - component: {fileID: 8925934817540877982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 8925934818456661093}
   - component: {fileID: 8925934818456661094}
   - component: {fileID: 8925934818456661095}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,16 +7,11 @@ using UnityEngine.UI;
 
 public class LoadMarkersTests
 {
-    private GameObject _overlayMap;
-    private LoadMarkers _loadScript;
-
-    private IEnumerator LoadScene()
+    private static IEnumerator LoadScene()
     {
         SceneManager.LoadScene("ARView");
         yield return null;
-
-        _overlayMap = GameObject.Find("Overlay Map");
-        _loadScript = _overlayMap.GetComponent<LoadMarkers>();
+        GameObject.Find("Overlay Map").GetComponent<LoadMarkers>();
     }
 
     [UnityTest]
@@ -36,11 +31,7 @@ public class LoadMarkersTests
     {
         var testMarker1 = new Marker("Marker 1", 1, 2);
         var testMarker2 = new Marker("Marker 2", 10, 20);
-        var markers = new[]
-        {
-            testMarker1,
-            testMarker2,
-        };
+        var markers = new[] {testMarker1, testMarker2};
 
         Repositories.MarkerRepository.Save(markers);
 
@@ -54,8 +45,10 @@ public class LoadMarkersTests
     {
         var marker = GameObject.Find(testMarker.label);
         var text = marker.GetComponentInChildren<Text>().text;
+        var position = marker.transform.position;
+        
         Assert.AreEqual(testMarker.label, text);
-        Assert.AreEqual(testMarker.x, marker.transform.position.x);
-        Assert.AreEqual(testMarker.z, marker.transform.position.z);
+        Assert.AreEqual(testMarker.x, position.x);
+        Assert.AreEqual(testMarker.z, position.z);
     }
 }

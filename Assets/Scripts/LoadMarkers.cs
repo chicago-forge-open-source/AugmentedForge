@@ -12,11 +12,9 @@ public class LoadMarkers : MonoBehaviour
         {
             var clonedMapMarker = Instantiate(Marker);
             clonedMapMarker.name = marker.label;
-            foreach (var label in clonedMapMarker.GetComponentsInChildren<Text>())
-            {
-                label.text = marker.label;
-            }
             clonedMapMarker.transform.position = new Vector3(marker.x, 0, marker.z);
+            foreach (var label in clonedMapMarker.GetComponentsInChildren<Text>())
+            { label.text = marker.label; }
         }
     }
 }
