@@ -11,6 +11,7 @@ public class ARView : MonoBehaviour
     public GameObject MapCameraComponent;
     public GameObject ArCameraComponent;
     public GameObject LocationMarker;
+    public GameObject ArMapOverlayToggle;
     public Text DebugText;
     public GameObject StartPoint;
     public GameObject ArSessionOrigin;
@@ -111,6 +112,7 @@ public class ARView : MonoBehaviour
         if (_cameraBackground.enabled)
         {
             ShowMapOnlyView();
+            
         }
         else
         {
@@ -126,11 +128,8 @@ public class ARView : MonoBehaviour
         var arCamera = ArCameraComponent.GetComponent<Camera>();
         arCamera.cullingMask ^= MappingLayerBitMask;
         MapCameraComponent.transform.rotation = MapNorth;
-    }
-
-    private String bitString(int value)
-    {
-        return Convert.ToString(value, 2).PadLeft(32, '0');
+        
+        ArMapOverlayToggle.SetActive(false);
     }
 
     private void ShowArView()
@@ -141,6 +140,7 @@ public class ARView : MonoBehaviour
         var arCamera = ArCameraComponent.GetComponent<Camera>();
         arCamera.cullingMask ^= MappingLayerBitMask;
         _mapCamera.fieldOfView = 60;
+        ArMapOverlayToggle.SetActive(true);
     }
 
     private void SetMapCameraEnabled(bool enableMap)

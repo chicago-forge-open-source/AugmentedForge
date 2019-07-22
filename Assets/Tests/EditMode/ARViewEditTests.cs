@@ -32,6 +32,8 @@ public class ARViewEditTests
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
         _mapScript.ArSessionOrigin = new GameObject();
+        _mapScript.ArMapOverlayToggle = new GameObject();
+        _mapScript.ArMapOverlayToggle.AddComponent<Button>();
 
         PlayerPrefs.SetString("location", Chicago);
     }
@@ -405,6 +407,25 @@ public class ARViewEditTests
     {
         _mapScript.Start();
         _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>().enabled = false;
+    }
+    
+    [Test]
+    public void GivenShowingMapOnly_ArMapOverlayToggleIsDisabled()
+    {
+        _mapScript.Start();
+
+        _mapScript.OnClick_MapOnlyToggle();
+        Assert.IsFalse(_mapScript.ArMapOverlayToggle.activeSelf);
+    }
+    
+    [Test]
+    public void GivenShowingArView_ArMapOverlayToggleIsEnabled()
+    {
+        _mapScript.Start();
+
+        _mapScript.OnClick_MapOnlyToggle();
+        _mapScript.OnClick_MapOnlyToggle();
+        Assert.True(_mapScript.ArMapOverlayToggle.activeSelf);
     }
 }
 
