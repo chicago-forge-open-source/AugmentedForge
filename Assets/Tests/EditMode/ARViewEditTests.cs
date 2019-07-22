@@ -27,6 +27,7 @@ public class ARViewEditTests
 
         _mapScript.ArCameraComponent = new GameObject();
         _mapScript.ArCameraComponent.AddComponent<ARCameraBackground>();
+        _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask = 567;
 
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
