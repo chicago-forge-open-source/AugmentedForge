@@ -21,12 +21,12 @@ public class ARViewEditTests
         _mapScript = _game.AddComponent<ARView>();
         _mapScript.DebugText = _game.AddComponent<Text>();
 
-        _mapScript.MapCamera = new GameObject();
-        _mapScript.MapCamera.AddComponent<Camera>();
-        _mapScript.MapCamera.AddComponent<FingerGestures>();
+        _mapScript.MapCameraComponent = new GameObject();
+        _mapScript.MapCameraComponent.AddComponent<Camera>();
+        _mapScript.MapCameraComponent.AddComponent<FingerGestures>();
 
-        _mapScript.ArCamera = new GameObject();
-        _mapScript.ArCamera.AddComponent<ARCameraBackground>();
+        _mapScript.ArCameraComponent = new GameObject();
+        _mapScript.ArCameraComponent.AddComponent<ARCameraBackground>();
 
         _mapScript.LocationMarker = new GameObject();
         _mapScript.StartPoint = new GameObject();
@@ -69,7 +69,7 @@ public class ARViewEditTests
 
         _mapScript.Start();
 
-        var position = _mapScript.MapCamera.transform.position;
+        var position = _mapScript.MapCameraComponent.transform.position;
         Assert.AreEqual(startPosition.x, position.x);
         Assert.AreEqual(startPosition.z, position.z);
     }
@@ -114,7 +114,7 @@ public class ARViewEditTests
     {
         _mapScript.Start();
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 90, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 90, 34);
         _mapScript.StartPoint.transform.position = new Vector3(100, 13, 20);
         _mapScript.Update();
 
@@ -127,13 +127,13 @@ public class ARViewEditTests
         StartInMapOnlyMode();
 
         _mapScript.Compass = new MockCompass {TrueHeading = 90f};
-        _mapScript.MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        _mapScript.MapCameraComponent.transform.rotation = Quaternion.Euler(90, 0, 0);
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 35, 34);
         _mapScript.Update();
 
         var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
     }
 
@@ -143,16 +143,16 @@ public class ARViewEditTests
         _mapScript.Start();
 
         _mapScript.Compass = new MockCompass {TrueHeading = 90f};
-        _mapScript.MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        _mapScript.MapCameraComponent.transform.rotation = Quaternion.Euler(90, 0, 0);
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 35, 34);
         _mapScript.Update();
 
         var expectedCameraRotation = Quaternion.Euler(
             90,
             _mapScript.Compass.TrueHeading / MapRotationIncrementDivisor,
             0);
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
     }
 
@@ -164,9 +164,9 @@ public class ARViewEditTests
         _mapScript.Compass = new MockCompass {TrueHeading = 180f};
         var originalCameraRotationDegrees = 90;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
-        _mapScript.MapCamera.transform.rotation = originalCameraRotation;
+        _mapScript.MapCameraComponent.transform.rotation = originalCameraRotation;
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 35, 34);
         _mapScript.Update();
 
         var differenceInRotation = _mapScript.Compass.TrueHeading - originalCameraRotationDegrees;
@@ -176,7 +176,7 @@ public class ARViewEditTests
             0
         );
 
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
     }
 
@@ -188,9 +188,9 @@ public class ARViewEditTests
         _mapScript.Compass = new MockCompass {TrueHeading = 358f};
         const int originalCameraRotationDegrees = 2;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
-        _mapScript.MapCamera.transform.rotation = originalCameraRotation;
+        _mapScript.MapCameraComponent.transform.rotation = originalCameraRotation;
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 35, 34);
         _mapScript.Update();
 
         var differenceInRotation = -4;
@@ -200,7 +200,7 @@ public class ARViewEditTests
             0
         );
 
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
     }
 
@@ -212,9 +212,9 @@ public class ARViewEditTests
         _mapScript.Compass = new MockCompass {TrueHeading = 2f};
         var originalCameraRotationDegrees = 358;
         var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
-        _mapScript.MapCamera.transform.rotation = originalCameraRotation;
+        _mapScript.MapCameraComponent.transform.rotation = originalCameraRotation;
 
-        _mapScript.ArCamera.transform.position = new Vector3(15, 35, 34);
+        _mapScript.ArCameraComponent.transform.position = new Vector3(15, 35, 34);
         _mapScript.Update();
 
         var differenceInRotation = 4;
@@ -224,7 +224,7 @@ public class ARViewEditTests
             0
         );
 
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
     }
 
@@ -234,14 +234,14 @@ public class ARViewEditTests
         StartInMapOnlyMode();
 
         var arCameraPos = new Vector3(5, 1, 5);
-        _mapScript.ArCamera.transform.position = arCameraPos;
+        _mapScript.ArCameraComponent.transform.position = arCameraPos;
 
         var mapCameraPos = new Vector3(10, 5, 10);
-        _mapScript.MapCamera.transform.position = mapCameraPos;
+        _mapScript.MapCameraComponent.transform.position = mapCameraPos;
 
         _mapScript.Update();
 
-        var position = _mapScript.MapCamera.transform.position;
+        var position = _mapScript.MapCameraComponent.transform.position;
         Assert.AreEqual(10, position.x);
         Assert.AreEqual(5, position.y);
         Assert.AreEqual(10, position.z);
@@ -253,15 +253,15 @@ public class ARViewEditTests
         _mapScript.Start();
 
         var arCameraPos = new Vector3(5, 1, 5);
-        _mapScript.ArCamera.transform.position = arCameraPos;
+        _mapScript.ArCameraComponent.transform.position = arCameraPos;
 
         var mapCameraPos = new Vector3(10, 5, 10);
-        _mapScript.MapCamera.transform.position = mapCameraPos;
+        _mapScript.MapCameraComponent.transform.position = mapCameraPos;
 
         _mapScript.Update();
 
-        var arCameraPosition = _mapScript.ArCamera.transform.position;
-        var position = _mapScript.MapCamera.transform.position;
+        var arCameraPosition = _mapScript.ArCameraComponent.transform.position;
+        var position = _mapScript.MapCameraComponent.transform.position;
 
         Assert.AreEqual(arCameraPosition.x, position.x);
         Assert.AreEqual(mapCameraPos.y, position.y);
@@ -272,10 +272,10 @@ public class ARViewEditTests
     public void GivenButtonToggleAndMapViewInArShowingHideTheMap()
     {
         _mapScript.Start();
-        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
         camera.enabled = true;
 
-        _mapScript.OnClick_ToggleMapView();
+        _mapScript.OnClick_ArMapOverlayToggle();
 
         Assert.IsFalse(camera.enabled);
     }
@@ -284,10 +284,10 @@ public class ARViewEditTests
     public void GivenButtonToggleAndMapViewInArHidingShowTheMap()
     {
         _mapScript.Start();
-        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
         camera.enabled = false;
 
-        _mapScript.OnClick_ToggleMapView();
+        _mapScript.OnClick_ArMapOverlayToggle();
 
         Assert.IsTrue(camera.enabled);
     }
@@ -296,10 +296,10 @@ public class ARViewEditTests
     public void MapCameraIsAlwaysShown()
     {
         _mapScript.Start();
-        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
         camera.enabled = false;
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         Assert.IsTrue(camera.enabled);
     }
@@ -308,9 +308,9 @@ public class ARViewEditTests
     public void GivenARBackgroundIsEnabled_ARBackgroundIsHidden()
     {
         _mapScript.Start();
-        var background = _mapScript.ArCamera.GetComponent<ARCameraBackground>();
+        var background = _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>();
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         Assert.IsFalse(background.enabled);
     }
@@ -319,10 +319,10 @@ public class ARViewEditTests
     public void GivenARBackgroundIsHidden_ARBackgroundIsShown()
     {
         _mapScript.Start();
-        var background = _mapScript.ArCamera.GetComponent<ARCameraBackground>();
+        var background = _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>();
         background.enabled = false;
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         Assert.IsTrue(background.enabled);
     }
@@ -331,10 +331,10 @@ public class ARViewEditTests
     public void GivenArBackgroundTogglesToDisabled_FingerGesturesEnabled()
     {
         _mapScript.Start();
-        var gesturesScript = _mapScript.MapCamera.GetComponent<FingerGestures>();
+        var gesturesScript = _mapScript.MapCameraComponent.GetComponent<FingerGestures>();
         gesturesScript.enabled = false;
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         Assert.IsTrue(gesturesScript.enabled);
     }
@@ -344,19 +344,19 @@ public class ARViewEditTests
     {
         StartInMapOnlyMode();
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
-        Assert.IsFalse(_mapScript.MapCamera.GetComponent<FingerGestures>().enabled);
+        Assert.IsFalse(_mapScript.MapCameraComponent.GetComponent<FingerGestures>().enabled);
     }
 
     [Test]
     public void GivenArBackgroundTogglesToEnabled_MapCameraZoomIsSetToInitialValue()
     {
         StartInMapOnlyMode();
-        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
         camera.fieldOfView = 80f;
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         Assert.AreEqual(60f, camera.fieldOfView);
     }
@@ -365,13 +365,13 @@ public class ARViewEditTests
     public void GivenArBackgroundTogglesToDisabled_MapCameraRotationIsSetToInitialValue()
     {
         _mapScript.Start();
-        var camera = _mapScript.MapCamera.GetComponent<Camera>();
+        var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
         camera.transform.rotation = Quaternion.Euler(100, 10, 70);
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
         var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
-        Assert.That(_mapScript.MapCamera.transform.rotation,
+        Assert.That(_mapScript.MapCameraComponent.transform.rotation,
             Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
         );
     }
@@ -381,9 +381,9 @@ public class ARViewEditTests
     {
         _mapScript.Start();
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
-        var actualMask = _mapScript.ArCamera.GetComponent<Camera>().cullingMask;
+        var actualMask = _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask;
         Assert.AreEqual(0, actualMask & (1 << 9));
     }
 
@@ -391,19 +391,19 @@ public class ARViewEditTests
     public void GivenArBackgroundTogglesToEnabled_ArCameraMaskIncludesLayerNine()
     {
         StartInMapOnlyMode();
-        var arCamera = _mapScript.ArCamera.GetComponent<Camera>();
+        var arCamera = _mapScript.ArCameraComponent.GetComponent<Camera>();
         arCamera.cullingMask &= ~(1 << 9);
 
-        _mapScript.OnClick_ToggleMapOnlyView();
+        _mapScript.OnClick_MapOnlyToggle();
 
-        var actualMask = _mapScript.ArCamera.GetComponent<Camera>().cullingMask;
+        var actualMask = _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask;
         Assert.AreNotEqual(0, actualMask & (1 << 9));
     }
 
     private void StartInMapOnlyMode()
     {
         _mapScript.Start();
-        _mapScript.ArCamera.GetComponent<ARCameraBackground>().enabled = false;
+        _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>().enabled = false;
     }
 }
 

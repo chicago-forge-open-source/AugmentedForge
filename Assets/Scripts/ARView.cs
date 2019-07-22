@@ -7,8 +7,8 @@ using UnityEngine.XR.ARFoundation;
 
 public class ARView : MonoBehaviour
 {
-    public GameObject MapCamera;
-    public GameObject ArCamera;
+    public GameObject MapCameraComponent;
+    public GameObject ArCameraComponent;
     public GameObject LocationMarker;
     public Text DebugText;
     public GameObject StartPoint;
@@ -19,8 +19,8 @@ public class ARView : MonoBehaviour
 
     public void Start()
     {
-        _cameraBackground = ArCamera.GetComponent<ARCameraBackground>();
-        _mapCamera = MapCamera.GetComponent<Camera>();
+        _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
+        _mapCamera = MapCameraComponent.GetComponent<Camera>();
 
         var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
         var mapObject = (GameObject) Resources.Load(spritePath);
@@ -33,7 +33,7 @@ public class ARView : MonoBehaviour
     {
         UpdateLocationMarker();
         UpdateMapCameraRotation();
-        var logLine = "ARCamera: " + ArCamera.transform.position;
+        var logLine = "ARCamera: " + ArCameraComponent.transform.position;
         DebugText.text = logLine;
     }
 
@@ -52,25 +52,25 @@ public class ARView : MonoBehaviour
         if (!_cameraBackground.enabled) return;
         const float divisor = 4f;
         var compassHeading = Compass.TrueHeading;
-        var mapCameraVector = MapCamera.transform.rotation.eulerAngles;
+        var mapCameraVector = MapCameraComponent.transform.rotation.eulerAngles;
         var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
 
         var finalRotation = mapCameraVector.y + rotationDifference / divisor;
-        MapCamera.transform.rotation = Quaternion.Euler(90, finalRotation, 0);
+        MapCameraComponent.transform.rotation = Quaternion.Euler(90, finalRotation, 0);
     }
 
     private void UpdateLocationMarker()
     {
-        var arCameraPosition = ArCamera.transform.position;
+        var arCameraPosition = ArCameraComponent.transform.position;
 
         var startPointPosition = StartPoint.transform.position;
-        var mapCameraPosition = MapCamera.transform.position;
+        var mapCameraPosition = MapCameraComponent.transform.position;
         var locationX = arCameraPosition.x;
         var locationZ = arCameraPosition.z;
         LocationMarker.transform.position = new Vector3(locationX, startPointPosition.y, locationZ);
         if (_cameraBackground.enabled)
         {
-            MapCamera.transform.position = new Vector3(locationX, mapCameraPosition.y, locationZ);
+            MapCameraComponent.transform.position = new Vector3(locationX, mapCameraPosition.y, locationZ);
         }
     }
 
@@ -87,7 +87,7 @@ public class ARView : MonoBehaviour
     {
         var syncPos = StartPoint.transform.position;
         SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
-        SetObjectXzPosition(MapCamera.transform, syncPos.x, syncPos.z);
+        SetObjectXzPosition(MapCameraComponent.transform, syncPos.x, syncPos.z);
 
         SetObjectXzPosition(ArSessionOrigin.transform, syncPos.x, syncPos.z);
         ArSessionOrigin.transform.rotation = Quaternion.Euler(0, Compass.TrueHeading, 0);
@@ -99,16 +99,16 @@ public class ARView : MonoBehaviour
         objectTransform.position = position;
     }
 
-    public void OnClick_ToggleMapView()
+    public void OnClick_ArMapOverlayToggle()
     {
         ToggleMapCamera(!_mapCamera.enabled);
     }
 
-    public void OnClick_ToggleMapOnlyView()
+    public void OnClick_MapOnlyToggle()
     {
         var arEnabled = !_cameraBackground.enabled;
         _cameraBackground.enabled = arEnabled;
-        MapCamera.GetComponent<FingerGestures>().enabled = !arEnabled;
+        MapCameraComponent.GetComponent<FingerGestures>().enabled = !arEnabled;
         ToggleMapCamera(true);
         ToggleArMarkers(arEnabled);
         ResetMapView(arEnabled);
@@ -121,7 +121,7 @@ public class ARView : MonoBehaviour
 
     private void ToggleArMarkers(bool arEnabled)
     {
-        var arCamera = ArCamera.GetComponent<Camera>();
+        var arCamera = ArCameraComponent.GetComponent<Camera>();
         var oldMask = arCamera.cullingMask;
         arCamera.cullingMask = arEnabled ? oldMask | (1 << 9) : oldMask & ~(1 << 9);
     }
@@ -129,7 +129,7 @@ public class ARView : MonoBehaviour
     private void ResetMapView(bool arEnabled)
     {
         if (arEnabled) _mapCamera.fieldOfView = 60;
-        else MapCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        else MapCameraComponent.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 }
 

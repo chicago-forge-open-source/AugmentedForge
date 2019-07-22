@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 323354705}
   - component: {fileID: 323354704}
   m_Layer: 5
-  m_Name: Map View Button
+  m_Name: Map Only Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,7 +779,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 543973076}
-        m_MethodName: OnClick_ToggleMapOnlyView
+        m_MethodName: OnClick_MapOnlyToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1006,8 +1006,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaa77d2ba1884c03bb848b9c17ee3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapCamera: {fileID: 963194225}
-  ArCamera: {fileID: 165585583}
+  MapCameraComponent: {fileID: 963194225}
+  ArCameraComponent: {fileID: 165585583}
   LocationMarker: {fileID: 1317246971}
   DebugText: {fileID: 40919616}
   StartPoint: {fileID: 2135615481}
@@ -1129,7 +1129,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   m_Layer: 0
-  m_Name: Map Camera
+  m_Name: Map Camera Component
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1418,7 +1418,7 @@ GameObject:
   - component: {fileID: 1206350028}
   - component: {fileID: 1206350027}
   m_Layer: 5
-  m_Name: Toggle Button
+  m_Name: AR Map Overlay Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1488,7 +1488,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 543973076}
-        m_MethodName: OnClick_ToggleMapView
+        m_MethodName: OnClick_ArMapOverlayToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
