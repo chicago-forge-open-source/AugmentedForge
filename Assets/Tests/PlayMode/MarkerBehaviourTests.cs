@@ -13,7 +13,7 @@ namespace Tests.PlayMode
         {
             SceneManager.LoadScene("ARView");
             yield return null;
-            GameObject.Find("Overlay Map").GetComponent<MarkerBehaviour>();
+            GameObject.Find("Overlay Map").GetComponent<ArMarkerBehaviour>();
         }
 
         [UnityTest]

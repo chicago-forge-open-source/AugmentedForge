@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MarkerBehaviour : MonoBehaviour
+public class ArMarkerBehaviour : MonoBehaviour
 {
-    public GameObject MarkerPrefab;
+    public GameObject ArMarkerPrefab;
     public GameObject ArCameraComponent;
 
     public List<GameObject> Markers { get; private set; }
@@ -15,13 +15,14 @@ public class MarkerBehaviour : MonoBehaviour
         var markers = Repositories.MarkerRepository.Get();
         foreach (var marker in markers)
         {
-            var clonedMapMarker = Instantiate(MarkerPrefab);
+            var clonedMapMarker = Instantiate(ArMarkerPrefab);
             clonedMapMarker.name = marker.label;
             clonedMapMarker.transform.position = new Vector3(marker.x, 0, marker.z);
-            foreach (var label in clonedMapMarker.GetComponentsInChildren<Text>())
-            {
-                label.text = marker.label;
-            }
+            clonedMapMarker.GetComponentInChildren<Text>().text = marker.label;
+//            foreach (var label in clonedMapMarker.GetComponentsInChildren<Text>())
+//            {
+//                label.text = marker.label;
+//            }
 
             Markers.Add(clonedMapMarker);
         }
@@ -32,7 +33,7 @@ public class MarkerBehaviour : MonoBehaviour
         foreach (var clonedMarker in Markers)
         {
             clonedMarker.transform.LookAt(ArCameraComponent.transform);
-            clonedMarker.transform.Rotate(0, 180, 0);
+            clonedMarker.transform.Rotate(90,0,0);
         }
     }
 }
