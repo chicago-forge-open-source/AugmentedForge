@@ -722,7 +722,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323354702}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1025,7 +1025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab9c9d0aff1a43d2b05bed69bb78bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Marker: {fileID: 2304649514825306058, guid: 6780ad1ab38d0485c955aa5babd9195a, type: 3}
+  MarkerPrefab: {fileID: 2304649514825306058, guid: 6780ad1ab38d0485c955aa5babd9195a,
+    type: 3}
+  ArCameraComponent: {fileID: 165585583}
 --- !u!1 &854905462
 GameObject:
   m_ObjectHideFlags: 0

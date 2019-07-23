@@ -1,4 +1,6 @@
-﻿public class Marker
+﻿using UnityEngine;
+
+public class Marker
 {
     private string _label;
     private float _x;

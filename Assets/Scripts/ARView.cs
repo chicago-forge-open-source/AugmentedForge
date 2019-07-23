@@ -95,7 +95,7 @@ public class ARView : MonoBehaviour
         SetObjectXzPosition(ArSessionOrigin.transform, syncPos.x, syncPos.z);
         ArSessionOrigin.transform.rotation = Quaternion.Euler(0, Compass.TrueHeading, 0);
     }
-
+    
     private static void SetObjectXzPosition(Transform objectTransform, float x, float z)
     {
         var position = new Vector3(x, objectTransform.position.y, z);
