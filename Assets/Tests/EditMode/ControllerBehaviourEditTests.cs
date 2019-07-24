@@ -1,4 +1,5 @@
-﻿using AugmentedForge;
+﻿using System.Linq;
+using AugmentedForge;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
@@ -31,6 +32,8 @@ namespace Tests.EditMode
 
             _mapScript.ArMapOverlayToggle = new GameObject();
             _mapScript.ArMapOverlayToggle.AddComponent<Button>();
+            
+            _mapScript.MarkerBehaviour = _game.AddComponent<MarkerBehaviour>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -190,6 +193,20 @@ namespace Tests.EditMode
             _mapScript.OnClick_MapOnlyToggle();
             _mapScript.OnClick_MapOnlyToggle();
             Assert.True(_mapScript.ArMapOverlayToggle.activeSelf);
+        }
+
+        [Test]
+        public void OnClick_GivenMapOnlyMarkersAreReadable()
+        {
+            _mapScript.Start();
+            
+            GameObject north = new GameObject("north");
+            north.transform.rotation = Quaternion.Euler(1,1,1);
+            _mapScript.MarkerBehaviour.MapMarkers.Add(north);
+            
+            _mapScript.OnClick_MapOnlyToggle();
+            
+            Assert.AreEqual(Quaternion.Euler(90,0,0).eulerAngles,_mapScript.MarkerBehaviour.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation.eulerAngles);
         }
     }
 

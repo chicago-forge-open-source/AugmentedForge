@@ -12,6 +12,7 @@ namespace AugmentedForge
         public GameObject ArCameraComponent;
         public GameObject MapCameraComponent;
         public GameObject ArMapOverlayToggle;
+        public MarkerBehaviour MarkerBehaviour;
         
         private ARCameraBackground _cameraBackground;
         private Camera _mapCamera;
@@ -47,6 +48,11 @@ namespace AugmentedForge
             arCamera.cullingMask ^= MappingLayerBitMask;
             MapCameraComponent.transform.rotation = MapNorth;
 
+            foreach (var mapMarker in MarkerBehaviour.MapMarkers)
+            {
+                mapMarker.transform.rotation = MapNorth;
+            }
+            
             ArMapOverlayToggle.SetActive(false);
         }
 
