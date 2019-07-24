@@ -9,6 +9,8 @@ public class MarkerBehaviour : MonoBehaviour
     public GameObject MapMarkerPrefab;
     public List<GameObject> ArMarkers { get; private set; }
     public List<GameObject> MapMarkers { get; private set; }
+    
+    private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
 
     public void Start()
     {
@@ -33,10 +35,15 @@ public class MarkerBehaviour : MonoBehaviour
 
     public void Update()
     {
-        foreach (var clonedMarker in ArMarkers)
+        foreach (var arMarker in ArMarkers)
         {
-            clonedMarker.transform.LookAt(ArCameraComponent.transform);
-            clonedMarker.transform.Rotate(90,0,0);
+            arMarker.transform.LookAt(ArCameraComponent.transform);
+            arMarker.transform.Rotate(90,0,0);
         }
+
+//        foreach (var mapMarker in MapMarkers)
+//        {
+//            mapMarker.transform.rotation = Quaternion.Euler(0, 180, 0);
+//        }
     }
 }

@@ -47,7 +47,7 @@ namespace Tests.PlayMode
         {
             yield return LoadScene();
             var map = GameObject.Find("Overlay Map");
-            var mapScript = map.GetComponent<ARView>();
+            var mapScript = map.GetComponent<OverlayMapBehaviour>();
             const string location = "Chicago";
             PlayerPrefs.SetString("location", location);
         

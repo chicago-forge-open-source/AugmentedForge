@@ -38,7 +38,7 @@ public class MarkerBehaviourEditTests
     }
     
     [Test]
-    public void Update_RotateMarkersToFaceArCameraLocation_EvenThoughTheModelFacesBackwardNaturally()
+    public void Update_RotateArMarkersToFaceArCameraLocation_EvenThoughTheModelFacesBackwardNaturally()
     {
         Repositories.MarkerRepository.Save(
             new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
@@ -61,5 +61,11 @@ public class MarkerBehaviourEditTests
                 .transform.rotation,
             Is.EqualTo(Quaternion.Euler(90, 0, 90)).Using(_quaternionComparer)
         );
+    }
+
+    [Test]
+    public void Update_RotateMapMarkersToCounteractMapRotation()
+    {
+        
     }
 }

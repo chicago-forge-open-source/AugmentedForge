@@ -778,7 +778,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543973076}
+      - m_Target: {fileID: 543973078}
         m_MethodName: OnClick_MapOnlyToggle
         m_Mode: 1
         m_Arguments:
@@ -1006,10 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaa77d2ba1884c03bb848b9c17ee3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapCameraComponent: {fileID: 963194225}
   ArCameraComponent: {fileID: 165585583}
-  LocationMarker: {fileID: 1317246971}
-  ArMapOverlayToggle: {fileID: 1206350025}
   DebugText: {fileID: 40919616}
   StartPoint: {fileID: 2135615481}
   ArSessionOrigin: {fileID: 1577749883}
@@ -1030,6 +1027,37 @@ MonoBehaviour:
   ArCameraComponent: {fileID: 165585583}
   MapMarkerPrefab: {fileID: 1032929131923002300, guid: d311264fc7cea4263a9998488a96f87a,
     type: 3}
+--- !u!114 &543973078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543973075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5237afebbdc49a2b677136880427f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArCameraComponent: {fileID: 165585583}
+  MapCameraComponent: {fileID: 963194225}
+  ArMapOverlayToggle: {fileID: 1206350025}
+--- !u!114 &543973079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543973075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f788fcd8734327a7cb132896689dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArCameraComponent: {fileID: 165585583}
+  StartPoint: {fileID: 2135615481}
+  LocationMarker: {fileID: 1317246971}
+  MapCameraComponent: {fileID: 963194225}
 --- !u!1 &854905462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,7 +1520,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543973076}
+      - m_Target: {fileID: 543973078}
         m_MethodName: OnClick_ArMapOverlayToggle
         m_Mode: 1
         m_Arguments:
