@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab9c9d0aff1a43d2b05bed69bb78bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArMarkerPrefab: {fileID: 8925934816786696410, guid: b405d8bcb28cd4dbcb5237a3d6fa68dc,
+  ArMarkerPrefab: {fileID: 2304649514825306058, guid: 24e842e1597b04e0db6325d93c1742af,
     type: 3}
   ArCameraComponent: {fileID: 165585583}
   MapMarkerPrefab: {fileID: 1032929131923002300, guid: d311264fc7cea4263a9998488a96f87a,

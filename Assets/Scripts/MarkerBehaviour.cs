@@ -36,7 +36,11 @@ public class MarkerBehaviour : MonoBehaviour
         foreach (var arMarker in ArMarkers)
         {
             arMarker.transform.LookAt(ArCameraComponent.transform);
-            arMarker.transform.Rotate(90, 0, 0);
+
+            var newRotation = arMarker.transform.rotation.eulerAngles;
+            newRotation.x = 0;
+            newRotation.z = 0;
+            arMarker.transform.rotation = Quaternion.Euler(newRotation);
         }
     }
 }
