@@ -1,4 +1,5 @@
-﻿using AugmentedForge;
+﻿using System.Linq;
+using AugmentedForge;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
@@ -31,6 +32,8 @@ namespace Tests.EditMode
 
             _mapScript.LocationMarker = new GameObject();
             _mapScript.StartPoint = new GameObject();
+
+            _mapScript.MarkerBehaviour = _game.AddComponent<MarkerBehaviour>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -198,6 +201,30 @@ namespace Tests.EditMode
             );
 
             Assert.That(_mapScript.MapCameraComponent.transform.rotation,
+                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+        }
+
+        [Test]
+        public void Update_WillRotateOverlayMarkersInTheOppositeDirectionOfTheMapSoTheyRemainReadable()
+        {
+            _mapScript.MarkerBehaviour.MapMarkers.Add(new GameObject("north"));
+            _mapScript.Start();
+
+            _mapScript.Compass = new MockCompass {TrueHeading = 2f};
+            var originalCameraRotationDegrees = 358;
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
+            _mapScript.MapCameraComponent.transform.rotation = originalCameraRotation;
+            
+            _mapScript.Update();
+
+            var differenceInRotation = 4;
+            var expectedCameraRotation = Quaternion.Euler(
+                90,
+                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
+                0
+            );
+
+            Assert.That(_mapScript.MarkerBehaviour.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation,
                 Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 

@@ -7,15 +7,13 @@ public class MarkerBehaviour : MonoBehaviour
     public GameObject ArMarkerPrefab;
     public GameObject ArCameraComponent;
     public GameObject MapMarkerPrefab;
-    public List<GameObject> ArMarkers { get; private set; }
-    public List<GameObject> MapMarkers { get; private set; }
-    
+    public List<GameObject> ArMarkers { get; } = new List<GameObject>();
+    public List<GameObject> MapMarkers { get; } = new List<GameObject>();
+
     private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
 
     public void Start()
     {
-        ArMarkers = new List<GameObject>();
-        MapMarkers = new List<GameObject>();
         var markers = Repositories.MarkerRepository.Get();
         foreach (var marker in markers)
         {
@@ -38,12 +36,7 @@ public class MarkerBehaviour : MonoBehaviour
         foreach (var arMarker in ArMarkers)
         {
             arMarker.transform.LookAt(ArCameraComponent.transform);
-            arMarker.transform.Rotate(90,0,0);
+            arMarker.transform.Rotate(90, 0, 0);
         }
-
-//        foreach (var mapMarker in MapMarkers)
-//        {
-//            mapMarker.transform.rotation = Quaternion.Euler(0, 180, 0);
-//        }
     }
 }

@@ -62,10 +62,4 @@ public class MarkerBehaviourEditTests
             Is.EqualTo(Quaternion.Euler(90, 0, 90)).Using(_quaternionComparer)
         );
     }
-
-    [Test]
-    public void Update_RotateMapMarkersToCounteractMapRotation()
-    {
-        
-    }
 }

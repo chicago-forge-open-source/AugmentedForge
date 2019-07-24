@@ -1055,9 +1055,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArCameraComponent: {fileID: 165585583}
+  MapCameraComponent: {fileID: 963194225}
   StartPoint: {fileID: 2135615481}
   LocationMarker: {fileID: 1317246971}
-  MapCameraComponent: {fileID: 963194225}
+  MarkerBehaviour: {fileID: 543973077}
 --- !u!1 &854905462
 GameObject:
   m_ObjectHideFlags: 0

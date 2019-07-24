@@ -9,9 +9,10 @@ public class OverlayMapBehaviour : MonoBehaviour
     public GameObject MapCameraComponent;
     public GameObject StartPoint;
     public GameObject LocationMarker;
+    public MarkerBehaviour MarkerBehaviour;
     private ARCameraBackground _cameraBackground;
     public ICompass Compass = new RealCompass();
-    
+
     public void Start()
     {
         _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
@@ -20,20 +21,20 @@ public class OverlayMapBehaviour : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
         LocationSync();
     }
-    
+
     private void LocationSync()
     {
         var syncPos = StartPoint.transform.position;
         SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
         SetObjectXzPosition(MapCameraComponent.transform, syncPos.x, syncPos.z);
     }
-    
+
     public void Update()
     {
         UpdateLocationMarker();
         UpdateMapCameraRotation();
     }
-    
+
     private void UpdateLocationMarker()
     {
         var arCameraPosition = ArCameraComponent.transform.position;
@@ -45,7 +46,7 @@ public class OverlayMapBehaviour : MonoBehaviour
             MoveOverlayMap(arCameraPosition);
         }
     }
-    
+
     private void MoveOverlayMap(Vector3 newPosition)
     {
         var mapCameraPosition = MapCameraComponent.transform.position;
@@ -61,7 +62,13 @@ public class OverlayMapBehaviour : MonoBehaviour
         var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
 
         var finalRotation = mapCameraVector.y + rotationDifference / divisor;
-        MapCameraComponent.transform.rotation = Quaternion.Euler(90, finalRotation, 0);
+        var mapRotation = Quaternion.Euler(90, finalRotation, 0);
+        MapCameraComponent.transform.rotation = mapRotation;
+
+        foreach (var mapMarker in MarkerBehaviour.MapMarkers)
+        {
+            mapMarker.transform.rotation = mapRotation;
+        }
     }
 
     private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
