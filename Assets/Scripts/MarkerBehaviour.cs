@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class MarkerBehaviour : MonoBehaviour
     public GameObject ArMarkerPrefab;
     public GameObject ArCameraComponent;
     public GameObject MapMarkerPrefab;
+    
     public List<GameObject> ArMarkers { get; } = new List<GameObject>();
     public List<GameObject> MapMarkers { get; } = new List<GameObject>();
 
@@ -35,12 +37,17 @@ public class MarkerBehaviour : MonoBehaviour
     {
         foreach (var arMarker in ArMarkers)
         {
-            arMarker.transform.LookAt(ArCameraComponent.transform);
-
-            var newRotation = arMarker.transform.rotation.eulerAngles;
-            newRotation.x = 0;
-            newRotation.z = 0;
-            arMarker.transform.rotation = Quaternion.Euler(newRotation);
+            RotateMarkerToFaceCamera(arMarker);
         }
+    }
+
+    private void RotateMarkerToFaceCamera(GameObject arMarker)
+    {
+        arMarker.transform.LookAt(ArCameraComponent.transform);
+
+        var newRotation = arMarker.transform.rotation.eulerAngles;
+        newRotation.x = 0;
+        newRotation.z = 0;
+        arMarker.transform.rotation = Quaternion.Euler(newRotation);
     }
 }
