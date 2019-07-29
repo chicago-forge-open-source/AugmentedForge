@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class MarkerBehaviour : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MarkerBehaviour : MonoBehaviour
     public List<GameObject> MapMarkers { get; } = new List<GameObject>();
 
     private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
+    private static readonly int DistanceToHideArMarkers = 10;
 
     public void Start()
     {
@@ -35,22 +37,19 @@ public class MarkerBehaviour : MonoBehaviour
 
     public void Update()
     {
+        var currentCameraPosition = ArCameraComponent.transform.position;
         foreach (var arMarker in ArMarkers)
         {
             RotateMarkerToFaceCamera(arMarker);
 
-            var cameraPosition = ArCameraComponent.transform.position;
-            var arMarkerPosition = arMarker.transform.position;
-            var distanceFromCameraToMarker = Vector3.Distance(cameraPosition, arMarkerPosition);
-            if (distanceFromCameraToMarker > 10)
-            {
-                arMarker.SetActive(false);
-            }
-            else
-            {
-                arMarker.SetActive(true);
-            }
+            HideMarkersBasedOnDistanceFromCamera(arMarker, currentCameraPosition);
         }
+    }
+
+    private void HideMarkersBasedOnDistanceFromCamera(GameObject arMarker, Vector3 currentCameraPosition)
+    {
+        var distanceFromCameraToMarker = Vector3.Distance(currentCameraPosition, arMarker.transform.position);
+        arMarker.SetActive(distanceFromCameraToMarker < DistanceToHideArMarkers);
     }
 
     private void RotateMarkerToFaceCamera(GameObject arMarker)
