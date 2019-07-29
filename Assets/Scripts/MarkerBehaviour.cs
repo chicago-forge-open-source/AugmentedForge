@@ -38,6 +38,18 @@ public class MarkerBehaviour : MonoBehaviour
         foreach (var arMarker in ArMarkers)
         {
             RotateMarkerToFaceCamera(arMarker);
+
+            var cameraPosition = ArCameraComponent.transform.position;
+            var arMarkerPosition = arMarker.transform.position;
+            var distanceFromCameraToMarker = Vector3.Distance(cameraPosition, arMarkerPosition);
+            if (distanceFromCameraToMarker > 10)
+            {
+                arMarker.SetActive(false);
+            }
+            else
+            {
+                arMarker.SetActive(true);
+            }
         }
     }
 

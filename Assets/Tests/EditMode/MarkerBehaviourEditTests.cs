@@ -79,5 +79,49 @@ namespace Tests.EditMode
                 Is.EqualTo(Quaternion.Euler(0, 270, 0)).Using(_quaternionComparer)
             );
         }
+
+        [Test]
+        public void Update_GivenUserIsNotNearArMarkers_NoArMarkersAreShown()
+        {
+            Repositories.MarkerRepository.Save(new[] {new Marker("north", 11, 0)});
+                        _markerBehaviour.Start();
+                        _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
+            
+                        _markerBehaviour.Update();
+            
+                        var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
+            
+                        Assert.False(northMarkerGameObject.activeSelf);
+        }
+        
+        [Test]
+        public void Update_GivenUserIsNearArMarkers_ArMarkersAreShown()
+        {
+            Repositories.MarkerRepository.Save(new[] {new Marker("north", 4, 0)});
+            _markerBehaviour.Start();
+            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
+            
+            _markerBehaviour.Update();
+            
+            var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
+            
+            Assert.True(northMarkerGameObject.activeSelf);
+        }
+        
+        [Test]
+        public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
+        {
+            Repositories.MarkerRepository.Save(new[] {new Marker("north", 10, 0)});
+            _markerBehaviour.Start();
+            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
+            _markerBehaviour.Update();
+            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(6, 0, 0);
+            
+            _markerBehaviour.Update();
+            
+            var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
+            
+            Assert.True(northMarkerGameObject.activeSelf);
+        }
     }
 }
