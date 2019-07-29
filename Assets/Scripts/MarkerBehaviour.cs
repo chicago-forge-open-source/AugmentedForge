@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class MarkerBehaviour : MonoBehaviour
 {
@@ -43,6 +42,20 @@ public class MarkerBehaviour : MonoBehaviour
             RotateMarkerToFaceCamera(arMarker);
 
             HideMarkersBasedOnDistanceFromCamera(arMarker, currentCameraPosition);
+        }
+
+
+        if (Input.touchCount <= 0) return;
+
+        Touch touch = Input.GetTouch(0);
+        if (touch.phase != TouchPhase.Began) return;
+
+        var touchPosition = ArCameraComponent.GetComponent<Camera>().ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(touchPosition, out var hitObject))
+        {
+            Debug.Log("HIT " + hitObject.transform.name);
+            Debug.Log(ArMarkers.First(marker => marker.name.Equals(hitObject.transform.name)));
         }
     }
 

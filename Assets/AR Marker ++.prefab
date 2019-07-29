@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2304649514825306059}
+  - component: {fileID: 8813076453230094775}
   m_Layer: 0
   m_Name: AR Marker ++
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8813076453230094775
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2304649514825306058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6426086, y: 3.172234, z: 0.45599145}
+  m_Center: {x: 0.524709, y: 1.0851197, z: 0.006386429}
 --- !u!1001 &2304649513473927905
 PrefabInstance:
   m_ObjectHideFlags: 0
