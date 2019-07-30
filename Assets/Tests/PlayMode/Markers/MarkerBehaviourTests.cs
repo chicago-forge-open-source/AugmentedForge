@@ -47,13 +47,13 @@ namespace Assets.Tests.PlayMode.Markers
 
         private static void AssertGameObjectCreatedCorrectly(Marker testMarker)
         {
-            var marker = GameObject.Find(testMarker.Label);
+            var marker = GameObject.Find(testMarker.label);
             var text = marker.GetComponentInChildren<Text>().text;
             var position = marker.transform.position;
         
-            Assert.AreEqual(testMarker.Label, text);
-            Assert.AreEqual(testMarker.X, position.x);
-            Assert.AreEqual(testMarker.Z, position.z);
+            Assert.AreEqual(testMarker.label, text);
+            Assert.AreEqual(testMarker.x, position.x);
+            Assert.AreEqual(testMarker.z, position.z);
         }
     }
 }

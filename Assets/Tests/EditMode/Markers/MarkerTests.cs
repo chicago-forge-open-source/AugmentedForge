@@ -14,10 +14,9 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void TestConstruction()
         {
-            Assert.AreEqual("Test Marker",Marker.Label);
-            Assert.AreEqual(0f,Marker.X);
-            Assert.AreEqual(1f,Marker.Z);
-            Assert.AreEqual(false, Marker.Active);
+            Assert.AreEqual("Test Marker",Marker.label);
+            Assert.AreEqual(0f,Marker.x);
+            Assert.AreEqual(1f,Marker.z);
         }
     }
 }
