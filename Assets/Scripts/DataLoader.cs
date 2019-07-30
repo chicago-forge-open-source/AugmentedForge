@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Assets.Scripts.Markers;
 
-public static class DataLoader
+namespace Assets.Scripts
 {
-    public static void DataLoad()
+    public static class DataLoader
     {
-        var markers = LoadMarkers();
-        Repositories.MarkerRepository.Save(markers);
-    }
+        public static void DataLoad()
+        {
+            var markers = LoadMarkers();
+            Repositories.MarkerRepository.Save(markers);
+        }
 
     private static Marker[] LoadMarkers()
     {

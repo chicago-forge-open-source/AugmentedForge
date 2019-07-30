@@ -1,4 +1,7 @@
-﻿public static class Repositories
+﻿namespace Assets.Scripts
 {
-    public static readonly InMemoryMarkerRepository MarkerRepository = new InMemoryMarkerRepository();
+    public static class Repositories
+    {
+        public static readonly InMemoryMarkerRepository MarkerRepository = new InMemoryMarkerRepository();
+    }
 }

@@ -1,57 +1,60 @@
 using System.Collections;
-using AugmentedForge;
+using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class AppInitPlayTests
+namespace Assets.Tests.PlayMode
 {
-    private InitializeThings _initScript;
+    public class AppInitPlayTests
+    {
+        private InitializeThings _initScript;
     
-    private IEnumerator SetupScene()
-    {
-        SceneManager.LoadScene("InitScene");
-        yield return null;
+        private IEnumerator SetupScene()
+        {
+            SceneManager.LoadScene("InitScene");
+            yield return null;
 
-        var camera = GameObject.Find("Main Camera");
-        _initScript = camera.GetComponent<InitializeThings>();
-        _initScript.Compass = new MockCompass();
-    }
+            var camera = GameObject.Find("Main Camera");
+            _initScript = camera.GetComponent<InitializeThings>();
+            _initScript.Compass = new MockCompass();
+        }
     
-    [UnityTest]
-    public IEnumerator GivenChicagoForgeButtonClickLoadARViewForChicago()
-    {
-        yield return SetupScene();
+        [UnityTest]
+        public IEnumerator GivenChicagoForgeButtonClickLoadARViewForChicago()
+        {
+            yield return SetupScene();
 
-        _initScript.OnClick_LoadLocationARView("Chicago");
+            _initScript.OnClick_LoadLocationARView("Chicago");
 
-        yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
 
-        var location = PlayerPrefs.GetString("location");
+            var location = PlayerPrefs.GetString("location");
         
-        Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
-        Assert.AreEqual("Chicago", location);
+            Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+            Assert.AreEqual("Chicago", location);
+        }
+
+        [UnityTest]
+        public IEnumerator GivenIowaForgeButtonClickLoadARViewForIowa()
+        {
+            yield return SetupScene();
+
+            _initScript.OnClick_LoadLocationARView("Iowa");
+
+            yield return new WaitForSeconds(0.1f);
+        
+            var location = PlayerPrefs.GetString("location");
+
+            Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+            Assert.AreEqual("Iowa", location);
+        }
     }
 
-    [UnityTest]
-    public IEnumerator GivenIowaForgeButtonClickLoadARViewForIowa()
+    internal class MockCompass : ICompass
     {
-        yield return SetupScene();
-
-        _initScript.OnClick_LoadLocationARView("Iowa");
-
-        yield return new WaitForSeconds(0.1f);
-        
-        var location = PlayerPrefs.GetString("location");
-
-        Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
-        Assert.AreEqual("Iowa", location);
+        public bool IsEnabled => true;
+        public float TrueHeading { get; set; } = 100f;
     }
-}
-
-internal class MockCompass : ICompass
-{
-    public bool IsEnabled => true;
-    public float TrueHeading { get; set; } = 100f;
 }

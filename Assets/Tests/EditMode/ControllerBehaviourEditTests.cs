@@ -1,12 +1,13 @@
 ﻿using System.Linq;
-using AugmentedForge;
+using Assets.Scripts;
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
-namespace Tests.EditMode
+namespace Assets.Tests.EditMode
 {
     public class ControllerBehaviourEditTests
     {

@@ -1,20 +1,25 @@
-﻿public class InMemoryMarkerRepository : IMarkerRepository
+﻿using Assets.Scripts.Markers;
+
+namespace Assets.Scripts
 {
-    private Marker[] _markers;
-
-    public InMemoryMarkerRepository()
+    public class InMemoryMarkerRepository : IMarkerRepository
     {
-        _markers = new Marker[0];
-    }
+        private Marker[] _markers;
 
-    public Marker[] Get()
-    {
-        return _markers;
-    }
+        public InMemoryMarkerRepository()
+        {
+            _markers = new Marker[0];
+        }
 
-    public void Save(Marker[] markers)
-    {
-        _markers = new Marker[markers.Length];
-        _markers = markers;
+        public Marker[] Get()
+        {
+            return _markers;
+        }
+
+        public void Save(Marker[] markers)
+        {
+            _markers = new Marker[markers.Length];
+            _markers = markers;
+        }
     }
 }

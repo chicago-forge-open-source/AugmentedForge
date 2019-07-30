@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Tests.PlayMode
+namespace Assets.Tests.PlayMode
 {
     public class ArViewPlayTests
     {

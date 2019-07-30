@@ -1,11 +1,13 @@
 using System.Collections;
+using Assets.Scripts;
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-namespace Tests.PlayMode
+namespace Assets.Tests.PlayMode.Markers
 {
     public class MarkerBehaviourTests
     {
