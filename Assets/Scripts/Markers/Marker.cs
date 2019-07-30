@@ -2,21 +2,18 @@
 {
     public class Marker
     {
-        private string _label;
-        private float _x;
-        private float _z;
-    
+        public string Label { get; }
+        public float X { get; }
+        public float Z { get; }
+        
+        public bool Active { get; set; }
+        
         public Marker(string label, float x, float z)
         {
-            _label = label;
-            _x = x;
-            _z = z;
+            Label = label;
+            X = x;
+            Z = z;
+            Active = false;
         }
-    
-        public string label => _label;
-
-        public float x => _x;
-
-        public float z => _z;
     }
 }
