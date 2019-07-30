@@ -31,7 +31,7 @@ namespace Assets.Tests.EditMode
         public void Update_PanIsInitiallyDisabled()
         {
             var touch = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
-            _gesturesScript.input = new MockInput(new List<Touch> {touch});
+            _gesturesScript.InputHandler = new MockInputHandler(new List<Touch> {touch});
 
             _gesturesScript.Update();
 
@@ -46,7 +46,7 @@ namespace Assets.Tests.EditMode
         {
             var touch1 = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
             var touch2 = new Touch {position = new Vector2(6, 6), deltaPosition = new Vector2(4, 4)};
-            _gesturesScript.input = new MockInput(new List<Touch> {touch1, touch2});
+            _gesturesScript.InputHandler = new MockInputHandler(new List<Touch> {touch1, touch2});
 
             _gesturesScript.Update();
 
@@ -58,7 +58,7 @@ namespace Assets.Tests.EditMode
         {
             var cameraZoom = _camera.fieldOfView;
             var touch = new Touch {position = new Vector2(0, 1), deltaPosition = new Vector2(2, 4)};
-            _gesturesScript.input = new MockInput(new List<Touch> {touch});
+            _gesturesScript.InputHandler = new MockInputHandler(new List<Touch> {touch});
 
             _gesturesScript.enabled = true;
             _gesturesScript.Update();
@@ -71,7 +71,7 @@ namespace Assets.Tests.EditMode
         {
             var touch1 = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
             var touch2 = new Touch {position = new Vector2(6, 6), deltaPosition = new Vector2(4, 4)};
-            _gesturesScript.input = new MockInput(new List<Touch> {touch1, touch2});
+            _gesturesScript.InputHandler = new MockInputHandler(new List<Touch> {touch1, touch2});
 
             _gesturesScript.enabled = true;
             _gesturesScript.Update();
@@ -83,7 +83,7 @@ namespace Assets.Tests.EditMode
         public void Update_OneTouchWillChangeTheCameraPosition()
         {
             var touch = new Touch {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2)};
-            _gesturesScript.input = new MockInput(new List<Touch> {touch});
+            _gesturesScript.InputHandler = new MockInputHandler(new List<Touch> {touch});
 
             _gesturesScript.enabled = true;
             _gesturesScript.Update();
@@ -91,23 +91,6 @@ namespace Assets.Tests.EditMode
             var position = _camera.transform.position;
             Assert.AreEqual(-0.200000003f, position.x);
             Assert.AreEqual(-0.200000003f, position.y);
-        }
-    }
-
-    internal class MockInput : IInput
-    {
-        private readonly List<Touch> _touches;
-
-        public MockInput(List<Touch> touches)
-        {
-            _touches = touches;
-        }
-
-        public int TouchCount => _touches.Count;
-
-        public Touch GetTouch(int index)
-        {
-            return _touches[index];
         }
     }
 }

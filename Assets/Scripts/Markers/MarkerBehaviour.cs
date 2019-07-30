@@ -51,9 +51,9 @@ namespace Assets.Scripts.Markers
         private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
         {
             var clonedArMarker = Instantiate(prefab);
-            clonedArMarker.name = marker.label;
-            clonedArMarker.transform.position = new Vector3(marker.x, 0, marker.z);
-            clonedArMarker.GetComponentInChildren<Text>().text = marker.label;
+            clonedArMarker.name = marker.Label;
+            clonedArMarker.transform.position = new Vector3(marker.X, 0, marker.Z);
+            clonedArMarker.GetComponentInChildren<Text>().text = marker.Label;
             markers.Add(clonedArMarker);
             return clonedArMarker;
         }
