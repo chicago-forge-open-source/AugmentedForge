@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public interface IInput
+    public interface InputHandler
     {
         int TouchCount { get; }
 
