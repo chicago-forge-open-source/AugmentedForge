@@ -1,11 +1,11 @@
 using System.Linq;
 using Assets.Scripts;
-using Assets.Scripts.Marker;
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Tests.EditMode.Marker
+namespace Assets.Tests.EditMode.Markers
 {
     public class MarkerBehaviourEditTests
     {
@@ -28,7 +28,7 @@ namespace Assets.Tests.EditMode.Marker
         public void Start_MarkersAreDuplicatedAcrossLists()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new global::Assets.Scripts.Marker.Marker("north", 1, 0), new global::Assets.Scripts.Marker.Marker("west", 0, 1)}
+                new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
             );
 
             _markerBehaviour.Start();
@@ -41,7 +41,7 @@ namespace Assets.Tests.EditMode.Marker
         public void Update_MarkerBehaviorsIsConnectedCorrectly()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new global::Assets.Scripts.Marker.Marker("north", 1, 0), new global::Assets.Scripts.Marker.Marker("west", 0, 1)}
+                new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
             );
 
             _markerBehaviour.Start();

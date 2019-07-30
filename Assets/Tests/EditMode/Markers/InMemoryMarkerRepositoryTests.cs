@@ -1,7 +1,8 @@
 using Assets.Scripts;
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 
-namespace Assets.Tests.EditMode.Marker
+namespace Assets.Tests.EditMode.Markers
 {
     public class InMemoryMarkerRepositoryTests
     {
@@ -10,10 +11,10 @@ namespace Assets.Tests.EditMode.Marker
         {
             var markerRepo = new InMemoryMarkerRepository();
 
-            global::Assets.Scripts.Marker.Marker[] markerList =
+            Marker[] markerList =
             {
-                new global::Assets.Scripts.Marker.Marker("Marker1", 0, 0),
-                new global::Assets.Scripts.Marker.Marker("Marker2", 1, 1)
+                new Marker("Marker1", 0, 0),
+                new Marker("Marker2", 1, 1)
             };
 
             markerRepo.Save(markerList);

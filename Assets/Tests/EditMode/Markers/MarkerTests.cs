@@ -1,10 +1,11 @@
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 
-namespace Assets.Tests.EditMode.Marker
+namespace Assets.Tests.EditMode.Markers
 {
     public class MarkerTests
     {
-        public global::Assets.Scripts.Marker.Marker Marker = new global::Assets.Scripts.Marker.Marker(
+        public Marker Marker = new Marker(
             "Test Marker",
             0f,
             1f

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Marker
+﻿namespace Assets.Scripts.Markers
 {
     public class Marker
     {

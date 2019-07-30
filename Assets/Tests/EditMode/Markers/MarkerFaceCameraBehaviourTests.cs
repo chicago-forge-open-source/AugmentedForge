@@ -1,9 +1,9 @@
-using Assets.Scripts.Marker;
+using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 
-namespace Assets.Tests.EditMode.Marker
+namespace Assets.Tests.EditMode.Markers
 {
     public class MarkerFaceCameraBehaviourTests
     {

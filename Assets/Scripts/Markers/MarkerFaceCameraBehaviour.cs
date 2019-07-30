@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Marker
+namespace Assets.Scripts.Markers
 {
     public class MarkerFaceCameraBehaviour : MonoBehaviour
     {
