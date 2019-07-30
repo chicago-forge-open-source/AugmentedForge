@@ -1,3 +1,5 @@
+using Assets.Scripts.Markers;
+using Assets.Scripts.Roads;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -8,27 +10,20 @@ public class YellowBrickRoadEditTests
     {
         var yellowBrick = new GameObject();
         var script = yellowBrick.AddComponent<YellowBrickRoad>();
-        var road = yellowBrick.AddComponent<LineRenderer>();
-        script.Start();
 
-        var start = NewGameObjectWithPosition(new Vector3(30f, 0, -2));
-        var corner1 = NewGameObjectWithPosition(new Vector3(24, 0, -3));
-        var corner2 = NewGameObjectWithPosition(new Vector3(20f, 0, -3.5f));
-        var end = NewGameObjectWithPosition(new Vector3(10f, 0, -4));
+        var start = new RoadPoint(0, new Marker("Start", 30f, -2));
+        var corner1 = new RoadPoint(1, new Marker("Corner 1", 24, -3));
+        var corner2 = new RoadPoint(2, new Marker("Corner 2", 20f, -3.5f));
+        var end = new RoadPoint(3, new Marker("End", 10f, -4));
 
-        script.SetPath(new[] {start, corner1, corner2, end});
-        
+        // ReSharper disable once MustUseReturnValue
+        script.PathToDraw(new[] {start, corner1, corner2, end});
+        var road = yellowBrick.GetComponent<LineRenderer>();
+
         Assert.AreEqual(4, road.positionCount);
-        Assert.AreEqual(start.transform.position, road.GetPosition(0));
-        Assert.AreEqual(corner1.transform.position, road.GetPosition(1));
-        Assert.AreEqual(corner2.transform.position, road.GetPosition(2));
-        Assert.AreEqual(end.transform.position, road.GetPosition(3));
-    }
-
-    private static GameObject NewGameObjectWithPosition(Vector3 position)
-    {
-        var obj = new GameObject();
-        obj.transform.position = position;
-        return obj;
+        Assert.AreEqual(start.Vector, road.GetPosition(0));
+        Assert.AreEqual(corner1.Vector, road.GetPosition(1));
+        Assert.AreEqual(corner2.Vector, road.GetPosition(2));
+        Assert.AreEqual(end.Vector, road.GetPosition(3));
     }
 }

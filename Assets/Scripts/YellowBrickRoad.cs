@@ -1,21 +1,36 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Roads;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class YellowBrickRoad : MonoBehaviour
 {
-    private LineRenderer _road;
+    public Material material;
 
-    public void Start()
+    private LineRenderer NewRoad()
     {
-        _road = gameObject.GetComponent<LineRenderer>();
+        var road = gameObject.AddComponent<LineRenderer>();
+        road.startWidth = 0.5f;
+        road.endWidth = 0.5f;
+        road.startColor = Color.yellow;
+        road.endColor = Color.yellow;
+        road.material = material;
+
+        return road;
     }
 
-    public void SetPath(GameObject[] vertices)
+    public void PathToDraw(IEnumerable<RoadPoint> vertices)
     {
-        _road.positionCount = vertices.Length;
-        for (var i = 0; i < vertices.Length; i++)
+        var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
+        if (safeVertices.Length == 0) return;
+
+        var road = NewRoad();
+        road.positionCount = safeVertices.Length;
+        foreach (var vertex in safeVertices)
         {
-            _road.SetPosition(i, vertices[i].transform.position);
+            road.SetPosition(vertex.Position, vertex.Vector);
         }
     }
 }
