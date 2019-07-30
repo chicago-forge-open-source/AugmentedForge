@@ -2,8 +2,8 @@
 {
     public interface IMarkerRepository
     {
-        global::Marker[] Get();
+        global::Assets.Scripts.Marker.Marker[] Get();
 
-        void Save(global::Marker[] markers);
+        void Save(global::Assets.Scripts.Marker.Marker[] markers);
     }
 }

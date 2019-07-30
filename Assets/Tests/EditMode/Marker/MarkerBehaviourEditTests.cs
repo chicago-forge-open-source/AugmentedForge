@@ -1,4 +1,5 @@
 using System.Linq;
+using Assets.Scripts;
 using Assets.Scripts.Marker;
 using NUnit.Framework;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace Assets.Tests.EditMode.Marker
         public void Start_MarkersAreDuplicatedAcrossLists()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new global::Marker("north", 1, 0), new global::Marker("west", 0, 1)}
+                new[] {new global::Assets.Scripts.Marker.Marker("north", 1, 0), new global::Assets.Scripts.Marker.Marker("west", 0, 1)}
             );
 
             _markerBehaviour.Start();
@@ -40,7 +41,7 @@ namespace Assets.Tests.EditMode.Marker
         public void Update_MarkerBehaviorsIsConnectedCorrectly()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new global::Marker("north", 1, 0), new global::Marker("west", 0, 1)}
+                new[] {new global::Assets.Scripts.Marker.Marker("north", 1, 0), new global::Assets.Scripts.Marker.Marker("west", 0, 1)}
             );
 
             _markerBehaviour.Start();

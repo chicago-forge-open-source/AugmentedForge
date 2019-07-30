@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AugmentedForge
+namespace Assets.Scripts
 {
     public interface IInput
     {

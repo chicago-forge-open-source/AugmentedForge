@@ -1,9 +1,8 @@
-using Assets.Scripts;
 using Assets.Scripts.Marker;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-namespace AugmentedForge
+namespace Assets.Scripts
 {
     public class ControllerBehaviour : MonoBehaviour
     {

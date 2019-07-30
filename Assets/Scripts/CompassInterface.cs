@@ -1,4 +1,4 @@
-namespace AugmentedForge
+namespace Assets.Scripts
 {
     public interface ICompass
     {

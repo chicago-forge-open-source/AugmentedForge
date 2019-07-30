@@ -4,7 +4,7 @@ namespace Assets.Tests.EditMode.Marker
 {
     public class MarkerTests
     {
-        public global::Marker Marker = new global::Marker(
+        public global::Assets.Scripts.Marker.Marker Marker = new global::Assets.Scripts.Marker.Marker(
             "Test Marker",
             0f,
             1f

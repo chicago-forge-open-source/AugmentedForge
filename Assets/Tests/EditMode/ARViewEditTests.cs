@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Assets.Scripts;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;

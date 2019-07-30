@@ -27,12 +27,12 @@ namespace Assets.Scripts.Marker
             }
         }
 
-        private void MakeMapMarkerGameObject(global::Marker marker)
+        private void MakeMapMarkerGameObject(global::Assets.Scripts.Marker.Marker marker)
         {
             CloneMarker(marker, MapMarkerPrefab, MapMarkers);
         }
 
-        private void MakeArMarkerGameObject(global::Marker marker)
+        private void MakeArMarkerGameObject(global::Assets.Scripts.Marker.Marker marker)
         {
             var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
             AddMarkerDistanceBehaviour(arMarker);
@@ -51,7 +51,7 @@ namespace Assets.Scripts.Marker
             behaviour.ArCameraGameObject = ArCameraGameObject;
         }
 
-        private GameObject CloneMarker(global::Marker marker, GameObject prefab, List<GameObject> markers)
+        private GameObject CloneMarker(global::Assets.Scripts.Marker.Marker marker, GameObject prefab, List<GameObject> markers)
         {
             var clonedArMarker = Instantiate(prefab);
             clonedArMarker.name = marker.label;
