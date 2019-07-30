@@ -13,8 +13,6 @@ namespace Assets.Scripts.Marker
 
         private void RotateMarkerToFaceCamera(GameObject arMarker)
         {
-            Debug.Log("Camera");
-            Debug.Log(ArCameraGameObject);
             arMarker.transform.LookAt(ArCameraGameObject.transform);
 
             var newRotation = arMarker.transform.rotation.eulerAngles;
