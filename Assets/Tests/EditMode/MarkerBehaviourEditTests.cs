@@ -1,5 +1,6 @@
 using System.Linq;
 using Assets.Scripts;
+using Assets.Scripts.Marker;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;

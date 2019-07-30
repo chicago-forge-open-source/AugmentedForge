@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Marker
 {
     public class MarkerBehaviour : MonoBehaviour
     {
@@ -27,12 +27,12 @@ namespace Assets.Scripts
             }
         }
 
-        private void MakeMapMarkerGameObject(Marker marker)
+        private void MakeMapMarkerGameObject(global::Marker marker)
         {
             CloneMarker(marker, MapMarkerPrefab, MapMarkers);
         }
 
-        private void MakeArMarkerGameObject(Marker marker)
+        private void MakeArMarkerGameObject(global::Marker marker)
         {
             var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
             AddMarkerDistanceBehaviour(arMarker);
@@ -51,7 +51,7 @@ namespace Assets.Scripts
             behaviour.ArCameraGameObject = ArCameraGameObject;
         }
 
-        private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
+        private GameObject CloneMarker(global::Marker marker, GameObject prefab, List<GameObject> markers)
         {
             var clonedArMarker = Instantiate(prefab);
             clonedArMarker.name = marker.label;

@@ -1,4 +1,6 @@
-﻿public class InMemoryMarkerRepository : IMarkerRepository
+﻿using Assets.Scripts.Marker;
+
+public class InMemoryMarkerRepository : IMarkerRepository
 {
     private Marker[] _markers;
 

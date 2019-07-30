@@ -1,5 +1,6 @@
 using System.Collections;
 using Assets.Scripts;
+using Assets.Scripts.Marker;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
