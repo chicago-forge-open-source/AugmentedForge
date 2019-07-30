@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Assets.Scripts;
 using Assets.Scripts.Marker;
 using AugmentedForge;
 using NUnit.Framework;
@@ -8,7 +7,7 @@ using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
-namespace Tests.EditMode
+namespace Assets.Tests.EditMode
 {
     public class ControllerBehaviourEditTests
     {

@@ -1,12 +1,11 @@
 using System.Linq;
-using Assets.Scripts;
 using Assets.Scripts.Marker;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 
-namespace Tests.EditMode
+namespace Assets.Tests.EditMode.Marker
 {
     public class MarkerBehaviourEditTests
     {
@@ -31,7 +30,7 @@ namespace Tests.EditMode
         public void Start_MarkersAreDuplicatedAcrossLists()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
+                new[] {new global::Marker("north", 1, 0), new global::Marker("west", 0, 1)}
             );
 
             _markerBehaviour.Start();
@@ -44,7 +43,7 @@ namespace Tests.EditMode
         public void Update_GivenTheModelFacesEastNaturally_RotateArMarkersToFaceArCameraLocation()
         {
             Repositories.MarkerRepository.Save(
-                new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
+                new[] {new global::Marker("north", 1, 0), new global::Marker("west", 0, 1)}
             );
             _markerBehaviour.Start();
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
@@ -78,7 +77,7 @@ namespace Tests.EditMode
         [Test]
         public void Update_ArMarkersDoNotChangeRotationOnXOrZAxises()
         {
-            Repositories.MarkerRepository.Save(new[] {new Marker("north", 1, 0)});
+            Repositories.MarkerRepository.Save(new[] {new global::Marker("north", 1, 0)});
             _markerBehaviour.Start();
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 100, 0);
 
@@ -95,7 +94,7 @@ namespace Tests.EditMode
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_NoArMarkersAreShown()
         {
-            Repositories.MarkerRepository.Save(new[] {new Marker("north", 11, 0)});
+            Repositories.MarkerRepository.Save(new[] {new global::Marker("north", 11, 0)});
             _markerBehaviour.Start();
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
@@ -110,7 +109,7 @@ namespace Tests.EditMode
         [Test]
         public void Update_GivenUserIsNearArMarkers_ArMarkersAreShown()
         {
-            Repositories.MarkerRepository.Save(new[] {new Marker("north", 4, 0)});
+            Repositories.MarkerRepository.Save(new[] {new global::Marker("north", 4, 0)});
             _markerBehaviour.Start();
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
@@ -125,7 +124,7 @@ namespace Tests.EditMode
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
         {
-            Repositories.MarkerRepository.Save(new[] {new Marker("north", 10, 0)});
+            Repositories.MarkerRepository.Save(new[] {new global::Marker("north", 10, 0)});
             _markerBehaviour.Start();
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
             _markerBehaviour.Update();
