@@ -3,7 +3,6 @@ using System.Collections;
 using AugmentedForge;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.ARFoundation;
 using static Helpers;
 
 public class ARView : MonoBehaviour

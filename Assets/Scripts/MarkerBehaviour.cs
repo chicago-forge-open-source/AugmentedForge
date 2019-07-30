@@ -3,75 +3,78 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MarkerBehaviour : MonoBehaviour
+namespace Assets.Scripts
 {
-    public GameObject ArMarkerPrefab;
-    public GameObject ArCameraComponent;
-    public GameObject MapMarkerPrefab;
-    
-    public List<GameObject> ArMarkers { get; } = new List<GameObject>();
-    public List<GameObject> MapMarkers { get; } = new List<GameObject>();
-
-    private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
-    private static readonly int DistanceToHideArMarkers = 10;
-
-    public void Start()
+    public class MarkerBehaviour : MonoBehaviour
     {
-        var markers = Repositories.MarkerRepository.Get();
-        foreach (var marker in markers)
+        public GameObject ArMarkerPrefab;
+        public GameObject ArCameraGameObject;
+        public GameObject MapMarkerPrefab;
+
+        public List<GameObject> ArMarkers { get; } = new List<GameObject>();
+        public List<GameObject> MapMarkers { get; } = new List<GameObject>();
+
+        private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
+
+
+        public void Start()
         {
-            CloneMarker(marker, ArMarkerPrefab, ArMarkers);
+            var markers = Repositories.MarkerRepository.Get();
+            foreach (var marker in markers)
+            {
+                MakeArMarkerGameObject(marker);
+                MakeMapMarkerGameObject(marker);
+            }
+        }
+
+        private void MakeMapMarkerGameObject(Marker marker)
+        {
             CloneMarker(marker, MapMarkerPrefab, MapMarkers);
         }
-    }
 
-    private void CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
-    {
-        var clonedArMarker = Instantiate(prefab);
-        clonedArMarker.name = marker.label;
-        clonedArMarker.transform.position = new Vector3(marker.x, 0, marker.z);
-        clonedArMarker.GetComponentInChildren<Text>().text = marker.label;
-        markers.Add(clonedArMarker);
-    }
-
-    public void Update()
-    {
-        var currentCameraPosition = ArCameraComponent.transform.position;
-        foreach (var arMarker in ArMarkers)
+        private void MakeArMarkerGameObject(Marker marker)
         {
-            RotateMarkerToFaceCamera(arMarker);
-
-            HideMarkersBasedOnDistanceFromCamera(arMarker, currentCameraPosition);
+            var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
+            AddMarkerDistanceBehaviour(arMarker);
+            AddMarkerFaceCameraBehaviour(arMarker);
         }
 
-
-        if (Input.touchCount <= 0) return;
-
-        Touch touch = Input.GetTouch(0);
-        if (touch.phase != TouchPhase.Began) return;
-
-        var touchPosition = ArCameraComponent.GetComponent<Camera>().ScreenPointToRay(touch.position);
-
-        if (Physics.Raycast(touchPosition, out var hitObject))
+        private void AddMarkerDistanceBehaviour(GameObject arMarker)
         {
-            Debug.Log("HIT " + hitObject.transform.name);
-            Debug.Log(ArMarkers.First(marker => marker.name.Equals(hitObject.transform.name)));
+            var behaviour = arMarker.AddComponent<MarkerDistanceBehaviour>();
+            behaviour.ArCameraGameObject = ArCameraGameObject;
         }
-    }
 
-    private void HideMarkersBasedOnDistanceFromCamera(GameObject arMarker, Vector3 currentCameraPosition)
-    {
-        var distanceFromCameraToMarker = Vector3.Distance(currentCameraPosition, arMarker.transform.position);
-        arMarker.SetActive(distanceFromCameraToMarker < DistanceToHideArMarkers);
-    }
+        private void AddMarkerFaceCameraBehaviour(GameObject arMarker)
+        {
+            var behaviour = arMarker.AddComponent<MarkerFaceCameraBehaviour>();
+            behaviour.ArCameraGameObject = ArCameraGameObject;
+        }
 
-    private void RotateMarkerToFaceCamera(GameObject arMarker)
-    {
-        arMarker.transform.LookAt(ArCameraComponent.transform);
+        private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
+        {
+            var clonedArMarker = Instantiate(prefab);
+            clonedArMarker.name = marker.label;
+            clonedArMarker.transform.position = new Vector3(marker.x, 0, marker.z);
+            clonedArMarker.GetComponentInChildren<Text>().text = marker.label;
+            markers.Add(clonedArMarker);
+            return clonedArMarker;
+        }
 
-        var newRotation = arMarker.transform.rotation.eulerAngles;
-        newRotation.x = 0;
-        newRotation.z = 0;
-        arMarker.transform.rotation = Quaternion.Euler(newRotation);
+        public void Update()
+        {
+            if (Input.touchCount <= 0) return;
+
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase != TouchPhase.Began) return;
+
+            var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
+
+            if (Physics.Raycast(touchPosition, out var hitObject))
+            {
+                Debug.Log("HIT " + hitObject.transform.name);
+                Debug.Log(ArMarkers.First(marker => marker.name.Equals(hitObject.transform.name)));
+            }
+        }
     }
 }

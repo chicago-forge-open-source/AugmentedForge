@@ -1024,7 +1024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArMarkerPrefab: {fileID: 2304649514825306058, guid: 24e842e1597b04e0db6325d93c1742af,
     type: 3}
-  ArCameraComponent: {fileID: 165585583}
+  ArCameraGameObject: {fileID: 165585583}
   MapMarkerPrefab: {fileID: 1032929131923002300, guid: d311264fc7cea4263a9998488a96f87a,
     type: 3}
 --- !u!114 &543973078

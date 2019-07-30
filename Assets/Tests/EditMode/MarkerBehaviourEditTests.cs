@@ -1,4 +1,5 @@
 using System.Linq;
+using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
@@ -18,7 +19,7 @@ namespace Tests.EditMode
         {
             _game = new GameObject();
             _markerBehaviour = _game.AddComponent<MarkerBehaviour>();
-            _markerBehaviour.ArCameraComponent = new GameObject();
+            _markerBehaviour.ArCameraGameObject = new GameObject();
             _markerBehaviour.ArMarkerPrefab = new GameObject();
             _markerBehaviour.ArMarkerPrefab.AddComponent<Text>();
             _markerBehaviour.MapMarkerPrefab = new GameObject();
@@ -45,9 +46,10 @@ namespace Tests.EditMode
                 new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
             );
             _markerBehaviour.Start();
-            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
             _markerBehaviour.Update();
+            UpdateMarkerBehaviours();
 
             var westMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("west"));
 
@@ -64,14 +66,23 @@ namespace Tests.EditMode
             );
         }
 
+        private void UpdateMarkerBehaviours()
+        {
+            _markerBehaviour.ArMarkers.ForEach(gameObject =>
+                gameObject.GetComponent<MarkerFaceCameraBehaviour>().Update());
+            _markerBehaviour.ArMarkers.ForEach(gameObject =>
+                gameObject.GetComponent<MarkerDistanceBehaviour>().Update());
+        }
+        
         [Test]
         public void Update_ArMarkersDoNotChangeRotationOnXOrZAxises()
         {
             Repositories.MarkerRepository.Save(new[] {new Marker("north", 1, 0)});
             _markerBehaviour.Start();
-            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 100, 0);
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 100, 0);
 
             _markerBehaviour.Update();
+            UpdateMarkerBehaviours();
 
             var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
 
@@ -84,43 +95,46 @@ namespace Tests.EditMode
         public void Update_GivenUserIsNotNearArMarkers_NoArMarkersAreShown()
         {
             Repositories.MarkerRepository.Save(new[] {new Marker("north", 11, 0)});
-                        _markerBehaviour.Start();
-                        _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
-            
-                        _markerBehaviour.Update();
-            
-                        var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
-            
-                        Assert.False(northMarkerGameObject.activeSelf);
+            _markerBehaviour.Start();
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
+
+            _markerBehaviour.Update();
+            UpdateMarkerBehaviours();
+
+            var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
+
+            Assert.False(northMarkerGameObject.activeSelf);
         }
-        
+
         [Test]
         public void Update_GivenUserIsNearArMarkers_ArMarkersAreShown()
         {
             Repositories.MarkerRepository.Save(new[] {new Marker("north", 4, 0)});
             _markerBehaviour.Start();
-            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
-            
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
+
             _markerBehaviour.Update();
-            
+            UpdateMarkerBehaviours();
+
             var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
-            
+
             Assert.True(northMarkerGameObject.activeSelf);
         }
-        
+
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
         {
             Repositories.MarkerRepository.Save(new[] {new Marker("north", 10, 0)});
             _markerBehaviour.Start();
-            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(0, 0, 0);
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
             _markerBehaviour.Update();
-            _markerBehaviour.ArCameraComponent.transform.position = new Vector3(6, 0, 0);
-            
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(6, 0, 0);
+
             _markerBehaviour.Update();
-            
+            UpdateMarkerBehaviours();
+
             var northMarkerGameObject = _markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north"));
-            
+
             Assert.True(northMarkerGameObject.activeSelf);
         }
     }

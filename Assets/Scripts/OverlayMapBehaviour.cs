@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using AugmentedForge;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
