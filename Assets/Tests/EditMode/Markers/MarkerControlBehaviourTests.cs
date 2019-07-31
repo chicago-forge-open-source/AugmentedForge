@@ -32,6 +32,9 @@ namespace Assets.Tests.EditMode.Markers
             var markerSpinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
             Assert.IsFalse(markerSpinBehaviour.enabled);
             Assert.AreEqual(_controlBehaviour.Marker, markerSpinBehaviour.Marker);
+            
+            var markerDistanceBehaviour = _markerGameObject.GetComponent<MarkerDistanceBehaviour>();
+            Assert.AreEqual(_controlBehaviour.ArCameraGameObject, markerDistanceBehaviour.ArCameraGameObject);
         }
 
         [Test]

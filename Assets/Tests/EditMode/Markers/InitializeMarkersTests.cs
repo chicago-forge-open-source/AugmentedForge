@@ -48,8 +48,7 @@ namespace Assets.Tests.EditMode.Markers
 
             Assert.DoesNotThrow(() =>
             {
-                _initializeMarkers.Update();
-                UpdateMarkerBehaviours();
+                UpdateMarkerBehaviours2();
             });
         }
 
@@ -59,6 +58,16 @@ namespace Assets.Tests.EditMode.Markers
             {
                 gameObject.GetComponent<MarkerFaceCameraBehaviour>().Update();
                 gameObject.GetComponent<MarkerDistanceBehaviour>().Update();
+            });
+        }
+        
+        private void UpdateMarkerBehaviours2()
+        {
+            _initializeMarkers.ArMarkers.ForEach(gameObject =>
+            {
+                var markerControlBehaviour = gameObject.GetComponent<MarkerControlBehaviour>();
+                markerControlBehaviour.Start();
+                markerControlBehaviour.Update();
             });
         }
     }
