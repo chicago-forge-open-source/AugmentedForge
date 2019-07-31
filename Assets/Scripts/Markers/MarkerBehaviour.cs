@@ -14,6 +14,9 @@ namespace Assets.Scripts.Markers
         public List<GameObject> ArMarkers { get; } = new List<GameObject>();
         public List<GameObject> MapMarkers { get; } = new List<GameObject>();
 
+        private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
+
+
         public void Start()
         {
             var markers = Repositories.MarkerRepository.Get();

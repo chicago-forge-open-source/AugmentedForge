@@ -42,7 +42,7 @@ namespace Assets.Tests.PlayMode
 
             Assert.That(_syncPoint.transform.position, Is.EqualTo(locationMarker.transform.position).Using(comparer));
         }
-
+    
         [UnityTest]
         public IEnumerator OnStartMapSpriteWillLoadIntoOverlayMap()
         {
@@ -51,9 +51,10 @@ namespace Assets.Tests.PlayMode
             var mapScript = map.GetComponent<OverlayMapBehaviour>();
             const string location = "Chicago";
             PlayerPrefs.SetString("location", location);
-
+        
             mapScript.Start();
-
+        
+        
             yield return null;
             var mapSprite = map.GetComponent<SpriteRenderer>().sprite;
 
