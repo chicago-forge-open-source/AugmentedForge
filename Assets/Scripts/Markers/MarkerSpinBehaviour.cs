@@ -7,8 +7,14 @@ namespace Assets.Scripts.Markers
         private const int FramesPerSecond = 30;
         private const int RotationAmountPerFrame = 360 / FramesPerSecond;
         public Marker Marker;
-        public bool RotatedFullCircle = false;
+        public bool RotatedFullCircle;
         public int RotationCount;
+
+        public void OnEnable()
+        {
+            RotatedFullCircle = false;
+            RotationCount = 0;
+        }
 
         public void Update()
         {
@@ -20,14 +26,15 @@ namespace Assets.Scripts.Markers
                 if (RotationCount == FramesPerSecond)
                 {
                     RotatedFullCircle = true;
-                    RotationCount = 0;
                 }
             }
-            else
-            {
-                RotatedFullCircle = false;
-            }
 
+        }
+
+        public void OnDisable()
+        {
+            RotatedFullCircle = false;
+            RotationCount = 0;
         }
     }
 }

@@ -75,7 +75,6 @@ namespace Assets.Tests.EditMode.Markers
                 Is.EqualTo(Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0)).Using(_quaternionComparer)
             );
             Assert.IsTrue(_markerBehaviour.RotatedFullCircle);
-            Assert.AreEqual(0, _markerBehaviour.RotationCount);
         }
     }
 }

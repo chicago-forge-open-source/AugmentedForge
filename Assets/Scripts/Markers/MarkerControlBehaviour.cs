@@ -11,7 +11,9 @@ namespace Assets.Scripts.Markers
 
         public void Start()
         {
-            gameObject.AddComponent<MarkerSpinBehaviour>().enabled = false;
+            var spinBehaviour = gameObject.AddComponent<MarkerSpinBehaviour>();
+            spinBehaviour.enabled = false;
+            spinBehaviour.Marker = Marker;
 
             var faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
             faceCameraBehaviour.ArCameraGameObject = ArCameraGameObject;

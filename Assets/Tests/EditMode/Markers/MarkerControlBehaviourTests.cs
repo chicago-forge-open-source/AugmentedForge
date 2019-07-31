@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Assets.Scripts;
 using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Experimental.XR;
 
 namespace Assets.Tests.EditMode.Markers
 {
@@ -30,7 +28,10 @@ namespace Assets.Tests.EditMode.Markers
             var markerFaceCameraBehaviour = _markerGameObject.GetComponent<MarkerFaceCameraBehaviour>();
             Assert.IsTrue(markerFaceCameraBehaviour.enabled);
             Assert.AreEqual(_controlBehaviour.ArCameraGameObject, markerFaceCameraBehaviour.ArCameraGameObject);
-            Assert.IsFalse(_markerGameObject.GetComponent<MarkerSpinBehaviour>().enabled);
+            
+            var markerSpinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
+            Assert.IsFalse(markerSpinBehaviour.enabled);
+            Assert.AreEqual(_controlBehaviour.Marker, markerSpinBehaviour.Marker);
         }
 
         [Test]
