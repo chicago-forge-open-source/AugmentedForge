@@ -23,7 +23,7 @@ namespace Assets.Scripts.Markers
             {
                 var touch = InputHandler.GetTouch(0);
                 var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
-
+                
                 if (Equals(this, PhysicsHandler.Raycast<MarkerControlBehaviour>(touchPosition)))
                 {
                     Marker.Active = true;
@@ -32,14 +32,29 @@ namespace Assets.Scripts.Markers
             
             if (Marker.Active)
             {
-                GetComponent<MarkerSpinBehaviour>().enabled = true;
-                GetComponent<MarkerFaceCameraBehaviour>().enabled = false;
+                EnableMarkerActiveBehaviors();
+                if (GetComponent<MarkerSpinBehaviour>().RotatedFullCircle)
+                {
+                    Marker.Active = false;
+                    DisableMarkerActiveBehaviors();
+                }
             }
             else
             {
-                GetComponent<MarkerSpinBehaviour>().enabled = false;
+                DisableMarkerActiveBehaviors();
             }
-            
+        }
+
+        private void EnableMarkerActiveBehaviors()
+        {
+            GetComponent<MarkerSpinBehaviour>().enabled = true;
+            GetComponent<MarkerFaceCameraBehaviour>().enabled = false;
+        }
+
+        private void DisableMarkerActiveBehaviors()
+        {
+            GetComponent<MarkerSpinBehaviour>().enabled = false;
+            GetComponent<MarkerFaceCameraBehaviour>().enabled = true;
         }
     }
 }

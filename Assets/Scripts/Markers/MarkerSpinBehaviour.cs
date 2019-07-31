@@ -6,10 +6,28 @@ namespace Assets.Scripts.Markers
     {
         private const int FramesPerSecond = 30;
         private const int RotationAmountPerFrame = 360 / FramesPerSecond;
+        public Marker Marker;
+        public bool RotatedFullCircle = false;
+        public int RotationCount;
 
         public void Update()
         {
-            transform.Rotate(0,RotationAmountPerFrame, 0);
+            if (Marker.Active)
+            {
+                transform.Rotate(0, RotationAmountPerFrame, 0);
+
+                RotationCount++;
+                if (RotationCount == FramesPerSecond)
+                {
+                    RotatedFullCircle = true;
+                    RotationCount = 0;
+                }
+            }
+            else
+            {
+                RotatedFullCircle = false;
+            }
+
         }
     }
 }

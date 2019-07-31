@@ -4,6 +4,7 @@ using Assets.Scripts;
 using Assets.Scripts.Markers;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Experimental.XR;
 
 namespace Assets.Tests.EditMode.Markers
 {
@@ -56,7 +57,7 @@ namespace Assets.Tests.EditMode.Markers
             _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>());
             _controlBehaviour.PhysicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
             _controlBehaviour.Start();
-
+            
             _controlBehaviour.Update();
 
             Assert.IsFalse(_markerGameObject.GetComponent<MarkerSpinBehaviour>().enabled);
@@ -99,6 +100,24 @@ namespace Assets.Tests.EditMode.Markers
             _controlBehaviour.Update();
 
             Assert.IsFalse(_controlBehaviour.Marker.Active);
+        }
+
+        [Test]
+        public void Update_WhenMarkersSpinsAFulLCircleThenMarkerBecomesInactive()
+        {
+            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>());
+            
+            _controlBehaviour.Start();
+            
+            var spinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
+            spinBehaviour.RotatedFullCircle = true;
+            _controlBehaviour.Marker = new Marker("", 0, 0 ) {Active = true};
+
+            _controlBehaviour.Update();
+
+            Assert.IsFalse(_controlBehaviour.Marker.Active);
+            Assert.IsTrue(_markerGameObject.GetComponent<MarkerFaceCameraBehaviour>().enabled);
+            Assert.IsFalse(_markerGameObject.GetComponent<MarkerSpinBehaviour>().enabled);
         }
 
         private static MockPhysicsHandler<MarkerControlBehaviour> PhysicsHandlerReturnsDifferentMarkerDetected()
