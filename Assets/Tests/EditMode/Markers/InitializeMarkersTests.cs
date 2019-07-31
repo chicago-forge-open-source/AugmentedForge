@@ -33,8 +33,8 @@ namespace Assets.Tests.EditMode.Markers
 
             _initializeMarkers.Start();
 
-            Assert.True(_initializeMarkers.ArMarkers.First(marker => marker.name.Equals("north")));
-            Assert.True(_initializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")));
+            Assert.IsTrue(_initializeMarkers.ArMarkers.First(marker => marker.name.Equals("north")));
+            Assert.IsTrue(_initializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")));
         }
 
         [Test]

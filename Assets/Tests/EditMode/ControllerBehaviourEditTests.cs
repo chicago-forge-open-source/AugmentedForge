@@ -193,7 +193,7 @@ namespace Assets.Tests.EditMode
 
             _mapScript.OnClick_MapOnlyToggle();
             _mapScript.OnClick_MapOnlyToggle();
-            Assert.True(_mapScript.ArMapOverlayToggle.activeSelf);
+            Assert.IsTrue(_mapScript.ArMapOverlayToggle.activeSelf);
         }
 
         [Test]

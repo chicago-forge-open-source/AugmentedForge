@@ -20,12 +20,12 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_NoArMarkersAreShown()
         {
-            _markerGameObject.transform.position = new Vector3(11, 0, 0);
+            _markerGameObject.transform.position = new Vector3(16, 0, 0);
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
             _markerBehaviour.Update();
 
-            Assert.False(_markerGameObject.activeSelf);
+            Assert.IsFalse(_markerGameObject.activeSelf);
         }
 
         [Test]
@@ -36,21 +36,22 @@ namespace Assets.Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.True(_markerGameObject.activeSelf);
+            Assert.IsTrue(_markerGameObject.activeSelf);
         }
 
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
         {
-            _markerGameObject.transform.position = new Vector3(10, 0, 0);
+            _markerGameObject.transform.position = new Vector3(16, 0, 0);
 
             _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
             _markerBehaviour.Update();
-            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(6, 0, 0);
+            Assert.IsFalse(_markerGameObject.activeSelf);
 
+            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(6, 0, 0);
             _markerBehaviour.Update();
 
-            Assert.True(_markerGameObject.activeSelf);
+            Assert.IsTrue(_markerGameObject.activeSelf);
         }
     }
 }
