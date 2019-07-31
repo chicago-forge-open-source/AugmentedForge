@@ -24,15 +24,15 @@ namespace Assets.Scripts
 
         public void PathToDraw(IEnumerable<RoadPoint> vertices)
         {
-//            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
-//            if (safeVertices.Length == 0) return;
-//
-//            var road = NewRoad();
-//            road.positionCount = safeVertices.Length;
-//            foreach (var vertex in safeVertices)
-//            {
-//                road.SetPosition(vertex.Position, vertex.Vector);
-//            }
+            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
+            if (safeVertices.Length == 0) return;
+
+            var road = NewRoad();
+            road.positionCount = safeVertices.Length;
+            foreach (var vertex in safeVertices)
+            {
+                road.SetPosition(vertex.Position, vertex.Vector);
+            }
         }
     }
 }
