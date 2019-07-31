@@ -9,9 +9,7 @@ namespace Assets.Scripts.Roads
 
         public void Start()
         {
-            var roads = Repositories.RoadRepository.Get();
-            if (roads == null) return;
-            foreach (var road in roads)
+            foreach (var road in Repositories.RoadRepository.Get())
             {
                 YellowBrickRoad.GetComponent<YellowBrickRoad>().PathToDraw(road.Points);
             }
