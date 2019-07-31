@@ -45,7 +45,7 @@ namespace Assets.Scripts
             road.positionCount = safeVertices.Length;
             foreach (var vertex in safeVertices)
             {
-                road.SetPosition(vertex.Position, vertex.Vector);
+//                road.SetPosition(vertex.Position, vertex.Vector);
             }
         }
     }
