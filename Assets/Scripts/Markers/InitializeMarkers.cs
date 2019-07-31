@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Markers
 {
-    public class MarkerBehaviour : MonoBehaviour
+    public class InitializeMarkers : MonoBehaviour
     {
         public GameObject ArMarkerPrefab;
         public GameObject ArCameraGameObject;
@@ -63,18 +63,7 @@ namespace Assets.Scripts.Markers
 
         public void Update()
         {
-            if (Input.touchCount <= 0) return;
-
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase != TouchPhase.Began) return;
-
-            var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
-
-            if (Physics.Raycast(touchPosition, out var hitObject))
-            {
-                Debug.Log("HIT " + hitObject.transform.name);
-                Debug.Log(ArMarkers.First(marker => marker.name.Equals(hitObject.transform.name)));
-            }
+            
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Assets.Tests.PlayMode.Markers
         {
             SceneManager.LoadScene("ARView");
             yield return null;
-            GameObject.Find("Overlay Map").GetComponent<MarkerBehaviour>();
+            GameObject.Find("Overlay Map").GetComponent<InitializeMarkers>();
         }
 
         [UnityTest]

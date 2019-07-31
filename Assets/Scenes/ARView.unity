@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 543973075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3dde17824c994416b5f5b7d451f134b, type: 3}
+  m_Script: {fileID: 11500000, guid: b9339fae531144348a9207d95a2b2f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ArMarkerPrefab: {fileID: 2304649514825306058, guid: 24e842e1597b04e0db6325d93c1742af,
@@ -1042,7 +1042,7 @@ MonoBehaviour:
   ArCameraComponent: {fileID: 165585583}
   MapCameraComponent: {fileID: 963194225}
   ArMapOverlayToggle: {fileID: 1206350025}
-  MarkerBehaviour: {fileID: 543973077}
+  InitializeMarkers: {fileID: 543973077}
 --- !u!114 &543973079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   MapCameraComponent: {fileID: 963194225}
   StartPoint: {fileID: 2135615481}
   LocationMarker: {fileID: 1317246971}
-  MarkerBehaviour: {fileID: 543973077}
+  InitializeMarkers: {fileID: 543973077}
 --- !u!1 &854905462
 GameObject:
   m_ObjectHideFlags: 0

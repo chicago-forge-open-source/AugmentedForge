@@ -19,8 +19,17 @@ namespace Assets.Scripts.Markers
 
         public void Update()
         {
-            gameObject.AddComponent<MarkerSpinBehaviour>();
+            if (InputHandler.TouchCount > 0)
+            {
+                var touch = InputHandler.GetTouch(0);
+                var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
 
+                if (Equals(this, PhysicsHandler.Raycast<MarkerControlBehaviour>(touchPosition)))
+                {
+                    Marker.Active = true;
+                }
+            }
+            
             if (Marker.Active)
             {
                 GetComponent<MarkerSpinBehaviour>().enabled = true;
@@ -30,11 +39,7 @@ namespace Assets.Scripts.Markers
             {
                 GetComponent<MarkerSpinBehaviour>().enabled = false;
             }
-
-            if (InputHandler.TouchCount > 0)
-            {
-                Marker.Active = true;
-            }
+            
         }
     }
 }
