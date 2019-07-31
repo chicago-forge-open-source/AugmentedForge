@@ -20,6 +20,9 @@ namespace Assets.Scripts
                 road.startColor = Color.yellow;
                 road.endColor = Color.yellow;
                 road.material = material;
+                Console.WriteLine("FRECKA CREATED ROAD");
+                print("FRECKA CREATED ROAD");
+                Debug.Log("FRECKA CREATED ROAD");
 
                 return road;
             }
@@ -45,7 +48,7 @@ namespace Assets.Scripts
             road.positionCount = safeVertices.Length;
             foreach (var vertex in safeVertices)
             {
-//                road.SetPosition(vertex.Position, vertex.Vector);
+                road.SetPosition(vertex.Position, vertex.Vector);
             }
         }
     }
