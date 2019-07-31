@@ -34,7 +34,7 @@ namespace Assets.Tests.EditMode
             _mapScript.LocationMarker = new GameObject();
             _mapScript.StartPoint = new GameObject();
 
-            _mapScript.MarkerBehaviour = _game.AddComponent<MarkerBehaviour>();
+            _mapScript.InitializeMarkers = _game.AddComponent<InitializeMarkers>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -208,7 +208,7 @@ namespace Assets.Tests.EditMode
         [Test]
         public void Update_WillRotateOverlayMarkersInTheOppositeDirectionOfTheMapSoTheyRemainReadable()
         {
-            _mapScript.MarkerBehaviour.MapMarkers.Add(new GameObject("north"));
+            _mapScript.InitializeMarkers.MapMarkers.Add(new GameObject("north"));
             _mapScript.Start();
 
             _mapScript.Compass = new MockCompass {TrueHeading = 2f};
@@ -225,7 +225,7 @@ namespace Assets.Tests.EditMode
                 0
             );
 
-            Assert.That(_mapScript.MarkerBehaviour.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation,
+            Assert.That(_mapScript.InitializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation,
                 Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
         }
 

@@ -13,7 +13,7 @@ namespace Assets.Scripts
         public GameObject ArCameraComponent;
         public GameObject MapCameraComponent;
         public GameObject ArMapOverlayToggle;
-        public MarkerBehaviour MarkerBehaviour;
+        public InitializeMarkers InitializeMarkers;
         
         private ARCameraBackground _cameraBackground;
         private Camera _mapCamera;
@@ -49,7 +49,7 @@ namespace Assets.Scripts
             arCamera.cullingMask ^= MappingLayerBitMask;
             MapCameraComponent.transform.rotation = MapNorth;
 
-            foreach (var mapMarker in MarkerBehaviour.MapMarkers)
+            foreach (var mapMarker in InitializeMarkers.MapMarkers)
             {
                 mapMarker.transform.rotation = MapNorth;
             }

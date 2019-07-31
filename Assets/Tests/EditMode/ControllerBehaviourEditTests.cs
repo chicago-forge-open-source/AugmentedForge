@@ -34,7 +34,7 @@ namespace Assets.Tests.EditMode
             _mapScript.ArMapOverlayToggle = new GameObject();
             _mapScript.ArMapOverlayToggle.AddComponent<Button>();
             
-            _mapScript.MarkerBehaviour = _game.AddComponent<MarkerBehaviour>();
+            _mapScript.InitializeMarkers = _game.AddComponent<InitializeMarkers>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -203,11 +203,11 @@ namespace Assets.Tests.EditMode
             
             GameObject north = new GameObject("north");
             north.transform.rotation = Quaternion.Euler(1,1,1);
-            _mapScript.MarkerBehaviour.MapMarkers.Add(north);
+            _mapScript.InitializeMarkers.MapMarkers.Add(north);
             
             _mapScript.OnClick_MapOnlyToggle();
             
-            Assert.AreEqual(Quaternion.Euler(90,0,0).eulerAngles,_mapScript.MarkerBehaviour.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation.eulerAngles);
+            Assert.AreEqual(Quaternion.Euler(90,0,0).eulerAngles,_mapScript.InitializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation.eulerAngles);
         }
     }
 

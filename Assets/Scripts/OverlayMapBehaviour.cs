@@ -10,7 +10,7 @@ namespace Assets.Scripts
         public GameObject MapCameraComponent;
         public GameObject StartPoint;
         public GameObject LocationMarker;
-        public MarkerBehaviour MarkerBehaviour;
+        public InitializeMarkers InitializeMarkers;
         private ARCameraBackground _cameraBackground;
         public ICompass Compass = new RealCompass();
 
@@ -66,7 +66,7 @@ namespace Assets.Scripts
             var mapRotation = Quaternion.Euler(90, finalRotation, 0);
             MapCameraComponent.transform.rotation = mapRotation;
 
-            foreach (var mapMarker in MarkerBehaviour.MapMarkers)
+            foreach (var mapMarker in InitializeMarkers.MapMarkers)
             {
                 mapMarker.transform.rotation = mapRotation;
             }

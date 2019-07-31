@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Markers
 {
-    public class MarkerBehaviour : MonoBehaviour
+    public class InitializeMarkers : MonoBehaviour
     {
         public GameObject ArMarkerPrefab;
         public GameObject ArCameraGameObject;

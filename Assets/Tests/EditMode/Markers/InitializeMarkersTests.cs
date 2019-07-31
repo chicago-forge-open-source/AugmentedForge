@@ -7,21 +7,21 @@ using UnityEngine.UI;
 
 namespace Assets.Tests.EditMode.Markers
 {
-    public class MarkerBehaviourEditTests
+    public class InitializeMarkersTests
     {
         private GameObject _game;
-        private MarkerBehaviour _markerBehaviour;
+        private InitializeMarkers _initializeMarkers;
 
         [SetUp]
         public void Setup()
         {
             _game = new GameObject();
-            _markerBehaviour = _game.AddComponent<MarkerBehaviour>();
-            _markerBehaviour.ArCameraGameObject = new GameObject();
-            _markerBehaviour.ArMarkerPrefab = new GameObject();
-            _markerBehaviour.ArMarkerPrefab.AddComponent<Text>();
-            _markerBehaviour.MapMarkerPrefab = new GameObject();
-            _markerBehaviour.MapMarkerPrefab.AddComponent<Text>();
+            _initializeMarkers = _game.AddComponent<InitializeMarkers>();
+            _initializeMarkers.ArCameraGameObject = new GameObject();
+            _initializeMarkers.ArMarkerPrefab = new GameObject();
+            _initializeMarkers.ArMarkerPrefab.AddComponent<Text>();
+            _initializeMarkers.MapMarkerPrefab = new GameObject();
+            _initializeMarkers.MapMarkerPrefab.AddComponent<Text>();
         }
 
         [Test]
@@ -31,10 +31,10 @@ namespace Assets.Tests.EditMode.Markers
                 new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
             );
 
-            _markerBehaviour.Start();
+            _initializeMarkers.Start();
 
-            Assert.True(_markerBehaviour.ArMarkers.First(marker => marker.name.Equals("north")));
-            Assert.True(_markerBehaviour.MapMarkers.First(marker => marker.name.Equals("north")));
+            Assert.True(_initializeMarkers.ArMarkers.First(marker => marker.name.Equals("north")));
+            Assert.True(_initializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")));
         }
 
         [Test]
@@ -44,18 +44,18 @@ namespace Assets.Tests.EditMode.Markers
                 new[] {new Marker("north", 1, 0), new Marker("west", 0, 1)}
             );
 
-            _markerBehaviour.Start();
+            _initializeMarkers.Start();
 
             Assert.DoesNotThrow(() =>
             {
-                _markerBehaviour.Update();
+                _initializeMarkers.Update();
                 UpdateMarkerBehaviours();
             });
         }
 
         private void UpdateMarkerBehaviours()
         {
-            _markerBehaviour.ArMarkers.ForEach(gameObject =>
+            _initializeMarkers.ArMarkers.ForEach(gameObject =>
             {
                 gameObject.GetComponent<MarkerFaceCameraBehaviour>().Update();
                 gameObject.GetComponent<MarkerDistanceBehaviour>().Update();

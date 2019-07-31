@@ -19,8 +19,6 @@ namespace Assets.Scripts.Markers
 
         public void Update()
         {
-            gameObject.AddComponent<MarkerSpinBehaviour>();
-
             if (Marker.Active)
             {
                 GetComponent<MarkerSpinBehaviour>().enabled = true;
