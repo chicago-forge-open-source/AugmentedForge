@@ -12,7 +12,7 @@ namespace Assets.Scripts
         {
             Input.compass.enabled = true;
             Input.location.Start();
-            new DataLoader().DataLoad();
+            DataLoader.DataLoad();
         }
 
         private IEnumerator WaitForCompassEnable()
