@@ -1,48 +1,38 @@
 ﻿using Assets.Scripts.Markers;
+using Assets.Scripts.Roads;
 
 namespace Assets.Scripts
 {
-    public static class DataLoader
+    public class DataLoader
     {
-        public static void DataLoad()
+        private readonly Marker _makerSpace = new Marker("Maker Space", 30.371f, -26.29f);
+        private readonly Marker _entrance = new Marker("Entrance", 30.37f, -3.5f);
+        private readonly Marker _kitchen = new Marker("Kitchen", 43.175f, -3.5f);
+        private readonly Marker _crucible = new Marker("Crucible", 27.5f, -11.44f);
+        private readonly Marker _focusRoom = new Marker("Focus Room", 27.5f, -8.03f);
+        private readonly Marker _greaterMHub = new Marker("Greater MHub", 28.875f, 9.262001f);
+
+        public void DataLoad()
         {
-            var markers = LoadMarkers();
-            Repositories.MarkerRepository.Save(markers);
+            Repositories.MarkerRepository.Save(LoadMarkers());
+            Repositories.RoadRepository.Save(BuildRoads());
         }
 
-        private static Marker[] LoadMarkers()
+        private Marker[] LoadMarkers()
         {
-            var makerSpace = new Marker(
-                "Maker Space",
-                30.371f,
-                -26.29f
-            );
+            return new[] {_makerSpace, _crucible, _focusRoom, _kitchen, _greaterMHub, _entrance};
+        }
 
-            var crucible = new Marker(
-                "Crucible",
-                27.5f,
-                -11.44f
-            );
+        private Road[] BuildRoads()
+        {
+            var makerToKitchen = new Road(new[]
+            {
+                new RoadPoint(0, _makerSpace),
+                new RoadPoint(1, _entrance),
+                new RoadPoint(2, _kitchen)
+            });
 
-            var focusRoom = new Marker(
-                "Focus Room",
-                27.5f,
-                -8.03f
-            );
-
-            var kitchen = new Marker(
-                "Kitchen",
-                43.175f,
-                -1.144f
-            );
-
-            var greaterMHub = new Marker(
-                "Greater MHub",
-                28.875f,
-                9.262001f
-            );
-
-            return new[] {makerSpace, crucible, focusRoom, kitchen, greaterMHub};
+            return new[] {makerToKitchen};
         }
     }
 }
