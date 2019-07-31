@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Roads;
@@ -11,22 +12,33 @@ namespace Assets.Scripts
 
         private LineRenderer NewRoad()
         {
-            var road = gameObject.AddComponent<LineRenderer>();
-            road.startWidth = 0.5f;
-            road.endWidth = 0.5f;
-            road.startColor = Color.yellow;
-            road.endColor = Color.yellow;
-            road.material = material;
+            try
+            {
+                var road = gameObject.AddComponent<LineRenderer>();
+                road.startWidth = 0.5f;
+                road.endWidth = 0.5f;
+                road.startColor = Color.yellow;
+                road.endColor = Color.yellow;
+                road.material = material;
 
-            return road;
+                return road;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                print(e.ToString());
+                Debug.Log(e.ToString());
+            }
+
+            return null;
         }
 
         public void PathToDraw(IEnumerable<RoadPoint> vertices)
         {
-//            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
-//            if (safeVertices.Length == 0) return;
+            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
+            if (safeVertices.Length == 0) return;
 
-//            var road = NewRoad();
+            var road = NewRoad();
 //            road.positionCount = safeVertices.Length;
 //            foreach (var vertex in safeVertices)
 //            {
