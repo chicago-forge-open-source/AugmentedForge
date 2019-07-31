@@ -43,10 +43,10 @@ namespace Assets.Scripts
 
             var road = NewRoad();
             road.positionCount = safeVertices.Length;
-//            foreach (var vertex in safeVertices)
-//            {
-//                road.SetPosition(vertex.Position, vertex.Vector);
-//            }
+            foreach (var vertex in safeVertices)
+            {
+                road.SetPosition(vertex.Position, vertex.Vector);
+            }
         }
     }
 }
