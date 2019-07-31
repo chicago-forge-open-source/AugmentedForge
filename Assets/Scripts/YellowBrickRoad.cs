@@ -25,8 +25,11 @@ namespace Assets.Scripts
             }
             catch (Exception e)
             {
+                Console.WriteLine("FRECKA");
                 Console.WriteLine(e);
+                print("FRECKA");
                 print(e.ToString());
+                Debug.Log("FRECKA");
                 Debug.Log(e.ToString());
             }
 
@@ -39,7 +42,7 @@ namespace Assets.Scripts
             if (safeVertices.Length == 0) return;
 
             var road = NewRoad();
-//            road.positionCount = safeVertices.Length;
+            road.positionCount = safeVertices.Length;
 //            foreach (var vertex in safeVertices)
 //            {
 //                road.SetPosition(vertex.Position, vertex.Vector);
