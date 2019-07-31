@@ -17,6 +17,9 @@ namespace Assets.Scripts.Markers
 
             var faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
             faceCameraBehaviour.ArCameraGameObject = ArCameraGameObject;
+
+            var markerDistanceBehaviour = gameObject.AddComponent<MarkerDistanceBehaviour>();
+            markerDistanceBehaviour.ArCameraGameObject = ArCameraGameObject;
         }
 
         public void Update()

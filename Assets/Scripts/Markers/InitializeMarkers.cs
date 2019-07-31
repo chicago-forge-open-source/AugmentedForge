@@ -35,20 +35,14 @@ namespace Assets.Scripts.Markers
         private void MakeArMarkerGameObject(Marker marker)
         {
             var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
-            AddMarkerDistanceBehaviour(arMarker);
-            AddMarkerFaceCameraBehaviour(arMarker);
+            AddMarkerControlBehaviour(marker, arMarker);
         }
 
-        private void AddMarkerDistanceBehaviour(GameObject arMarker)
+        private void AddMarkerControlBehaviour(Marker marker, GameObject arMarker)
         {
-            var behaviour = arMarker.AddComponent<MarkerDistanceBehaviour>();
+            var behaviour = arMarker.AddComponent<MarkerControlBehaviour>();
             behaviour.ArCameraGameObject = ArCameraGameObject;
-        }
-
-        private void AddMarkerFaceCameraBehaviour(GameObject arMarker)
-        {
-            var behaviour = arMarker.AddComponent<MarkerFaceCameraBehaviour>();
-            behaviour.ArCameraGameObject = ArCameraGameObject;
+            behaviour.Marker = marker;
         }
 
         private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
@@ -59,11 +53,6 @@ namespace Assets.Scripts.Markers
             clonedArMarker.GetComponentInChildren<Text>().text = marker.Label;
             markers.Add(clonedArMarker);
             return clonedArMarker;
-        }
-
-        public void Update()
-        {
-            
         }
     }
 }
