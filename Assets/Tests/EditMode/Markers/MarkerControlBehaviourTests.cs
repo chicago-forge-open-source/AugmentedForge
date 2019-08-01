@@ -16,8 +16,8 @@ namespace Assets.Tests.EditMode.Markers
         {
             _markerGameObject = new GameObject();
             _controlBehaviour = _markerGameObject.AddComponent<MarkerControlBehaviour>();
-            _controlBehaviour.ArCameraGameObject = new GameObject();
-            _controlBehaviour.ArCameraGameObject.AddComponent<Camera>();
+            _controlBehaviour.arCameraGameObject = new GameObject();
+            _controlBehaviour.arCameraGameObject.AddComponent<Camera>();
         }
 
         [Test]
@@ -27,22 +27,22 @@ namespace Assets.Tests.EditMode.Markers
 
             var markerFaceCameraBehaviour = _markerGameObject.GetComponent<MarkerFaceCameraBehaviour>();
             Assert.IsTrue(markerFaceCameraBehaviour.enabled);
-            Assert.AreEqual(_controlBehaviour.ArCameraGameObject, markerFaceCameraBehaviour.ArCameraGameObject);
+            Assert.AreEqual(_controlBehaviour.arCameraGameObject, markerFaceCameraBehaviour.arCameraGameObject);
             
             var markerSpinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
             Assert.IsFalse(markerSpinBehaviour.enabled);
-            Assert.AreEqual(_controlBehaviour.Marker, markerSpinBehaviour.Marker);
+            Assert.AreEqual(_controlBehaviour.marker, markerSpinBehaviour.Marker);
             
             var markerDistanceBehaviour = _markerGameObject.GetComponent<MarkerDistanceBehaviour>();
-            Assert.AreEqual(_controlBehaviour.ArCameraGameObject, markerDistanceBehaviour.ArCameraGameObject);
+            Assert.AreEqual(_controlBehaviour.arCameraGameObject, markerDistanceBehaviour.arCameraGameObject);
         }
 
         [Test]
         public void Update_WhenMarkerIsActiveWillEnableSpinBehaviourAndDisableFaceCameraBehaviour()
         {
-            _controlBehaviour.Marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0) {Active = true};
-            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>());
-            _controlBehaviour.PhysicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
+            _controlBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0) {Active = true};
+            _controlBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
+            _controlBehaviour.physicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
 
             _controlBehaviour.Start();
 
@@ -57,9 +57,9 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_WhenMarkerIsNotActiveThenDisableSpinBehaviourAndEnableFaceCameraBehaviour()
         {
-            _controlBehaviour.Marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
-            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>());
-            _controlBehaviour.PhysicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
+            _controlBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
+            _controlBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
+            _controlBehaviour.physicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
             _controlBehaviour.Start();
             
             _controlBehaviour.Update();
@@ -75,51 +75,51 @@ namespace Assets.Tests.EditMode.Markers
         {
             var touch = new Touch
                 {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2), phase = TouchPhase.Began};
-            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch> {touch});
+            _controlBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
 
             var uniqueIdentifier = "Aqua-pup Castle";
             _markerGameObject.name = uniqueIdentifier;
-            _controlBehaviour.PhysicsHandler = PhysicsHandlerThatReturnsDetected();
-            _controlBehaviour.Marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
+            _controlBehaviour.physicsHandler = PhysicsHandlerThatReturnsDetected();
+            _controlBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
 
             _controlBehaviour.Start();
 
             _controlBehaviour.Update();
 
-            Assert.IsTrue(_controlBehaviour.Marker.Active);
+            Assert.IsTrue(_controlBehaviour.marker.Active);
         }
 
         [Test]
         public void Update_WhenTouchOnDifferentMarkerIsDetectedThisMarkerIsUnaffected()
         {
-            _controlBehaviour.Marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
+            _controlBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
             var touch = new Touch
                 {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2), phase = TouchPhase.Began};
-            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>{touch});
-            _controlBehaviour.PhysicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
+            _controlBehaviour.inputHandler = new MockInputHandler(new List<Touch>{touch});
+            _controlBehaviour.physicsHandler = new MockPhysicsHandler<MarkerControlBehaviour>();
             var mockPhysicsHandler = PhysicsHandlerReturnsDifferentMarkerDetected();
-            _controlBehaviour.PhysicsHandler = mockPhysicsHandler;
+            _controlBehaviour.physicsHandler = mockPhysicsHandler;
             _controlBehaviour.Start();
 
             _controlBehaviour.Update();
 
-            Assert.IsFalse(_controlBehaviour.Marker.Active);
+            Assert.IsFalse(_controlBehaviour.marker.Active);
         }
 
         [Test]
         public void Update_WhenMarkersSpinsAFulLCircleThenMarkerBecomesInactive()
         {
-            _controlBehaviour.InputHandler = new MockInputHandler(new List<Touch>());
+            _controlBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
             
             _controlBehaviour.Start();
             
             var spinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
             spinBehaviour.RotatedFullCircle = true;
-            _controlBehaviour.Marker = new Marker("", 0, 0 ) {Active = true};
+            _controlBehaviour.marker = new Marker("", 0, 0 ) {Active = true};
 
             _controlBehaviour.Update();
 
-            Assert.IsFalse(_controlBehaviour.Marker.Active);
+            Assert.IsFalse(_controlBehaviour.marker.Active);
             Assert.IsTrue(_markerGameObject.GetComponent<MarkerFaceCameraBehaviour>().enabled);
             Assert.IsFalse(_markerGameObject.GetComponent<MarkerSpinBehaviour>().enabled);
         }

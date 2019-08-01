@@ -18,14 +18,11 @@ namespace Assets.Scripts
             return road;
         }
 
-        public void DrawPath(IEnumerable<RoadPoint> vertices)
+        public void DrawPath(RoadPoint[] vertices)
         {
-            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
-            if (safeVertices.Length == 0) return;
-
             var road = NewRoad();
-            road.positionCount = safeVertices.Length;
-            foreach (var vertex in safeVertices)
+            road.positionCount = vertices.Length;
+            foreach (var vertex in vertices)
             {
                 road.SetPosition(vertex.Position, vertex.Vector);
             }

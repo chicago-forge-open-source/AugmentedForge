@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Markers;
-
-namespace Assets.Scripts
+﻿namespace Assets.Scripts.Markers
 {
     public class InMemoryMarkerRepository : IMarkerRepository
     {

@@ -6,7 +6,7 @@ namespace Assets.Scripts.Markers
     {
         private const int DistanceToHideArMarkers = 15;
 
-        public GameObject ArCameraGameObject;
+        public GameObject arCameraGameObject;
 
         public void Update()
         {
@@ -15,7 +15,7 @@ namespace Assets.Scripts.Markers
 
         private void HideMarkersBasedOnDistanceFromCamera(GameObject arMarker)
         {
-            var currentCameraPosition = ArCameraGameObject.transform.position;
+            var currentCameraPosition = arCameraGameObject.transform.position;
             var distanceFromCameraToMarker = Vector3.Distance(currentCameraPosition, arMarker.transform.position);
             arMarker.SetActive(distanceFromCameraToMarker < DistanceToHideArMarkers);
         }

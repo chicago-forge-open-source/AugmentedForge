@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +6,12 @@ namespace Assets.Scripts.Markers
 {
     public class InitializeMarkers : MonoBehaviour
     {
-        public GameObject ArMarkerPrefab;
-        public GameObject ArCameraGameObject;
-        public GameObject MapMarkerPrefab;
+        public GameObject arMarkerPrefab;
+        public GameObject arCameraGameObject;
+        public GameObject mapMarkerPrefab;
 
         public List<GameObject> ArMarkers { get; } = new List<GameObject>();
         public List<GameObject> MapMarkers { get; } = new List<GameObject>();
-
-        private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
-
 
         public void Start()
         {
@@ -29,23 +25,23 @@ namespace Assets.Scripts.Markers
 
         private void MakeMapMarkerGameObject(Marker marker)
         {
-            CloneMarker(marker, MapMarkerPrefab, MapMarkers);
+            CloneMarker(marker, mapMarkerPrefab, MapMarkers);
         }
 
         private void MakeArMarkerGameObject(Marker marker)
         {
-            var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
+            var arMarker = CloneMarker(marker, arMarkerPrefab, ArMarkers);
             AddMarkerControlBehaviour(marker, arMarker);
         }
 
         private void AddMarkerControlBehaviour(Marker marker, GameObject arMarker)
         {
             var behaviour = arMarker.AddComponent<MarkerControlBehaviour>();
-            behaviour.ArCameraGameObject = ArCameraGameObject;
-            behaviour.Marker = marker;
+            behaviour.arCameraGameObject = arCameraGameObject;
+            behaviour.marker = marker;
         }
 
-        private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
+        private static GameObject CloneMarker(Marker marker, GameObject prefab, ICollection<GameObject> markers)
         {
             var clonedArMarker = Instantiate(prefab);
             clonedArMarker.name = marker.Label;
