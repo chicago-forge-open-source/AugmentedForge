@@ -11,7 +11,6 @@ namespace Tests.EditMode
     public class ControllerBehaviourEditTests
     {
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private ControllerBehaviour _mapScript;
         private const string Chicago = "Chicago";
 
@@ -32,7 +31,7 @@ namespace Tests.EditMode
 
             _mapScript.arMapOverlayToggle = new GameObject();
             _mapScript.arMapOverlayToggle.AddComponent<Button>();
-            
+
             _mapScript.initializeMarkers = _game.AddComponent<InitializeMarkers>();
 
             PlayerPrefs.SetString("location", Chicago);
@@ -140,9 +139,9 @@ namespace Tests.EditMode
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(90, 0, 0),
+                _mapScript.mapCameraGameObject.transform.rotation
             );
         }
 
@@ -175,7 +174,7 @@ namespace Tests.EditMode
             _mapScript.Start();
             _mapScript.arCameraGameObject.GetComponent<ARCameraBackground>().enabled = false;
         }
-    
+
         [Test]
         public void GivenShowingMapOnly_ArMapOverlayToggleIsDisabled()
         {
@@ -184,7 +183,7 @@ namespace Tests.EditMode
             _mapScript.OnClick_MapOnlyToggle();
             Assert.IsFalse(_mapScript.arMapOverlayToggle.activeSelf);
         }
-    
+
         [Test]
         public void GivenShowingArView_ArMapOverlayToggleIsEnabled()
         {
@@ -199,15 +198,20 @@ namespace Tests.EditMode
         public void OnClick_GivenMapOnlyMarkersAreReadable()
         {
             _mapScript.Start();
-            
+
             GameObject north = new GameObject("north");
-            north.transform.rotation = Quaternion.Euler(1,1,1);
+            north.transform.rotation = Quaternion.Euler(1, 1, 1);
             _mapScript.initializeMarkers.MapMarkers.Add(north);
-            
+
             _mapScript.OnClick_MapOnlyToggle();
-            
-            Assert.AreEqual(Quaternion.Euler(90,0,0).eulerAngles,_mapScript.initializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation.eulerAngles);
+
+            var markerRotation = _mapScript.initializeMarkers.MapMarkers
+                .First(marker => marker.name.Equals("north")).transform.rotation;
+
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(90, 0, 0),
+                markerRotation
+            );
         }
     }
-
 }

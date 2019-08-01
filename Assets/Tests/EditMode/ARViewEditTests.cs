@@ -9,7 +9,6 @@ namespace Tests.EditMode
     public class ArViewEditTests
     {
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private ARView _mapScript;
 
         [SetUp]
@@ -44,10 +43,9 @@ namespace Tests.EditMode
 
             _mapScript.Start();
 
-            var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
-
-            Assert.That(_mapScript.arSessionOrigin.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, 180f, 0),
+                _mapScript.arSessionOrigin.transform.rotation
             );
         }
         

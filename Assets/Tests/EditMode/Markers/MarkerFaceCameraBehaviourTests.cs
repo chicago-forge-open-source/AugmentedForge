@@ -9,7 +9,6 @@ namespace Tests.EditMode.Markers
     {
         private GameObject _markerGameObject;
         private MarkerFaceCameraBehaviour _markerBehaviour;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
 
         [SetUp]
         public void Setup()
@@ -27,8 +26,9 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, 270, 0)).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, 270, 0),
+                _markerGameObject.transform.rotation
             );
         }
         
@@ -40,8 +40,9 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, 180, 0)).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, 180, 0),
+                _markerGameObject.transform.rotation
             );
         }
 
@@ -53,9 +54,9 @@ namespace Tests.EditMode.Markers
             _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 100, 0);
 
             _markerBehaviour.Update();
-
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, 270, 0)).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, 270, 0),
+                _markerGameObject.transform.rotation
             );
         }
     }

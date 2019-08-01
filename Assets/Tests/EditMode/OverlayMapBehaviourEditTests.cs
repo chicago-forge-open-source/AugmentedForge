@@ -11,7 +11,6 @@ namespace Tests.EditMode
     {
         private const int MapRotationIncrementDivisor = 4;
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private OverlayMapBehaviour _mapScript;
         private const string Chicago = "Chicago";
 
@@ -103,9 +102,10 @@ namespace Tests.EditMode
             _mapScript.arCameraGameObject.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(90, 0, 0),
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]
@@ -123,8 +123,11 @@ namespace Tests.EditMode
                 90,
                 _mapScript.compass.TrueHeading / MapRotationIncrementDivisor,
                 0);
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            
+            TestHelpers.AssertQuaternionsAreEqual(
+                expectedCameraRotation,
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]
@@ -147,8 +150,10 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            TestHelpers.AssertQuaternionsAreEqual(
+                expectedCameraRotation,
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]
@@ -171,8 +176,10 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            TestHelpers.AssertQuaternionsAreEqual(
+                expectedCameraRotation,
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]
@@ -195,8 +202,10 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_mapScript.mapCameraGameObject.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            TestHelpers.AssertQuaternionsAreEqual(
+                expectedCameraRotation,
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]
@@ -219,8 +228,10 @@ namespace Tests.EditMode
                 0
             );
 
-            Assert.That(_mapScript.initializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer));
+            TestHelpers.AssertQuaternionsAreEqual(
+                expectedCameraRotation,
+                _mapScript.mapCameraGameObject.transform.rotation
+            );
         }
 
         [Test]

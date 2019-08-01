@@ -11,7 +11,6 @@ namespace Tests.EditMode.Markers
         private const int ExpectedRotationAmount = 360 / FramesPerSecond;
         private GameObject _markerGameObject;
         private MarkerSpinBehaviour _markerBehaviour;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
 
         [SetUp]
         public void Setup()
@@ -27,8 +26,9 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, ExpectedRotationAmount, 0)).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, ExpectedRotationAmount, 0),
+                _markerGameObject.transform.rotation
             );
         }
 
@@ -41,8 +41,10 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0)).Using(_quaternionComparer)
+
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0),
+                _markerGameObject.transform.rotation
             );
         }
 
@@ -53,8 +55,9 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, 0, 0)).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, 0, 0),
+                _markerGameObject.transform.rotation
             );
         }
 
@@ -69,9 +72,10 @@ namespace Tests.EditMode.Markers
             _markerBehaviour.rotationCount = 29;
 
             _markerBehaviour.Update();
-            
-            Assert.That(_markerGameObject.transform.rotation,
-                Is.EqualTo(Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0)).Using(_quaternionComparer)
+
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0),
+                _markerGameObject.transform.rotation
             );
             Assert.IsTrue(_markerBehaviour.rotatedFullCircle);
         }
