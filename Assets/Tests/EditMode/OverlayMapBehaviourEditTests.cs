@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Markers;
 using NUnit.Framework;
@@ -274,8 +275,8 @@ namespace Assets.Tests.EditMode
         public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
         {
             _mapScript.Start();
+         
             
-            Assert.AreEqual("Chicago Sync Point", _mapScript.StartPoint.name);
         }
         
         [Test]
@@ -285,7 +286,10 @@ namespace Assets.Tests.EditMode
             
             _mapScript.Start();
             
-            Assert.AreEqual("Iowa Sync Point", _mapScript.StartPoint.name);
+            var expectedSyncPointPosition = new Vector3(0, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.StartPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .01);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
         }
     }
 

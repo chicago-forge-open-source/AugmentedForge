@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -14,15 +15,28 @@ namespace Assets.Scripts
         private ARCameraBackground _cameraBackground;
         public ICompass Compass = new RealCompass();
 
+        private static readonly Vector3 ChicagoSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+        private static readonly Vector3 IowaSyncPointPosition = new Vector3(0, 0, -18.17933f);
+
         public void Start()
         {
-            StartPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
+            DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
             
             _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
             var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
             var mapObject = (GameObject) Resources.Load(spritePath);
             GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
             LocationSync();
+        }
+
+        private void DetermineSyncPointPositionBasedOnLocation(String location)
+        {
+            if (location.Equals("Chicago"))
+            {
+                StartPoint.transform.position = ChicagoSyncPointPosition;
+            }
+
+            StartPoint.transform.position = IowaSyncPointPosition;
         }
 
         private void LocationSync()
