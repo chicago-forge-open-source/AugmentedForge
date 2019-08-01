@@ -4,7 +4,6 @@ namespace Assets.Scripts.Roads
 {
     public class RoadBehaviour : MonoBehaviour
     {
-        public Material material;
         public void Start()
         {
             foreach (var road in Repositories.RoadRepository.Get())
@@ -19,7 +18,7 @@ namespace Assets.Scripts.Roads
             var yellowBrickRoad = Instantiate(new GameObject());
             yellowBrickRoad.tag = road.Tag;
             yellowBrickRoad.layer = layer;
-            yellowBrickRoad.AddComponent<YellowBrickRoad>().DrawPath(material, road.Points);
+            yellowBrickRoad.AddComponent<YellowBrickRoad>().DrawPath(road.Points);
         }
     }
 }

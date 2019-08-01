@@ -8,7 +8,7 @@ namespace Assets.Scripts.Roads
         public RoadPoint(int position, Marker marker)
         {
             Position = position;
-            Vector = new Vector3(marker.X, 0, marker.Z);
+            Vector = new Vector3(marker.X, -1, marker.Z);
         }
 
         public int Position { get; }

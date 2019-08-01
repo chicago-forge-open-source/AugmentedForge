@@ -16,7 +16,6 @@ namespace Assets.Tests.EditMode.Roads
         {
             _gameObject = new GameObject();
             _roadBehaviour = _gameObject.AddComponent<RoadBehaviour>();
-            _roadBehaviour.material = null;
         }
         
         [Test]
