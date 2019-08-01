@@ -31,14 +31,9 @@ namespace Assets.Scripts
 
         private void DetermineSyncPointPositionBasedOnLocation(String location)
         {
-            if (location.Equals("Chicago"))
-            {
-                StartPoint.transform.position = ChicagoSyncPointPosition;
-            }
-            else
-            {
-                StartPoint.transform.position = IowaSyncPointPosition;
-            }
+            var syncPoint = Repositories.SyncPointRepository.Get(location);
+            var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
+            StartPoint.transform.position = startPointPosition;
         }
 
         private void LocationSync()

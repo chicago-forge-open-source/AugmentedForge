@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.Roads;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.Roads;
 using Markers;
+using SyncPoints;
 
 namespace Assets.Scripts
 {
@@ -16,6 +19,7 @@ namespace Assets.Scripts
         {
             Repositories.MarkerRepository.Save(LoadMarkers());
             Repositories.RoadRepository.Save(BuildRoads());
+            PopulateSyncPointRepository();
         }
 
         private Marker[] LoadMarkers()
@@ -40,6 +44,15 @@ namespace Assets.Scripts
             });
 
             return new[] {makerToKitchen, makerToGreaterMHub};
+        }
+
+        private void PopulateSyncPointRepository()
+        {
+            var chicagoSyncPoint = new SyncPoint("Chicago", 26.94955f, -18.17933f);
+            var iowaSyncPoint = new SyncPoint("Iowa", 11.2f, 40.1f);
+
+            Repositories.SyncPointRepository.Save(chicagoSyncPoint);
+            Repositories.SyncPointRepository.Save(iowaSyncPoint);
         }
     }
 }
