@@ -21,7 +21,7 @@ namespace Tests.PlayMode
         }
     
         [UnityTest]
-        public IEnumerator GivenChicagoForgeButtonClickLoadARViewForChicago()
+        public IEnumerator GivenChicagoForgeButtonClickLoadArViewForChicago()
         {
             yield return SetupScene();
 
@@ -36,7 +36,7 @@ namespace Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator GivenIowaForgeButtonClickLoadARViewForIowa()
+        public IEnumerator GivenIowaForgeButtonClickLoadArViewForIowa()
         {
             yield return SetupScene();
 
@@ -54,6 +54,6 @@ namespace Tests.PlayMode
     internal class MockCompass : ICompass
     {
         public bool IsEnabled => true;
-        public float TrueHeading { get; set; } = 100f;
+        public float TrueHeading { get; } = 100f;
     }
 }

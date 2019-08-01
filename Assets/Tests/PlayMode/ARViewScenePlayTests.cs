@@ -39,7 +39,10 @@ namespace Tests.PlayMode
             var comparer = new Vector3EqualityComparer(10e-6f);
             var locationMarker = GameObject.Find("Location Marker");
 
-            Assert.That(_syncPoint.transform.position, Is.EqualTo(locationMarker.transform.position).Using(comparer));
+            Assert.That(
+                _syncPoint.transform.position,
+                Is.EqualTo(locationMarker.transform.position).Using(comparer)
+            );
         }
 
         [UnityTest]
