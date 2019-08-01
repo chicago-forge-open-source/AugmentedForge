@@ -1,8 +1,5 @@
-namespace Assets.Scripts
+public interface ICompass
 {
-    public interface ICompass
-    {
-        bool IsEnabled { get; }
-        float TrueHeading { get; }
-    }
+    bool IsEnabled { get; }
+    float TrueHeading { get; }
 }

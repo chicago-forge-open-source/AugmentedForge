@@ -1,18 +1,15 @@
 ﻿using System.Linq;
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
-namespace Assets.Tests.EditMode
+namespace Tests.EditMode
 {
     public class ControllerBehaviourEditTests
     {
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private ControllerBehaviour _mapScript;
         private const string Chicago = "Chicago";
 
@@ -23,18 +20,18 @@ namespace Assets.Tests.EditMode
             _game.AddComponent<SpriteRenderer>();
             _mapScript = _game.AddComponent<ControllerBehaviour>();
 
-            _mapScript.MapCameraComponent = new GameObject();
-            _mapScript.MapCameraComponent.AddComponent<Camera>();
-            _mapScript.MapCameraComponent.AddComponent<FingerGestures>();
+            _mapScript.mapCameraGameObject = new GameObject();
+            _mapScript.mapCameraGameObject.AddComponent<Camera>();
+            _mapScript.mapCameraGameObject.AddComponent<FingerGestures>();
 
-            _mapScript.ArCameraComponent = new GameObject();
-            _mapScript.ArCameraComponent.AddComponent<ARCameraBackground>();
-            _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask = 567;
+            _mapScript.arCameraGameObject = new GameObject();
+            _mapScript.arCameraGameObject.AddComponent<ARCameraBackground>();
+            _mapScript.arCameraGameObject.GetComponent<Camera>().cullingMask = 567;
 
-            _mapScript.ArMapOverlayToggle = new GameObject();
-            _mapScript.ArMapOverlayToggle.AddComponent<Button>();
-            
-            _mapScript.InitializeMarkers = _game.AddComponent<InitializeMarkers>();
+            _mapScript.arMapOverlayToggle = new GameObject();
+            _mapScript.arMapOverlayToggle.AddComponent<Button>();
+
+            _mapScript.initializeMarkers = _game.AddComponent<InitializeMarkers>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -43,7 +40,7 @@ namespace Assets.Tests.EditMode
         public void GivenButtonToggleAndMapViewInArShowingHideTheMap()
         {
             _mapScript.Start();
-            var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
+            var camera = _mapScript.mapCameraGameObject.GetComponent<Camera>();
             camera.enabled = true;
 
             _mapScript.OnClick_ArMapOverlayToggle();
@@ -55,7 +52,7 @@ namespace Assets.Tests.EditMode
         public void GivenButtonToggleAndMapViewInArHidingShowTheMap()
         {
             _mapScript.Start();
-            var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
+            var camera = _mapScript.mapCameraGameObject.GetComponent<Camera>();
             camera.enabled = false;
 
             _mapScript.OnClick_ArMapOverlayToggle();
@@ -67,7 +64,7 @@ namespace Assets.Tests.EditMode
         public void MapCameraIsAlwaysShown()
         {
             _mapScript.Start();
-            var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
+            var camera = _mapScript.mapCameraGameObject.GetComponent<Camera>();
             camera.enabled = false;
 
             _mapScript.OnClick_MapOnlyToggle();
@@ -79,7 +76,7 @@ namespace Assets.Tests.EditMode
         public void GivenARBackgroundIsEnabled_ARBackgroundIsHidden()
         {
             _mapScript.Start();
-            var background = _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>();
+            var background = _mapScript.arCameraGameObject.GetComponent<ARCameraBackground>();
 
             _mapScript.OnClick_MapOnlyToggle();
 
@@ -90,7 +87,7 @@ namespace Assets.Tests.EditMode
         public void GivenARBackgroundIsHidden_ARBackgroundIsShown()
         {
             _mapScript.Start();
-            var background = _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>();
+            var background = _mapScript.arCameraGameObject.GetComponent<ARCameraBackground>();
             background.enabled = false;
 
             _mapScript.OnClick_MapOnlyToggle();
@@ -102,7 +99,7 @@ namespace Assets.Tests.EditMode
         public void GivenArBackgroundTogglesToDisabled_FingerGesturesEnabled()
         {
             _mapScript.Start();
-            var gesturesScript = _mapScript.MapCameraComponent.GetComponent<FingerGestures>();
+            var gesturesScript = _mapScript.mapCameraGameObject.GetComponent<FingerGestures>();
             gesturesScript.enabled = false;
 
             _mapScript.OnClick_MapOnlyToggle();
@@ -117,14 +114,14 @@ namespace Assets.Tests.EditMode
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            Assert.IsFalse(_mapScript.MapCameraComponent.GetComponent<FingerGestures>().enabled);
+            Assert.IsFalse(_mapScript.mapCameraGameObject.GetComponent<FingerGestures>().enabled);
         }
 
         [Test]
         public void GivenArBackgroundTogglesToEnabled_MapCameraZoomIsSetToInitialValue()
         {
             StartInMapOnlyMode();
-            var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
+            var camera = _mapScript.mapCameraGameObject.GetComponent<Camera>();
             camera.fieldOfView = 80f;
 
             _mapScript.OnClick_MapOnlyToggle();
@@ -136,14 +133,14 @@ namespace Assets.Tests.EditMode
         public void GivenArBackgroundTogglesToDisabled_MapCameraRotationIsSetToInitialValue()
         {
             _mapScript.Start();
-            var camera = _mapScript.MapCameraComponent.GetComponent<Camera>();
+            var camera = _mapScript.mapCameraGameObject.GetComponent<Camera>();
             camera.transform.rotation = Quaternion.Euler(100, 10, 70);
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            var expectedCameraRotation = Quaternion.Euler(90, 0, 0);
-            Assert.That(_mapScript.MapCameraComponent.transform.rotation,
-                Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(90, 0, 0),
+                _mapScript.mapCameraGameObject.transform.rotation
             );
         }
 
@@ -154,7 +151,7 @@ namespace Assets.Tests.EditMode
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            var actualMask = _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask;
+            var actualMask = _mapScript.arCameraGameObject.GetComponent<Camera>().cullingMask;
             Assert.AreEqual(0, actualMask & (1 << 9));
         }
 
@@ -162,30 +159,30 @@ namespace Assets.Tests.EditMode
         public void GivenArBackgroundTogglesToEnabled_ArCameraMaskIncludesLayerNine()
         {
             StartInMapOnlyMode();
-            var arCamera = _mapScript.ArCameraComponent.GetComponent<Camera>();
+            var arCamera = _mapScript.arCameraGameObject.GetComponent<Camera>();
             arCamera.cullingMask &= ~(1 << 9);
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            var actualMask = _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask;
+            var actualMask = _mapScript.arCameraGameObject.GetComponent<Camera>().cullingMask;
             Assert.AreNotEqual(0, actualMask & (1 << 9));
         }
 
         private void StartInMapOnlyMode()
         {
             _mapScript.Start();
-            _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>().enabled = false;
+            _mapScript.arCameraGameObject.GetComponent<ARCameraBackground>().enabled = false;
         }
-    
+
         [Test]
         public void GivenShowingMapOnly_ArMapOverlayToggleIsDisabled()
         {
             _mapScript.Start();
 
             _mapScript.OnClick_MapOnlyToggle();
-            Assert.IsFalse(_mapScript.ArMapOverlayToggle.activeSelf);
+            Assert.IsFalse(_mapScript.arMapOverlayToggle.activeSelf);
         }
-    
+
         [Test]
         public void GivenShowingArView_ArMapOverlayToggleIsEnabled()
         {
@@ -193,22 +190,27 @@ namespace Assets.Tests.EditMode
 
             _mapScript.OnClick_MapOnlyToggle();
             _mapScript.OnClick_MapOnlyToggle();
-            Assert.IsTrue(_mapScript.ArMapOverlayToggle.activeSelf);
+            Assert.IsTrue(_mapScript.arMapOverlayToggle.activeSelf);
         }
 
         [Test]
         public void OnClick_GivenMapOnlyMarkersAreReadable()
         {
             _mapScript.Start();
-            
+
             GameObject north = new GameObject("north");
-            north.transform.rotation = Quaternion.Euler(1,1,1);
-            _mapScript.InitializeMarkers.MapMarkers.Add(north);
-            
+            north.transform.rotation = Quaternion.Euler(1, 1, 1);
+            _mapScript.initializeMarkers.MapMarkers.Add(north);
+
             _mapScript.OnClick_MapOnlyToggle();
-            
-            Assert.AreEqual(Quaternion.Euler(90,0,0).eulerAngles,_mapScript.InitializeMarkers.MapMarkers.First(marker => marker.name.Equals("north")).transform.rotation.eulerAngles);
+
+            var markerRotation = _mapScript.initializeMarkers.MapMarkers
+                .First(marker => marker.name.Equals("north")).transform.rotation;
+
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(90, 0, 0),
+                markerRotation
+            );
         }
     }
-
 }

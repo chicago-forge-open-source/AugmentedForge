@@ -1,11 +1,10 @@
 using System.Collections;
-using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace Assets.Tests.PlayMode
+namespace Tests.PlayMode
 {
     public class AppInitPlayTests
     {
@@ -18,11 +17,11 @@ namespace Assets.Tests.PlayMode
 
             var camera = GameObject.Find("Main Camera");
             _initScript = camera.GetComponent<InitializeThings>();
-            _initScript.Compass = new MockCompass();
+            _initScript.compass = new MockCompass();
         }
     
         [UnityTest]
-        public IEnumerator GivenChicagoForgeButtonClickLoadARViewForChicago()
+        public IEnumerator GivenChicagoForgeButtonClickLoadArViewForChicago()
         {
             yield return SetupScene();
 
@@ -37,7 +36,7 @@ namespace Assets.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator GivenIowaForgeButtonClickLoadARViewForIowa()
+        public IEnumerator GivenIowaForgeButtonClickLoadArViewForIowa()
         {
             yield return SetupScene();
 
@@ -55,6 +54,6 @@ namespace Assets.Tests.PlayMode
     internal class MockCompass : ICompass
     {
         public bool IsEnabled => true;
-        public float TrueHeading { get; set; } = 100f;
+        public float TrueHeading { get; } = 100f;
     }
 }

@@ -1,7 +1,7 @@
 using Markers;
 using UnityEngine;
 
-namespace Assets.Scripts.Roads
+namespace Roads
 {
     public class RoadPoint
     {

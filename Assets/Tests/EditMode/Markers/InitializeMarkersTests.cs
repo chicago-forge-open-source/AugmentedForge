@@ -1,11 +1,10 @@
 using System.Linq;
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class InitializeMarkersTests
     {
@@ -46,22 +45,10 @@ namespace Assets.Tests.EditMode.Markers
 
             _initializeMarkers.Start();
 
-            Assert.DoesNotThrow(() =>
-            {
-                UpdateMarkerBehaviours2();
-            });
+            Assert.DoesNotThrow(UpdateMarkerBehaviours);
         }
 
         private void UpdateMarkerBehaviours()
-        {
-            _initializeMarkers.ArMarkers.ForEach(gameObject =>
-            {
-                gameObject.GetComponent<MarkerFaceCameraBehaviour>().Update();
-                gameObject.GetComponent<MarkerDistanceBehaviour>().Update();
-            });
-        }
-        
-        private void UpdateMarkerBehaviours2()
         {
             _initializeMarkers.ArMarkers.ForEach(gameObject =>
             {

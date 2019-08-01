@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class MarkerControlBehaviourTests
     {
@@ -141,9 +140,9 @@ namespace Assets.Tests.EditMode.Markers
         }
     }
 
-    public class MockPhysicsHandler<RT> : PhysicsHandler where RT : class
+    public class MockPhysicsHandler<TR> : PhysicsHandler where TR : class
     {
-        public RT ValueToReturn { get; set; }
+        public TR ValueToReturn { private get; set; }
 
         public T Raycast<T>(Ray ray) where T : class
         {

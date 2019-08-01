@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using Assets.Scripts.Roads;
 using Markers;
 using SyncPoints;
+﻿using Markers;
+using Roads;
 
-namespace Assets.Scripts
+public class DataLoader
 {
-    public class DataLoader
-    {
-        private readonly Marker _makerSpace = new Marker("Maker Space", 30.371f, -26.29f);
-        private readonly Marker _entrance = new Marker("Entrance", 30.37f, -3.5f);
-        private readonly Marker _kitchen = new Marker("Kitchen", 43.175f, -3.5f);
-        private readonly Marker _crucible = new Marker("Crucible", 27.5f, -11.44f);
-        private readonly Marker _focusRoom = new Marker("Focus Room", 27.5f, -8.03f);
-        private readonly Marker _greaterMHub = new Marker("Greater MHub", 28.875f, 9.262001f);
+    private readonly Marker _makerSpace = new Marker("Maker Space", 30.371f, -26.29f);
+    private readonly Marker _entrance = new Marker("Entrance", 30.37f, -3.5f);
+    private readonly Marker _kitchen = new Marker("Kitchen", 43.175f, -3.5f);
+    private readonly Marker _crucible = new Marker("Crucible", 27.5f, -11.44f);
+    private readonly Marker _focusRoom = new Marker("Focus Room", 27.5f, -8.03f);
+    private readonly Marker _greaterMHub = new Marker("Greater MHub", 28.875f, 9.262001f);
 
         public void DataLoad()
         {
@@ -22,26 +22,26 @@ namespace Assets.Scripts
             PopulateSyncPointRepository();
         }
 
-        private Marker[] LoadMarkers()
-        {
-            return new[] {_makerSpace, _crucible, _focusRoom, _kitchen, _greaterMHub, _entrance};
-        }
+    private Marker[] LoadMarkers()
+    {
+        return new[] {_makerSpace, _crucible, _focusRoom, _kitchen, _greaterMHub, _entrance};
+    }
 
-        private Road[] BuildRoads()
+    private Road[] BuildRoads()
+    {
+        var makerToKitchen = new Road(new[]
         {
-            var makerToKitchen = new Road(new[]
-            {
-                new RoadPoint(0, _makerSpace),
-                new RoadPoint(1, _entrance),
-                new RoadPoint(2, _kitchen)
-            });
+            new RoadPoint(0, _makerSpace),
+            new RoadPoint(1, _entrance),
+            new RoadPoint(2, _kitchen)
+        });
             
-            var makerToGreaterMHub = new Road(new[]
-            {
-                new RoadPoint(0, _makerSpace),
-                new RoadPoint(1, _entrance),
-                new RoadPoint(2, _greaterMHub)
-            });
+        var makerToGreaterMHub = new Road(new[]
+        {
+            new RoadPoint(0, _makerSpace),
+            new RoadPoint(1, _entrance),
+            new RoadPoint(2, _greaterMHub)
+        });
 
             return new[] {makerToKitchen, makerToGreaterMHub};
         }

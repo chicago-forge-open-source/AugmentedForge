@@ -1,23 +1,18 @@
 using Markers;
 using NUnit.Framework;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class MarkerTests
     {
-        public Marker Marker = new Marker(
-            "Test Marker",
-            0f,
-            1f
-        );
-
         [Test]
         public void TestConstruction()
         {
-            Assert.AreEqual("Test Marker",Marker.Label);
-            Assert.AreEqual(0f,Marker.X);
-            Assert.AreEqual(1f,Marker.Z);
-            Assert.AreEqual(false, Marker.Active);
+            var marker = new Marker("Test Marker", 0f, 1f);
+            Assert.AreEqual("Test Marker", marker.Label);
+            Assert.AreEqual(0f, marker.X);
+            Assert.AreEqual(1f, marker.Z);
+            Assert.AreEqual(false, marker.Active);
         }
     }
 }

@@ -2,7 +2,7 @@ using Markers;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class MarkerDistanceBehaviourTests
     {
@@ -20,8 +20,8 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_NoArMarkersAreShown()
         {
-            _markerGameObject.transform.position = new Vector3(16, 0, 0);
-            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 0, 0);
+            SetMarkerObjectPosition(16);
+            SetCameraPosition();
 
             _markerBehaviour.Update();
 
@@ -31,8 +31,8 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_GivenUserIsNearArMarkers_ArMarkersAreShown()
         {
-            _markerGameObject.transform.position = new Vector3(4, 0, 0);
-            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 0, 0);
+            SetMarkerObjectPosition(4);
+            SetCameraPosition();
 
             _markerBehaviour.Update();
 
@@ -42,16 +42,26 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
         {
-            _markerGameObject.transform.position = new Vector3(16, 0, 0);
+            SetMarkerObjectPosition(16);
 
-            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 0, 0);
+            SetCameraPosition();
             _markerBehaviour.Update();
             Assert.IsFalse(_markerGameObject.activeSelf);
 
-            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(6, 0, 0);
+            SetCameraPosition(6);
             _markerBehaviour.Update();
 
             Assert.IsTrue(_markerGameObject.activeSelf);
+        }
+
+        private void SetMarkerObjectPosition(float x = 0, float z = 0)
+        {
+            _markerGameObject.transform.position = new Vector3(x, 0, z);
+        }
+
+        private void SetCameraPosition(float x = 0, float z = 0)
+        {
+            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(x, 0, z);
         }
     }
 }

@@ -1,8 +1,7 @@
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class InMemoryMarkerRepositoryTests
     {

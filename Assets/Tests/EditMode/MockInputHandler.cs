@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Tests.EditMode
+namespace Tests.EditMode
 {
     internal class MockInputHandler : InputHandler
     {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Assets.Tests.PlayMode
+namespace Tests.PlayMode
 {
     public class ArViewPlayTests
     {
@@ -18,7 +17,7 @@ namespace Assets.Tests.PlayMode
         {
             SceneManager.LoadScene("ARView");
             yield return null;
-            _mainCamera = GameObject.Find("Map Camera Component");
+            _mainCamera = GameObject.Find("Map Camera");
             _syncPoint = GameObject.Find("Sync Point");
         }
 
@@ -40,7 +39,10 @@ namespace Assets.Tests.PlayMode
             var comparer = new Vector3EqualityComparer(10e-6f);
             var locationMarker = GameObject.Find("Location Marker");
 
-            Assert.That(_syncPoint.transform.position, Is.EqualTo(locationMarker.transform.position).Using(comparer));
+            Assert.That(
+                _syncPoint.transform.position,
+                Is.EqualTo(locationMarker.transform.position).Using(comparer)
+            );
         }
 
         [UnityTest]

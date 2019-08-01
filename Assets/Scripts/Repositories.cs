@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Roads;
 using Markers;
 using SyncPoints;
+﻿using Markers;
+using Roads;
 
-namespace Assets.Scripts
+public static class Repositories
 {
     public static class Repositories
     {

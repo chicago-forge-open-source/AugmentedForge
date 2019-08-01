@@ -3,17 +3,15 @@ using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-namespace Assets.Scripts
+public class OverlayMapBehaviour : MonoBehaviour
 {
-    public class OverlayMapBehaviour : MonoBehaviour
-    {
-        public GameObject ArCameraComponent;
-        public GameObject MapCameraComponent;
-        public GameObject StartPoint;
-        public GameObject LocationMarker;
-        public InitializeMarkers InitializeMarkers;
-        private ARCameraBackground _cameraBackground;
-        public ICompass Compass = new RealCompass();
+    public GameObject arCameraGameObject;
+    public GameObject mapCameraGameObject;
+    public GameObject startPoint;
+    public GameObject locationMarker;
+    public InitializeMarkers initializeMarkers;
+    private ARCameraBackground _cameraBackground;
+    public ICompass compass = new RealCompass();
 
         private static readonly Vector3 ChicagoSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
         private static readonly Vector3 IowaSyncPointPosition = new Vector3(0, 0, -18.17933f);
@@ -22,7 +20,7 @@ namespace Assets.Scripts
         {
             DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
             
-            _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
+            _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
             var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
             var mapObject = (GameObject) Resources.Load(spritePath);
             GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
@@ -38,59 +36,58 @@ namespace Assets.Scripts
 
         private void LocationSync()
         {
-            var syncPos = StartPoint.transform.position;
-            Helpers.SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
-            Helpers.SetObjectXzPosition(MapCameraComponent.transform, syncPos.x, syncPos.z);
+            var syncPos = startPoint.transform.position;
+            Helpers.SetObjectXzPosition(locationMarker.transform, syncPos.x, syncPos.z);
+            Helpers.SetObjectXzPosition(mapCameraGameObject.transform, syncPos.x, syncPos.z);
         }
 
-        public void Update()
+    public void Update()
+    {
+        UpdateLocationMarker();
+        UpdateMapCameraRotation();
+    }
+
+    private void UpdateLocationMarker()
+    {
+        var arCameraPosition = arCameraGameObject.transform.position;
+
+        var startPointPosition = startPoint.transform.position;
+        locationMarker.transform.position = new Vector3(arCameraPosition.x, startPointPosition.y, arCameraPosition.z);
+        if (_cameraBackground.enabled)
         {
-            UpdateLocationMarker();
-            UpdateMapCameraRotation();
+            MoveOverlayMap(arCameraPosition);
         }
+    }
 
-        private void UpdateLocationMarker()
+    private void MoveOverlayMap(Vector3 newPosition)
+    {
+        var mapCameraPosition = mapCameraGameObject.transform.position;
+        mapCameraGameObject.transform.position = new Vector3(newPosition.x, mapCameraPosition.y, newPosition.z);
+    }
+
+    private void UpdateMapCameraRotation()
+    {
+        if (!_cameraBackground.enabled) return;
+        const float divisor = 4f;
+        var compassHeading = compass.TrueHeading;
+        var mapCameraVector = mapCameraGameObject.transform.rotation.eulerAngles;
+        var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
+
+        var finalRotation = mapCameraVector.y + rotationDifference / divisor;
+        var mapRotation = Quaternion.Euler(90, finalRotation, 0);
+        mapCameraGameObject.transform.rotation = mapRotation;
+
+        foreach (var mapMarker in initializeMarkers.MapMarkers)
         {
-            var arCameraPosition = ArCameraComponent.transform.position;
-
-            var startPointPosition = StartPoint.transform.position;
-            LocationMarker.transform.position = new Vector3(arCameraPosition.x, startPointPosition.y, arCameraPosition.z);
-            if (_cameraBackground.enabled)
-            {
-                MoveOverlayMap(arCameraPosition);
-            }
+            mapMarker.transform.rotation = mapRotation;
         }
+    }
 
-        private void MoveOverlayMap(Vector3 newPosition)
-        {
-            var mapCameraPosition = MapCameraComponent.transform.position;
-            MapCameraComponent.transform.position = new Vector3(newPosition.x, mapCameraPosition.y, newPosition.z);
-        }
-
-        private void UpdateMapCameraRotation()
-        {
-            if (!_cameraBackground.enabled) return;
-            const float divisor = 4f;
-            var compassHeading = Compass.TrueHeading;
-            var mapCameraVector = MapCameraComponent.transform.rotation.eulerAngles;
-            var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
-
-            var finalRotation = mapCameraVector.y + rotationDifference / divisor;
-            var mapRotation = Quaternion.Euler(90, finalRotation, 0);
-            MapCameraComponent.transform.rotation = mapRotation;
-
-            foreach (var mapMarker in InitializeMarkers.MapMarkers)
-            {
-                mapMarker.transform.rotation = mapRotation;
-            }
-        }
-
-        private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
-        {
-            var rotationDifference = compassHeading - mapCameraVector.y;
-            if (rotationDifference > 180) rotationDifference -= 360;
-            else if (rotationDifference < -180) rotationDifference += 360;
-            return rotationDifference;
-        }
+    private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
+    {
+        var rotationDifference = compassHeading - mapCameraVector.y;
+        if (rotationDifference > 180) rotationDifference -= 360;
+        else if (rotationDifference < -180) rotationDifference += 360;
+        return rotationDifference;
     }
 }
