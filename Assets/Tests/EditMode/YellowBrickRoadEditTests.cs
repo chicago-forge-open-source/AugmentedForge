@@ -26,7 +26,7 @@ namespace Assets.Tests.EditMode
             var corner2 = new RoadPoint(2, new Marker("Corner 2", 20f, -3.5f));
             var end = new RoadPoint(3, new Marker("End", 10f, -4));
 
-            _brickScript.DrawPath(null, new[] {start, corner1, corner2, end});
+            _brickScript.DrawPath(new[] {start, corner1, corner2, end});
             var road = _yellowBrick.GetComponent<LineRenderer>();
             
             Assert.AreEqual(4, road.positionCount);
