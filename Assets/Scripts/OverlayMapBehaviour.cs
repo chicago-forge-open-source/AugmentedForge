@@ -16,6 +16,8 @@ namespace Assets.Scripts
 
         public void Start()
         {
+            StartPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
+            
             _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
             var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
             var mapObject = (GameObject) Resources.Load(spritePath);

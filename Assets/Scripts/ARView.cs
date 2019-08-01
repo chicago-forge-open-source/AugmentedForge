@@ -15,6 +15,8 @@ namespace Assets.Scripts
 
         public void Start()
         {
+            StartPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
+            
             LocationSync();
         }
 

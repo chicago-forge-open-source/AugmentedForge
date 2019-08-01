@@ -32,14 +32,10 @@ namespace Assets.Tests.EditMode
         [Test]
         public void Start_WillMoveArOriginToStartPoint()
         {
-            var startPosition = new Vector3(3, 6, 9);
-            _mapScript.StartPoint.transform.position = startPosition;
-
             _mapScript.Start();
 
             var position = _mapScript.ArSessionOrigin.transform.position;
-            var expectedVector = new Vector3(startPosition.x, 0, startPosition.z);
-            Assert.AreEqual(expectedVector, position);
+            Assert.AreEqual(_mapScript.StartPoint.transform.position, position);
         }
 
         [Test]
@@ -55,5 +51,26 @@ namespace Assets.Tests.EditMode
                 Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
             );
         }
+        
+        [Test]
+        public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
+        {
+            PlayerPrefs.SetString("location", "Chicago");
+            
+            _mapScript.Start();
+            
+            Assert.AreEqual("Chicago Sync Point", _mapScript.StartPoint.name);
+        }
+        
+        [Test]
+        public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
+        {
+            PlayerPrefs.SetString("location", "Iowa");
+            
+            _mapScript.Start();
+            
+            Assert.AreEqual("Iowa Sync Point", _mapScript.StartPoint.name);
+        }
+
     }
 }
