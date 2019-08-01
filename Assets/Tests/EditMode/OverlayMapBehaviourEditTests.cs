@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Assets.Scripts;
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;

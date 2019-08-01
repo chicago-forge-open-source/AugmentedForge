@@ -1,65 +1,45 @@
+using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class MarkerControlBehaviour : MonoBehaviour
     {
-        public InputHandler InputHandler = new UnityInputHandler();
-        public PhysicsHandler PhysicsHandler = new UnityPhysicsHandler();
-        public GameObject ArCameraGameObject;
-        public Marker Marker;
+        public InputHandler inputHandler = new UnityInputHandler();
+        public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
+        public GameObject arCameraGameObject;
+        public Marker marker;
+        private Camera _arCameraComponent;
+        private MarkerSpinBehaviour _spinBehaviour;
+        private MarkerFaceCameraBehaviour _faceCameraBehaviour;
+        private MarkerDistanceBehaviour _markerDistanceBehaviour;
 
         public void Start()
         {
-            var spinBehaviour = gameObject.AddComponent<MarkerSpinBehaviour>();
-            spinBehaviour.enabled = false;
-            spinBehaviour.Marker = Marker;
+            _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
+            _spinBehaviour = gameObject.AddComponent<MarkerSpinBehaviour>();
+            _spinBehaviour.enabled = false;
+            _spinBehaviour.marker = marker;
 
-            var faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
-            faceCameraBehaviour.ArCameraGameObject = ArCameraGameObject;
+            _faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
+            _faceCameraBehaviour.arCameraGameObject = arCameraGameObject;
 
-            var markerDistanceBehaviour = gameObject.AddComponent<MarkerDistanceBehaviour>();
-            markerDistanceBehaviour.ArCameraGameObject = ArCameraGameObject;
+            _markerDistanceBehaviour = gameObject.AddComponent<MarkerDistanceBehaviour>();
+            _markerDistanceBehaviour.arCameraGameObject = arCameraGameObject;
         }
 
         public void Update()
         {
-            if (InputHandler.TouchCount > 0)
+            if (inputHandler.TouchCount > 0)
             {
-                var touch = InputHandler.GetTouch(0);
-                var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
-                
-                if (Equals(this, PhysicsHandler.Raycast<MarkerControlBehaviour>(touchPosition)))
-                {
-                    Marker.Active = true;
-                }
+                var touch = inputHandler.GetTouch(0);
+                var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
+                marker.Active = Equals(this, physicsHandler.Raycast<MarkerControlBehaviour>(touchPosition));
             }
-            
-            if (Marker.Active)
-            {
-                EnableMarkerActiveBehaviors();
-                if (GetComponent<MarkerSpinBehaviour>().RotatedFullCircle)
-                {
-                    Marker.Active = false;
-                    DisableMarkerActiveBehaviors();
-                }
-            }
-            else
-            {
-                DisableMarkerActiveBehaviors();
-            }
-        }
 
-        private void EnableMarkerActiveBehaviors()
-        {
-            GetComponent<MarkerSpinBehaviour>().enabled = true;
-            GetComponent<MarkerFaceCameraBehaviour>().enabled = false;
-        }
-
-        private void DisableMarkerActiveBehaviors()
-        {
-            GetComponent<MarkerSpinBehaviour>().enabled = false;
-            GetComponent<MarkerFaceCameraBehaviour>().enabled = true;
+            if (_spinBehaviour.rotatedFullCircle) marker.Active = false;
+            _spinBehaviour.enabled = marker.Active;
+            _faceCameraBehaviour.enabled = !marker.Active;
         }
     }
 }

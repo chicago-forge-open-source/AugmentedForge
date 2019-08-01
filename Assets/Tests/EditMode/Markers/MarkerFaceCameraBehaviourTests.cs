@@ -1,4 +1,4 @@
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
@@ -16,14 +16,14 @@ namespace Assets.Tests.EditMode.Markers
         {
             _markerGameObject = new GameObject();
             _markerBehaviour = _markerGameObject.AddComponent<MarkerFaceCameraBehaviour>();
-            _markerBehaviour.ArCameraGameObject = new GameObject();
+            _markerBehaviour.arCameraGameObject = new GameObject();
         }
 
         [Test]
         public void Update_GivenTheModelFacesEastNaturally_RotateNorthMarkerToFaceArCameraLocation()
         {
             _markerGameObject.transform.position = new Vector3(1, 0, 0);
-            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
+            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
             _markerBehaviour.Update();
 
@@ -36,7 +36,7 @@ namespace Assets.Tests.EditMode.Markers
         public void Update_GivenTheModelFacesEastNaturally_RotateWestMarkerToFaceArCameraLocation()
         {
             _markerGameObject.transform.position = new Vector3(0, 0, 1);
-            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 0, 0);
+            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 0, 0);
 
             _markerBehaviour.Update();
 
@@ -50,7 +50,7 @@ namespace Assets.Tests.EditMode.Markers
         public void Update_ArMarkersDoNotChangeRotationOnXOrZAxises()
         {
             _markerGameObject.transform.position = new Vector3(1, 0, 0);
-            _markerBehaviour.ArCameraGameObject.transform.position = new Vector3(0, 100, 0);
+            _markerBehaviour.arCameraGameObject.transform.position = new Vector3(0, 100, 0);
 
             _markerBehaviour.Update();
 

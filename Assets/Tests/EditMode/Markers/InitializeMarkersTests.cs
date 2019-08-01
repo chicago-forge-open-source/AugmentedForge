@@ -1,6 +1,6 @@
 using System.Linq;
 using Assets.Scripts;
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,11 +17,11 @@ namespace Assets.Tests.EditMode.Markers
         {
             _game = new GameObject();
             _initializeMarkers = _game.AddComponent<InitializeMarkers>();
-            _initializeMarkers.ArCameraGameObject = new GameObject();
-            _initializeMarkers.ArMarkerPrefab = new GameObject();
-            _initializeMarkers.ArMarkerPrefab.AddComponent<Text>();
-            _initializeMarkers.MapMarkerPrefab = new GameObject();
-            _initializeMarkers.MapMarkerPrefab.AddComponent<Text>();
+            _initializeMarkers.arCameraGameObject = new GameObject();
+            _initializeMarkers.arMarkerPrefab = new GameObject();
+            _initializeMarkers.arMarkerPrefab.AddComponent<Text>();
+            _initializeMarkers.mapMarkerPrefab = new GameObject();
+            _initializeMarkers.mapMarkerPrefab.AddComponent<Text>();
         }
 
         [Test]

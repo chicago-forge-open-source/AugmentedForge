@@ -1,5 +1,5 @@
 using Assets.Scripts;
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 
 namespace Assets.Tests.EditMode.Markers

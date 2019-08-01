@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class MarkerFaceCameraBehaviour : MonoBehaviour
     {
-        public GameObject ArCameraGameObject;
+        public GameObject arCameraGameObject;
 
         public void Update()
         {
@@ -13,7 +13,7 @@ namespace Assets.Scripts.Markers
 
         private void RotateMarkerToFaceCamera(GameObject arMarker)
         {
-            arMarker.transform.LookAt(ArCameraGameObject.transform);
+            arMarker.transform.LookAt(arCameraGameObject.transform);
 
             var newRotation = arMarker.transform.rotation.eulerAngles;
             newRotation.x = 0;

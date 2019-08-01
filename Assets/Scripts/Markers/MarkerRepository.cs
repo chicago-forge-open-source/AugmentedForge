@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Markers
+﻿namespace Markers
 {
     public interface IMarkerRepository
     {

@@ -1,20 +1,15 @@
+using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class UnityPhysicsHandler : PhysicsHandler
     {
         public T Raycast<T>(Ray ray) where T : class
         {
-            RaycastHit putItHere;
-            if (Physics.Raycast(ray, out putItHere))
-            {
-                return putItHere.transform.GetComponent<T>();
-            }
-            else
-            {
-                return default;
-            }
+            return Physics.Raycast(ray, out var raycastHit)
+                ? raycastHit.transform.GetComponent<T>()
+                : default;
         }
     }
 }
