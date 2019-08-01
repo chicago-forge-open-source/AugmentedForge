@@ -42,25 +42,20 @@ namespace Assets.Tests.EditMode
         [Test]
         public void Start_WillMoveLocationMarkerToStartPoint()
         {
-            var startPosition = new Vector3(3, 6, 9);
-            _mapScript.StartPoint.transform.position = startPosition;
-
             _mapScript.Start();
 
             var position = _mapScript.LocationMarker.transform.position;
-            var expectedVector = new Vector3(startPosition.x, 0, startPosition.z);
-            Assert.AreEqual(expectedVector, position);
+            
+            Assert.AreEqual(_mapScript.StartPoint.transform.position, position);
         }
 
         [Test]
         public void Start_WillMoveMapCameraToStartPoint()
         {
-            var startPosition = new Vector3(1, 2, 3);
-            _mapScript.StartPoint.transform.position = startPosition;
-
             _mapScript.Start();
 
             var position = _mapScript.MapCameraComponent.transform.position;
+            var startPosition = _mapScript.StartPoint.transform.position;
             Assert.AreEqual(startPosition.x, position.x);
             Assert.AreEqual(startPosition.z, position.z);
         }
@@ -273,6 +268,24 @@ namespace Assets.Tests.EditMode
         {
             _mapScript.Start();
             _mapScript.ArCameraComponent.GetComponent<ARCameraBackground>().enabled = false;
+        }
+
+        [Test]
+        public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
+        {
+            _mapScript.Start();
+            
+            Assert.AreEqual("Chicago Sync Point", _mapScript.StartPoint.name);
+        }
+        
+        [Test]
+        public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
+        {
+            PlayerPrefs.SetString("location", "Iowa");
+            
+            _mapScript.Start();
+            
+            Assert.AreEqual("Iowa Sync Point", _mapScript.StartPoint.name);
         }
     }
 
