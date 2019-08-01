@@ -1006,10 +1006,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaa77d2ba1884c03bb848b9c17ee3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArCameraComponent: {fileID: 165585583}
-  DebugText: {fileID: 40919616}
-  StartPoint: {fileID: 2135615481}
-  ArSessionOrigin: {fileID: 1577749883}
+  arCameraGameObject: {fileID: 165585583}
+  debugText: {fileID: 40919616}
+  startPoint: {fileID: 2135615481}
+  arSessionOrigin: {fileID: 1577749883}
 --- !u!114 &543973077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,10 +1039,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5237afebbdc49a2b677136880427f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArCameraComponent: {fileID: 165585583}
-  MapCameraComponent: {fileID: 963194225}
-  ArMapOverlayToggle: {fileID: 1206350025}
-  InitializeMarkers: {fileID: 543973077}
+  arCameraGameObject: {fileID: 165585583}
+  mapCameraGameObject: {fileID: 963194225}
+  arMapOverlayToggle: {fileID: 1206350025}
+  initializeMarkers: {fileID: 543973077}
 --- !u!114 &543973079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,11 +1055,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f788fcd8734327a7cb132896689dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArCameraComponent: {fileID: 165585583}
-  MapCameraComponent: {fileID: 963194225}
-  StartPoint: {fileID: 2135615481}
-  LocationMarker: {fileID: 1317246971}
-  InitializeMarkers: {fileID: 543973077}
+  arCameraGameObject: {fileID: 165585583}
+  mapCameraGameObject: {fileID: 963194225}
+  startPoint: {fileID: 2135615481}
+  locationMarker: {fileID: 1317246971}
+  initializeMarkers: {fileID: 543973077}
 --- !u!114 &543973080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,7 +1176,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   m_Layer: 0
-  m_Name: Map Camera Component
+  m_Name: Map Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,5 +1,4 @@
 using System.Collections;
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-namespace Assets.Tests.PlayMode.Markers
+namespace Tests.PlayMode.Markers
 {
     public class MarkerBehaviourTests
     {

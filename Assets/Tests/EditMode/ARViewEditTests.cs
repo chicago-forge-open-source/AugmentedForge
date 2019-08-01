@@ -1,11 +1,10 @@
-﻿using Assets.Scripts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
-namespace Assets.Tests.EditMode
+namespace Tests.EditMode
 {
     public class ArViewEditTests
     {
@@ -19,14 +18,14 @@ namespace Assets.Tests.EditMode
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
             _mapScript = _game.AddComponent<ARView>();
-            _mapScript.DebugText = _game.AddComponent<Text>();
+            _mapScript.debugText = _game.AddComponent<Text>();
 
-            _mapScript.ArCameraComponent = new GameObject();
-            _mapScript.ArCameraComponent.AddComponent<ARCameraBackground>();
-            _mapScript.ArCameraComponent.GetComponent<Camera>().cullingMask = 567;
+            _mapScript.arCameraGameObject = new GameObject();
+            _mapScript.arCameraGameObject.AddComponent<ARCameraBackground>();
+            _mapScript.arCameraGameObject.GetComponent<Camera>().cullingMask = 567;
 
-            _mapScript.StartPoint = new GameObject();
-            _mapScript.ArSessionOrigin = new GameObject();
+            _mapScript.startPoint = new GameObject();
+            _mapScript.arSessionOrigin = new GameObject();
         }
 
         [Test]
@@ -34,20 +33,20 @@ namespace Assets.Tests.EditMode
         {
             _mapScript.Start();
 
-            var position = _mapScript.ArSessionOrigin.transform.position;
-            Assert.AreEqual(_mapScript.StartPoint.transform.position, position);
+            var position = _mapScript.arSessionOrigin.transform.position;
+            Assert.AreEqual(_mapScript.startPoint.transform.position, position);
         }
 
         [Test]
         public void Start_WillUpdateArSessionOriginRotationBasedOnCompass()
         {
-            _mapScript.Compass = new MockCompass {TrueHeading = 180f};
+            _mapScript.compass = new MockCompass {TrueHeading = 180f};
 
             _mapScript.Start();
 
             var expectedCameraRotation = Quaternion.Euler(0, 180f, 0);
 
-            Assert.That(_mapScript.ArSessionOrigin.transform.rotation,
+            Assert.That(_mapScript.arSessionOrigin.transform.rotation,
                 Is.EqualTo(expectedCameraRotation).Using(_quaternionComparer)
             );
         }
@@ -59,7 +58,7 @@ namespace Assets.Tests.EditMode
             
             _mapScript.Start();
             
-            Assert.AreEqual("Chicago Sync Point", _mapScript.StartPoint.name);
+            Assert.AreEqual("Chicago Sync Point", _mapScript.startPoint.name);
         }
         
         [Test]
@@ -69,7 +68,7 @@ namespace Assets.Tests.EditMode
             
             _mapScript.Start();
             
-            Assert.AreEqual("Iowa Sync Point", _mapScript.StartPoint.name);
+            Assert.AreEqual("Iowa Sync Point", _mapScript.startPoint.name);
         }
 
     }

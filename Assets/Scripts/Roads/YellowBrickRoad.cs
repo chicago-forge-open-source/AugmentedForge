@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using Roads;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Roads
 {
     public class YellowBrickRoad : MonoBehaviour
     {

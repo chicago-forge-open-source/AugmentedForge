@@ -1,10 +1,9 @@
-using Assets.Scripts;
 using Markers;
 using NUnit.Framework;
 using Roads;
 using UnityEngine;
 
-namespace Assets.Tests.EditMode
+namespace Tests.EditMode
 {
     public class YellowBrickRoadEditTests
     {

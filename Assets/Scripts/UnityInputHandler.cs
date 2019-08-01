@@ -1,14 +1,11 @@
 using UnityEngine;
 
-namespace Assets.Scripts
+internal class UnityInputHandler : InputHandler
 {
-    internal class UnityInputHandler : InputHandler
-    {
-        public int TouchCount => Input.touchCount;
+    public int TouchCount => Input.touchCount;
 
-        public Touch GetTouch(int index)
-        {
-            return Input.GetTouch(index);
-        }
+    public Touch GetTouch(int index)
+    {
+        return Input.GetTouch(index);
     }
 }

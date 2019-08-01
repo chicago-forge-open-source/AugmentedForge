@@ -1,11 +1,10 @@
 using System.Collections;
-using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace Assets.Tests.PlayMode
+namespace Tests.PlayMode
 {
     public class AppInitPlayTests
     {
@@ -18,7 +17,7 @@ namespace Assets.Tests.PlayMode
 
             var camera = GameObject.Find("Main Camera");
             _initScript = camera.GetComponent<InitializeThings>();
-            _initScript.Compass = new MockCompass();
+            _initScript.compass = new MockCompass();
         }
     
         [UnityTest]

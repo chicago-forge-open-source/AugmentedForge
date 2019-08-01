@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Assets.Tests.PlayMode
+namespace Tests.PlayMode
 {
     public class ArViewPlayTests
     {
@@ -18,7 +17,7 @@ namespace Assets.Tests.PlayMode
         {
             SceneManager.LoadScene("ARView");
             yield return null;
-            _mainCamera = GameObject.Find("Map Camera Component");
+            _mainCamera = GameObject.Find("Map Camera");
             _syncPoint = GameObject.Find("Chicago Sync Point");
         }
 

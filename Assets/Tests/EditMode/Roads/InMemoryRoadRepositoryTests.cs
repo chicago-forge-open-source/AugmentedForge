@@ -2,7 +2,7 @@ using Markers;
 using NUnit.Framework;
 using Roads;
 
-namespace Assets.Tests.EditMode.Roads
+namespace Tests.EditMode.Roads
 {
     public class InMemoryRoadRepositoryTests
     {

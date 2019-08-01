@@ -1,8 +1,5 @@
-namespace Assets.Scripts
+public interface ILocationInfo
 {
-    public interface ILocationInfo
-    {
-        float Latitude { get; }
-        float Longitude { get; }
-    }
+    float Latitude { get; }
+    float Longitude { get; }
 }

@@ -2,84 +2,80 @@ using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-namespace Assets.Scripts
+public class OverlayMapBehaviour : MonoBehaviour
 {
-    public class OverlayMapBehaviour : MonoBehaviour
+    public GameObject arCameraGameObject;
+    public GameObject mapCameraGameObject;
+    public GameObject startPoint;
+    public GameObject locationMarker;
+    public InitializeMarkers initializeMarkers;
+    private ARCameraBackground _cameraBackground;
+    public ICompass compass = new RealCompass();
+
+    public void Start()
     {
-        public GameObject ArCameraComponent;
-        public GameObject MapCameraComponent;
-        public GameObject StartPoint;
-        public GameObject LocationMarker;
-        public InitializeMarkers InitializeMarkers;
-        private ARCameraBackground _cameraBackground;
-        public ICompass Compass = new RealCompass();
+        startPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
+        _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
+        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
+        var mapObject = (GameObject) Resources.Load(spritePath);
+        GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
+        LocationSync();
+    }
 
-        public void Start()
+    private void LocationSync()
+    {
+        var syncPos = startPoint.transform.position;
+        Helpers.SetObjectXzPosition(locationMarker.transform, syncPos.x, syncPos.z);
+        Helpers.SetObjectXzPosition(mapCameraGameObject.transform, syncPos.x, syncPos.z);
+    }
+
+    public void Update()
+    {
+        UpdateLocationMarker();
+        UpdateMapCameraRotation();
+    }
+
+    private void UpdateLocationMarker()
+    {
+        var arCameraPosition = arCameraGameObject.transform.position;
+
+        var startPointPosition = startPoint.transform.position;
+        locationMarker.transform.position = new Vector3(arCameraPosition.x, startPointPosition.y, arCameraPosition.z);
+        if (_cameraBackground.enabled)
         {
-            StartPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
-            
-            _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
-            var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
-            var mapObject = (GameObject) Resources.Load(spritePath);
-            GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
-            LocationSync();
+            MoveOverlayMap(arCameraPosition);
         }
+    }
 
-        private void LocationSync()
+    private void MoveOverlayMap(Vector3 newPosition)
+    {
+        var mapCameraPosition = mapCameraGameObject.transform.position;
+        mapCameraGameObject.transform.position = new Vector3(newPosition.x, mapCameraPosition.y, newPosition.z);
+    }
+
+    private void UpdateMapCameraRotation()
+    {
+        if (!_cameraBackground.enabled) return;
+        const float divisor = 4f;
+        var compassHeading = compass.TrueHeading;
+        var mapCameraVector = mapCameraGameObject.transform.rotation.eulerAngles;
+        var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
+
+        var finalRotation = mapCameraVector.y + rotationDifference / divisor;
+        var mapRotation = Quaternion.Euler(90, finalRotation, 0);
+        mapCameraGameObject.transform.rotation = mapRotation;
+
+        foreach (var mapMarker in initializeMarkers.MapMarkers)
         {
-            var syncPos = StartPoint.transform.position;
-            Helpers.SetObjectXzPosition(LocationMarker.transform, syncPos.x, syncPos.z);
-            Helpers.SetObjectXzPosition(MapCameraComponent.transform, syncPos.x, syncPos.z);
+            mapMarker.transform.rotation = mapRotation;
         }
+    }
 
-        public void Update()
-        {
-            UpdateLocationMarker();
-            UpdateMapCameraRotation();
-        }
-
-        private void UpdateLocationMarker()
-        {
-            var arCameraPosition = ArCameraComponent.transform.position;
-
-            var startPointPosition = StartPoint.transform.position;
-            LocationMarker.transform.position = new Vector3(arCameraPosition.x, startPointPosition.y, arCameraPosition.z);
-            if (_cameraBackground.enabled)
-            {
-                MoveOverlayMap(arCameraPosition);
-            }
-        }
-
-        private void MoveOverlayMap(Vector3 newPosition)
-        {
-            var mapCameraPosition = MapCameraComponent.transform.position;
-            MapCameraComponent.transform.position = new Vector3(newPosition.x, mapCameraPosition.y, newPosition.z);
-        }
-
-        private void UpdateMapCameraRotation()
-        {
-            if (!_cameraBackground.enabled) return;
-            const float divisor = 4f;
-            var compassHeading = Compass.TrueHeading;
-            var mapCameraVector = MapCameraComponent.transform.rotation.eulerAngles;
-            var rotationDifference = CalculateRotationDifference(compassHeading, mapCameraVector);
-
-            var finalRotation = mapCameraVector.y + rotationDifference / divisor;
-            var mapRotation = Quaternion.Euler(90, finalRotation, 0);
-            MapCameraComponent.transform.rotation = mapRotation;
-
-            foreach (var mapMarker in InitializeMarkers.MapMarkers)
-            {
-                mapMarker.transform.rotation = mapRotation;
-            }
-        }
-
-        private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
-        {
-            var rotationDifference = compassHeading - mapCameraVector.y;
-            if (rotationDifference > 180) rotationDifference -= 360;
-            else if (rotationDifference < -180) rotationDifference += 360;
-            return rotationDifference;
-        }
+    private static float CalculateRotationDifference(float compassHeading, Vector3 mapCameraVector)
+    {
+        var rotationDifference = compassHeading - mapCameraVector.y;
+        if (rotationDifference > 180) rotationDifference -= 360;
+        else if (rotationDifference < -180) rotationDifference += 360;
+        return rotationDifference;
     }
 }

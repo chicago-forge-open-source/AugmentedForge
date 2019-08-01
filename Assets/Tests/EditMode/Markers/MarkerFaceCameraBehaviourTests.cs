@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class MarkerFaceCameraBehaviourTests
     {

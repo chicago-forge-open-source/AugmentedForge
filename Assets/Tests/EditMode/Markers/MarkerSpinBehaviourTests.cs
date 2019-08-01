@@ -1,10 +1,9 @@
 using Markers;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 
-namespace Assets.Tests.EditMode.Markers
+namespace Tests.EditMode.Markers
 {
     public class MarkerSpinBehaviourTests
     {
@@ -36,7 +35,7 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_WillAddRotationToMarker()
         {
-            var initialRotation = 90;
+            const int initialRotation = 90;
             _markerBehaviour.marker = new Marker("", 0, 0) {Active = true};
             _markerGameObject.transform.rotation = Quaternion.Euler(0, initialRotation, 0);
 
@@ -62,7 +61,7 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_WhenMarkerMakesFullRotationThenMarkerBecomesInactive()
         {
-            var initialRotation = 78;
+            const int initialRotation = 78;
             _markerBehaviour.marker = new Marker("", 0, 0) {Active = true};
             var rotation = Quaternion.Euler(0, initialRotation, 0);
             _markerGameObject.transform.rotation = rotation;

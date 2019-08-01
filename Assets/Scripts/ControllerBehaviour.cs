@@ -2,70 +2,65 @@ using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-namespace Assets.Scripts
+public class ControllerBehaviour : MonoBehaviour
 {
-    public class ControllerBehaviour : MonoBehaviour
+        
+    private const int MappingLayerBitMask = 1 << 9;
+    private static readonly Quaternion MapNorth = Quaternion.Euler(90, 0, 0);
+        
+    public GameObject arCameraGameObject;
+    public GameObject mapCameraGameObject;
+    public GameObject arMapOverlayToggle;
+    public InitializeMarkers initializeMarkers;
+        
+    private ARCameraBackground _cameraBackground;
+    private Camera _mapCamera;
+    public void Start()
     {
+        _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
+        _mapCamera = mapCameraGameObject.GetComponent<Camera>();
+    }
         
-        private const int MappingLayerBitMask = 1 << 9;
-        private static readonly Quaternion MapNorth = Quaternion.Euler(90, 0, 0);
-        
-        public GameObject ArCameraComponent;
-        public GameObject MapCameraComponent;
-        public GameObject ArMapOverlayToggle;
-        public InitializeMarkers InitializeMarkers;
-        
-        private ARCameraBackground _cameraBackground;
-        private Camera _mapCamera;
-        public void Start()
+    public void OnClick_ArMapOverlayToggle()
+    {
+        _mapCamera.enabled = !_mapCamera.enabled;
+    }
+
+    public void OnClick_MapOnlyToggle()
+    {
+        var arCamera = arCameraGameObject.GetComponent<Camera>();
+        arCamera.cullingMask ^= MappingLayerBitMask;
+
+        if (_cameraBackground.enabled)
         {
-            _cameraBackground = ArCameraComponent.GetComponent<ARCameraBackground>();
-            _mapCamera = MapCameraComponent.GetComponent<Camera>();
-        }
-        
-        public void OnClick_ArMapOverlayToggle()
-        {
-            _mapCamera.enabled = !_mapCamera.enabled;
+            ShowMapOnlyView();
+            return;
         }
 
-        public void OnClick_MapOnlyToggle()
+        ShowArView();
+    }
+
+    private void ShowMapOnlyView()
+    {
+        _cameraBackground.enabled = false;
+        mapCameraGameObject.GetComponent<FingerGestures>().enabled = true;
+        _mapCamera.enabled = true;
+        mapCameraGameObject.transform.rotation = MapNorth;
+
+        foreach (var mapMarker in initializeMarkers.MapMarkers)
         {
-            if (_cameraBackground.enabled)
-            {
-                ShowMapOnlyView();
-            }
-            else
-            {
-                ShowArView();
-            }
+            mapMarker.transform.rotation = MapNorth;
         }
-
-        private void ShowMapOnlyView()
-        {
-            _cameraBackground.enabled = false;
-            MapCameraComponent.GetComponent<FingerGestures>().enabled = true;
-            _mapCamera.enabled = true;
-            var arCamera = ArCameraComponent.GetComponent<Camera>();
-            arCamera.cullingMask ^= MappingLayerBitMask;
-            MapCameraComponent.transform.rotation = MapNorth;
-
-            foreach (var mapMarker in InitializeMarkers.MapMarkers)
-            {
-                mapMarker.transform.rotation = MapNorth;
-            }
             
-            ArMapOverlayToggle.SetActive(false);
-        }
+        arMapOverlayToggle.SetActive(false);
+    }
 
-        private void ShowArView()
-        {
-            _cameraBackground.enabled = true;
-            MapCameraComponent.GetComponent<FingerGestures>().enabled = false;
-            _mapCamera.enabled = true;
-            var arCamera = ArCameraComponent.GetComponent<Camera>();
-            arCamera.cullingMask ^= MappingLayerBitMask;
-            _mapCamera.fieldOfView = 60;
-            ArMapOverlayToggle.SetActive(true);
-        }
+    private void ShowArView()
+    {
+        _cameraBackground.enabled = true;
+        mapCameraGameObject.GetComponent<FingerGestures>().enabled = false;
+        _mapCamera.enabled = true;
+        _mapCamera.fieldOfView = 60;
+        arMapOverlayToggle.SetActive(true);
     }
 }
