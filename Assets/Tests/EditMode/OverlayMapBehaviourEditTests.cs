@@ -8,7 +8,6 @@ namespace Tests.EditMode
 {
     public class OverlayMapBehaviourEditTests
     {
-        private const int MapRotationIncrementDivisor = 4;
         private GameObject _game;
         private OverlayMapBehaviour _mapScript;
         private const string Chicago = "Chicago";
@@ -42,7 +41,7 @@ namespace Tests.EditMode
             _mapScript.Start();
 
             var position = _mapScript.locationMarker.transform.position;
-            
+
             Assert.AreEqual(_mapScript.startPoint.transform.position, position);
         }
 
@@ -118,13 +117,8 @@ namespace Tests.EditMode
             _mapScript.arCameraGameObject.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var expectedCameraRotation = Quaternion.Euler(
-                90,
-                _mapScript.compass.TrueHeading / MapRotationIncrementDivisor,
-                0);
-            
             TestHelpers.AssertQuaternionsAreEqual(
-                expectedCameraRotation,
+                ExpectedCameraRotation(0, _mapScript.compass.TrueHeading),
                 _mapScript.mapCameraGameObject.transform.rotation
             );
         }
@@ -135,19 +129,15 @@ namespace Tests.EditMode
             _mapScript.Start();
 
             _mapScript.compass = new MockCompass {TrueHeading = 180f};
-            var originalCameraRotationDegrees = 90;
-            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
+            const int originalCameraDegrees = 90;
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraDegrees, 0);
             _mapScript.mapCameraGameObject.transform.rotation = originalCameraRotation;
 
             _mapScript.arCameraGameObject.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var differenceInRotation = _mapScript.compass.TrueHeading - originalCameraRotationDegrees;
-            var expectedCameraRotation = Quaternion.Euler(
-                90,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
-                0
-            );
+            var rotationDiff = _mapScript.compass.TrueHeading - originalCameraDegrees;
+            var expectedCameraRotation = ExpectedCameraRotation(originalCameraDegrees, rotationDiff);
 
             TestHelpers.AssertQuaternionsAreEqual(
                 expectedCameraRotation,
@@ -161,22 +151,15 @@ namespace Tests.EditMode
             _mapScript.Start();
 
             _mapScript.compass = new MockCompass {TrueHeading = 358f};
-            const int originalCameraRotationDegrees = 2;
-            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
+            const int originalCameraDegrees = 2;
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraDegrees, 0);
             _mapScript.mapCameraGameObject.transform.rotation = originalCameraRotation;
 
             _mapScript.arCameraGameObject.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var differenceInRotation = -4;
-            var expectedCameraRotation = Quaternion.Euler(
-                90,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
-                0
-            );
-
             TestHelpers.AssertQuaternionsAreEqual(
-                expectedCameraRotation,
+                ExpectedCameraRotation(originalCameraDegrees, -4),
                 _mapScript.mapCameraGameObject.transform.rotation
             );
         }
@@ -187,22 +170,15 @@ namespace Tests.EditMode
             _mapScript.Start();
 
             _mapScript.compass = new MockCompass {TrueHeading = 2f};
-            var originalCameraRotationDegrees = 358;
-            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
+            const int originalCameraDegrees = 358;
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraDegrees, 0);
             _mapScript.mapCameraGameObject.transform.rotation = originalCameraRotation;
 
             _mapScript.arCameraGameObject.transform.position = new Vector3(15, 35, 34);
             _mapScript.Update();
 
-            var differenceInRotation = 4;
-            var expectedCameraRotation = Quaternion.Euler(
-                90,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
-                0
-            );
-
             TestHelpers.AssertQuaternionsAreEqual(
-                expectedCameraRotation,
+                ExpectedCameraRotation(originalCameraDegrees, 4),
                 _mapScript.mapCameraGameObject.transform.rotation
             );
         }
@@ -214,21 +190,14 @@ namespace Tests.EditMode
             _mapScript.Start();
 
             _mapScript.compass = new MockCompass {TrueHeading = 2f};
-            var originalCameraRotationDegrees = 358;
-            var originalCameraRotation = Quaternion.Euler(90, originalCameraRotationDegrees, 0);
+            const int originalCameraDegrees = 358;
+            var originalCameraRotation = Quaternion.Euler(90, originalCameraDegrees, 0);
             _mapScript.mapCameraGameObject.transform.rotation = originalCameraRotation;
-            
+
             _mapScript.Update();
 
-            var differenceInRotation = 4;
-            var expectedCameraRotation = Quaternion.Euler(
-                90,
-                originalCameraRotationDegrees + differenceInRotation / MapRotationIncrementDivisor,
-                0
-            );
-
             TestHelpers.AssertQuaternionsAreEqual(
-                expectedCameraRotation,
+                ExpectedCameraRotation(originalCameraDegrees, 4),
                 _mapScript.mapCameraGameObject.transform.rotation
             );
         }
@@ -283,24 +252,35 @@ namespace Tests.EditMode
         public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
         {
             _mapScript.Start();
-         
+
             var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
         }
-        
+
         [Test]
         public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
         {
             PlayerPrefs.SetString("location", "Iowa");
-            
+
             _mapScript.Start();
-            
+
             var expectedSyncPointPosition = new Vector3(0, 0, -18.17933f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .01);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
+        }
+
+        private static Quaternion ExpectedCameraRotation(float camRotation, float rotationDiff)
+        {
+            const int mapRotationIncrementDivisor = 4;
+
+            return Quaternion.Euler(
+                90,
+                camRotation + rotationDiff / mapRotationIncrementDivisor,
+                0
+            );
         }
     }
 
