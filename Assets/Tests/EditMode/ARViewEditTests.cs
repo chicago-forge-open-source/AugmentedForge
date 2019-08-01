@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using System;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ namespace Tests.EditMode
     public class ArViewEditTests
     {
         private GameObject _game;
+        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private ARView _mapScript;
 
         [SetUp]
@@ -55,8 +57,11 @@ namespace Tests.EditMode
             PlayerPrefs.SetString("location", "Chicago");
             
             _mapScript.Start();
-            
-            Assert.AreEqual("Chicago Sync Point", _mapScript.startPoint.name);
+         
+            var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.startPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
         }
         
         [Test]
@@ -66,7 +71,10 @@ namespace Tests.EditMode
             
             _mapScript.Start();
             
-            Assert.AreEqual("Iowa Sync Point", _mapScript.startPoint.name);
+            var expectedSyncPointPosition = new Vector3(0, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.startPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
         }
 
     }

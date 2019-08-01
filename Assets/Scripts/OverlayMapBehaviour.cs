@@ -1,3 +1,4 @@
+using System;
 using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -12,22 +13,31 @@ public class OverlayMapBehaviour : MonoBehaviour
     private ARCameraBackground _cameraBackground;
     public ICompass compass = new RealCompass();
 
-    public void Start()
-    {
-        startPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
-        _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
-        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
-        var mapObject = (GameObject) Resources.Load(spritePath);
-        GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
-        LocationSync();
-    }
+        private static readonly Vector3 ChicagoSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+        private static readonly Vector3 IowaSyncPointPosition = new Vector3(0, 0, -18.17933f);
 
-    private void LocationSync()
-    {
-        var syncPos = startPoint.transform.position;
-        Helpers.SetObjectXzPosition(locationMarker.transform, syncPos.x, syncPos.z);
-        Helpers.SetObjectXzPosition(mapCameraGameObject.transform, syncPos.x, syncPos.z);
-    }
+        public void Start()
+        {
+            DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
+            
+            _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
+            var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
+            var mapObject = (GameObject) Resources.Load(spritePath);
+            GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
+            LocationSync();
+        }
+
+        private void DetermineSyncPointPositionBasedOnLocation(String location)
+        {
+            startPoint.transform.position = location.Equals("Chicago") ? ChicagoSyncPointPosition : IowaSyncPointPosition;
+        }
+
+        private void LocationSync()
+        {
+            var syncPos = startPoint.transform.position;
+            Helpers.SetObjectXzPosition(locationMarker.transform, syncPos.x, syncPos.z);
+            Helpers.SetObjectXzPosition(mapCameraGameObject.transform, syncPos.x, syncPos.z);
+        }
 
     public void Update()
     {

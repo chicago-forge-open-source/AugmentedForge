@@ -1,7 +1,6 @@
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools.Utils;
 
 namespace Tests.EditMode.Markers
 {

@@ -18,7 +18,7 @@ namespace Tests.PlayMode
             SceneManager.LoadScene("ARView");
             yield return null;
             _mainCamera = GameObject.Find("Map Camera");
-            _syncPoint = GameObject.Find("Chicago Sync Point");
+            _syncPoint = GameObject.Find("Sync Point");
         }
 
         [UnityTest]
