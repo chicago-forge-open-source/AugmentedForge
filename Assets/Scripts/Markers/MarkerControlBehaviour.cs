@@ -11,30 +11,55 @@ namespace Assets.Scripts.Markers
 
         public void Start()
         {
-            gameObject.AddComponent<MarkerSpinBehaviour>().enabled = false;
+            var spinBehaviour = gameObject.AddComponent<MarkerSpinBehaviour>();
+            spinBehaviour.enabled = false;
+            spinBehaviour.Marker = Marker;
 
             var faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
             faceCameraBehaviour.ArCameraGameObject = ArCameraGameObject;
+
+            var markerDistanceBehaviour = gameObject.AddComponent<MarkerDistanceBehaviour>();
+            markerDistanceBehaviour.ArCameraGameObject = ArCameraGameObject;
         }
 
         public void Update()
         {
-            gameObject.AddComponent<MarkerSpinBehaviour>();
-
+            if (InputHandler.TouchCount > 0)
+            {
+                var touch = InputHandler.GetTouch(0);
+                var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
+                
+                if (Equals(this, PhysicsHandler.Raycast<MarkerControlBehaviour>(touchPosition)))
+                {
+                    Marker.Active = true;
+                }
+            }
+            
             if (Marker.Active)
             {
-                GetComponent<MarkerSpinBehaviour>().enabled = true;
-                GetComponent<MarkerFaceCameraBehaviour>().enabled = false;
+                EnableMarkerActiveBehaviors();
+                if (GetComponent<MarkerSpinBehaviour>().RotatedFullCircle)
+                {
+                    Marker.Active = false;
+                    DisableMarkerActiveBehaviors();
+                }
             }
             else
             {
-                GetComponent<MarkerSpinBehaviour>().enabled = false;
+                DisableMarkerActiveBehaviors();
             }
+        }
 
-            if (InputHandler.TouchCount > 0)
-            {
-                Marker.Active = true;
-            }
+        private void EnableMarkerActiveBehaviors()
+        {
+            GetComponent<MarkerSpinBehaviour>().enabled = true;
+            GetComponent<MarkerFaceCameraBehaviour>().enabled = false;
+        }
+
+        private void DisableMarkerActiveBehaviors()
+        {
+            GetComponent<MarkerSpinBehaviour>().enabled = false;
+            GetComponent<MarkerFaceCameraBehaviour>().enabled = true;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Assets.Scripts.Markers
 {
     public class MarkerDistanceBehaviour : MonoBehaviour
     {
-        private const int DistanceToHideArMarkers = 10;
+        private const int DistanceToHideArMarkers = 15;
 
         public GameObject ArCameraGameObject;
 

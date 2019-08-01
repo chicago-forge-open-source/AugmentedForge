@@ -139,3 +139,4 @@ lint/tmp/
 .DS_Store 
 
 test-results
+Assets/Scenes/Tests.meta

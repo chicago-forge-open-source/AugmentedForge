@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Markers
 {
-    public class MarkerBehaviour : MonoBehaviour
+    public class InitializeMarkers : MonoBehaviour
     {
         public GameObject ArMarkerPrefab;
         public GameObject ArCameraGameObject;
@@ -13,6 +13,9 @@ namespace Assets.Scripts.Markers
 
         public List<GameObject> ArMarkers { get; } = new List<GameObject>();
         public List<GameObject> MapMarkers { get; } = new List<GameObject>();
+
+        private static readonly Quaternion MapNorth = Quaternion.Euler(180, 0, 0);
+
 
         public void Start()
         {
@@ -32,20 +35,14 @@ namespace Assets.Scripts.Markers
         private void MakeArMarkerGameObject(Marker marker)
         {
             var arMarker = CloneMarker(marker, ArMarkerPrefab, ArMarkers);
-            AddMarkerDistanceBehaviour(arMarker);
-            AddMarkerFaceCameraBehaviour(arMarker);
+            AddMarkerControlBehaviour(marker, arMarker);
         }
 
-        private void AddMarkerDistanceBehaviour(GameObject arMarker)
+        private void AddMarkerControlBehaviour(Marker marker, GameObject arMarker)
         {
-            var behaviour = arMarker.AddComponent<MarkerDistanceBehaviour>();
+            var behaviour = arMarker.AddComponent<MarkerControlBehaviour>();
             behaviour.ArCameraGameObject = ArCameraGameObject;
-        }
-
-        private void AddMarkerFaceCameraBehaviour(GameObject arMarker)
-        {
-            var behaviour = arMarker.AddComponent<MarkerFaceCameraBehaviour>();
-            behaviour.ArCameraGameObject = ArCameraGameObject;
+            behaviour.Marker = marker;
         }
 
         private GameObject CloneMarker(Marker marker, GameObject prefab, List<GameObject> markers)
@@ -56,22 +53,6 @@ namespace Assets.Scripts.Markers
             clonedArMarker.GetComponentInChildren<Text>().text = marker.Label;
             markers.Add(clonedArMarker);
             return clonedArMarker;
-        }
-
-        public void Update()
-        {
-            if (Input.touchCount <= 0) return;
-
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase != TouchPhase.Began) return;
-
-            var touchPosition = ArCameraGameObject.GetComponent<Camera>().ScreenPointToRay(touch.position);
-
-            if (Physics.Raycast(touchPosition, out var hitObject))
-            {
-                Debug.Log("HIT " + hitObject.transform.name);
-                Debug.Log(ArMarkers.First(marker => marker.name.Equals(hitObject.transform.name)));
-            }
         }
     }
 }

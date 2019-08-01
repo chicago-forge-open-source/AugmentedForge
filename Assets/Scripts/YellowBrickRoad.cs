@@ -1,36 +1,35 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Roads;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class YellowBrickRoad : MonoBehaviour
+namespace Assets.Scripts
 {
-    public Material material;
-
-    private LineRenderer NewRoad()
+    public class YellowBrickRoad : MonoBehaviour
     {
-        var road = gameObject.AddComponent<LineRenderer>();
-        road.startWidth = 0.5f;
-        road.endWidth = 0.5f;
-        road.startColor = Color.yellow;
-        road.endColor = Color.yellow;
-        road.material = material;
-
-        return road;
-    }
-
-    public void PathToDraw(IEnumerable<RoadPoint> vertices)
-    {
-        var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
-        if (safeVertices.Length == 0) return;
-
-        var road = NewRoad();
-        road.positionCount = safeVertices.Length;
-        foreach (var vertex in safeVertices)
+        private LineRenderer NewRoad(Material material)
         {
-            road.SetPosition(vertex.Position, vertex.Vector);
+            var road = gameObject.AddComponent<LineRenderer>();
+            road.startWidth = 0.5f;
+            road.endWidth = 0.5f;
+            road.startColor = Color.yellow;
+            road.endColor = Color.yellow;
+            road.material = material;
+
+            return road;
+        }
+
+        public void DrawPath(Material material, IEnumerable<RoadPoint> vertices)
+        {
+            var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
+            if (safeVertices.Length == 0) return;
+
+            var road = NewRoad(material);
+            road.positionCount = safeVertices.Length;
+            foreach (var vertex in safeVertices)
+            {
+                road.SetPosition(vertex.Position, vertex.Vector);
+            }
         }
     }
 }

@@ -5,8 +5,11 @@ namespace Assets.Scripts.Roads
         public Road(RoadPoint[] points)
         {
             Points = points;
+            Tag = "Road";
         }
 
         public RoadPoint[] Points { get; }
+
+        public string Tag { get; }
     }
 }

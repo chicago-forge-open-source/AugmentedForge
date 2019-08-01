@@ -31,8 +31,15 @@ namespace Assets.Scripts
                 new RoadPoint(1, _entrance),
                 new RoadPoint(2, _kitchen)
             });
+            
+            var makerToGreaterMHub = new Road(new[]
+            {
+                new RoadPoint(0, _makerSpace),
+                new RoadPoint(1, _entrance),
+                new RoadPoint(2, _greaterMHub)
+            });
 
-            return new[] {makerToKitchen};
+            return new[] {makerToKitchen, makerToGreaterMHub};
         }
     }
 }
