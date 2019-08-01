@@ -1,4 +1,4 @@
-using Assets.Scripts.Markers;
+using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 

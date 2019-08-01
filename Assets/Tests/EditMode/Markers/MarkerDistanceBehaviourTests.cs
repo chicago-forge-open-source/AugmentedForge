@@ -1,4 +1,4 @@
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using UnityEngine;
 

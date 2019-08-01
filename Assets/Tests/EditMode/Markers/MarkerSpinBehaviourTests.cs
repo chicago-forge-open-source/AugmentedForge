@@ -1,4 +1,4 @@
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using UnityEngine;
@@ -24,7 +24,7 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_WillRotateMarkerAroundYAxis()
         {
-            _markerBehaviour.Marker = new Marker("", 0, 0) {Active = true};
+            _markerBehaviour.marker = new Marker("", 0, 0) {Active = true};
 
             _markerBehaviour.Update();
 
@@ -37,7 +37,7 @@ namespace Assets.Tests.EditMode.Markers
         public void Update_WillAddRotationToMarker()
         {
             var initialRotation = 90;
-            _markerBehaviour.Marker = new Marker("", 0, 0) {Active = true};
+            _markerBehaviour.marker = new Marker("", 0, 0) {Active = true};
             _markerGameObject.transform.rotation = Quaternion.Euler(0, initialRotation, 0);
 
             _markerBehaviour.Update();
@@ -50,7 +50,7 @@ namespace Assets.Tests.EditMode.Markers
         [Test]
         public void Update_WhenMarkersIsNotActiveThenNoRotation()
         {
-            _markerBehaviour.Marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
+            _markerBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
 
             _markerBehaviour.Update();
 
@@ -63,18 +63,18 @@ namespace Assets.Tests.EditMode.Markers
         public void Update_WhenMarkerMakesFullRotationThenMarkerBecomesInactive()
         {
             var initialRotation = 78;
-            _markerBehaviour.Marker = new Marker("", 0, 0) {Active = true};
+            _markerBehaviour.marker = new Marker("", 0, 0) {Active = true};
             var rotation = Quaternion.Euler(0, initialRotation, 0);
             _markerGameObject.transform.rotation = rotation;
-            _markerBehaviour.RotatedFullCircle = false;
-            _markerBehaviour.RotationCount = 29;
+            _markerBehaviour.rotatedFullCircle = false;
+            _markerBehaviour.rotationCount = 29;
 
             _markerBehaviour.Update();
             
             Assert.That(_markerGameObject.transform.rotation,
                 Is.EqualTo(Quaternion.Euler(0, initialRotation + ExpectedRotationAmount, 0)).Using(_quaternionComparer)
             );
-            Assert.IsTrue(_markerBehaviour.RotatedFullCircle);
+            Assert.IsTrue(_markerBehaviour.rotatedFullCircle);
         }
     }
 }

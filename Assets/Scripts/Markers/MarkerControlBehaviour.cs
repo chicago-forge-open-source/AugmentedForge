@@ -1,6 +1,7 @@
+using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class MarkerControlBehaviour : MonoBehaviour
     {
@@ -18,7 +19,7 @@ namespace Assets.Scripts.Markers
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             _spinBehaviour = gameObject.AddComponent<MarkerSpinBehaviour>();
             _spinBehaviour.enabled = false;
-            _spinBehaviour.Marker = marker;
+            _spinBehaviour.marker = marker;
 
             _faceCameraBehaviour = gameObject.AddComponent<MarkerFaceCameraBehaviour>();
             _faceCameraBehaviour.arCameraGameObject = arCameraGameObject;
@@ -36,7 +37,7 @@ namespace Assets.Scripts.Markers
                 marker.Active = Equals(this, physicsHandler.Raycast<MarkerControlBehaviour>(touchPosition));
             }
 
-            if (_spinBehaviour.RotatedFullCircle) marker.Active = false;
+            if (_spinBehaviour.rotatedFullCircle) marker.Active = false;
             _spinBehaviour.enabled = marker.Active;
             _faceCameraBehaviour.enabled = !marker.Active;
         }

@@ -1,31 +1,31 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class MarkerSpinBehaviour : MonoBehaviour
     {
         private const int FramesPerSecond = 30;
         private const int RotationAmountPerFrame = 360 / FramesPerSecond;
-        public Marker Marker;
-        public bool RotatedFullCircle;
-        public int RotationCount;
+        public Marker marker;
+        public bool rotatedFullCircle;
+        public int rotationCount;
 
         public void OnEnable()
         {
-            RotatedFullCircle = false;
-            RotationCount = 0;
+            rotatedFullCircle = false;
+            rotationCount = 0;
         }
 
         public void Update()
         {
-            if (Marker.Active)
+            if (marker.Active)
             {
                 transform.Rotate(0, RotationAmountPerFrame, 0);
 
-                RotationCount++;
-                if (RotationCount == FramesPerSecond)
+                rotationCount++;
+                if (rotationCount == FramesPerSecond)
                 {
-                    RotatedFullCircle = true;
+                    rotatedFullCircle = true;
                 }
             }
 
@@ -33,8 +33,8 @@ namespace Assets.Scripts.Markers
 
         public void OnDisable()
         {
-            RotatedFullCircle = false;
-            RotationCount = 0;
+            rotatedFullCircle = false;
+            rotationCount = 0;
         }
     }
 }

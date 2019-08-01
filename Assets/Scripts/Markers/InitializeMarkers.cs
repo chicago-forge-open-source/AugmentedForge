@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class InitializeMarkers : MonoBehaviour
     {

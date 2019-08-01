@@ -1,4 +1,4 @@
-using Assets.Scripts.Markers;
+using Markers;
 using UnityEngine;
 
 namespace Assets.Scripts.Roads

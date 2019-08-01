@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Assets.Scripts;
-using Assets.Scripts.Markers;
+using Markers;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace Assets.Tests.EditMode.Markers
             
             var markerSpinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
             Assert.IsFalse(markerSpinBehaviour.enabled);
-            Assert.AreEqual(_controlBehaviour.marker, markerSpinBehaviour.Marker);
+            Assert.AreEqual(_controlBehaviour.marker, markerSpinBehaviour.marker);
             
             var markerDistanceBehaviour = _markerGameObject.GetComponent<MarkerDistanceBehaviour>();
             Assert.AreEqual(_controlBehaviour.arCameraGameObject, markerDistanceBehaviour.arCameraGameObject);
@@ -114,7 +114,7 @@ namespace Assets.Tests.EditMode.Markers
             _controlBehaviour.Start();
             
             var spinBehaviour = _markerGameObject.GetComponent<MarkerSpinBehaviour>();
-            spinBehaviour.RotatedFullCircle = true;
+            spinBehaviour.rotatedFullCircle = true;
             _controlBehaviour.marker = new Marker("", 0, 0 ) {Active = true};
 
             _controlBehaviour.Update();

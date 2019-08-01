@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Markers
+namespace Markers
 {
     public class MarkerDistanceBehaviour : MonoBehaviour
     {
