@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Roads;
@@ -8,9 +7,7 @@ namespace Assets.Scripts
 {
     public class YellowBrickRoad : MonoBehaviour
     {
-        public Material material;
-
-        private LineRenderer NewRoad()
+        private LineRenderer NewRoad(Material material)
         {
             var road = gameObject.AddComponent<LineRenderer>();
             road.startWidth = 0.5f;
@@ -22,12 +19,12 @@ namespace Assets.Scripts
             return road;
         }
 
-        public void PathToDraw(IEnumerable<RoadPoint> vertices)
+        public void DrawPath(Material material, IEnumerable<RoadPoint> vertices)
         {
             var safeVertices = vertices.Where(vertex => vertex != null).ToArray();
             if (safeVertices.Length == 0) return;
 
-            var road = NewRoad();
+            var road = NewRoad(material);
             road.positionCount = safeVertices.Length;
             foreach (var vertex in safeVertices)
             {
