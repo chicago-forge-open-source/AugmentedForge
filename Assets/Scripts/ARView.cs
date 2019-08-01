@@ -21,7 +21,7 @@ namespace Assets.Scripts
         public void Update()
         {
             var logLine = "ARCamera: " + ArCameraComponent.transform.position;
-//            DebugText.text = logLine;
+            DebugText.text = logLine;
         }
 
         public void OnApplicationFocus(bool hasFocus)
