@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 using System;
-using Assets.Scripts.Markers;
-=======
 using Markers;
->>>>>>> 9281cf6f77d73e9c7e3b56821a310987379719c4
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -39,8 +35,10 @@ namespace Assets.Scripts
             {
                 StartPoint.transform.position = ChicagoSyncPointPosition;
             }
-
-            StartPoint.transform.position = IowaSyncPointPosition;
+            else
+            {
+                StartPoint.transform.position = IowaSyncPointPosition;
+            }
         }
 
         private void LocationSync()

@@ -276,7 +276,10 @@ namespace Assets.Tests.EditMode
         {
             _mapScript.Start();
          
-            
+            var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.StartPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
         }
         
         [Test]

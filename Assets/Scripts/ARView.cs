@@ -13,11 +13,26 @@ namespace Assets.Scripts
         public GameObject ArSessionOrigin;
         public ICompass Compass = new RealCompass();
 
+        private static readonly Vector3 ChicagoSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+        private static readonly Vector3 IowaSyncPointPosition = new Vector3(0, 0, -18.17933f);
+        
         public void Start()
         {
-            StartPoint = GameObject.Find(PlayerPrefs.GetString("location") + " Sync Point");
+            DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
             
             LocationSync();
+        }
+        
+        private void DetermineSyncPointPositionBasedOnLocation(String location)
+        {
+            if (location.Equals("Chicago"))
+            {
+                StartPoint.transform.position = ChicagoSyncPointPosition;
+            }
+            else
+            {
+                StartPoint.transform.position = IowaSyncPointPosition;
+            }
         }
 
         public void Update()

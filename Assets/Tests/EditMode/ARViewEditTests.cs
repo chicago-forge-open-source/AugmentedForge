@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using System;
+using Assets.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools.Utils;
@@ -58,8 +59,11 @@ namespace Assets.Tests.EditMode
             PlayerPrefs.SetString("location", "Chicago");
             
             _mapScript.Start();
-            
-            Assert.AreEqual("Chicago Sync Point", _mapScript.StartPoint.name);
+         
+            var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.StartPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
         }
         
         [Test]
@@ -69,7 +73,10 @@ namespace Assets.Tests.EditMode
             
             _mapScript.Start();
             
-            Assert.AreEqual("Iowa Sync Point", _mapScript.StartPoint.name);
+            var expectedSyncPointPosition = new Vector3(0, 0, -18.17933f);
+            var actualSyncPointPosition = _mapScript.StartPoint.transform.position;
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
         }
 
     }
