@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Scripts.Roads;
-using Markers;
-using SyncPoints;
 ﻿using Markers;
+using SyncPoints;
 using Roads;
 
 public class DataLoader
@@ -44,7 +40,8 @@ public class DataLoader
         });
 
             return new[] {makerToKitchen, makerToGreaterMHub};
-        }
+    }
+    
 
         private void PopulateSyncPointRepository()
         {
@@ -54,5 +51,4 @@ public class DataLoader
             Repositories.SyncPointRepository.Save(chicagoSyncPoint);
             Repositories.SyncPointRepository.Save(iowaSyncPoint);
         }
-    }
 }

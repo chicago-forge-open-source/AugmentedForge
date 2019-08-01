@@ -25,14 +25,9 @@ public class ARView : MonoBehaviour
         {
             var syncPoint = Repositories.SyncPointRepository.Get(location);
             var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
-            StartPoint.transform.position = startPointPosition;
+            startPoint.transform.position = startPointPosition;
         }
-
-        public void Update()
-        {
-            var logLine = "ARCamera: " + ArCameraComponent.transform.position;
-            DebugText.text = logLine;
-        }
+        
 
     public void Update()
     {

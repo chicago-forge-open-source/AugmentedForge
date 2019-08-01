@@ -75,7 +75,7 @@ namespace Tests.EditMode
             _mapScript.Start();
             
             var expectedSyncPointPosition = new Vector3(11.2f, 0, 40.1f);
-            var actualSyncPointPosition = _mapScript.StartPoint.transform.position;
+            var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
         }

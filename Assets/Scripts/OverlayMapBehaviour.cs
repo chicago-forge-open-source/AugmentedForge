@@ -31,7 +31,7 @@ public class OverlayMapBehaviour : MonoBehaviour
         {
             var syncPoint = Repositories.SyncPointRepository.Get(location);
             var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
-            StartPoint.transform.position = startPointPosition;
+            startPoint.transform.position = startPointPosition;
         }
 
         private void LocationSync()
