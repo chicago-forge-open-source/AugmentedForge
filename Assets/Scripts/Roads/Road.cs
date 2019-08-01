@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Roads
+namespace Roads
 {
     public class Road
     {

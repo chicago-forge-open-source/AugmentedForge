@@ -1,6 +1,7 @@
+using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Roads
+namespace Roads
 {
     public class RoadBehaviour : MonoBehaviour
     {
@@ -13,7 +14,7 @@ namespace Assets.Scripts.Roads
             }
         }
 
-        private void DrawPathOnLayer(int layer, Road road)
+        private static void DrawPathOnLayer(int layer, Road road)
         {
             var yellowBrickRoad = Instantiate(new GameObject());
             yellowBrickRoad.tag = road.Tag;
