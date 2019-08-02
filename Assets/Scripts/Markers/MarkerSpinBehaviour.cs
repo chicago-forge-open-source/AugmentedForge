@@ -18,17 +18,10 @@ namespace Markers
 
         public void Update()
         {
-            if (marker.Active)
-            {
-                transform.Rotate(0, RotationAmountPerFrame, 0);
-
-                rotationCount++;
-                if (rotationCount == FramesPerSecond)
-                {
-                    rotatedFullCircle = true;
-                }
-            }
-
+            if (!marker.Active) return;
+            transform.Rotate(0, RotationAmountPerFrame, 0);
+            rotationCount++;
+            rotatedFullCircle = rotationCount == FramesPerSecond;
         }
 
         public void OnDisable()

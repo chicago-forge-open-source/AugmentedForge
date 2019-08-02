@@ -3,7 +3,7 @@ using SyncPoints;
 
 namespace Tests.EditMode.SyncPoints
 {
-    public class InMemorySyncPointRepostoryEditTests
+    public class InMemorySyncPointRepositoryEditTests
     {
         private InMemorySyncPointRepository _inMemorySyncPointRepository;
         

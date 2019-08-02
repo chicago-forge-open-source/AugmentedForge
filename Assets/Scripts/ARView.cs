@@ -11,23 +11,19 @@ public class ARView : MonoBehaviour
     public GameObject arSessionOrigin;
     public ICompass compass = new RealCompass();
 
-        private static readonly Vector3 ChicagoSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
-        private static readonly Vector3 IowaSyncPointPosition = new Vector3(0, 0, -18.17933f);
-        
-        public void Start()
-        {
-            DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
-            
-            LocationSync();
-        }
-        
-        private void DetermineSyncPointPositionBasedOnLocation(String location)
-        {
-            var syncPoint = Repositories.SyncPointRepository.Get(location);
-            var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
-            startPoint.transform.position = startPointPosition;
-        }
-        
+    public void Start()
+    {
+        DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
+        LocationSync();
+    }
+
+    private void DetermineSyncPointPositionBasedOnLocation(String location)
+    {
+        var syncPoint = Repositories.SyncPointRepository.Get(location);
+        var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
+        startPoint.transform.position = startPointPosition;
+    }
+
 
     public void Update()
     {
