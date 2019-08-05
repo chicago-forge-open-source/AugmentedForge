@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using NUnit.Framework;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -11,14 +12,12 @@ namespace Tests.PlayMode
     public class ArViewPlayTests
     {
         private GameObject _mainCamera;
-        private GameObject _syncPoint;
 
         private IEnumerator LoadScene()
         {
             SceneManager.LoadScene("ARView");
             yield return null;
             _mainCamera = GameObject.Find("Map Camera");
-            _syncPoint = GameObject.Find("Sync Point");
         }
 
         [UnityTest]
@@ -35,24 +34,27 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
         {
+            var syncPoint = new SyncPoint(10, 10);
+            Repositories.SyncPointRepository.Save(new []{syncPoint});
+            
             yield return LoadScene();
-            var comparer = new Vector3EqualityComparer(10e-6f);
             var locationMarker = GameObject.Find("Location Marker");
 
-            Assert.That(
-                _syncPoint.transform.position,
-                Is.EqualTo(locationMarker.transform.position).Using(comparer)
-            );
+            var locationMarkerPosition = locationMarker.transform.position;
+            Assert.AreEqual(syncPoint.X, locationMarkerPosition.x);
+            Assert.AreEqual(syncPoint.Z, locationMarkerPosition.z);
         }
 
         [UnityTest]
         public IEnumerator OnStartMapSpriteWillLoadIntoOverlayMap()
         {
+            
+            const string location = "Chicago";
+            PlayerPrefs.SetString("location", location);
+            
             yield return LoadScene();
             var map = GameObject.Find("Overlay Map");
             var mapScript = map.GetComponent<OverlayMapBehaviour>();
-            const string location = "Chicago";
-            PlayerPrefs.SetString("location", location);
 
             mapScript.Start();
 
@@ -65,13 +67,14 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator OnStartCameraViewsLocationMarker()
         {
+            var syncPoint = new SyncPoint(10, 10);
+            Repositories.SyncPointRepository.Save(new []{syncPoint});
             yield return LoadScene();
-            var position = _syncPoint.transform.position;
 
             var cameraPos = _mainCamera.transform.position;
             yield return null;
-            Assert.AreEqual(position.x, cameraPos.x);
-            Assert.AreEqual(position.z, cameraPos.z);
+            Assert.AreEqual(syncPoint.X, cameraPos.x);
+            Assert.AreEqual(syncPoint.Z, cameraPos.z);
         }
 
         [UnityTest]

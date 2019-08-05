@@ -1,4 +1,5 @@
 using System;
+using DataLoaders;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
@@ -15,9 +16,6 @@ namespace Tests.EditMode
         [SetUp]
         public void Setup()
         {
-            var dataLoader = new DataLoader();
-            dataLoader.DataLoad();
-            
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
             _mapScript = _game.AddComponent<OverlayMapBehaviour>();
@@ -254,6 +252,8 @@ namespace Tests.EditMode
         [Test]
         public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
         {
+            new ChicagoDataLoader().DataLoad();
+            
             _mapScript.Start();
 
             var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
@@ -265,8 +265,8 @@ namespace Tests.EditMode
         [Test]
         public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
         {
-            PlayerPrefs.SetString("location", "Iowa");
-
+            new IowaDataLoader().DataLoad();
+            
             _mapScript.Start();
             
             var expectedSyncPointPosition = new Vector3(11.2f, 0, 40.1f);

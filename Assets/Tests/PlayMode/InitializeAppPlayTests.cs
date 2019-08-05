@@ -6,9 +6,9 @@ using UnityEngine.TestTools;
 
 namespace Tests.PlayMode
 {
-    public class AppInitPlayTests
+    public class InitializeAppPlayTests
     {
-        private InitializeThings _initScript;
+        private InitializeApp _initScript;
     
         private IEnumerator SetupScene()
         {
@@ -16,7 +16,7 @@ namespace Tests.PlayMode
             yield return null;
 
             var camera = GameObject.Find("Main Camera");
-            _initScript = camera.GetComponent<InitializeThings>();
+            _initScript = camera.GetComponent<InitializeApp>();
             _initScript.compass = new MockCompass();
         }
     
@@ -25,7 +25,7 @@ namespace Tests.PlayMode
         {
             yield return SetupScene();
 
-            _initScript.OnClick_LoadLocationARView("Chicago");
+            _initScript. OnClick_LoadLocationARView("Chicago");
 
             yield return new WaitForSeconds(0.1f);
 

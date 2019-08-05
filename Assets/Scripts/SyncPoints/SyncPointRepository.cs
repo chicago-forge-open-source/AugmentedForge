@@ -1,11 +1,9 @@
-using System;
-
 namespace SyncPoints
 {
     public interface SyncPointRepository
     {
-        SyncPoint Get(String location);
+        SyncPoint[] Get();
 
-        void Save(SyncPoint syncPoint);
+        void Save(SyncPoint[] syncPoints);
     }
 }

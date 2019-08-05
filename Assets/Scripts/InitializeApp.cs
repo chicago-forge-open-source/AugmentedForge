@@ -1,16 +1,17 @@
 ﻿using System.Collections;
+using DataLoaders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InitializeThings : MonoBehaviour
+public class InitializeApp : MonoBehaviour
 {
     public ICompass compass = new RealCompass();
-    
+    public DataLoader dataLoader;
+
     public void Awake()
     {
         Input.compass.enabled = true;
         Input.location.Start();
-        new DataLoader().DataLoad();
     }
 
     private IEnumerator WaitForCompassEnable()
@@ -21,6 +22,16 @@ public class InitializeThings : MonoBehaviour
 
     public void OnClick_LoadLocationARView(string location)
     {
+        if (location.Equals("Iowa"))
+        {
+            dataLoader = new IowaDataLoader();
+        }
+        else
+        {
+            dataLoader = new ChicagoDataLoader();
+        }
+
+        dataLoader.DataLoad();
         PlayerPrefs.SetString("location", location);
         StartCoroutine(WaitForCompassEnable());
     }

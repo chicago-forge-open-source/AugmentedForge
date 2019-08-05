@@ -13,17 +13,16 @@ public class ARView : MonoBehaviour
 
     public void Start()
     {
-        DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
+        SetStartPositionBasedOnSyncPoint();
         LocationSync();
     }
 
-    private void DetermineSyncPointPositionBasedOnLocation(String location)
+    private void SetStartPositionBasedOnSyncPoint()
     {
-        var syncPoint = Repositories.SyncPointRepository.Get(location);
+        var syncPoint = Repositories.SyncPointRepository.Get()[0];
         var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
         startPoint.transform.position = startPointPosition;
     }
-
 
     public void Update()
     {

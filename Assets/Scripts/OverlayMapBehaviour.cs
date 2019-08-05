@@ -1,4 +1,3 @@
-using System;
 using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -15,18 +14,18 @@ public class OverlayMapBehaviour : MonoBehaviour
 
     public void Start()
     {
-        DetermineSyncPointPositionBasedOnLocation(PlayerPrefs.GetString("location"));
-
+        var location = PlayerPrefs.GetString("location");
+        SetStartPositionBasedOnSyncPoint();
         _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
-        var spritePath = $"Sprites/{PlayerPrefs.GetString("location")}Map";
+        var spritePath = $"Sprites/{location}Map";
         var mapObject = (GameObject) Resources.Load(spritePath);
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
         LocationSync();
     }
 
-    private void DetermineSyncPointPositionBasedOnLocation(String location)
+    private void SetStartPositionBasedOnSyncPoint()
     {
-        var syncPoint = Repositories.SyncPointRepository.Get(location);
+        var syncPoint = Repositories.SyncPointRepository.Get()[0];
         var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
         startPoint.transform.position = startPointPosition;
     }

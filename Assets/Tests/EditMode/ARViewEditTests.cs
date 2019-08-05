@@ -1,7 +1,7 @@
 using System;
+using DataLoaders;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools.Utils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -10,15 +10,11 @@ namespace Tests.EditMode
     public class ArViewEditTests
     {
         private GameObject _game;
-        private readonly QuaternionEqualityComparer _quaternionComparer = new QuaternionEqualityComparer(10e-6f);
         private ARView _mapScript;
 
         [SetUp]
         public void Setup()
         {
-            var dataLoader = new DataLoader();
-            dataLoader.DataLoad();
-            
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
             _mapScript = _game.AddComponent<ARView>();
@@ -57,27 +53,30 @@ namespace Tests.EditMode
         [Test]
         public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
         {
-            PlayerPrefs.SetString("location", "Chicago");
+            new ChicagoDataLoader().DataLoad();
             
             _mapScript.Start();
          
             var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
+            
+            //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .1);
         }
         
         [Test]
         public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
         {
-            PlayerPrefs.SetString("location", "Iowa");
+            new IowaDataLoader().DataLoad();
             
             _mapScript.Start();
             
             var expectedSyncPointPosition = new Vector3(11.2f, 0, 40.1f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
+            //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);
+            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
 
     }
