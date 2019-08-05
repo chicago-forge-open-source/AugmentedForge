@@ -1,11 +1,8 @@
 version: 2.1
-executors:
-  unity:
-    docker:
-      - image: gableroux/unity3d:2019.1.3f1
 jobs:
   build-test:
-    executor: unity
+    docker:
+      - image: gableroux/unity3d:2019.1.3f1
     steps:
       - checkout
       - run: apt -y install xvfb
