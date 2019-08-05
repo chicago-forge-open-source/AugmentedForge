@@ -8,8 +8,10 @@ namespace Tests.EditMode.Markers
     {
         private GameObject _markerGameObject;
         private MarkerDistanceBehaviour _markerBehaviour;
+        private Vector3 hiddenScale = new Vector3(0, 0, 0);
+        private Vector3 showingScale = new Vector3(1, 1, 1);
 
-        [SetUp]
+            [SetUp]
         public void Setup()
         {
             _markerGameObject = new GameObject();
@@ -25,7 +27,7 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.IsFalse(_markerGameObject.activeSelf);
+            Assert.AreEqual(hiddenScale, _markerGameObject.transform.localScale);
         }
 
         [Test]
@@ -36,22 +38,37 @@ namespace Tests.EditMode.Markers
 
             _markerBehaviour.Update();
 
-            Assert.IsTrue(_markerGameObject.activeSelf);
+            Assert.AreEqual(showingScale, _markerGameObject.transform.localScale);
         }
 
         [Test]
         public void Update_GivenUserIsNotNearArMarkers_WhenUserMovesCloser_ArMarkersAreShown()
         {
-            SetMarkerObjectPosition(16);
+            SetMarkerObjectPosition();
+
+            SetCameraPosition(16);
+            _markerBehaviour.Update();
+            Assert.AreEqual(hiddenScale, _markerGameObject.transform.localScale);
 
             SetCameraPosition();
             _markerBehaviour.Update();
-            Assert.IsFalse(_markerGameObject.activeSelf);
 
-            SetCameraPosition(6);
+            Assert.AreEqual(showingScale, _markerGameObject.transform.localScale);
+        }
+
+        [Test]
+        public void Update_GivenUserIsNearArMarkers_WhenUserMovesAway_ArMarkersAreNotShown()
+        {
+            SetMarkerObjectPosition();
+
+            SetCameraPosition();
+            _markerBehaviour.Update();
+            Assert.AreEqual(showingScale, _markerGameObject.transform.localScale);
+
+            SetCameraPosition(16);
             _markerBehaviour.Update();
 
-            Assert.IsTrue(_markerGameObject.activeSelf);
+            Assert.AreEqual(hiddenScale, _markerGameObject.transform.localScale);
         }
 
         private void SetMarkerObjectPosition(float x = 0, float z = 0)
