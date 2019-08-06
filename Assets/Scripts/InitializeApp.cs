@@ -14,6 +14,29 @@ public class InitializeApp : MonoBehaviour
         Input.location.Start();
     }
 
+    void Start () {
+        Branch.initSession(CallbackWithBranchUniversalObject);
+    }
+
+    void CallbackWithBranchUniversalObject(BranchUniversalObject buo,
+        BranchLinkProperties linkProps,
+        string error) {
+        if (error != null) {
+            System.Console.WriteLine("Error : "
+                                     + error);
+        } else if (linkProps.controlParams.Count > 0)
+        {
+
+            System.Console.WriteLine("BUO YOU-O " + buo.keywords + " " + buo.canonicalUrl +
+        " " + buo.metadata.addressPostalCode)
+
+        ;
+            System.Console.WriteLine("Deeplink params : "
+                                     + buo.ToJsonString()
+                                     + linkProps.ToJsonString());
+        }
+    }
+    
     private IEnumerator WaitForCompassEnable()
     {
         yield return new WaitUntil(() => compass.IsEnabled);

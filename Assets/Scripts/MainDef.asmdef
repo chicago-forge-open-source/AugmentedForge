@@ -2,7 +2,8 @@
     "name": "MainScripts",
     "references": [
         "GUID:a9420e37d7990b54abdef6688edbe313",
-        "GUID:ba171b3dd2a51234ab864770f99741a5"
+        "GUID:ba171b3dd2a51234ab864770f99741a5",
+        "GUID:abdb7d782af1042d3a85170ca4e2c6e6"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
