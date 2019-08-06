@@ -1,7 +1,9 @@
 namespace Locations
 {
-    public class LocationRepository
+    public interface LocationRepository
     {
-        
+        Location[] Get();
+
+        void Save(Location[] locations);
     }
 }

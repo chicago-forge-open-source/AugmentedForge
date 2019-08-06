@@ -1,6 +1,6 @@
 namespace Locations
 {
-    public class InMemoryLocationRepository: LocationRepository
+    public class InMemoryLocationsRepository: LocationRepository
     {
         private Location[] _locations = new Location[0];
 

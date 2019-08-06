@@ -1,6 +1,6 @@
 namespace Roads
 {
-    public interface IRoadRepository
+    public interface RoadRepository
     {
         Road[] Get();
 
