@@ -12,7 +12,7 @@ namespace Locations
         {
             this.name = name;
             this.mapFileName = mapFileName;
-            this.rotation = Quaternion.Euler(90, 0, zRotation);
+            rotation = Quaternion.Euler(90, 0, zRotation);
         }
     }
 }

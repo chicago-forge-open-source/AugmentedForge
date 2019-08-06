@@ -34,6 +34,9 @@ namespace Tests.EditMode
 
             _mapScript.initializeMarkers = _game.AddComponent<InitializeMarkers>();
 
+            
+            new ChicagoDataLoader().DataLoad();
+            
             PlayerPrefs.SetString("location", Chicago);
         }
 
@@ -73,12 +76,13 @@ namespace Tests.EditMode
             const string location = "Iowa";
             PlayerPrefs.SetString("location", location);
 
+            new IowaDataLoader().DataLoad();
             _mapScript.Start();
 
             var spriteName = _mapScript.GetComponent<SpriteRenderer>().sprite.name;
             Assert.AreEqual(location + "MapSprite", spriteName);
             TestHelpers.AssertQuaternionsAreEqual(
-                Quaternion.Euler(90, 28, 0),
+                Quaternion.Euler(90, 0, 28),
                 _game.transform.rotation
             );
         }
