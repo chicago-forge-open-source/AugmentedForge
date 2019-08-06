@@ -4,6 +4,8 @@ namespace Locations
     {
         Location[] Get();
 
+        Location GetLocationByName();
+
         void Save(Location[] locations);
     }
 }
