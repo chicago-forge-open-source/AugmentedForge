@@ -1,0 +1,17 @@
+{
+    "name": "BranchEditor",
+    "references": [
+        "GUID:abdb7d782af1042d3a85170ca4e2c6e6"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
