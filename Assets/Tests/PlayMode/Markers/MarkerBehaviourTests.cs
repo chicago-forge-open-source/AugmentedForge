@@ -1,6 +1,8 @@
 using System.Collections;
+using Locations;
 using Markers;
 using NUnit.Framework;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -12,6 +14,9 @@ namespace Tests.PlayMode.Markers
     {
         private static IEnumerator LoadScene()
         {
+            Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap") });
+            Repositories.SyncPointRepository.Save(new []{new SyncPoint(10, 10), });
+            
             SceneManager.LoadScene("ARView");
             yield return null;
             GameObject.Find("Overlay Map").GetComponent<InitializeMarkers>();

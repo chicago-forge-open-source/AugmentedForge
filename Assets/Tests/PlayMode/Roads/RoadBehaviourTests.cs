@@ -1,7 +1,9 @@
 using System.Collections;
+using Locations;
 using Markers;
 using NUnit.Framework;
 using Roads;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -19,6 +21,8 @@ namespace Tests.PlayMode.Roads
             var mockRoad = new Road(new []{start, corner, end});
             
             Repositories.RoadRepository.Save(new []{mockRoad});
+            Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap") });
+            Repositories.SyncPointRepository.Save(new []{new SyncPoint(10, 10), });
             
             SceneManager.LoadScene("ARView");
             yield return null;
