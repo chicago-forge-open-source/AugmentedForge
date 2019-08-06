@@ -2,6 +2,7 @@ using System;
 using DataLoaders;
 using Markers;
 using NUnit.Framework;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -254,26 +255,14 @@ namespace Tests.EditMode
         }
 
         [Test]
-        public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
-        {
-            new ChicagoDataLoader().DataLoad();
-
-            _mapScript.Start();
-
-            var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
-            var actualSyncPointPosition = _mapScript.startPoint.transform.position;
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .1);
-        }
-
-        [Test]
-        public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
+        public void Start_GivenALocation_ExpectedSyncPointIsLoaded()
         {
             new IowaDataLoader().DataLoad();
+            var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
+            Repositories.SyncPointRepository.Save(new[] {new SyncPoint(expectedSyncPointPosition.x,expectedSyncPointPosition.z) });
 
             _mapScript.Start();
 
-            var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .01);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.y - actualSyncPointPosition.y) < .01);

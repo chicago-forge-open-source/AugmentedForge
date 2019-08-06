@@ -1,6 +1,7 @@
 using System;
 using DataLoaders;
 using NUnit.Framework;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -50,29 +51,15 @@ namespace Tests.EditMode
             );
         }
         
-        [Test]
-        public void Start_GivenChicagoAsTheLocation_ChicagoSyncPointIsLoaded()
-        {
-            new ChicagoDataLoader().DataLoad();
-            
-            _mapScript.Start();
-         
-            var expectedSyncPointPosition = new Vector3(26.94955f, 0, -18.17933f);
-            var actualSyncPointPosition = _mapScript.startPoint.transform.position;
-            
-            //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
-            Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .1);
-        }
         
         [Test]
-        public void Start_GivenIowaAsTheLocation_IowaSyncPointIsLoaded()
+        public void Start_GivenALocation_ExpectedSyncPointIsLoaded()
         {
-            new IowaDataLoader().DataLoad();
-            
+            new ChicagoDataLoader().DataLoad();
+            var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
+            Repositories.SyncPointRepository.Save(new[] {new SyncPoint(expectedSyncPointPosition.x,expectedSyncPointPosition.z) });
             _mapScript.Start();
             
-            var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);

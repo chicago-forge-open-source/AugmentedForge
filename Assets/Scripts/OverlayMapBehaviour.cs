@@ -14,16 +14,14 @@ public class OverlayMapBehaviour : MonoBehaviour
 
     public void Start()
     {
-        var location = PlayerPrefs.GetString("location");
+        var location =  Repositories.LocationsRepository.GetLocationByName();
+        
         SetStartPositionBasedOnSyncPoint();
         _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
-        var spritePath = $"Sprites/{location}Map";
+        var spritePath = $"Sprites/{location.mapFileName}";
         var mapObject = (GameObject) Resources.Load(spritePath);
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
-        if (location == "Iowa")
-        {
-            gameObject.transform.rotation = Quaternion.Euler(90, 28, 0);
-        }
+        gameObject.transform.rotation = location.rotation;
         LocationSync();
     }
 
