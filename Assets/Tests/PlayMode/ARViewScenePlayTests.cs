@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using Locations;
+using Markers;
 using NUnit.Framework;
+using Roads;
 using SyncPoints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,9 +18,11 @@ namespace Tests.PlayMode
 
         private IEnumerator LoadScene()
         {
+            Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap") });
             SceneManager.LoadScene("ARView");
             yield return null;
             _mainCamera = GameObject.Find("Map Camera");
+            
         }
 
         [UnityTest]
@@ -44,6 +48,7 @@ namespace Tests.PlayMode
             var locationMarkerPosition = locationMarker.transform.position;
             Assert.AreEqual(syncPoint.X, locationMarkerPosition.x);
             Assert.AreEqual(syncPoint.Z, locationMarkerPosition.z);
+            yield return null;
         }
 
         [UnityTest]
@@ -52,6 +57,7 @@ namespace Tests.PlayMode
             
             const string location = "Chicago";
             PlayerPrefs.SetString("location", location);
+            Repositories.SyncPointRepository.Save(new []{new SyncPoint(10, 10), });
             
             yield return LoadScene();
             var map = GameObject.Find("Overlay Map");
@@ -70,7 +76,6 @@ namespace Tests.PlayMode
         {
             var syncPoint = new SyncPoint(10, 10);
             Repositories.SyncPointRepository.Save(new []{syncPoint});
-            Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap"), });
             yield return LoadScene();
 
             var cameraPos = _mainCamera.transform.position;
@@ -91,6 +96,15 @@ namespace Tests.PlayMode
 
             // ReSharper disable once Unity.InefficientPropertyAccess
             Assert.AreNotEqual(initialPosition, locationMarker.transform.position);
+        }
+
+        [TearDown]
+        public void Dispose()
+        {
+            Repositories.LocationsRepository.Save(new Location[]{});
+            Repositories.MarkerRepository.Save(new Marker[]{});
+            Repositories.RoadRepository.Save(new Road[]{});
+            Repositories.SyncPointRepository.Save(new SyncPoint[]{});
         }
     }
 }
