@@ -1,3 +1,4 @@
+using Locations;
 using Markers;
 using Roads;
 using SyncPoints;
@@ -14,6 +15,13 @@ namespace DataLoaders
             Repositories.MarkerRepository.Save(LoadMarkers());
             Repositories.RoadRepository.Save(LoadRoads());
             Repositories.SyncPointRepository.Save(LoadSyncPoints());
+            Repositories.LocationsRepository.Save(LoadLocations());
+        }
+        
+        
+        private protected override Location[] LoadLocations()
+        {
+            return new[] {new Location("Iowa", "IowaMap", 28)};
         }
 
         private protected override Marker[] LoadMarkers()
@@ -36,7 +44,7 @@ namespace DataLoaders
         {
             return new[]
             {
-                new SyncPoint(11.2f, 40.1f)
+                new SyncPoint(0, -1.5f)
             };
         }
     }

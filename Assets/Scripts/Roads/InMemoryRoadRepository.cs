@@ -1,6 +1,6 @@
 namespace Roads
 {
-    public class InMemoryRoadRepository : IRoadRepository
+    public class InMemoryRoadRepository : RoadRepository
     {
         private Road[] _roads;
 
