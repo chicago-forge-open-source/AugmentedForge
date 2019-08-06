@@ -113,6 +113,8 @@ public class BranchEditor : Editor {
 		string[] lines = sr.ReadToEnd().Split(new string[] { System.Environment.NewLine }, System.StringSplitOptions.None).ToArray();
 		#elif UNITY_EDITOR_WIN
 		string[] lines = sr.ReadToEnd().Split(new string[] { "\r\n", "\n", "\r" }, System.StringSplitOptions.None).ToArray();
+		#elif UNITY_EDITOR_64
+		string[] lines = sr.ReadToEnd().Split(new string[] { System.Environment.NewLine }, System.StringSplitOptions.None).ToArray();
 		#endif
 
 		sr.Close();
