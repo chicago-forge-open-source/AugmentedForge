@@ -36,7 +36,7 @@ namespace DataLoaders
         {
             return new[]
             {
-                new SyncPoint(11.2f, 40.1f)
+                new SyncPoint(0, -1.5f)
             };
         }
     }

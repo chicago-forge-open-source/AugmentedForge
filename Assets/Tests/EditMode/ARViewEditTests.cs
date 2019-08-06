@@ -72,7 +72,7 @@ namespace Tests.EditMode
             
             _mapScript.Start();
             
-            var expectedSyncPointPosition = new Vector3(11.2f, 0, 40.1f);
+            var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
