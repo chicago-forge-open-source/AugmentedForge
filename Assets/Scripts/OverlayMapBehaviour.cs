@@ -20,6 +20,10 @@ public class OverlayMapBehaviour : MonoBehaviour
         var spritePath = $"Sprites/{location}Map";
         var mapObject = (GameObject) Resources.Load(spritePath);
         GetComponent<SpriteRenderer>().sprite = mapObject.GetComponent<SpriteRenderer>().sprite;
+        if (location == "Iowa")
+        {
+            gameObject.transform.rotation = Quaternion.Euler(90, 28, 0);
+        }
         LocationSync();
     }
 
