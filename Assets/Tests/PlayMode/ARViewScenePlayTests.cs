@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Locations;
 using NUnit.Framework;
 using SyncPoints;
 using UnityEngine;
@@ -69,6 +70,7 @@ namespace Tests.PlayMode
         {
             var syncPoint = new SyncPoint(10, 10);
             Repositories.SyncPointRepository.Save(new []{syncPoint});
+            Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap"), });
             yield return LoadScene();
 
             var cameraPos = _mainCamera.transform.position;
