@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using DataLoaders;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,34 +10,25 @@ public class InitializeApp : MonoBehaviour
 {
     public ICompass compass = new RealCompass();
     public DataLoader dataLoader;
-
+    public Vector3 syncPointLocation;
     public void Awake()
     {
         Input.compass.enabled = true;
         Input.location.Start();
     }
 
-    void Start () {
-        Branch.initSession(CallbackWithBranchUniversalObject);
+    void Start()
+    {
+        Branch.initSession(BranchCallbackWithParams);
     }
-
-    void CallbackWithBranchUniversalObject(BranchUniversalObject buo,
-        BranchLinkProperties linkProps,
-        string error) {
-        if (error != null) {
-            System.Console.WriteLine("Error : "
-                                     + error);
-        } else if (linkProps.controlParams.Count > 0)
-        {
-
-            System.Console.WriteLine("BUO YOU-O " + buo.keywords + " " + buo.canonicalUrl +
-        " " + buo.metadata.addressPostalCode)
-
-        ;
-            System.Console.WriteLine("Deeplink params : "
-                                     + buo.ToJsonString()
-                                     + linkProps.ToJsonString());
-        }
+    
+    public void BranchCallbackWithParams(Dictionary<string, object> parameters, string error)
+    {
+        if(parameters == null) return;
+        if (!parameters.ContainsKey("z") || !parameters.ContainsKey("x")) return;
+        int x = Convert.ToInt32(parameters["x"]);
+        int z = Convert.ToInt32(parameters["z"]);
+        PlayerSelections._startingPoint = new Vector3(x, 0, z);
     }
     
     private IEnumerator WaitForCompassEnable()

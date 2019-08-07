@@ -10,6 +10,7 @@ public class ARView : MonoBehaviour
     public GameObject startPoint;
     public GameObject arSessionOrigin;
     public ICompass compass = new RealCompass();
+    public GameObject physicalSyncpointBehaviour;
 
     public void Start()
     {
