@@ -46,9 +46,10 @@ namespace Tests.EditMode
             
             initScript.BranchCallbackWithParams(paremeters,null);
 
-            var actualLocation = PlayerSelections._startingPoint;
+            var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(1, actualLocation.x);
             Assert.AreEqual(1, actualLocation.z);
+            Assert.True(PlayerSelections.startingPointProvided);
         }
         
         [Test]
@@ -60,9 +61,10 @@ namespace Tests.EditMode
             
             initScript.BranchCallbackWithParams(paremeters,null);
 
-            var actualLocation = PlayerSelections._startingPoint;
+            var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(0, actualLocation.x);
             Assert.AreEqual(0, actualLocation.z);
+            Assert.False(PlayerSelections.startingPointProvided);
         }
     }
 }

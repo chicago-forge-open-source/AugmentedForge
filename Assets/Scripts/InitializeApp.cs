@@ -24,13 +24,28 @@ public class InitializeApp : MonoBehaviour
     
     public void BranchCallbackWithParams(Dictionary<string, object> parameters, string error)
     {
-        if(parameters == null) return;
-        if (!parameters.ContainsKey("z") || !parameters.ContainsKey("x")) return;
+        
+        if (CheckForValidParameters(parameters))
+        {
+            PlayerSelections.startingPointProvided = false;
+            return;
+        }
+        SetPlayerStartingPoint(parameters);
+    }
+
+    private static bool CheckForValidParameters(Dictionary<string, object> parameters)
+    {
+        return parameters == null || !parameters.ContainsKey("z") || !parameters.ContainsKey("x");
+    }
+
+    private static void SetPlayerStartingPoint(Dictionary<string, object> parameters)
+    {
         int x = Convert.ToInt32(parameters["x"]);
         int z = Convert.ToInt32(parameters["z"]);
-        PlayerSelections._startingPoint = new Vector3(x, 0, z);
+        PlayerSelections.startingPoint = new Vector3(x, 0, z);
+        PlayerSelections.startingPointProvided = true;
     }
-    
+
     private IEnumerator WaitForCompassEnable()
     {
         yield return new WaitUntil(() => compass.IsEnabled);
