@@ -17,7 +17,7 @@ namespace DataLoaders
         private readonly Marker _conferenceNorth = new Marker("Conference North", 2.0f, 8.0f);
         private readonly Marker _kitchen = new Marker("Kitchen", -3.0f, -5.2f);
         private readonly Marker _focusSouth = new Marker("Focus South", 11.0f, -9.0f);
-        private readonly Marker _personalHealthRoom = new Marker("Personal Health Room", 12.2f, -11.3f);
+        private readonly Marker _personalHealthRoom = new Marker("Discrete Health Room", 12.2f, -11.3f);
         private readonly Marker _conferenceSouth = new Marker("Conference South", -11.4f, -20.0f);
 
         private readonly Marker _makersSpace = new Marker("Makers Space", 7.1f, -22.3f);
