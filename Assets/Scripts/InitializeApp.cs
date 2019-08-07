@@ -25,18 +25,18 @@ public class InitializeApp : MonoBehaviour
     public void BranchCallbackWithParams(Dictionary<string, object> parameters, string error)
     {
         
-        if (CheckForValidParameters(parameters))
+        if (CanSetPlayerStartingPoint(parameters))
         {
-            PlayerSelections.startingPointProvided = false;
-            PlayerSelections.startingPoint = new Vector3();
+            SetPlayerStartingPoint(parameters);
             return;
         }
-        SetPlayerStartingPoint(parameters);
+        PlayerSelections.startingPointProvided = false;
+        PlayerSelections.startingPoint = new Vector3();
     }
 
-    private static bool CheckForValidParameters(Dictionary<string, object> parameters)
+    private static bool CanSetPlayerStartingPoint(Dictionary<string, object> parameters)
     {
-        return parameters == null || !parameters.ContainsKey("z") || !parameters.ContainsKey("x");
+        return parameters != null && parameters.ContainsKey("z") && parameters.ContainsKey("x");
     }
 
     private static void SetPlayerStartingPoint(Dictionary<string, object> parameters)
