@@ -8,7 +8,7 @@ namespace Locations
         public string mapFileName { get; }
         public Quaternion rotation { get; }
 
-        public Location(string name, string mapFileName, int zRotation = 0)
+        public Location(string name, string mapFileName, float zRotation = 0)
         {
             this.name = name;
             this.mapFileName = mapFileName;
