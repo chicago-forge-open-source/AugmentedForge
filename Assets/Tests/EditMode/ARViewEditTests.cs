@@ -1,5 +1,6 @@
 using System;
 using DataLoaders;
+using DefaultNamespace;
 using NUnit.Framework;
 using SyncPoints;
 using UnityEngine;
@@ -57,6 +58,7 @@ namespace Tests.EditMode
         {
             new ChicagoDataLoader().DataLoad();
             var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
+            PlayerSelections.startingPointProvided = false;
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint(expectedSyncPointPosition.x,expectedSyncPointPosition.z) });
             _mapScript.Start();
             
@@ -66,5 +68,19 @@ namespace Tests.EditMode
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
 
+        [Test]
+        public void GivenAPlayerStartPointIsSelected_SyncPointIsSetToPlayerStartpoint()
+        {
+            new ChicagoDataLoader().DataLoad();
+            PlayerSelections.startingPoint = new Vector3(1,0,1);
+            PlayerSelections.startingPointProvided = true;
+            
+            _mapScript.Start();
+
+            var expectedPosition = PlayerSelections.startingPoint;
+            var actualPosition = _mapScript.startPoint.transform.position;
+            Assert.AreEqual(expectedPosition.x, actualPosition.x);
+            Assert.AreEqual(expectedPosition.z, actualPosition.z);
+        }
     }
 }

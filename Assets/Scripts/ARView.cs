@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,6 @@ public class ARView : MonoBehaviour
     public GameObject startPoint;
     public GameObject arSessionOrigin;
     public ICompass compass = new RealCompass();
-    public GameObject physicalSyncpointBehaviour;
 
     public void Start()
     {
@@ -20,9 +20,16 @@ public class ARView : MonoBehaviour
 
     private void SetStartPositionBasedOnSyncPoint()
     {
-        var syncPoint = Repositories.SyncPointRepository.Get()[0];
-        var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
-        startPoint.transform.position = startPointPosition;
+        if (PlayerSelections.startingPointProvided)
+        {
+            startPoint.transform.position = PlayerSelections.startingPoint;
+        }
+        else
+        {
+            var syncPoint = Repositories.SyncPointRepository.Get()[0];
+            var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
+            startPoint.transform.position = startPointPosition;
+        }
     }
 
     public void Update()

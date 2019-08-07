@@ -28,6 +28,7 @@ public class InitializeApp : MonoBehaviour
         if (CheckForValidParameters(parameters))
         {
             PlayerSelections.startingPointProvided = false;
+            PlayerSelections.startingPoint = new Vector3();
             return;
         }
         SetPlayerStartingPoint(parameters);
@@ -40,8 +41,8 @@ public class InitializeApp : MonoBehaviour
 
     private static void SetPlayerStartingPoint(Dictionary<string, object> parameters)
     {
-        int x = Convert.ToInt32(parameters["x"]);
-        int z = Convert.ToInt32(parameters["z"]);
+        float x = (float) Convert.ToDouble(parameters["x"]);
+        float z = (float) Convert.ToDouble(parameters["z"]);
         PlayerSelections.startingPoint = new Vector3(x, 0, z);
         PlayerSelections.startingPointProvided = true;
     }
