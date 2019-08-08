@@ -36,20 +36,22 @@ namespace Tests.EditMode
         }
         
         [Test]
-        public void GivenStartPointProvided_UserStartPointIsSet()
+        public void GivenStartPointProvided_UserStartPointIsSetAndFacesSouth()
         {
             var initScript = new GameObject().AddComponent<InitializeApp>();
             
-            Dictionary<String, object> paremeters = new Dictionary<string, object>();
-            paremeters.Add("z", 1);
-            paremeters.Add("x", 1);
+            Dictionary<String, object> parameters = new Dictionary<string, object>();
+            parameters.Add("z", 1);
+            parameters.Add("x", 1);
+            parameters.Add("direction", 180);
             
-            initScript.BranchCallbackWithParams(paremeters,null);
+            initScript.BranchCallbackWithParams(parameters,null);
 
             var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(1, actualLocation.x);
             Assert.AreEqual(1, actualLocation.z);
-            Assert.True(PlayerSelections.startingPointProvided);
+            Assert.AreEqual(180, PlayerSelections.directionInYRotation);
+            Assert.True(PlayerSelections.startingParametersProvided);
         }
         
         [Test]
@@ -57,14 +59,15 @@ namespace Tests.EditMode
         {
             var initScript = new GameObject().AddComponent<InitializeApp>();
             
-            Dictionary<String, object> paremeters = new Dictionary<string, object>();
+            Dictionary<String, object> parameters = new Dictionary<string, object>();
             
-            initScript.BranchCallbackWithParams(paremeters,null);
+            initScript.BranchCallbackWithParams(parameters,null);
 
             var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(0, actualLocation.x);
             Assert.AreEqual(0, actualLocation.z);
-            Assert.False(PlayerSelections.startingPointProvided);
+            Assert.AreEqual(0, PlayerSelections.directionInYRotation);
+            Assert.False(PlayerSelections.startingParametersProvided);
         }
     }
 }

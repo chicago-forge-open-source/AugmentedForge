@@ -17,29 +17,26 @@ public class ARView : MonoBehaviour
     public void Start()
     {
         SetStartPositionBasedOnSyncPoint();
-        LocationSync();
         CreateScrollViewItems();
     }
 
     private void SetStartPositionBasedOnSyncPoint()
     {
-        if (PlayerSelections.startingPointProvided)
+        if (PlayerSelections.startingParametersProvided)
         {
-            startPoint.transform.position = PlayerSelections.startingPoint;
+            Helpers.SetObjectXzPosition(arSessionOrigin.transform, PlayerSelections.startingPoint.x,
+                PlayerSelections.startingPoint.z);
+
+            arSessionOrigin.transform.rotation = Quaternion.Euler(0, PlayerSelections.directionInYRotation, 0);
         }
         else
         {
             var syncPoint = Repositories.SyncPointRepository.Get()[0];
-            var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
-            startPoint.transform.position = startPointPosition;
-        }
-    }
+            startPoint.transform.position = new Vector3(syncPoint.X, 0, syncPoint.Z);
 
-    private void LocationSync()
-    {
-        var syncPos = startPoint.transform.position;
-        Helpers.SetObjectXzPosition(arSessionOrigin.transform, syncPos.x, syncPos.z);
-        arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
+            arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
+            Helpers.SetObjectXzPosition(arSessionOrigin.transform, syncPoint.X, syncPoint.Z);
+        }
     }
 
     private void CreateScrollViewItems()

@@ -10,7 +10,7 @@ public class InitializeApp : MonoBehaviour
 {
     public ICompass compass = new RealCompass();
     public DataLoader dataLoader;
-    public Vector3 syncPointLocation;
+
     public void Awake()
     {
         Input.compass.enabled = true;
@@ -21,30 +21,32 @@ public class InitializeApp : MonoBehaviour
     {
         Branch.initSession(BranchCallbackWithParams);
     }
-    
+
     public void BranchCallbackWithParams(Dictionary<string, object> parameters, string error)
     {
-        
         if (CanSetPlayerStartingPoint(parameters))
         {
-            SetPlayerStartingPoint(parameters);
+            SetPlayerStartingParameters(parameters);
             return;
         }
-        PlayerSelections.startingPointProvided = false;
+
+        PlayerSelections.startingParametersProvided = false;
         PlayerSelections.startingPoint = new Vector3();
     }
 
     private static bool CanSetPlayerStartingPoint(Dictionary<string, object> parameters)
     {
-        return parameters != null && parameters.ContainsKey("z") && parameters.ContainsKey("x");
+        return parameters != null && parameters.ContainsKey("x") && parameters.ContainsKey("z");// && parameters.ContainsKey("direction");
     }
 
-    private static void SetPlayerStartingPoint(Dictionary<string, object> parameters)
+    private static void SetPlayerStartingParameters(Dictionary<string, object> parameters)
     {
         float x = (float) Convert.ToDouble(parameters["x"]);
         float z = (float) Convert.ToDouble(parameters["z"]);
+        float direction = (float) Convert.ToDouble(parameters["direction"]);
         PlayerSelections.startingPoint = new Vector3(x, 0, z);
-        PlayerSelections.startingPointProvided = true;
+        PlayerSelections.directionInYRotation = direction;
+        PlayerSelections.startingParametersProvided = true;
     }
 
     private IEnumerator WaitForCompassEnable()

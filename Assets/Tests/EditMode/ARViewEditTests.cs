@@ -30,7 +30,7 @@ namespace Tests.EditMode
             _mapScript.startPoint = new GameObject();
             _mapScript.arSessionOrigin = new GameObject();
             _mapScript.arSessionOrigin.AddComponent<ARSessionOrigin>();
-            
+
             _mapScript.scrollContent = new GameObject();
             SetupScrollItemPrefab();
         }
@@ -63,29 +63,35 @@ namespace Tests.EditMode
         {
             new ChicagoDataLoader().DataLoad();
             var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
-            PlayerSelections.startingPointProvided = false;
-            Repositories.SyncPointRepository.Save(new[] {new SyncPoint(expectedSyncPointPosition.x,expectedSyncPointPosition.z) });
+            PlayerSelections.startingParametersProvided = false;
+            Repositories.SyncPointRepository.Save(new[]
+                {new SyncPoint(expectedSyncPointPosition.x, expectedSyncPointPosition.z)});
             _mapScript.Start();
-            
+
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
             //TODO: Move to Vector3 Comparer (may want to add to TestHelpers class now and update other references)
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
-        
+
         [Test]
-        public void GivenAPlayerStartPointIsSelected_SyncPointIsSetToPlayerStartpoint()
+        public void GivenAPlayerStartPointIsSelected_SyncPointIsSetToPlayerStartParameters()
         {
             new ChicagoDataLoader().DataLoad();
-            PlayerSelections.startingPoint = new Vector3(1,0,1);
-            PlayerSelections.startingPointProvided = true;
-            
+            var expectedPosition = new Vector3(1, 0, 1);
+            PlayerSelections.startingPoint = expectedPosition;
+            var expectedYRotation = 90f;
+            PlayerSelections.directionInYRotation = expectedYRotation;
+            PlayerSelections.startingParametersProvided = true;
+
             _mapScript.Start();
 
-            var expectedPosition = PlayerSelections.startingPoint;
             var actualPosition = _mapScript.startPoint.transform.position;
             Assert.AreEqual(expectedPosition.x, actualPosition.x);
             Assert.AreEqual(expectedPosition.z, actualPosition.z);
+            TestHelpers.AssertQuaternionsAreEqual(
+                Quaternion.Euler(0, expectedYRotation, 0),
+                _mapScript.arSessionOrigin.transform.rotation);
         }
 
         [Test]
@@ -93,7 +99,7 @@ namespace Tests.EditMode
         {
             var marker1 = new Marker("Lone Cowboy", 10, 10);
             Repositories.MarkerRepository.Save(new[] {marker1});
-            
+
             _mapScript.Start();
 
             var content = _mapScript.scrollContent;
