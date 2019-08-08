@@ -73,9 +73,9 @@ namespace Tests.EditMode
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
-
+        
         [Test]
-        public void GivenAPlayerStartPointIsSelected_SyncPointIsSetToPlayerStartParameters()
+        public void GivenAPlayerStartPointIsProvided_SyncPointIsSetToPlayerStartParameters()
         {
             new ChicagoDataLoader().DataLoad();
             var expectedPosition = new Vector3(1, 0, 1);
@@ -119,9 +119,9 @@ namespace Tests.EditMode
             var content = _mapScript.scrollContent;
 
             Assert.AreEqual(2, content.transform.childCount);
-            Assert.AreEqual(marker1.Label, content.transform.GetChild(0).name);
+            Assert.AreEqual("ScrollItem-" + marker1.Label, content.transform.GetChild(0).name);
             Assert.AreEqual(marker1.Label, GetTextFromScrollItem(content, 0));
-            Assert.AreEqual(marker2.Label, content.transform.GetChild(1).name);
+            Assert.AreEqual("ScrollItem-" + marker2.Label, content.transform.GetChild(1).name);
             Assert.AreEqual(marker2.Label, GetTextFromScrollItem(content, 1));
         }
 

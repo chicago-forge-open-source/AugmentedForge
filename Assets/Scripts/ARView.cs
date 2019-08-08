@@ -24,6 +24,7 @@ public class ARView : MonoBehaviour
     {
         if (PlayerSelections.startingParametersProvided)
         {
+            startPoint.transform.position = PlayerSelections.startingPoint;
             Helpers.SetObjectXzPosition(arSessionOrigin.transform, PlayerSelections.startingPoint.x,
                 PlayerSelections.startingPoint.z);
 
@@ -46,7 +47,7 @@ public class ARView : MonoBehaviour
         foreach (var marker in markers)
         {
             var clonedMarker = Instantiate(scrollItemPrefab, scrollContent.transform);
-            clonedMarker.name = marker.Label;
+            clonedMarker.name = "ScrollItem-" + marker.Label;
             clonedMarker.GetComponentInChildren<Text>().text = marker.Label;
 //            clonedMarker.GetComponent<Button>().onClick.AddListener(() => OnClick_MoveCameraToMarker(marker));
         }

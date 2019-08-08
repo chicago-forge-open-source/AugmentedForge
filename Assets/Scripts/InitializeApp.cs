@@ -32,6 +32,7 @@ public class InitializeApp : MonoBehaviour
 
         PlayerSelections.startingParametersProvided = false;
         PlayerSelections.startingPoint = new Vector3();
+        PlayerSelections.directionInYRotation = 0f;
     }
 
     private static bool CanSetPlayerStartingPoint(Dictionary<string, object> parameters)
