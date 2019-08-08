@@ -10,11 +10,14 @@ public class ARView : MonoBehaviour
     public GameObject startPoint;
     public GameObject arSessionOrigin;
     public ICompass compass = new RealCompass();
+    public GameObject scrollItemPrefab;
+    public GameObject scrollContent;
 
     public void Start()
     {
         SetStartPositionBasedOnSyncPoint();
         LocationSync();
+        CreateScrollViewItems();
     }
 
     private void SetStartPositionBasedOnSyncPoint()
@@ -22,6 +25,26 @@ public class ARView : MonoBehaviour
         var syncPoint = Repositories.SyncPointRepository.Get()[0];
         var startPointPosition = new Vector3(syncPoint.X, 0, syncPoint.Z);
         startPoint.transform.position = startPointPosition;
+    }
+
+    private void LocationSync()
+    {
+        var syncPos = startPoint.transform.position;
+        Helpers.SetObjectXzPosition(arSessionOrigin.transform, syncPos.x, syncPos.z);
+        arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
+    }
+
+    private void CreateScrollViewItems()
+    {
+        var markers = Repositories.MarkerRepository.Get();
+
+        foreach (var marker in markers)
+        {
+            var clonedMarker = Instantiate(scrollItemPrefab, scrollContent.transform);
+            clonedMarker.name = marker.Label;
+            clonedMarker.GetComponentInChildren<Text>().text = marker.Label;
+//            clonedMarker.GetComponent<Button>().onClick.AddListener(() => OnClick_MoveCameraToMarker(marker));
+        }
     }
 
     public void Update()
@@ -38,13 +61,6 @@ public class ARView : MonoBehaviour
     private IEnumerator WaitForCompassEnable()
     {
         yield return new WaitUntil(() => compass.IsEnabled);
-    }
-
-    private void LocationSync()
-    {
-        var syncPos = startPoint.transform.position;
-        Helpers.SetObjectXzPosition(arSessionOrigin.transform, syncPos.x, syncPos.z);
-        arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
     }
 }
 

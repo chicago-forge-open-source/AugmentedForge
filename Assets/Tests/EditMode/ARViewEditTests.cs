@@ -1,5 +1,6 @@
 using System;
 using DataLoaders;
+using Markers;
 using NUnit.Framework;
 using SyncPoints;
 using UnityEngine;
@@ -27,6 +28,10 @@ namespace Tests.EditMode
 
             _mapScript.startPoint = new GameObject();
             _mapScript.arSessionOrigin = new GameObject();
+            _mapScript.arSessionOrigin.AddComponent<ARSessionOrigin>();
+            
+            _mapScript.scrollContent = new GameObject();
+            SetupScrollItemPrefab();
         }
 
         [Test]
@@ -50,8 +55,8 @@ namespace Tests.EditMode
                 _mapScript.arSessionOrigin.transform.rotation
             );
         }
-        
-        
+
+
         [Test]
         public void Start_GivenALocation_ExpectedSyncPointIsLoaded()
         {
@@ -66,5 +71,50 @@ namespace Tests.EditMode
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
 
+        [Test]
+        public void Start_WillCreateScrollViewItemOnScrollView()
+        {
+            var marker1 = new Marker("Lone Cowboy", 10, 10);
+            Repositories.MarkerRepository.Save(new[] {marker1});
+            
+            _mapScript.Start();
+
+            var content = _mapScript.scrollContent;
+
+            Assert.AreEqual(1, content.transform.childCount);
+        }
+
+        [Test]
+        public void Start_WillCreateScrollViewItemFromMarkers()
+        {
+            var marker1 = new Marker("Testing 1", 10, 10);
+            var marker2 = new Marker("Testing 2", 5, 5);
+            Repositories.MarkerRepository.Save(new[] {marker1, marker2});
+
+            _mapScript.Start();
+
+            var content = _mapScript.scrollContent;
+
+            Assert.AreEqual(2, content.transform.childCount);
+            Assert.AreEqual(marker1.Label, content.transform.GetChild(0).name);
+            Assert.AreEqual(marker1.Label, GetTextFromScrollItem(content, 0));
+            Assert.AreEqual(marker2.Label, content.transform.GetChild(1).name);
+            Assert.AreEqual(marker2.Label, GetTextFromScrollItem(content, 1));
+        }
+
+        private static string GetTextFromScrollItem(GameObject content, int index)
+        {
+            return content.transform.GetChild(index).GetComponentInChildren<Text>().text;
+        }
+
+        private void SetupScrollItemPrefab()
+        {
+            _mapScript.scrollItemPrefab = new GameObject("Scroll Item Generic");
+            _mapScript.scrollItemPrefab.AddComponent<Button>();
+
+            var textChild = new GameObject();
+            textChild.transform.parent = _mapScript.scrollItemPrefab.transform;
+            textChild.AddComponent<Text>().text = "Blank Scroll Item";
+        }
     }
 }
