@@ -11,7 +11,6 @@ namespace AR
     {
         public GameObject arCameraGameObject;
         public Text debugText;
-        public GameObject startPoint;
         public GameObject arSessionOrigin;
         public ICompass compass = new RealCompass();
         public SyncPoint scheduledSyncPoint;
@@ -25,16 +24,23 @@ namespace AR
         {
             if (PlayerSelections.startingParametersProvided)
             {
-                startPoint.transform.position = PlayerSelections.startingPoint;
-
-                SetArSessionOriginPositionAndOrientation(PlayerSelections.startingPoint.x, PlayerSelections.startingPoint.z, PlayerSelections.orientation);
+                var qrCodePosition = PlayerSelections.startingPoint;
+                scheduledSyncPoint = new SyncPoint(
+                    "QR",
+                    qrCodePosition.x,
+                    qrCodePosition.z,
+                    PlayerSelections.orientation
+                );
             }
             else
             {
-                var syncPoint = Repositories.SyncPointRepository.Get()[0];
-                startPoint.transform.position = new Vector3(syncPoint.X, 0, syncPoint.Z);
-            
-                SetArSessionOriginPositionAndOrientation(syncPoint.X, syncPoint.Z, compass.TrueHeading);
+                var repoSyncPoint = Repositories.SyncPointRepository.Get()[0];
+                scheduledSyncPoint = new SyncPoint(
+                    "start with compass",
+                    repoSyncPoint.X,
+                    repoSyncPoint.Z,
+                    compass.TrueHeading
+                );
             }
         }
 
@@ -47,7 +53,14 @@ namespace AR
         public void Update()
         {
             var logLine = $"ARCamera: {arCameraGameObject.transform.position}";
+            logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
             debugText.text = logLine;
+            if (scheduledSyncPoint != null)
+            {
+                SetArSessionOriginPositionAndOrientation(scheduledSyncPoint.X, scheduledSyncPoint.Z,
+                    scheduledSyncPoint.Orientation);
+                scheduledSyncPoint = null;
+            }
         }
 
         public void OnApplicationFocus(bool hasFocus)

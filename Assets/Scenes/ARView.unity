@@ -854,7 +854,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1114040585}
         m_MethodName: OnClick_MapOnlyToggle
         m_Mode: 1
         m_Arguments:
@@ -1159,7 +1159,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arCameraGameObject: {fileID: 165585583}
   debugText: {fileID: 40919616}
-  startPoint: {fileID: 2135615481}
   arSessionOrigin: {fileID: 1577749883}
 --- !u!114 &543973077
 MonoBehaviour:
@@ -1332,6 +1331,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 2986228942908144318, guid: 6f0e2927808394d52aa2170b9ae00198,
     type: 3}
   scrollContent: {fileID: 301097162}
+  calibrationBehaviour: {fileID: 543973076}
 --- !u!1 &790463431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1114040585}
         m_MethodName: OnClick_ArMapOverlayToggle
         m_Mode: 1
         m_Arguments:
