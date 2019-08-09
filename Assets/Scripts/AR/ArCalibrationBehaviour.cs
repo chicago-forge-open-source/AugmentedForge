@@ -13,13 +13,10 @@ namespace AR
         public GameObject startPoint;
         public GameObject arSessionOrigin;
         public ICompass compass = new RealCompass();
-        public GameObject scrollItemPrefab;
-        public GameObject scrollContent;
 
         public void Start()
         {
             SetStartPositionBasedOnSyncPoint();
-            CreateScrollViewItems();
         }
 
         private void SetStartPositionBasedOnSyncPoint()
@@ -43,18 +40,6 @@ namespace AR
         {
             Helpers.SetObjectXzPosition(arSessionOrigin.transform, newX, newZ);
             arSessionOrigin.transform.rotation = Quaternion.Euler(0, newOrientation, 0);
-        }
-
-        private void CreateScrollViewItems()
-        {
-            var syncPoints = Repositories.SyncPointRepository.Get();
-
-            foreach (var syncPoint in syncPoints)
-            {
-                var clonedMarker = Instantiate(scrollItemPrefab, scrollContent.transform);
-                clonedMarker.name = "ScrollItem-" + syncPoint.Name;
-                clonedMarker.GetComponentInChildren<Text>().text = syncPoint.Name;
-            }
         }
 
         public void Update()

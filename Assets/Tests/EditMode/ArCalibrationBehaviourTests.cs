@@ -30,9 +30,6 @@ namespace Tests.EditMode
             _mapScript.startPoint = new GameObject();
             _mapScript.arSessionOrigin = new GameObject();
             _mapScript.arSessionOrigin.AddComponent<ARSessionOrigin>();
-
-            _mapScript.scrollContent = new GameObject();
-            SetupScrollItemPrefab();
         }
 
         [Test]
@@ -92,52 +89,6 @@ namespace Tests.EditMode
             TestHelpers.AssertQuaternionsAreEqual(
                 Quaternion.Euler(0, expectedYRotation, 0),
                 _mapScript.arSessionOrigin.transform.rotation);
-        }
-
-        [Test]
-        public void Start_WillCreateScrollViewItemOnScrollView()
-        {
-            var syncPoint = new SyncPoint("Lone Cowboy", 10, 10, 84);
-            Repositories.SyncPointRepository.Save(new[] {syncPoint});
-
-            _mapScript.Start();
-
-            var content = _mapScript.scrollContent;
-
-            Assert.AreEqual(1, content.transform.childCount);
-        }
-
-        [Test]
-        public void Start_WillCreateScrollViewItemFromSyncPoints()
-        {
-            var marker1 = new SyncPoint("Testing 1", 10, 10, 0);
-            var marker2 = new SyncPoint("Testing 2", 20, 2, 180);
-            Repositories.SyncPointRepository.Save(new[] {marker1, marker2});
-
-            _mapScript.Start();
-
-            var content = _mapScript.scrollContent;
-
-            Assert.AreEqual(2, content.transform.childCount);
-            Assert.AreEqual("ScrollItem-" + marker1.Name, content.transform.GetChild(0).name);
-            Assert.AreEqual(marker1.Name, GetTextFromScrollItem(content, 0));
-            Assert.AreEqual("ScrollItem-" + marker2.Name, content.transform.GetChild(1).name);
-            Assert.AreEqual(marker2.Name, GetTextFromScrollItem(content, 1));
-        }
-
-        private static string GetTextFromScrollItem(GameObject content, int index)
-        {
-            return content.transform.GetChild(index).GetComponentInChildren<Text>().text;
-        }
-
-        private void SetupScrollItemPrefab()
-        {
-            _mapScript.scrollItemPrefab = new GameObject("Scroll Item Generic");
-            _mapScript.scrollItemPrefab.AddComponent<Button>();
-
-            var textChild = new GameObject();
-            textChild.transform.parent = _mapScript.scrollItemPrefab.transform;
-            textChild.AddComponent<Text>().text = "Blank Scroll Item";
         }
     }
 }

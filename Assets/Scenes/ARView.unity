@@ -1161,9 +1161,6 @@ MonoBehaviour:
   debugText: {fileID: 40919616}
   startPoint: {fileID: 2135615481}
   arSessionOrigin: {fileID: 1577749883}
-  scrollItemPrefab: {fileID: 2986228942908144318, guid: 6f0e2927808394d52aa2170b9ae00198,
-    type: 3}
-  scrollContent: {fileID: 301097162}
 --- !u!114 &543973077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,8 +1219,9 @@ GameObject:
   - component: {fileID: 746538272}
   - component: {fileID: 746538271}
   - component: {fileID: 746538270}
+  - component: {fileID: 746538273}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: Sync Point Selector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1319,6 +1317,21 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &746538273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746538268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ade6790918c44858d29dec2652ccb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 2986228942908144318, guid: 6f0e2927808394d52aa2170b9ae00198,
+    type: 3}
+  scrollContent: {fileID: 301097162}
 --- !u!1 &790463431
 GameObject:
   m_ObjectHideFlags: 0
