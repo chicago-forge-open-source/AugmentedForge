@@ -19,7 +19,7 @@ namespace Tests.PlayMode.Markers
             
             SceneManager.LoadScene("ARView");
             yield return null;
-            GameObject.Find("Overlay Map").GetComponent<InitializeMarkers>();
+            GameObject.Find("Overlay Map").GetComponent<PresentMarkersBehaviour>();
         }
 
         [UnityTest]

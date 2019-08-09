@@ -7,10 +7,10 @@ using UnityEngine.XR.ARFoundation;
 
 namespace Tests.EditMode
 {
-    public class ControllerBehaviourEditTests
+    public class HudBehaviourTests
     {
         private GameObject _game;
-        private ControllerBehaviour _mapScript;
+        private HudBehaviour _mapScript;
         private const string Chicago = "Chicago";
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Tests.EditMode
         {
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
-            _mapScript = _game.AddComponent<ControllerBehaviour>();
+            _mapScript = _game.AddComponent<HudBehaviour>();
 
             _mapScript.mapCameraGameObject = new GameObject();
             _mapScript.mapCameraGameObject.AddComponent<Camera>();
@@ -31,7 +31,7 @@ namespace Tests.EditMode
             _mapScript.arMapOverlayToggle = new GameObject();
             _mapScript.arMapOverlayToggle.AddComponent<Button>();
 
-            _mapScript.initializeMarkers = _game.AddComponent<InitializeMarkers>();
+            _mapScript.presentMarkersBehaviour = _game.AddComponent<PresentMarkersBehaviour>();
 
             PlayerPrefs.SetString("location", Chicago);
         }
@@ -200,11 +200,11 @@ namespace Tests.EditMode
 
             GameObject north = new GameObject("north");
             north.transform.rotation = Quaternion.Euler(1, 1, 1);
-            _mapScript.initializeMarkers.MapMarkers.Add(north);
+            _mapScript.presentMarkersBehaviour.MapMarkers.Add(north);
 
             _mapScript.OnClick_MapOnlyToggle();
 
-            var markerRotation = _mapScript.initializeMarkers.MapMarkers
+            var markerRotation = _mapScript.presentMarkersBehaviour.MapMarkers
                 .First(marker => marker.name.Equals("north")).transform.rotation;
 
             TestHelpers.AssertQuaternionsAreEqual(

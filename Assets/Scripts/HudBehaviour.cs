@@ -2,7 +2,7 @@ using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class ControllerBehaviour : MonoBehaviour
+public class HudBehaviour : MonoBehaviour
 {
         
     private const int MappingLayerBitMask = 1 << 9;
@@ -11,7 +11,7 @@ public class ControllerBehaviour : MonoBehaviour
     public GameObject arCameraGameObject;
     public GameObject mapCameraGameObject;
     public GameObject arMapOverlayToggle;
-    public InitializeMarkers initializeMarkers;
+    public PresentMarkersBehaviour presentMarkersBehaviour;
         
     private ARCameraBackground _cameraBackground;
     private Camera _mapCamera;
@@ -47,7 +47,7 @@ public class ControllerBehaviour : MonoBehaviour
         _mapCamera.enabled = true;
         mapCameraGameObject.transform.rotation = MapNorth;
 
-        foreach (var mapMarker in initializeMarkers.MapMarkers)
+        foreach (var mapMarker in presentMarkersBehaviour.MapMarkers)
         {
             mapMarker.transform.rotation = MapNorth;
         }

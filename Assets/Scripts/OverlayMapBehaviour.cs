@@ -9,7 +9,7 @@ public class OverlayMapBehaviour : MonoBehaviour
     public GameObject mapCameraGameObject;
     public GameObject startPoint;
     public GameObject locationMarker;
-    public InitializeMarkers initializeMarkers;
+    public PresentMarkersBehaviour presentMarkersBehaviour;
     private ARCameraBackground _cameraBackground;
     public ICompass compass = new RealCompass();
 
@@ -76,7 +76,7 @@ public class OverlayMapBehaviour : MonoBehaviour
         var mapRotation = Quaternion.Euler(90, finalRotation, 0);
         mapCameraGameObject.transform.rotation = mapRotation;
 
-        foreach (var mapMarker in initializeMarkers.MapMarkers)
+        foreach (var mapMarker in presentMarkersBehaviour.MapMarkers)
         {
             mapMarker.transform.rotation = mapRotation;
         }

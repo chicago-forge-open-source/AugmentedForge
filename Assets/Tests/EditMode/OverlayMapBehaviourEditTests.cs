@@ -32,7 +32,7 @@ namespace Tests.EditMode
             _mapScript.locationMarker = new GameObject();
             _mapScript.startPoint = new GameObject();
 
-            _mapScript.initializeMarkers = _game.AddComponent<InitializeMarkers>();
+            _mapScript.presentMarkersBehaviour = _game.AddComponent<PresentMarkersBehaviour>();
 
             
             new ChicagoDataLoader().DataLoad();
@@ -196,7 +196,7 @@ namespace Tests.EditMode
         [Test]
         public void Update_WillRotateOverlayMarkersInTheOppositeDirectionOfTheMapSoTheyRemainReadable()
         {
-            _mapScript.initializeMarkers.MapMarkers.Add(new GameObject("north"));
+            _mapScript.presentMarkersBehaviour.MapMarkers.Add(new GameObject("north"));
             _mapScript.Start();
 
             _mapScript.compass = new MockCompass {TrueHeading = 2f};

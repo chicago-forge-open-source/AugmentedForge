@@ -854,7 +854,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543973078}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick_MapOnlyToggle
         m_Mode: 1
         m_Arguments:
@@ -1181,22 +1181,6 @@ MonoBehaviour:
   arCameraGameObject: {fileID: 165585583}
   mapMarkerPrefab: {fileID: 1032929131923002300, guid: d311264fc7cea4263a9998488a96f87a,
     type: 3}
---- !u!114 &543973078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543973075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5237afebbdc49a2b677136880427f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arCameraGameObject: {fileID: 165585583}
-  mapCameraGameObject: {fileID: 963194225}
-  arMapOverlayToggle: {fileID: 1206350025}
-  initializeMarkers: {fileID: 543973077}
 --- !u!114 &543973079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1197,7 @@ MonoBehaviour:
   mapCameraGameObject: {fileID: 963194225}
   startPoint: {fileID: 2135615481}
   locationMarker: {fileID: 1317246971}
-  initializeMarkers: {fileID: 543973077}
+  presentMarkersBehaviour: {fileID: 543973077}
 --- !u!114 &543973080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,8 +1860,9 @@ GameObject:
   - component: {fileID: 1114040584}
   - component: {fileID: 1114040583}
   - component: {fileID: 1114040582}
+  - component: {fileID: 1114040585}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Heads-up Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1967,6 +1952,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1114040585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114040580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5237afebbdc49a2b677136880427f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCameraGameObject: {fileID: 165585583}
+  mapCameraGameObject: {fileID: 963194225}
+  arMapOverlayToggle: {fileID: 1206350025}
+  presentMarkersBehaviour: {fileID: 543973077}
 --- !u!1 &1206350025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,7 +2050,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543973078}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick_ArMapOverlayToggle
         m_Mode: 1
         m_Arguments:

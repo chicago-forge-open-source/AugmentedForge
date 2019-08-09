@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Tests.EditMode.Roads
 {
-    public class RoadBehaviourEditTests
+    public class PresentRoadBehaviourTests
     {
         private GameObject _gameObject;
-        private RoadBehaviour _roadBehaviour;
+        private PresentRoadsBehaviour _presentRoadsBehaviour;
         [SetUp]
         public void Setup()
         {
             _gameObject = new GameObject();
-            _roadBehaviour = _gameObject.AddComponent<RoadBehaviour>();
+            _presentRoadsBehaviour = _gameObject.AddComponent<PresentRoadsBehaviour>();
         }
         
         [Test]
@@ -25,7 +25,7 @@ namespace Tests.EditMode.Roads
             var mockRoad = new Road(new[] {roadPoint});
             Repositories.RoadRepository.Save(new[] {mockRoad});
 
-            _roadBehaviour.Start();
+            _presentRoadsBehaviour.Start();
 
             var roads = GameObject.FindGameObjectsWithTag("Road");
             Assert.AreEqual(2, roads.Length);

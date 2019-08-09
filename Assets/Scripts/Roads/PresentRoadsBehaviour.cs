@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Roads
 {
-    public class RoadBehaviour : MonoBehaviour
+    public class PresentRoadsBehaviour : MonoBehaviour
     {
         public void Start()
         {
