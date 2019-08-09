@@ -1,4 +1,5 @@
 using System;
+using AR;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ namespace SyncPoints
     {
         public GameObject buttonPrefab;
         public GameObject scrollContent;
+        public ArCalibrationBehaviour calibrationBehaviour;
+
         public void Start()
         {
             CreateScrollViewItems();
@@ -22,6 +25,10 @@ namespace SyncPoints
                 var clonedMarker = Instantiate(buttonPrefab, scrollContent.transform);
                 clonedMarker.name = "ScrollItem-" + syncPoint.Name;
                 clonedMarker.GetComponentInChildren<Text>().text = syncPoint.Name;
+                clonedMarker.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        calibrationBehaviour.scheduledSyncPoint = syncPoint;
+                    });
             }
         }
     }

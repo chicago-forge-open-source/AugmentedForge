@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DefaultNamespace;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ namespace AR
         public GameObject startPoint;
         public GameObject arSessionOrigin;
         public ICompass compass = new RealCompass();
+        public SyncPoint scheduledSyncPoint;
 
         public void Start()
         {

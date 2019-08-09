@@ -1,3 +1,4 @@
+using AR;
 using NUnit.Framework;
 using SyncPoints;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Tests.EditMode.SyncPoints
             _game = new GameObject();
             _selectorBehaviour = _game.AddComponent<SyncPointSelectorBehaviour>();
             _selectorBehaviour.scrollContent = new GameObject();
+            _selectorBehaviour.calibrationBehaviour = _game.AddComponent<ArCalibrationBehaviour>();
             SetupScrollItemPrefab();
         }
 
@@ -50,6 +52,19 @@ namespace Tests.EditMode.SyncPoints
             Assert.AreEqual(marker2.Name, GetTextFromScrollItem(content, 1));
         }
 
+        [Test]
+        public void OnButtonClick_WillScheduleSyncOnArCalibrationBehaviour()
+        {
+            var syncPoint = new SyncPoint("Lone Cowboy", 10, 10, 84);
+            Repositories.SyncPointRepository.Save(new[] {syncPoint});
+
+            _selectorBehaviour.Start();
+            
+            _selectorBehaviour.scrollContent.transform.GetChild(0).GetComponent<Button>().onClick.Invoke();
+            
+            Assert.AreEqual(syncPoint, _selectorBehaviour.calibrationBehaviour.scheduledSyncPoint);
+        }
+
         private static string GetTextFromScrollItem(GameObject content, int index)
         {
             return content.transform.GetChild(index).GetComponentInChildren<Text>().text;
@@ -57,12 +72,12 @@ namespace Tests.EditMode.SyncPoints
 
         private void SetupScrollItemPrefab()
         {
-            _selectorBehaviour.buttonPrefab = new GameObject("Scroll Item Generic");
+            _selectorBehaviour.buttonPrefab = new GameObject("Button Generic");
             _selectorBehaviour.buttonPrefab.AddComponent<Button>();
 
             var textChild = new GameObject();
             textChild.transform.parent = _selectorBehaviour.buttonPrefab.transform;
-            textChild.AddComponent<Text>().text = "Blank Scroll Item";
+            textChild.AddComponent<Text>().text = "Blank Scroll Button";
         }
     }
 }
