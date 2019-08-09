@@ -1,6 +1,6 @@
 using System;
+using AR;
 using DataLoaders;
-using Markers;
 using DefaultNamespace;
 using NUnit.Framework;
 using SyncPoints;
@@ -10,17 +10,17 @@ using UnityEngine.XR.ARFoundation;
 
 namespace Tests.EditMode
 {
-    public class ArViewEditTests
+    public class ArCalibrationBehaviourTests
     {
         private GameObject _game;
-        private ARView _mapScript;
+        private ArCalibrationBehaviour _mapScript;
 
         [SetUp]
         public void Setup()
         {
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
-            _mapScript = _game.AddComponent<ARView>();
+            _mapScript = _game.AddComponent<ArCalibrationBehaviour>();
             _mapScript.debugText = _game.AddComponent<Text>();
 
             _mapScript.arCameraGameObject = new GameObject();
