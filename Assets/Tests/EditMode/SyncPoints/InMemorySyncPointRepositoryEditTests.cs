@@ -16,7 +16,7 @@ namespace Tests.EditMode.SyncPoints
         [Test]
         public void Save_ASavedSyncPointCanBeRetrieved()
         {
-            var syncPoint = new SyncPoint(2, 2);
+            var syncPoint = new SyncPoint("test", 2, 2, 0);
 
             _inMemorySyncPointRepository.Save(new[] {syncPoint});
 
@@ -30,8 +30,8 @@ namespace Tests.EditMode.SyncPoints
         [Test]
         public void Save_CanSaveMultipleSyncPoints()
         {
-            var syncPoint1 = new SyncPoint(1, 1);
-            var syncPoint2 = new SyncPoint(2, 2);
+            var syncPoint1 = new SyncPoint("test", 1, 1, 0);
+            var syncPoint2 = new SyncPoint("test2", 2, 2, 0);
 
             _inMemorySyncPointRepository.Save(new[] {syncPoint1, syncPoint2});
 

@@ -39,7 +39,7 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator OnStartLocationMarkerIsSetToSyncPoint()
         {
-            var syncPoint = new SyncPoint(10, 10);
+            var syncPoint = new SyncPoint("Test", 10, 10, 0);
             Repositories.SyncPointRepository.Save(new []{syncPoint});
             
             yield return LoadScene();
@@ -57,7 +57,7 @@ namespace Tests.PlayMode
             
             const string location = "Chicago";
             PlayerPrefs.SetString("location", location);
-            Repositories.SyncPointRepository.Save(new []{new SyncPoint(10, 10), });
+            Repositories.SyncPointRepository.Save(new []{new SyncPoint("test", 10, 10, 0), });
             
             yield return LoadScene();
             var map = GameObject.Find("Overlay Map");
@@ -74,7 +74,7 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator OnStartCameraViewsLocationMarker()
         {
-            var syncPoint = new SyncPoint(10, 10);
+            var syncPoint = new SyncPoint("test", 10, 10, 0);
             Repositories.SyncPointRepository.Save(new []{syncPoint});
             yield return LoadScene();
 

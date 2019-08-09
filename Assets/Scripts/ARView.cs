@@ -25,19 +25,22 @@ public class ARView : MonoBehaviour
         if (PlayerSelections.startingParametersProvided)
         {
             startPoint.transform.position = PlayerSelections.startingPoint;
-            Helpers.SetObjectXzPosition(arSessionOrigin.transform, PlayerSelections.startingPoint.x,
-                PlayerSelections.startingPoint.z);
 
-            arSessionOrigin.transform.rotation = Quaternion.Euler(0, PlayerSelections.directionInYRotation, 0);
+            SetArSessionOriginPositionAndOrientation(PlayerSelections.startingPoint.x, PlayerSelections.startingPoint.z, PlayerSelections.orientation);
         }
         else
         {
             var syncPoint = Repositories.SyncPointRepository.Get()[0];
             startPoint.transform.position = new Vector3(syncPoint.X, 0, syncPoint.Z);
-
-            arSessionOrigin.transform.rotation = Quaternion.Euler(0, compass.TrueHeading, 0);
-            Helpers.SetObjectXzPosition(arSessionOrigin.transform, syncPoint.X, syncPoint.Z);
+            
+            SetArSessionOriginPositionAndOrientation(syncPoint.X, syncPoint.Z, compass.TrueHeading);
         }
+    }
+
+    private void SetArSessionOriginPositionAndOrientation(float newX, float newZ, float newOrientation)
+    {
+        Helpers.SetObjectXzPosition(arSessionOrigin.transform, newX, newZ);
+        arSessionOrigin.transform.rotation = Quaternion.Euler(0, newOrientation, 0);
     }
 
     private void CreateScrollViewItems()
@@ -49,7 +52,6 @@ public class ARView : MonoBehaviour
             var clonedMarker = Instantiate(scrollItemPrefab, scrollContent.transform);
             clonedMarker.name = "ScrollItem-" + marker.Label;
             clonedMarker.GetComponentInChildren<Text>().text = marker.Label;
-//            clonedMarker.GetComponent<Button>().onClick.AddListener(() => OnClick_MoveCameraToMarker(marker));
         }
     }
 

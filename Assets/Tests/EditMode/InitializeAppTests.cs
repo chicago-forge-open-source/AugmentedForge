@@ -50,7 +50,7 @@ namespace Tests.EditMode
             var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(1, actualLocation.x);
             Assert.AreEqual(1, actualLocation.z);
-            Assert.AreEqual(180, PlayerSelections.directionInYRotation);
+            Assert.AreEqual(180, PlayerSelections.orientation);
             Assert.True(PlayerSelections.startingParametersProvided);
         }
         
@@ -66,7 +66,7 @@ namespace Tests.EditMode
             var actualLocation = PlayerSelections.startingPoint;
             Assert.AreEqual(0, actualLocation.x);
             Assert.AreEqual(0, actualLocation.z);
-            Assert.AreEqual(0, PlayerSelections.directionInYRotation);
+            Assert.AreEqual(0, PlayerSelections.orientation);
             Assert.False(PlayerSelections.startingParametersProvided);
         }
     }

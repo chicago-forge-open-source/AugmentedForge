@@ -15,7 +15,7 @@ namespace Tests.PlayMode.Markers
         private static IEnumerator LoadScene()
         {
             Repositories.LocationsRepository.Save(new []{new Location("", "ChicagoMap") });
-            Repositories.SyncPointRepository.Save(new []{new SyncPoint(10, 10), });
+            Repositories.SyncPointRepository.Save(new []{new SyncPoint("test", 10, 10, 0), });
             
             SceneManager.LoadScene("ARView");
             yield return null;

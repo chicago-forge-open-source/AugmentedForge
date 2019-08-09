@@ -263,7 +263,13 @@ namespace Tests.EditMode
         {
             new IowaDataLoader().DataLoad();
             var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
-            Repositories.SyncPointRepository.Save(new[] {new SyncPoint(expectedSyncPointPosition.x,expectedSyncPointPosition.z) });
+            Repositories.SyncPointRepository.Save(new[]
+            {
+                new SyncPoint("test",
+                    expectedSyncPointPosition.x,
+                    expectedSyncPointPosition.z,
+                    0)
+            });
 
             _mapScript.Start();
 

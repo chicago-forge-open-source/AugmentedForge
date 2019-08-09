@@ -86,7 +86,7 @@ namespace DataLoaders
         {
             return new[]
             {
-                new SyncPoint(0, -1.5f)
+                new SyncPoint("Steve's thing", 0, -1.5f, 0)
             };
         }
     }

@@ -32,7 +32,7 @@ public class InitializeApp : MonoBehaviour
 
         PlayerSelections.startingParametersProvided = false;
         PlayerSelections.startingPoint = new Vector3();
-        PlayerSelections.directionInYRotation = 0f;
+        PlayerSelections.orientation = 0f;
     }
 
     private static bool CanSetPlayerStartingPoint(Dictionary<string, object> parameters)
@@ -46,7 +46,7 @@ public class InitializeApp : MonoBehaviour
         float z = (float) Convert.ToDouble(parameters["z"]);
         float direction = (float) Convert.ToDouble(parameters["direction"]);
         PlayerSelections.startingPoint = new Vector3(x, 0, z);
-        PlayerSelections.directionInYRotation = direction;
+        PlayerSelections.orientation = direction;
         PlayerSelections.startingParametersProvided = true;
     }
 

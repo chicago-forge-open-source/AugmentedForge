@@ -65,7 +65,7 @@ namespace Tests.EditMode
             var expectedSyncPointPosition = new Vector3(0, 0, -1.5f);
             PlayerSelections.startingParametersProvided = false;
             Repositories.SyncPointRepository.Save(new[]
-                {new SyncPoint(expectedSyncPointPosition.x, expectedSyncPointPosition.z)});
+                {new SyncPoint("test", expectedSyncPointPosition.x, expectedSyncPointPosition.z, 0)});
             _mapScript.Start();
 
             var actualSyncPointPosition = _mapScript.startPoint.transform.position;
@@ -81,7 +81,7 @@ namespace Tests.EditMode
             var expectedPosition = new Vector3(1, 0, 1);
             PlayerSelections.startingPoint = expectedPosition;
             var expectedYRotation = 90f;
-            PlayerSelections.directionInYRotation = expectedYRotation;
+            PlayerSelections.orientation = expectedYRotation;
             PlayerSelections.startingParametersProvided = true;
 
             _mapScript.Start();

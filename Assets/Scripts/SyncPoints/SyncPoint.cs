@@ -5,7 +5,7 @@ namespace SyncPoints
         public float X { get; }
         public float Z { get; }
 
-        public SyncPoint(float x, float z)
+        public SyncPoint(string name, float x, float z, float orientation)
         {
             X = x;
             Z = z;
