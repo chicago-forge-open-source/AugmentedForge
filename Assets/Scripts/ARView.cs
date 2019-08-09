@@ -45,13 +45,13 @@ public class ARView : MonoBehaviour
 
     private void CreateScrollViewItems()
     {
-        var markers = Repositories.MarkerRepository.Get();
+        var syncPoints = Repositories.SyncPointRepository.Get();
 
-        foreach (var marker in markers)
+        foreach (var syncPoint in syncPoints)
         {
             var clonedMarker = Instantiate(scrollItemPrefab, scrollContent.transform);
-            clonedMarker.name = "ScrollItem-" + marker.Label;
-            clonedMarker.GetComponentInChildren<Text>().text = marker.Label;
+            clonedMarker.name = "ScrollItem-" + syncPoint.Name;
+            clonedMarker.GetComponentInChildren<Text>().text = syncPoint.Name;
         }
     }
 

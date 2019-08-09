@@ -73,7 +73,7 @@ namespace Tests.EditMode
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.x - actualSyncPointPosition.x) < .1);
             Assert.IsTrue(Math.Abs(expectedSyncPointPosition.z - actualSyncPointPosition.z) < .01);
         }
-        
+
         [Test]
         public void GivenAPlayerStartPointIsProvided_SyncPointIsSetToPlayerStartParameters()
         {
@@ -97,8 +97,8 @@ namespace Tests.EditMode
         [Test]
         public void Start_WillCreateScrollViewItemOnScrollView()
         {
-            var marker1 = new Marker("Lone Cowboy", 10, 10);
-            Repositories.MarkerRepository.Save(new[] {marker1});
+            var syncPoint = new SyncPoint("Lone Cowboy", 10, 10, 84);
+            Repositories.SyncPointRepository.Save(new[] {syncPoint});
 
             _mapScript.Start();
 
@@ -108,21 +108,21 @@ namespace Tests.EditMode
         }
 
         [Test]
-        public void Start_WillCreateScrollViewItemFromMarkers()
+        public void Start_WillCreateScrollViewItemFromSyncPoints()
         {
-            var marker1 = new Marker("Testing 1", 10, 10);
-            var marker2 = new Marker("Testing 2", 5, 5);
-            Repositories.MarkerRepository.Save(new[] {marker1, marker2});
+            var marker1 = new SyncPoint("Testing 1", 10, 10, 0);
+            var marker2 = new SyncPoint("Testing 2", 20, 2, 180);
+            Repositories.SyncPointRepository.Save(new[] {marker1, marker2});
 
             _mapScript.Start();
 
             var content = _mapScript.scrollContent;
 
             Assert.AreEqual(2, content.transform.childCount);
-            Assert.AreEqual("ScrollItem-" + marker1.Label, content.transform.GetChild(0).name);
-            Assert.AreEqual(marker1.Label, GetTextFromScrollItem(content, 0));
-            Assert.AreEqual("ScrollItem-" + marker2.Label, content.transform.GetChild(1).name);
-            Assert.AreEqual(marker2.Label, GetTextFromScrollItem(content, 1));
+            Assert.AreEqual("ScrollItem-" + marker1.Name, content.transform.GetChild(0).name);
+            Assert.AreEqual(marker1.Name, GetTextFromScrollItem(content, 0));
+            Assert.AreEqual("ScrollItem-" + marker2.Name, content.transform.GetChild(1).name);
+            Assert.AreEqual(marker2.Name, GetTextFromScrollItem(content, 1));
         }
 
         private static string GetTextFromScrollItem(GameObject content, int index)
