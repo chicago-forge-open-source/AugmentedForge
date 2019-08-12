@@ -99,5 +99,36 @@ namespace Tests.EditMode
             Assert.AreEqual(expectedPosition, _behaviour.arSessionOrigin.transform.position);
             TestHelpers.AssertQuaternionsAreEqual(expectedRotation, _behaviour.arSessionOrigin.transform.rotation);
         }
+        
+        [Test]
+        public void Update_GivenPlayerSelectionsHasASyncPoint_ArSessionOriginMovesToSyncPoint()
+        {
+            var expectedRotation = new Quaternion(1,0,0,1f);
+            PlayerSelections.orientation = 0;
+            var expectedPosition = new Vector3(0, 0, 0);
+            PlayerSelections.startingPoint = expectedPosition;
+            PlayerSelections.startingParametersProvided = true;
+            _behaviour.session = _game.AddComponent<ARSession>();
+            
+            _behaviour.Update();
+
+            Assert.AreEqual(expectedPosition, _behaviour.arSessionOrigin.transform.position);
+            TestHelpers.AssertQuaternionsAreEqual(expectedRotation, _behaviour.arSessionOrigin.transform.rotation);
+            Assert.False(PlayerSelections.startingParametersProvided);
+        }
+        
+        [Test]
+        public void Update_GivenNoPlayerSelection_ArSessionOriginDoesNotMove()
+        {
+            var expectedRotation = new Quaternion(0,0,0,1f);
+            var expectedPosition = new Vector3(0, 0, 0);
+            PlayerSelections.startingParametersProvided = false;
+
+            _behaviour.Update();
+
+            Assert.AreEqual(expectedPosition, _behaviour.arSessionOrigin.transform.position);
+            TestHelpers.AssertQuaternionsAreEqual(expectedRotation, _behaviour.arSessionOrigin.transform.rotation);
+            Assert.False(PlayerSelections.startingParametersProvided);
+        }
     }
 }

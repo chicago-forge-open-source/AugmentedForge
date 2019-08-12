@@ -61,6 +61,12 @@ namespace AR
             logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
             logLine += $"\nSessionOriginRotation: {arSessionOrigin.transform.rotation}";
             debugText.text = logLine;
+            if (PlayerSelections.startingParametersProvided)
+            {
+                PlayerSelections.startingParametersProvided = false;
+                var providedSyncPointPosition = PlayerSelections.startingPoint;
+                pendingSyncPoint = new SyncPoint("Chicago", providedSyncPointPosition.x, providedSyncPointPosition.z, PlayerSelections.orientation);
+            }
             if (pendingSyncPoint != null)
             {
                 SetArSessionOriginPositionAndOrientation(pendingSyncPoint.X, pendingSyncPoint.Z,
