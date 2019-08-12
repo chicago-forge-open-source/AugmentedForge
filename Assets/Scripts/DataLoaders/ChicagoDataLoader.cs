@@ -59,7 +59,8 @@ namespace DataLoaders
             {
                 new SyncPoint("Middle Team Table", 26.94955f, -18.17933f, 0),
                 new SyncPoint("South Team Table S", 27.38f, -20.95f, 0),
-                new SyncPoint("South Team Table N", 27.38f, -19.75f, 180)
+                new SyncPoint("South Team Table N", 27.38f, -19.75f, 180),
+                new SyncPoint("Chicago Map Origin", 0f, 0f, 0)
             };
         }
     }
