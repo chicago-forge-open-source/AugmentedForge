@@ -4,6 +4,7 @@ using DefaultNamespace;
 using SyncPoints;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 namespace AR
 {
@@ -13,7 +14,9 @@ namespace AR
         public Text debugText;
         public GameObject arSessionOrigin;
         public ICompass compass = new RealCompass();
-        public SyncPoint scheduledSyncPoint;
+        public SyncPoint pendingSyncPoint;
+        public ARSession session;
+        public Action<ARSession> resetSessionFunction = session => session.Reset();
 
         public void Start()
         {
@@ -25,7 +28,7 @@ namespace AR
             if (PlayerSelections.startingParametersProvided)
             {
                 var qrCodePosition = PlayerSelections.startingPoint;
-                scheduledSyncPoint = new SyncPoint(
+                pendingSyncPoint = new SyncPoint(
                     "QR",
                     qrCodePosition.x,
                     qrCodePosition.z,
@@ -35,7 +38,7 @@ namespace AR
             else
             {
                 var repoSyncPoint = Repositories.SyncPointRepository.Get()[0];
-                scheduledSyncPoint = new SyncPoint(
+                pendingSyncPoint = new SyncPoint(
                     "start with compass",
                     repoSyncPoint.X,
                     repoSyncPoint.Z,
@@ -48,18 +51,21 @@ namespace AR
         {
             Helpers.SetObjectXzPosition(arSessionOrigin.transform, newX, newZ);
             arSessionOrigin.transform.rotation = Quaternion.Euler(0, newOrientation, 0);
+
+            resetSessionFunction(session);
         }
 
         public void Update()
         {
             var logLine = $"ARCamera: {arCameraGameObject.transform.position}";
             logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
+            logLine += $"\nSessionOriginRotation: {arSessionOrigin.transform.rotation}";
             debugText.text = logLine;
-            if (scheduledSyncPoint != null)
+            if (pendingSyncPoint != null)
             {
-                SetArSessionOriginPositionAndOrientation(scheduledSyncPoint.X, scheduledSyncPoint.Z,
-                    scheduledSyncPoint.Orientation);
-                scheduledSyncPoint = null;
+                SetArSessionOriginPositionAndOrientation(pendingSyncPoint.X, pendingSyncPoint.Z,
+                    pendingSyncPoint.Orientation);
+                pendingSyncPoint = null;
             }
         }
 

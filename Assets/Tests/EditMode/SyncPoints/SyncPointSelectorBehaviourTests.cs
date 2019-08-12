@@ -62,7 +62,7 @@ namespace Tests.EditMode.SyncPoints
             
             _selectorBehaviour.scrollContent.transform.GetChild(0).GetComponent<Button>().onClick.Invoke();
             
-            Assert.AreEqual(syncPoint, _selectorBehaviour.calibrationBehaviour.scheduledSyncPoint);
+            Assert.AreEqual(syncPoint, _selectorBehaviour.calibrationBehaviour.pendingSyncPoint);
         }
 
         private static string GetTextFromScrollItem(GameObject content, int index)

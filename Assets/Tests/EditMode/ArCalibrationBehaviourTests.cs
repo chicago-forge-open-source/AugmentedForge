@@ -1,6 +1,4 @@
-using System;
 using AR;
-using DataLoaders;
 using DefaultNamespace;
 using NUnit.Framework;
 using SyncPoints;
@@ -32,7 +30,7 @@ namespace Tests.EditMode
         }
 
         [Test]
-        public void Start_GivenNoPlayerSelectionsWillScheduleFirstSyncPoint()
+        public void Start_GivenStartingParametersWillScheduleFirstSyncPoint()
         {
             PlayerSelections.startingParametersProvided = false;
             var startSyncPoint = new SyncPoint("test", 10, -3, 90);
@@ -48,27 +46,11 @@ namespace Tests.EditMode
                 _behaviour.compass.TrueHeading
             );
 
-            Assert.AreEqual(expectedSyncPoint, _behaviour.scheduledSyncPoint);
+            Assert.AreEqual(expectedSyncPoint, _behaviour.pendingSyncPoint);
         }
 
         [Test]
-        public void Update_GivenScheduledSyncPointWillMoveArSessionOriginToSyncPoint()
-        {
-            var expectedSyncPoint = new SyncPoint("test", 10, -3, 90);
-            _behaviour.scheduledSyncPoint = expectedSyncPoint;
-
-            _behaviour.Update();
-
-            var arSessionOriginPosition = _behaviour.arSessionOrigin.transform.position;
-            var arSessionOriginRotation = _behaviour.arSessionOrigin.transform.rotation.eulerAngles;
-            Assert.AreEqual(expectedSyncPoint.X, arSessionOriginPosition.x);
-            Assert.AreEqual(expectedSyncPoint.Z, arSessionOriginPosition.z);
-            Assert.AreEqual(expectedSyncPoint.Orientation, arSessionOriginRotation.y);
-            Assert.IsNull(_behaviour.scheduledSyncPoint);
-        }
-
-        [Test]
-        public void GivenPlayerSelections_SyncPointIsScheduled()
+        public void Start_GivenPlayerSelections_SyncPointIsPending()
         {
             var expectedPosition = new Vector3(1, 0, 1);
             PlayerSelections.startingPoint = expectedPosition;
@@ -80,13 +62,33 @@ namespace Tests.EditMode
 
             _behaviour.Start();
 
-            Assert.AreEqual(expectedSyncPoint, _behaviour.scheduledSyncPoint);
+            Assert.AreEqual(expectedSyncPoint, _behaviour.pendingSyncPoint);
         }
 
         [Test]
-        public void Update_GivenNoScheduledSyncPoint_ArSessionOriginDoesNotMove()
+        public void Update_GivenPendingSyncPointWillMoveArSessionOriginToSyncPoint()
         {
-            _behaviour.scheduledSyncPoint = null;
+            var expectedSyncPoint = new SyncPoint("test", 10, -3, 90);
+            _behaviour.pendingSyncPoint = expectedSyncPoint;
+            ARSession lastSession = null;
+            _behaviour.resetSessionFunction = session => lastSession = session;
+            _behaviour.session = _game.AddComponent<ARSession>();
+            
+            _behaviour.Update();
+
+            var arSessionOriginPosition = _behaviour.arSessionOrigin.transform.position;
+            var arSessionOriginRotation = _behaviour.arSessionOrigin.transform.rotation.eulerAngles;
+            Assert.AreEqual(expectedSyncPoint.X, arSessionOriginPosition.x);
+            Assert.AreEqual(expectedSyncPoint.Z, arSessionOriginPosition.z);
+            Assert.AreEqual(expectedSyncPoint.Orientation, arSessionOriginRotation.y);
+            Assert.IsNull(_behaviour.pendingSyncPoint);
+            Assert.AreEqual(_behaviour.session, lastSession);
+        }
+
+        [Test]
+        public void Update_GivenNoPendingSyncPoint_ArSessionOriginDoesNotMove()
+        {
+            _behaviour.pendingSyncPoint = null;
             var expectedPosition = new Vector3(1, 2, 3);
             _behaviour.arSessionOrigin.transform.position = expectedPosition;
             var expectedRotation = Quaternion.Euler(0, 20, 0);

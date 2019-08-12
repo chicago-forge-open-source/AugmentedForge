@@ -1,4 +1,3 @@
-using System;
 using AR;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +21,12 @@ namespace SyncPoints
 
             foreach (var syncPoint in syncPoints)
             {
-                var clonedMarker = Instantiate(buttonPrefab, scrollContent.transform);
-                clonedMarker.name = "ScrollItem-" + syncPoint.Name;
-                clonedMarker.GetComponentInChildren<Text>().text = syncPoint.Name;
-                clonedMarker.GetComponent<Button>().onClick.AddListener(() =>
+                var syncPointGameObject = Instantiate(buttonPrefab, scrollContent.transform);
+                syncPointGameObject.name = "ScrollItem-" + syncPoint.Name;
+                syncPointGameObject.GetComponentInChildren<Text>().text = syncPoint.Name;
+                syncPointGameObject.GetComponent<Button>().onClick.AddListener(() =>
                     {
-                        calibrationBehaviour.scheduledSyncPoint = syncPoint;
+                        calibrationBehaviour.pendingSyncPoint = syncPoint;
                     });
             }
         }
