@@ -57,7 +57,9 @@ namespace DataLoaders
         {
             return new[]
             {
-                new SyncPoint("Middle Team Table", 26.94955f, -18.17933f, 0)
+                new SyncPoint("Middle Team Table", 26.94955f, -18.17933f, 0),
+                new SyncPoint("South Team Table S", 27.38f, -20.95f, 0),
+                new SyncPoint("South Team Table N", 27.38f, -19.75f, 180)
             };
         }
     }
