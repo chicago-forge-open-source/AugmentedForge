@@ -31,8 +31,8 @@ public class InitializeApp : MonoBehaviour
             return;
         }
 
-        PlayerSelections.startingParametersProvided = false;
-        PlayerSelections.startingPoint = new Vector3();
+        PlayerSelections.qrParametersProvided = false;
+        PlayerSelections.qrPoint = new Vector3();
         PlayerSelections.orientation = 0f;
     }
 
@@ -46,9 +46,9 @@ public class InitializeApp : MonoBehaviour
         float x = (float) Convert.ToDouble(parameters["x"]);
         float z = (float) Convert.ToDouble(parameters["z"]);
         float direction = (float) Convert.ToDouble(parameters["direction"]);
-        PlayerSelections.startingPoint = new Vector3(x, 0, z);
+        PlayerSelections.qrPoint = new Vector3(x, 0, z);
         PlayerSelections.orientation = direction;
-        PlayerSelections.startingParametersProvided = true;
+        PlayerSelections.qrParametersProvided = true;
     }
 
     private IEnumerator WaitForCompassEnable()

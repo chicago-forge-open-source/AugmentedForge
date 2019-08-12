@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731316, g: 0.38074902, b: 0.3587254, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1269,6 +1269,19 @@ MonoBehaviour:
   arCameraGameObject: {fileID: 165585583}
   mapMarkerPrefab: {fileID: 1032929131923002300, guid: d311264fc7cea4263a9998488a96f87a,
     type: 3}
+--- !u!114 &543973078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543973075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df64e68ff217458280dbaf257d2293de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCalibrationBehaviour: {fileID: 543973076}
 --- !u!114 &543973079
 MonoBehaviour:
   m_ObjectHideFlags: 0

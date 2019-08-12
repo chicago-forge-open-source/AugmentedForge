@@ -47,11 +47,11 @@ namespace Tests.EditMode
             
             initScript.BranchCallbackWithParams(parameters,null);
 
-            var actualLocation = PlayerSelections.startingPoint;
+            var actualLocation = PlayerSelections.qrPoint;
             Assert.AreEqual(1, actualLocation.x);
             Assert.AreEqual(1, actualLocation.z);
             Assert.AreEqual(180, PlayerSelections.orientation);
-            Assert.True(PlayerSelections.startingParametersProvided);
+            Assert.True(PlayerSelections.qrParametersProvided);
         }
         
         [Test]
@@ -63,11 +63,11 @@ namespace Tests.EditMode
             
             initScript.BranchCallbackWithParams(parameters,null);
 
-            var actualLocation = PlayerSelections.startingPoint;
+            var actualLocation = PlayerSelections.qrPoint;
             Assert.AreEqual(0, actualLocation.x);
             Assert.AreEqual(0, actualLocation.z);
             Assert.AreEqual(0, PlayerSelections.orientation);
-            Assert.False(PlayerSelections.startingParametersProvided);
+            Assert.False(PlayerSelections.qrParametersProvided);
         }
     }
 }
