@@ -43,10 +43,10 @@ namespace AR
 
         public void Update()
         {
-            var logLine = $"ARCamera: {arCameraGameObject.transform.position}";
-            logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
-            logLine += $"\nSessionOriginRotation: {arSessionOrigin.transform.rotation}";
-            debugText.text = logLine;
+//            var logLine = $"ARCamera: {arCameraGameObject.transform.position}";
+//            logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
+//            logLine += $"\nSessionOriginRotation: {arSessionOrigin.transform.rotation}";
+//            debugText.text = logLine;
 
             if (pendingSyncPoint != null)
             {

@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class ArDetectImageBehaviour : MonoBehaviour
 {
-    public XRReferenceImage fireReferenceImage;
     public ARTrackedImageManager imageManager;
-
+    public Text debugText;
+    public GameObject imageMarker;
+    
     void OnEnable()
     {
         imageManager.trackedImagesChanged += OnTrackedImagesChanged;
@@ -23,9 +26,24 @@ public class ArDetectImageBehaviour : MonoBehaviour
         {
             UpdateInfo(trackedImage);
         }
-
+        
         foreach (var trackedImage in eventArgs.updated)
             UpdateInfo(trackedImage);
+        
+        var first = eventArgs.added.FirstOrDefault() ?? eventArgs.updated.FirstOrDefault();
+
+        if (first != null && first.trackingState != TrackingState.None)
+        {
+            var firstTransform = first.transform;
+            var logLine = "";
+            logLine += $"\nSize: {first.size}";
+            logLine += $"\nExtents: {first.extents}";
+            var firstTransformPosition = firstTransform.position;
+            logLine += $"\nPosition: {firstTransformPosition}";
+            logLine += $"\nOrientation: {firstTransform.rotation}";
+            debugText.text = logLine;
+            imageMarker.transform.position = firstTransformPosition;
+        }
     }
 
     void UpdateInfo(ARTrackedImage trackedImage)
@@ -42,13 +60,9 @@ public class ArDetectImageBehaviour : MonoBehaviour
         if (trackedImage.trackingState != TrackingState.None)
         {
             planeGo.SetActive(true);
-
-            // The image extents is only valid when the image is being tracked
             trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
-
-            // Set the texture
-            var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
-            material.mainTexture = fireReferenceImage.texture;
+//            var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
+//            material.mainTexture = fireReferenceImage.texture;
         }
         else
         {
