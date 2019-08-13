@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AR;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -9,6 +10,8 @@ public class ArDetectImageBehaviour : MonoBehaviour
     public ARTrackedImageManager imageManager;
     public Text debugText;
     public GameObject imageMarker;
+    public ArCalibrationBehaviour calibrationBehaviour;
+    public GameObject arCamera;
     
     void OnEnable()
     {
@@ -20,13 +23,8 @@ public class ArDetectImageBehaviour : MonoBehaviour
         imageManager.trackedImagesChanged -= OnTrackedImagesChanged;
     }
     
-    void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
+    public void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
-        foreach (var trackedImage in eventArgs.added)
-        {
-            UpdateInfo(trackedImage);
-        }
-        
         foreach (var trackedImage in eventArgs.updated)
             UpdateInfo(trackedImage);
         
@@ -34,35 +32,40 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
         if (first != null && first.trackingState != TrackingState.None)
         {
-            var firstTransform = first.transform;
-            var logLine = "";
-            logLine += $"\nSize: {first.size}";
-            logLine += $"\nExtents: {first.extents}";
-            var firstTransformPosition = firstTransform.position;
-            logLine += $"\nPosition: {firstTransformPosition}";
-            logLine += $"\nOrientation: {firstTransform.rotation}";
-            debugText.text = logLine;
-            imageMarker.transform.position = firstTransformPosition;
+            var firstTransformPosition = LogThings(first);
+            MoveSanityCheckMarker(firstTransformPosition);
         }
+    }
+
+    private void MoveSanityCheckMarker(Vector3 firstTransformPosition)
+    {
+        imageMarker.transform.position = firstTransformPosition;
+    }
+
+    private Vector3 LogThings(ARTrackedImage first)
+    {
+        var firstTransform = first.transform;
+        var logLine = "";
+        logLine += $"\nSize: {first.size}";
+        var firstTransformPosition = firstTransform.position;
+        logLine += $"\nPosition: {firstTransformPosition}";
+        logLine += $"\nOri: {firstTransform.rotation.eulerAngles}";
+        logLine += $"\nFromCam: {arCamera.transform.position - firstTransformPosition}";
+        debugText.text = logLine;
+        return firstTransformPosition;
     }
 
     void UpdateInfo(ARTrackedImage trackedImage)
     {
-        Debug.Log("DID THE THING");
-        Debug.Log("name " +trackedImage.name);
-        Debug.Log("size " +trackedImage.size);
-        Debug.Log("extents " +trackedImage.extents);
-        Debug.Log("tracking state " +trackedImage.trackingState);
-        Debug.Log("trackable id " +trackedImage.trackableId);
-        
         var planeGo = trackedImage.transform.gameObject;
+        var syncPoint = Repositories.SyncPointRepository.Get().FirstOrDefault(element => element.Name == trackedImage.name);
 
+        calibrationBehaviour.pendingSyncPoint = syncPoint;
+        
         if (trackedImage.trackingState != TrackingState.None)
         {
             planeGo.SetActive(true);
             trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
-//            var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
-//            material.mainTexture = fireReferenceImage.texture;
         }
         else
         {

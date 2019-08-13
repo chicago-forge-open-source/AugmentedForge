@@ -1396,7 +1396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 633987594}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 27.38, y: -0, z: -20.95}
+  m_LocalPosition: {x: 26.19, y: 0, z: -3.39}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2748,20 +2748,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8350b49445054533b6663fcdd91ef21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireReferenceImage:
-    m_SerializedGuid:
-      m_GuidLow: 0
-      m_GuidHigh: 0
-    m_SerializedTextureGuid:
-      m_GuidLow: 0
-      m_GuidHigh: 0
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: 
-    m_Texture: {fileID: 2800000, guid: e95b04dd94b4a4cffb18103696c7d155, type: 3}
   imageManager: {fileID: 1577749886}
   debugText: {fileID: 40919616}
   imageMarker: {fileID: 1370639140}
+  calibrationBehaviour: {fileID: 543973076}
+  arCamera: {fileID: 165585583}
 --- !u!1 &1677028897
 GameObject:
   m_ObjectHideFlags: 0
