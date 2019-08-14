@@ -22,7 +22,7 @@ namespace Tests.EditMode.AR
         }
 
         [Test]
-        public void GivenForgeSignImageIsDetectedWithNoDistanceFromCamera_LocationIsSetToForgeSignSyncPoint()
+        public void GivenForgeSignImageIsDetectedWithNoDistanceFromCamera_LocationIsSetToForgeSignSyncPointWith180Orientation()
         {
             const string name = "Rob's Place";
             var definedSyncPoint = new SyncPoint(name, 10f, 15f, 180);
