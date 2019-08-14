@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using AR;
 using NUnit.Framework;
 using SyncPoints;
+using UnityEditor.XR.ARSubsystems;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 namespace Tests.EditMode.AR
 {
@@ -29,12 +31,13 @@ namespace Tests.EditMode.AR
             Repositories.SyncPointRepository.Save(new[] {definedSyncPoint});
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
-            forgeSignImg.name = name;
+            _script.getReferenceName = image => name;
             forgeSignImg.transform.position = new Vector3(definedSyncPoint.X, 2.5f, definedSyncPoint.Z );
             forgeSignImg.transform.rotation = Quaternion.Euler(0,definedSyncPoint.Orientation,0);
             
             _script.arCamera.transform.position = new Vector3(definedSyncPoint.X, 2.5f, definedSyncPoint.Z );
             _script.arCamera.transform.rotation = Quaternion.Euler(0,definedSyncPoint.Orientation,0);
+
 
             var events = new ARTrackedImagesChangedEventArgs(
                 new List<ARTrackedImage>(),
@@ -54,10 +57,10 @@ namespace Tests.EditMode.AR
             const string name = "Test Two";
             var knownSyncPoint = new SyncPoint(name, 1000f, 100f, 90);
             Repositories.SyncPointRepository.Save(new[]{knownSyncPoint});
-            
+
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
-            forgeSignImg.name = name;
             forgeSignImg.transform.position = new Vector3(1020, 2.5f, 102f );
+            _script.getReferenceName = image => name;
             forgeSignImg.transform.rotation = Quaternion.Euler(0,258.34f,0);
 
             var events = new ARTrackedImagesChangedEventArgs(
@@ -75,4 +78,5 @@ namespace Tests.EditMode.AR
             
         }
     }
+
 }
