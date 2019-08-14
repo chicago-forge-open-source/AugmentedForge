@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AR;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -59,8 +60,12 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var planeGo = trackedImage.transform.gameObject;
         var syncPoint = Repositories.SyncPointRepository.Get().FirstOrDefault(element => element.Name == trackedImage.name);
+        
+        var syncedX = arCamera.transform.position.x - (trackedImage.transform.position.x - syncPoint.X);
+        var syncedZ = arCamera.transform.position.z - (trackedImage.transform.position.z - syncPoint.Z);
+        var orientation = GetSyncOrientation(syncPoint.Orientation, trackedImage.transform.rotation.eulerAngles.y);
 
-        calibrationBehaviour.pendingSyncPoint = syncPoint;
+        calibrationBehaviour.pendingSyncPoint = new SyncPoint(trackedImage.name, syncedX, syncedZ, orientation);
         
         if (trackedImage.trackingState != TrackingState.None)
         {
@@ -71,5 +76,12 @@ public class ArDetectImageBehaviour : MonoBehaviour
         {
             planeGo.SetActive(false);
         }
+    }
+
+
+    float GetSyncOrientation(float fixedOrientation, float imageRotation)
+    {
+        var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
+        return fixedOrientation + 180 + (cameraRotation - imageRotation);
     }
 }

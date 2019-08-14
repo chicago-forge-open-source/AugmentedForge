@@ -18,10 +18,11 @@ namespace Tests.EditMode.AR
             _game = new GameObject();
             _script = _game.AddComponent<ArDetectImageBehaviour>();
             _script.calibrationBehaviour = _game.AddComponent<ArCalibrationBehaviour>();
+            _script.arCamera = new GameObject();
         }
 
         [Test]
-        public void GivenForgeSignImageIsDetected_LocationIsSetToForgeSignSyncPoint()
+        public void GivenForgeSignImageIsDetectedWithNoDistanceFromCamera_LocationIsSetToForgeSignSyncPoint()
         {
             const string name = "Rob's Place";
             var expectedSyncPoint = new SyncPoint(name, 10f, 15f, 180);
@@ -40,6 +41,33 @@ namespace Tests.EditMode.AR
             _script.OnTrackedImagesChanged(events);
 
             Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);
+        }
+
+        [Test]
+        public void GivenForgeSignImageIsDetectedWithDistanceFromCamera_LocationIsOffSetByDistanceFromSign()
+        {
+            const string name = "Test Two";
+            var knownSyncPoint = new SyncPoint(name, 1000f, 100f, 90);
+            Repositories.SyncPointRepository.Save(new[]{knownSyncPoint});
+            
+            var forgeSignImg = _game.AddComponent<ARTrackedImage>();
+            forgeSignImg.name = name;
+            forgeSignImg.transform.position = new Vector3(1020, 2.5f, 102f );
+            forgeSignImg.transform.rotation = Quaternion.Euler(0,258.34f,0);
+
+            var events = new ARTrackedImagesChangedEventArgs(
+                new List<ARTrackedImage>(),
+                new List<ARTrackedImage> {forgeSignImg},
+                new List<ARTrackedImage>()
+            );
+            
+            _script.arCamera.transform.position = new Vector3(900,2.5f, 80);
+            _script.arCamera.transform.rotation = Quaternion.Euler(0,328.34f,0);
+            
+            _script.OnTrackedImagesChanged(events);
+            var expectedSyncPoint = new SyncPoint(name, 880f, 78f, 340);
+            Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);
+            
         }
     }
 }
