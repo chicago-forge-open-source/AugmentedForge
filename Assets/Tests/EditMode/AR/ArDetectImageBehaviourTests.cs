@@ -25,11 +25,16 @@ namespace Tests.EditMode.AR
         public void GivenForgeSignImageIsDetectedWithNoDistanceFromCamera_LocationIsSetToForgeSignSyncPoint()
         {
             const string name = "Rob's Place";
-            var expectedSyncPoint = new SyncPoint(name, 10f, 15f, 180);
-            Repositories.SyncPointRepository.Save(new[] {expectedSyncPoint});
+            var definedSyncPoint = new SyncPoint(name, 10f, 15f, 180);
+            Repositories.SyncPointRepository.Save(new[] {definedSyncPoint});
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
             forgeSignImg.name = name;
+            forgeSignImg.transform.position = new Vector3(definedSyncPoint.X, 2.5f, definedSyncPoint.Z );
+            forgeSignImg.transform.rotation = Quaternion.Euler(0,definedSyncPoint.Orientation,0);
+            
+            _script.arCamera.transform.position = new Vector3(definedSyncPoint.X, 2.5f, definedSyncPoint.Z );
+            _script.arCamera.transform.rotation = Quaternion.Euler(0,definedSyncPoint.Orientation,0);
 
             var events = new ARTrackedImagesChangedEventArgs(
                 new List<ARTrackedImage>(),
@@ -39,7 +44,7 @@ namespace Tests.EditMode.AR
 
             // add transformation position to image, update expectation to include distance from camera
             _script.OnTrackedImagesChanged(events);
-
+            var expectedSyncPoint = new SyncPoint(definedSyncPoint.Name, definedSyncPoint.X, definedSyncPoint.Z, definedSyncPoint.Orientation+180);
             Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);
         }
 
