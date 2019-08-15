@@ -48,7 +48,6 @@ namespace Tests.EditMode.AR
                 new List<ARTrackedImage>()
             );
 
-            // add transformation position to image, update expectation to include distance from camera
             _script.OnTrackedImagesChanged(events);
             var expectedSyncPoint = new SyncPoint(definedSyncPoint.Name, definedSyncPoint.X, definedSyncPoint.Z, definedSyncPoint.Orientation+180);
             Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);

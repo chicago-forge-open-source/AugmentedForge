@@ -18,12 +18,12 @@ public class ArDetectImageBehaviour : MonoBehaviour
     public Func<ARTrackedImage, TrackingState> getTrackingState = image => image.trackingState;
 
 
-    void OnEnable()
+    private void OnEnable()
     {
         imageManager.trackedImagesChanged += OnTrackedImagesChanged;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         imageManager.trackedImagesChanged -= OnTrackedImagesChanged;
     }
@@ -47,11 +47,9 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var firstTransform = first.transform;
         var logLine = "";
-        logLine += $"Name: {first.name}";
         var firstTransformPosition = firstTransform.position;
         logLine += $"\nPosition: {firstTransformPosition}";
-        logLine +=
-            $"\nOri: {firstTransform.rotation.eulerAngles.y}, CamOri: {arCamera.transform.rotation.eulerAngles.y}";
+        logLine += $"\nOri: {firstTransform.rotation.eulerAngles.y}, CamOri: {arCamera.transform.rotation.eulerAngles.y}";
         logLine += $"\nFromCam: {arCamera.transform.position - firstTransformPosition}";
         debugText.text = logLine;
         return firstTransformPosition;
@@ -70,11 +68,11 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
         if (syncPoint != null)
         {
-            Debug.Log($"Image sync point was {syncPoint.Name}");
             var cameraPosition = arCamera.transform.position;
             var trackedImagePosition = trackedImageTransform.position;
-            var syncedX = cameraPosition.x - (trackedImagePosition.x - syncPoint.X);
-            var syncedZ = cameraPosition.z - (trackedImagePosition.z - syncPoint.Z);
+            var syncedX = GetNewPosition(cameraPosition.x, trackedImagePosition.x, syncPoint.X);
+            var syncedZ = GetNewPosition(cameraPosition.z, trackedImagePosition.z, syncPoint.Z);
+
             var orientation = GetSyncOrientation(
                 syncPoint.Orientation,
                 trackedImageTransform.rotation.eulerAngles.y
@@ -94,8 +92,13 @@ public class ArDetectImageBehaviour : MonoBehaviour
         }
     }
 
+    private static float GetNewPosition(float camera, float image, float syncPoint)
+    {
+        return camera - (image - syncPoint);
+    }
 
-    float GetSyncOrientation(float fixedOrientation, float imageRotation)
+
+    private float GetSyncOrientation(float fixedOrientation, float imageRotation)
     {
         var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
         return fixedOrientation + 180 + (cameraRotation - imageRotation);
