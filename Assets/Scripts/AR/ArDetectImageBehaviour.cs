@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AR;
+using SyncPoints;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -12,7 +14,10 @@ public class ArDetectImageBehaviour : MonoBehaviour
     public GameObject imageMarker;
     public ArCalibrationBehaviour calibrationBehaviour;
     public GameObject arCamera;
-    
+    public Func<ARTrackedImage, string> getReferenceName = image => image.referenceImage.name;
+    public Func<ARTrackedImage, TrackingState> getTrackingState = image => image.trackingState;
+
+
     void OnEnable()
     {
         imageManager.trackedImagesChanged += OnTrackedImagesChanged;
@@ -22,18 +27,14 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         imageManager.trackedImagesChanged -= OnTrackedImagesChanged;
     }
-    
+
     public void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
-        foreach (var trackedImage in eventArgs.updated)
-            UpdateInfo(trackedImage);
-        
         var first = eventArgs.added.FirstOrDefault() ?? eventArgs.updated.FirstOrDefault();
 
-        if (first != null && first.trackingState != TrackingState.None)
+        if (first != null && getTrackingState(first) != TrackingState.None)
         {
-            var firstTransformPosition = LogThings(first);
-            MoveSanityCheckMarker(firstTransformPosition);
+            UpdateInfo(first);
         }
     }
 
@@ -46,10 +47,11 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var firstTransform = first.transform;
         var logLine = "";
-        logLine += $"\nSize: {first.size}";
+        logLine += $"Name: {first.name}";
         var firstTransformPosition = firstTransform.position;
         logLine += $"\nPosition: {firstTransformPosition}";
-        logLine += $"\nOri: {firstTransform.rotation.eulerAngles}";
+        logLine +=
+            $"\nOri: {firstTransform.rotation.eulerAngles.y}, CamOri: {arCamera.transform.rotation.eulerAngles.y}";
         logLine += $"\nFromCam: {arCamera.transform.position - firstTransformPosition}";
         debugText.text = logLine;
         return firstTransformPosition;
@@ -57,19 +59,45 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
     void UpdateInfo(ARTrackedImage trackedImage)
     {
-        var planeGo = trackedImage.transform.gameObject;
-        var syncPoint = Repositories.SyncPointRepository.Get().FirstOrDefault(element => element.Name == trackedImage.name);
+        var firstTransformPosition = LogThings(trackedImage);
+        MoveSanityCheckMarker(firstTransformPosition);
 
-        calibrationBehaviour.pendingSyncPoint = syncPoint;
-        
+        var trackedImageTransform = trackedImage.transform;
+        var planeGo = trackedImageTransform.gameObject;
+        var referenceImageName = getReferenceName(trackedImage);
+        var syncPoint = Repositories.SyncPointRepository.Get()
+            .FirstOrDefault(element => element.Name == referenceImageName);
+
+        if (syncPoint != null)
+        {
+            Debug.Log($"Image sync point was {syncPoint.Name}");
+            var cameraPosition = arCamera.transform.position;
+            var trackedImagePosition = trackedImageTransform.position;
+            var syncedX = cameraPosition.x - (trackedImagePosition.x - syncPoint.X);
+            var syncedZ = cameraPosition.z - (trackedImagePosition.z - syncPoint.Z);
+            var orientation = GetSyncOrientation(
+                syncPoint.Orientation,
+                trackedImageTransform.rotation.eulerAngles.y
+            );
+
+            calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);
+        }
+
         if (trackedImage.trackingState != TrackingState.None)
         {
             planeGo.SetActive(true);
-            trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
+            trackedImageTransform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
         }
         else
         {
             planeGo.SetActive(false);
         }
+    }
+
+
+    float GetSyncOrientation(float fixedOrientation, float imageRotation)
+    {
+        var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
+        return fixedOrientation + 180 + (cameraRotation - imageRotation);
     }
 }
