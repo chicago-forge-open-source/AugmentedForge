@@ -38,8 +38,8 @@ namespace AR
             Helpers.SetObjectXzPosition(arSessionOrigin.transform, newX, newZ);
             arSessionOrigin.transform.rotation = Quaternion.Euler(0, newOrientation, 0);
 
-            // This super messes up the way tracked image distance from camera is measued
-//            resetSessionFunction(session);
+            // This super messes up the way tracked image distance from camera is measured
+            resetSessionFunction(session);
         }
 
         public void Update()
