@@ -14,8 +14,9 @@ public class ArDetectImageBehaviour : MonoBehaviour
     public GameObject imageMarker;
     public ArCalibrationBehaviour calibrationBehaviour;
     public GameObject arCamera;
-    public Func<ARTrackedImage, string> getReferenceName = image => image.referenceImage.name; 
-        
+    public Func<ARTrackedImage, string> getReferenceName = image => image.referenceImage.name;
+    public Func<ARTrackedImage, TrackingState> getTrackingState = image => image.trackingState;
+
 
     void OnEnable()
     {
@@ -29,17 +30,11 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
     public void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
-        foreach (var trackedImage in eventArgs.updated)
-            UpdateInfo(trackedImage);
-        foreach (var trackedImage in eventArgs.added)
-            UpdateInfo(trackedImage);
-
         var first = eventArgs.added.FirstOrDefault() ?? eventArgs.updated.FirstOrDefault();
 
-        if (first != null && first.trackingState != TrackingState.None)
+        if (first != null && getTrackingState(first) != TrackingState.None)
         {
-            var firstTransformPosition = LogThings(first);
-            MoveSanityCheckMarker(firstTransformPosition);
+            UpdateInfo(first);
         }
     }
 
@@ -52,7 +47,7 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var firstTransform = first.transform;
         var logLine = "";
-        logLine += $"Size: {first.size}";
+        logLine += $"Name: {first.name}";
         var firstTransformPosition = firstTransform.position;
         logLine += $"\nPosition: {firstTransformPosition}";
         logLine +=
@@ -64,6 +59,9 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
     void UpdateInfo(ARTrackedImage trackedImage)
     {
+        var firstTransformPosition = LogThings(trackedImage);
+        MoveSanityCheckMarker(firstTransformPosition);
+
         var trackedImageTransform = trackedImage.transform;
         var planeGo = trackedImageTransform.gameObject;
         var referenceImageName = getReferenceName(trackedImage);
@@ -77,7 +75,11 @@ public class ArDetectImageBehaviour : MonoBehaviour
             var trackedImagePosition = trackedImageTransform.position;
             var syncedX = cameraPosition.x - (trackedImagePosition.x - syncPoint.X);
             var syncedZ = cameraPosition.z - (trackedImagePosition.z - syncPoint.Z);
-            var orientation = GetSyncOrientation(syncPoint.Orientation, trackedImageTransform.rotation.eulerAngles.y);
+            var orientation = GetSyncOrientation(
+                syncPoint.Orientation,
+                trackedImageTransform.rotation.eulerAngles.y
+            );
+
             calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);
         }
 

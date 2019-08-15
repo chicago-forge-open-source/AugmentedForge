@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using AR;
 using NUnit.Framework;
 using SyncPoints;
-using UnityEditor.XR.ARSubsystems;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -21,6 +21,8 @@ namespace Tests.EditMode.AR
             _script = _game.AddComponent<ArDetectImageBehaviour>();
             _script.calibrationBehaviour = _game.AddComponent<ArCalibrationBehaviour>();
             _script.arCamera = new GameObject();
+            _script.debugText = _game.AddComponent<Text>();
+            _script.imageMarker = new GameObject();
         }
 
         [Test]
@@ -31,6 +33,7 @@ namespace Tests.EditMode.AR
             Repositories.SyncPointRepository.Save(new[] {definedSyncPoint});
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
+            _script.getTrackingState = image => TrackingState.Tracking;
             _script.getReferenceName = image => name;
             forgeSignImg.transform.position = new Vector3(definedSyncPoint.X, 2.5f, definedSyncPoint.Z );
             forgeSignImg.transform.rotation = Quaternion.Euler(0,definedSyncPoint.Orientation,0);
@@ -59,6 +62,7 @@ namespace Tests.EditMode.AR
             Repositories.SyncPointRepository.Save(new[]{knownSyncPoint});
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
+            _script.getTrackingState = image => TrackingState.Tracking;
             forgeSignImg.transform.position = new Vector3(1020, 2.5f, 102f );
             _script.getReferenceName = image => name;
             forgeSignImg.transform.rotation = Quaternion.Euler(0,258.34f,0);
