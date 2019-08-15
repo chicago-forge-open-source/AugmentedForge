@@ -22,7 +22,7 @@ namespace Tests.EditMode.AR
             _script.calibrationBehaviour = _game.AddComponent<ArCalibrationBehaviour>();
             _script.arCamera = new GameObject();
             _script.debugText = _game.AddComponent<Text>();
-            _script.imageMarker = new GameObject();
+            _script.detectedImageMarker = new GameObject();
         }
 
         [Test]
