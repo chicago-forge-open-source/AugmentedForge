@@ -25,7 +25,7 @@ namespace DataLoaders
 
         private protected override Location[] LoadLocations()
         {
-            return new[] {new Location("Chicago", "ChicagoMap")};
+            return new[] {new Location("Chicago", "ChicagoMap", 0)};
         }
 
         private protected override Marker[] LoadMarkers()
@@ -52,7 +52,6 @@ namespace DataLoaders
             return new[] {makerToKitchen, makerToGreaterMHub};
         }
 
-
         private protected override SyncPoint[] LoadSyncPoints()
         {
             return new[]
@@ -61,7 +60,7 @@ namespace DataLoaders
                 new SyncPoint("South Team Table S", 27.38f, -20.95f, 0),
                 new SyncPoint("South Team Table N", 27.38f, -19.75f, 180),
                 new SyncPoint("Chicago Map Origin", 0f, 0f, 0),
-                new SyncPoint("Forge Sign", 28.5f, -3.39f, 90)
+                new SyncPoint("Forge Sign", 28.75f, -3.39f, 90)
             };
         }
     }

@@ -31,6 +31,10 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var first = eventArgs.added.FirstOrDefault() ?? eventArgs.updated.FirstOrDefault();
 
+        if (first != null)
+            Debug.Log(
+                $"Distance from camera  = {arCamera.transform.position - first.transform.position} added {eventArgs.added.Count} updated {eventArgs.updated.Count} removed {eventArgs.removed.Count}");
+
         if (first != null && getTrackingState(first) != TrackingState.None)
         {
             UpdateInfo(first);
@@ -47,8 +51,9 @@ public class ArDetectImageBehaviour : MonoBehaviour
         var firstTransform = first.transform;
         var logLine = "";
         var firstTransformPosition = firstTransform.position;
-        logLine += $"\nPosition: {firstTransformPosition}";
-        logLine += $"\nOri: {firstTransform.rotation.eulerAngles.y}, CamOri: {arCamera.transform.rotation.eulerAngles.y}";
+        logLine += $"\nPosition: {firstTransformPosition} {first.trackingState}";
+        logLine +=
+            $"\nOri: {firstTransform.rotation.eulerAngles.y} CamOri: {arCamera.transform.rotation.eulerAngles.y}";
         logLine += $"\nFromCam: {arCamera.transform.position - firstTransformPosition}";
         debugText.text = logLine;
     }
@@ -89,26 +94,23 @@ public class ArDetectImageBehaviour : MonoBehaviour
     {
         var cameraPosition = arCamera.transform.position;
         var trackedImagePosition = trackedImageTransform.position;
-        var syncedX = GetNewPosition(cameraPosition.x, trackedImagePosition.x, syncPoint.X);
-        var syncedZ = GetNewPosition(cameraPosition.z, trackedImagePosition.z, syncPoint.Z);
+        var distanceFromCameraX = trackedImagePosition.x - syncPoint.X;
+        var syncedX = cameraPosition.x - distanceFromCameraX;
+        var distanceFromCameraZ = trackedImagePosition.z - syncPoint.Z;
+        var syncedZ = cameraPosition.z - distanceFromCameraZ;
 
-        var orientation = GetSyncOrientation(
-            syncPoint.Orientation,
-            trackedImageTransform.rotation.eulerAngles.y
-        );
-
-        calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);
-    }
-
-    private static float GetNewPosition(float camera, float image, float syncPoint)
-    {
-        return camera - (image - syncPoint);
-    }
-
-
-    private float GetSyncOrientation(float fixedOrientation, float imageRotation)
-    {
         var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
-        return fixedOrientation + 180 + (cameraRotation - imageRotation);
+        var rotationDiff = cameraRotation - trackedImageTransform.rotation.eulerAngles.y;
+        var orientation = syncPoint.Orientation + 180 + rotationDiff;
+        Debug.Log($"RotationDifference  = {rotationDiff}");
+        if (IsWithinLimits(rotationDiff, distanceFromCameraX, distanceFromCameraZ))
+        {
+            calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);
+        }
+    }
+
+    private static bool IsWithinLimits(float rotationDiff, float distanceFromCameraX, float distanceFromCameraZ)
+    {
+        return Math.Abs(rotationDiff) < 5;
     }
 }

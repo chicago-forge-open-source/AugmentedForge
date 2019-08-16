@@ -19,9 +19,9 @@ MonoBehaviour:
       m_GuidLow: 4866281343074170159
       m_GuidHigh: 3338531811661996474
     m_SerializedTextureGuid:
-      m_GuidLow: 11888512696869021688
-      m_GuidHigh: 16188942139521777865
-    m_Size: {x: 1.41, y: 0.68541664}
+      m_GuidLow: 10667989018871335572
+      m_GuidHigh: 15256514578592995225
+    m_Size: {x: 1.41, y: 0.6586235}
     m_SpecifySize: 1
     m_Name: Forge Sign
-    m_Texture: {fileID: 2800000, guid: 4c9967f87b4fa4fcc9408c6b1aadaae0, type: 3}
+    m_Texture: {fileID: 2800000, guid: c1980a944f7d940c99979a3f2d07bad3, type: 3}
