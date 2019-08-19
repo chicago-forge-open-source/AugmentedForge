@@ -139,4 +139,5 @@ lint/tmp/
 .DS_Store 
 
 test-results
+android-output/
 Assets/Scenes/Tests.meta

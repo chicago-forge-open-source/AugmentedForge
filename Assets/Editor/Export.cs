@@ -10,7 +10,7 @@ namespace Editor
         public static void ExportAndroidAab()
         {
             var scenes = new[] {"Assets/Scenes/InitScene.unity", "Assets/Scenes/ARView.unity"};
-            const string path = "./AugmentedForge.aab";
+            const string path = "./android-output/AugmentedForge.aab";
 
             Debug.Log("bundle version " + PlayerSettings.bundleVersion);
             Debug.Log("bundle version code" + PlayerSettings.Android.bundleVersionCode);
