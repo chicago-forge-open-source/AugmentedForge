@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-test:
     docker:
-      - image: gableroux/unity3d:2019.1.3f1
+      - image: gableroux/unity3d:2019.1.14f1
     steps:
       - checkout
       - run: apt -y install xvfb
@@ -14,8 +14,19 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
+  android-deploy:
+    docker:
+      - image: gableroux/unity3d:2019.1.14f1-android
+    steps:
+      - checkout
+      - run: apt -y install xvfb
+      - run: echo $UNITY_LICENSE | base64 --decode >> .circleci/Unity_License.ulf
+      - run: cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
+      - run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .circleci/Unity_License.ulf || exit 0
+      - run: xvfb-run /opt/Unity/Editor/Unity -batchmode -quit -executeMethod Export.ExportAndroidAab
 workflows:
   version: 2
   build:
     jobs:
       - build-test
+      - android-deploy
