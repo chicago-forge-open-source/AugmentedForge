@@ -23,7 +23,7 @@ jobs:
       - run: echo $UNITY_LICENSE | base64 --decode >> .circleci/Unity_License.ulf
       - run: cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
       - run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .circleci/Unity_License.ulf || exit 0
-      - run: xvfb-run /opt/Unity/Editor/Unity -batchmode -quit -executeMethod Export.ExportAndroidAab
+      - run: xvfb-run /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -executeMethod Editor.Export.ExportAndroidAab
 workflows:
   version: 2
   build:
