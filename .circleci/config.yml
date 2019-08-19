@@ -32,8 +32,8 @@ workflows:
     jobs:
       - build-test
       - android-deploy:
-        requires:
-          - build-test
-        filters:
-          branches:
-            only: master
+          requires:
+            - build-test
+          filters:
+            branches:
+              only: master
