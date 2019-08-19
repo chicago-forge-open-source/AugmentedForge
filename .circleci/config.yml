@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-test:
     docker:
-      - image: gableroux/unity3d:2019.1.14f1
+      - image: gableroux/unity3d:2019.1.3f1
     steps:
       - checkout
       - run: apt -y install xvfb
@@ -16,7 +16,7 @@ jobs:
           path: test-results
   android-deploy:
     docker:
-      - image: gableroux/unity3d:2019.1.14f1-android
+      - image: gableroux/unity3d:2019.1.3f1-android
     steps:
       - checkout
       - run: apt -y install xvfb
@@ -28,5 +28,5 @@ workflows:
   version: 2
   build:
     jobs:
-#      - build-test
+      - build-test
       - android-deploy
