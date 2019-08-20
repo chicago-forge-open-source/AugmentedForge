@@ -12,13 +12,8 @@ namespace Editor
             var scenes = new[] {"Assets/Scenes/InitScene.unity", "Assets/Scenes/ARView.unity"};
             const string path = "./android-output/AugmentedForge.aab";
 
-            Debug.Log("bundle version " + PlayerSettings.bundleVersion);
-            Debug.Log("bundle version code" + PlayerSettings.Android.bundleVersionCode);
-            
-            
-            
-            EditorUserBuildSettings.buildAppBundle = true;            
-            
+            EditorUserBuildSettings.buildAppBundle = true;
+
             var pass = Environment.GetEnvironmentVariable("KEYSTORE_PASS");
             if (pass != null)
             {
