@@ -16,9 +16,9 @@ jobs:
   android-deploy:
     docker:
       - image: gableroux/unity3d:2019.1.14f1-android
+    environment:
+        ANDROID_NDK_HOME: /android-ndk-r16b
     steps:
-      - environment:
-          ANDROID_NDK_HOME: /android-ndk-r16b
       - checkout
       - run: echo $UNITY_LICENSE_1_14_ANDROID | base64 --decode >> .circleci/Unity_License.ulf
       - run: cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
