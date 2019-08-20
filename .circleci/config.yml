@@ -17,7 +17,7 @@ jobs:
     docker:
       - image: gableroux/unity3d:2019.1.14f1-android
     environment:
-      ANDROID_SDK_HOME: /opt/android-sdk-linux
+      ANDROID_SDK_ROOT: /opt/android-sdk-linux
       ANDROID_NDK_HOME: /android-ndk-r16b
     steps:
       - checkout
