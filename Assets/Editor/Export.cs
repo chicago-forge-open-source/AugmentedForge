@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEditor.Build.Content;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 namespace Editor
@@ -15,7 +16,9 @@ namespace Editor
 
             Debug.Log("bundle version " + PlayerSettings.bundleVersion);
             Debug.Log("bundle version code" + PlayerSettings.Android.bundleVersionCode);
-
+            
+            
+            
             EditorUserBuildSettings.buildAppBundle = true;            
             
             var pass = Environment.GetEnvironmentVariable("KEYSTORE_PASS");
