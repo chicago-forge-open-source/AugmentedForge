@@ -17,13 +17,14 @@ jobs:
     docker:
       - image: gableroux/unity3d:2019.1.14f1-android
     steps:
+      - environment:
+          ANDROID_NDK_HOME: /android-ndk-r16b
       - checkout
       - run: echo $UNITY_LICENSE_1_14_ANDROID | base64 --decode >> .circleci/Unity_License.ulf
       - run: cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
       - run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .circleci/Unity_License.ulf || exit 0
       - run: wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
       - run: unzip android-ndk-r16b-linux-x86_64.zip -d /
-      - run: export ANDROID_NDK_HOME=/android-ndk-r16b
       - run: xvfb-run /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -executeMethod Editor.Export.ExportAndroidAab
       - store_artifacts:
           path: android-output
