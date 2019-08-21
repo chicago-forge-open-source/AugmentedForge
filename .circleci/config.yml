@@ -40,6 +40,7 @@ jobs:
       - image: openjdk:8
     steps: 
       - checkout
+      - run: git describe
       - run: cd deploy && ./gradlew createAndPushTag
 workflows:
   version: 2
