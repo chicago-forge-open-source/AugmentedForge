@@ -13,7 +13,6 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
-      - run: cd deploy && ./gradlew createAndPushTag
   android-deploy:
     docker:
       - image: gableroux/unity3d:2019.1.14f1-android
@@ -36,12 +35,25 @@ jobs:
       - run: cd deploy && ./gradlew publishBundle --artifact-dir $(pwd)/../android-output
       - store_artifacts:
           path: android-output
+  tag-build:
+    docker:
+      - image: openjdk:8
+    steps: 
+      - checkout
+      - run: cd deploy && ./gradlew createAndPushTag
 workflows:
   version: 2
   build:
     jobs:
       - build-test
       - android-deploy:
+          requires:
+            - build-test
+            - tag-build
+          filters:
+            branches:
+              only: master
+      - tag-build:
           requires:
             - build-test
           filters:
