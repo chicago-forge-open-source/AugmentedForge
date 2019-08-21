@@ -20,7 +20,7 @@ jobs:
       ANDROID_SDK_ROOT: /opt/android-sdk-linux
       ANDROID_NDK_HOME: /android-ndk-r16b
     steps:
-      - apt-get update && apt-get install -y git
+      - run: apt-get update && apt-get install -y git
       - checkout
       - run: echo $UNITY_LICENSE_1_14_ANDROID | base64 --decode >> .circleci/Unity_License.ulf
       - run: cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
