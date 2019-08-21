@@ -26,12 +26,16 @@ allprojects {
     }
 }
 
-version = "${grgit.tag.list().last().name}"
+version = "git describe --abbrev=0".execute().getText()
+
+println("CURRENT VERSION NUMBER IS ${version}")
 
 def buildNumber = null
 if (version.isInteger()) {
     buildNumber = (version as Integer) + 1
 }
+
+println("BUILD NUMBER IS ${buildNumber}")
 
 task clean(type: Delete) {
     delete rootProject.buildDir
