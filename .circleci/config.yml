@@ -13,6 +13,7 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
+      - run: cd deploy && ./gradlew createAndPushTag
   android-deploy:
     docker:
       - image: gableroux/unity3d:2019.1.14f1-android

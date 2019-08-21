@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
@@ -15,14 +15,31 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.ajoberstar.grgit' version '3.1.1'
+}
+
 allprojects {
     repositories {
         google()
         jcenter()
-        
     }
+}
+
+version = "${grgit.describe()}"
+
+def buildNumber = null
+if (version.isInteger()) {
+    buildNumber = (version as Integer) + 1
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task createAndPushTag() {
+    doLast() {
+        grgit.tag.add(name: buildNumber, message: "Automatic tag", pointsTo: grgit.head())
+        grgit.push(remote: "origin", refsOrSpecs: [buildNumber.toString()])
+    }
 }
