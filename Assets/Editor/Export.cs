@@ -50,6 +50,9 @@ namespace Editor
             }
 
             BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
+            
+            PlayerSettings.Android.bundleVersionCode = 0;
+            PlayerSettings.bundleVersion = $"LOCAL";
         }
     }
 }
