@@ -19,7 +19,7 @@ namespace Editor
 
         private static int CollectTagVersion()
         {
-            var processStartInfo = new ProcessStartInfo("/usr/bin/git", "describe")
+            var processStartInfo = new ProcessStartInfo("/usr/bin/git", "describe --abbrev=0")
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true
@@ -51,7 +51,7 @@ namespace Editor
 
             BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
             
-            PlayerSettings.Android.bundleVersionCode = 0;
+            PlayerSettings.Android.bundleVersionCode = 1;
             PlayerSettings.bundleVersion = $"LOCAL";
         }
     }
