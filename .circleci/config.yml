@@ -29,15 +29,13 @@ jobs:
       - run: wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
       - run: unzip -q android-ndk-r16b-linux-x86_64.zip -d /
       - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -executeMethod Editor.Export.ExportAndroidAab || exit 0
-      - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -logFile ./logs/androidErrorLog.log -quit -executeMethod Editor.Export.ExportAndroidAab
+      - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -executeMethod Editor.Export.ExportAndroidAab
           
       - run: mkdir deploy/secrets
       - run: echo $SERVICE_ACCOUNT_JSON | base64 --decode > deploy/secrets/serviceAccount.json
       - run: cd deploy && ./gradlew publishBundle --artifact-dir $(pwd)/../android-output
       - store_artifacts:
           path: android-output
-      - store_artifacts:
-          path: logs
   tag-build:
     docker:
       - image: openjdk:8
