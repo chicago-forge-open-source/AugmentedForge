@@ -33,8 +33,6 @@ namespace Editor
         [MenuItem("Export/Android")]
         public static void ExportAndroidAab()
         {
-            SetNdkPath();
-            
             var scenes = new[] {"Assets/Scenes/InitScene.unity", "Assets/Scenes/ARView.unity"};
             const string path = "./android-output/AugmentedForge.aab";
 
@@ -55,12 +53,6 @@ namespace Editor
             
             PlayerSettings.Android.bundleVersionCode = 1;
             PlayerSettings.bundleVersion = $"LOCAL";
-        }
-        
-        private static void SetNdkPath()
-        {
-            EditorPrefs.SetString("AndroidNdkRoot/", @"/android-ndk-r16b");
-            Debug.LogFormat("Android NDK Path is now {0}", EditorPrefs.GetString("AndroidNdkRoot"));
         }
     }
 }
