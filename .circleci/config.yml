@@ -36,7 +36,7 @@ jobs:
       - run: cd deploy && ./gradlew publishBundle --artifact-dir $(pwd)/../android-output
       - store_artifacts:
           path: android-output
-      -store_artifacts:
+      - store_artifacts:
           path: logs
   tag-build:
     docker:
