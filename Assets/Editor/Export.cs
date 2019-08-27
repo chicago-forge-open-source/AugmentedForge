@@ -34,7 +34,7 @@ namespace Editor
         public static void ExportAndroidAab()
         {
             var scenes = new[] {"Assets/Scenes/InitScene.unity", "Assets/Scenes/ARView.unity"};
-            const string path = "./android-output/AugmentedForge.aab";
+            const string path = "./deploy/android-output/AugmentedForge.aab";
 
             EditorUserBuildSettings.buildAppBundle = true;
 
