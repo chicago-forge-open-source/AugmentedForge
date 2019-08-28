@@ -37,5 +37,7 @@ task createAndPushTag() {
     doLast() {
         grgit.tag.add(name: buildNumber, message: "Automatic tag", pointsTo: grgit.head())
         grgit.push(remote: "origin", refsOrSpecs: [buildNumber.toString()])
+        grgit.checkout(branch: 'release')
+        grgit.merge(head: 'master')
     }
 }
