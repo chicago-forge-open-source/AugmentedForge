@@ -61,13 +61,13 @@ workflows:
           filters:
             branches:
               only: master
-      - android-deploy:
-          requires:
-            - build-test
-            - tag-build
-          filters:
-            branches:
-              only: master
+#      - android-deploy:
+#          requires:
+#            - build-test
+#            - tag-build
+#          filters:
+#            branches:
+#              only: master
       - tag-build:
           requires:
             - build-test
