@@ -46,9 +46,6 @@ jobs:
       - image: openjdk:8
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - $FINGERPRINT
       - run: git pull
       - run: cd deploy && ./gradlew createAndPushTag
       - run: git checkout release && git pull origin release
