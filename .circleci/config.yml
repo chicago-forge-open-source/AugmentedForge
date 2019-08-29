@@ -51,7 +51,8 @@ jobs:
             - $FINGERPRINT
       - run: git pull
       - run: cd deploy && ./gradlew createAndPushTag
-      - run: cd .. && git checkout release && git pull origin release
+      - run: pwd
+      - run: git checkout release && git pull origin release
       - run: git merge master && git push origin release
 workflows:
   version: 2
