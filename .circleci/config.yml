@@ -49,7 +49,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $FINGERPRINT
-      - run: cd AugmentedForge && git pull
+      - run: git pull
       - run: git checkout release && git pull origin release
       - run: git merge master && git push origin release
 workflows:
