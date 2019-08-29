@@ -35,17 +35,7 @@ task clean(type: Delete) {
 
 task createAndPushTag() {
     doLast() {
-        def gitRepo = grgit.open(dir: <path>, currentDir: <path>, credentials: <credentials>)
         grgit.tag.add(name: buildNumber, message: "Automatic tag", pointsTo: grgit.head())
         grgit.push(remote: "origin", refsOrSpecs: [buildNumber.toString()])
-
-        def BRANCH_NAME = "release"
-//        def releaseBranch = grgit.resolve.toBranch("release")
-        grgit.checkout(branch: "origin/${BRANCH_NAME}")
-        grgit.pull(remote: "origin", branch: BRANCH_NAME, rebase: false)
-
-        println grgit.branch.list()
-        grgit.merge(head: "origin/master")
-        grgit.push()
     }
 }

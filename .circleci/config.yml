@@ -35,7 +35,7 @@ jobs:
       - run: unzip -q android-ndk-r16b-linux-x86_64.zip -d /
       - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -logFile /dev/stdout -executeMethod Editor.Export.ExportAndroidAab || exit 0
       - run: /opt/Unity/Editor/Unity -batchmode -nographics -silent-crashes -quit -logFile /dev/stdout -executeMethod Editor.Export.ExportAndroidAab
-          
+
       - run: mkdir deploy/secrets
       - run: echo $SERVICE_ACCOUNT_JSON | base64 --decode > deploy/secrets/serviceAccount.json
       - run: cd deploy && ./gradlew publishBundle --artifact-dir $(pwd)/../android-output
@@ -44,13 +44,14 @@ jobs:
   tag-build:
     docker:
       - image: openjdk:8
-    steps: 
+    steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - $FINGERPRINT
       - run: git pull
-      - run: git checkout release && git pull origin release
+      - run: cd deploy && ./gradlew createAndPushTag
+      - run: cd .. && git checkout release && git pull origin release
       - run: git merge master && git push origin release
 workflows:
   version: 2
