@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.ajoberstar:grgit:1.7.2"
     }
 }
 
@@ -37,11 +38,14 @@ task createAndPushTag() {
     doLast() {
         grgit.tag.add(name: buildNumber, message: "Automatic tag", pointsTo: grgit.head())
         grgit.push(remote: "origin", refsOrSpecs: [buildNumber.toString()])
-        grgit.pull(remote: "origin", branch: "release", rebase: false)
-        def masterBranch = grgit.branch.current()
-        def releaseBranch = grgit.resolve.toBranch("release")
+
+        def BRANCH_NAME = "release"
+//        def releaseBranch = grgit.resolve.toBranch("release")
+        grgit.checkout("origin/${BRANCH_NAME}")
+        grgit.pull(remote: "origin", branch: BRANCH_NAME, rebase: false)
+
         println grgit.branch.list()
-        grgit.checkout(branch: releaseBranch)
-        grgit.merge(head: masterBranch)
+        grgit.merge(head: "origin/master")
+        grgit.push()
     }
 }
