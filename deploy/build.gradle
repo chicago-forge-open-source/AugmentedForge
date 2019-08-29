@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.ajoberstar:grgit:1.7.2"
     }
 }
 
@@ -36,12 +35,13 @@ task clean(type: Delete) {
 
 task createAndPushTag() {
     doLast() {
+        def gitRepo = grgit.open(dir: <path>, currentDir: <path>, credentials: <credentials>)
         grgit.tag.add(name: buildNumber, message: "Automatic tag", pointsTo: grgit.head())
         grgit.push(remote: "origin", refsOrSpecs: [buildNumber.toString()])
 
         def BRANCH_NAME = "release"
 //        def releaseBranch = grgit.resolve.toBranch("release")
-        grgit.checkout("origin/${BRANCH_NAME}")
+        grgit.checkout(branch: "origin/${BRANCH_NAME}")
         grgit.pull(remote: "origin", branch: BRANCH_NAME, rebase: false)
 
         println grgit.branch.list()
