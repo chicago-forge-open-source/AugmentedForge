@@ -14,6 +14,7 @@ pipeline {
                 sh '''#!/bin/bash
                     apt-get update
                     apt-get install -y git
+                    
                    # rm -rf AugmentedForge
                    # git clone https://github.com/chicago-forge-open-source/AugmentedForge
                 '''
@@ -22,6 +23,8 @@ pipeline {
                     unzip -q android-ndk-r16b-linux-x86_64.zip -d /
                 '''        
                 sh '''#!/bin/bash
+                    echo $(pwd)
+                    ls -ltr
                     cd AugmentedForge/
                     mkdir deploy/secrets
                     echo $SERVICE_ACCOUNT_JSON | base64 --decode > deploy/secrets/serviceAccount.json
