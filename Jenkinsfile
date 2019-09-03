@@ -21,12 +21,12 @@ pipeline {
                     git clone https://github.com/chicago-forge-open-source/AugmentedForge
                     cd AugmentedForge/
                     git describe
-                    cd deploy && ./gradlew createAndPushTag
                     mkdir deploy/secrets
                     echo $SERVICE_ACCOUNT_JSON | base64 --decode > deploy/secrets/serviceAccount.json
                     cat deploy/secrets/serviceAccount.json
                     echo "LICENSING"
                     echo $UNITY_LICENSE_1_14_ANDROID | base64 --decode >> .circleci/Unity_License.ulf
+                    cat .circleci/Unity_License.ulf
                     cp -f ./Packages/manifest-linux.json ./Packages/manifest.json
                     /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .circleci/Unity_License.ulf
                     touch /root/.android/repositories.cfg
