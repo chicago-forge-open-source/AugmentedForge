@@ -3,8 +3,8 @@ pipeline {
         docker { image 'gableroux/unity3d:2019.1.14f1-android' }
     }
     environment {
-        UNITY_LICENSE_1_14_ANDROID = credentials('unity_license_1_14_ANDROID')
-        SERVICE_ACCOUNT_JSON = credentials('service_account_json_base64')
+        UNITY_LICENSE_1_14_ANDROID = credentials('UNITY_LICENSE_1_14_ANDROID')
+        SERVICE_ACCOUNT_JSON = credentials('SERVICE_ACCOUNT_JSON')
         KEYSTORE_PASS = 'pillar4life'
         ANDROID_SDK_ROOT = '/opt/android-sdk-linux'
         ANDROID_NDK_HOME = '/android-ndk-r16b'
