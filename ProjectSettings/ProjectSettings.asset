@@ -163,7 +163,7 @@ PlayerSettings:
     Android: com.pillar.augmentedforge
     iPhone: com.pillar.augmentedforge
   buildNumber: {}
-  AndroidBundleVersionCode: 2
+  AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
