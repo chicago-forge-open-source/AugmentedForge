@@ -6,6 +6,7 @@ using UnityEditor;
 using Debug = UnityEngine.Debug;
 using Amazon.IotData;
 using Amazon.IotData.Model;
+using DefaultNamespace;
 
 namespace Editor
 {
@@ -14,38 +15,7 @@ namespace Editor
         [MenuItem("Export/IoTGoGoGo")]
         public static async Task DoIoTThing()
         {
-            Debug.Log("Started do thing");
-
-            var awsAccessKeyId = "AKIA6OWBH347S6K5AGZR";
-            var awsSecretAccessKey = "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";
-            var amazonIotDataConfig = new AmazonIotDataConfig
-            {
-                ServiceURL = "https://a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com/"
-            };
-            using (var dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig))
-            {
-                var publishRequest = new PublishRequest
-                {
-                    Topic = "$aws/things/Flounder/shadow/update",
-                    Payload = new MemoryStream(
-                        System.Text.Encoding.UTF8.GetBytes(
-                            "{ \"state\" : { \"desired\" : { \"flavor\":\"snozzberry\"} } }"
-                        )
-                    ),
-                    Qos = 1
-                };
-
-                Debug.Log("Before start new ");
-                Debug.Log("Before publish");
-                await dataClient.PublishAsync(publishRequest);
-
-                Debug.Log("After publish");
-            }
-        }
-
-        private static async Task dumbTest()
-        {
-            Debug.Log("dumb test");
+            await WallSquare.DoIoTThing();
         }
 
         [MenuItem("Export/TestGit")]
