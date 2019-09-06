@@ -5,8 +5,7 @@
         "Unity.XR.ARFoundation",
         "Unity.XR.ARSubsystems",
         "Unity.XR.ARSubsystems.Editor",
-        "Unity.XR.ARFoundation.Editor",
-        "CustomEditorMenus"
+        "Unity.XR.ARFoundation.Editor"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

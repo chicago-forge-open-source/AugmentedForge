@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using DataLoaders;
 using DefaultNamespace;
-using Editor;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -11,16 +9,6 @@ namespace Tests.EditMode
 {
     public class InitializeAppTests
     {
-//        [Test]
-//        public void DeleteMe()
-//        {
-//            Export.doIoTThing()
-//                .Wait();
-//            
-//            
-//            Assert.IsTrue(true);
-//        }
-        
         [Test]
         public void OnLocationButtonClick_LoadsCorrectDataForThatLocation()
         {
