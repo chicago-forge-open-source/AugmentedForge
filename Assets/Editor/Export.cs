@@ -1,12 +1,10 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
-using Amazon.IotData;
-using Amazon.IotData.Model;
-using DefaultNamespace;
+using Graffiti;
+using UnityEngine;
 
 namespace Editor
 {
@@ -15,7 +13,7 @@ namespace Editor
         [MenuItem("Export/IoTGoGoGo")]
         public static async Task DoIoTThing()
         {
-            await WallSquare.DoIoTThing();
+            await WallSquare.UpdateMagicWallColor(Color.clear);
         }
 
         [MenuItem("Export/TestGit")]

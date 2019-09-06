@@ -1,7 +1,5 @@
 using Locations;
-using Markers;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Tests.EditMode.Locations
 {
