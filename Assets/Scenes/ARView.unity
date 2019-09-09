@@ -2506,7 +2506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1285226779}
-  debugText: {fileID: 40919616}
+  arCameraGameObject: {fileID: 165585583}
 --- !u!1 &1317246971
 GameObject:
   m_ObjectHideFlags: 0
