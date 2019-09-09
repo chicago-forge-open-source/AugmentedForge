@@ -25,9 +25,10 @@ namespace Tests.PlayMode.Graffiti
             Assert.AreEqual(Color.blue, wallColor);
         }
 
-        private void SetColorOfWallOnIoT(Color color)
+        private static void SetColorOfWallOnIoT(Color color)
         {
-            Task.Run(async () => { await WallSquare.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
+            var wallSquare = new WallSquare();
+            Task.Run(async () => { await wallSquare.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
         }
     }
 }

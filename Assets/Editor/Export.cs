@@ -13,7 +13,7 @@ namespace Editor
         [MenuItem("Export/IoTGoGoGo")]
         public static async Task DoIoTThing()
         {
-            await WallSquare.UpdateMagicWallColor(Color.clear);
+            await new WallSquare().UpdateMagicWallColor(Color.clear);
         }
 
         [MenuItem("Export/TestGit")]

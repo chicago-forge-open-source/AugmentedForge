@@ -2413,7 +2413,7 @@ GameObject:
   - component: {fileID: 1285226779}
   - component: {fileID: 1285226778}
   - component: {fileID: 1285226782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MagicWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2486,13 +2486,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285226777}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 470, y: 2840, z: -314}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 34.27, y: -0, z: -19.18}
+  m_LocalScale: {x: 1, y: 1.0103, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &1285226782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2506,6 +2506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1285226779}
+  debugText: {fileID: 40919616}
 --- !u!1 &1317246971
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,57 +30,49 @@ namespace Graffiti
 
     public class WallSquare
     {
-        public static async Task<WallSquareState> GetIoTThing()
+        private readonly AmazonIotDataClient _dataClient;
+
+        public WallSquare()
         {
-            var lines = File.ReadAllLines("accesskeys.csv");
+            var fileText = Resources.Load<TextAsset>("accesskeys").text;
+            var lines = fileText.Split('\n');
             var secrets = lines[1].Split(',');
-            var awsAccessKeyId = secrets[0];
-            var awsSecretAccessKey = secrets[1];
+            var awsAccessKeyId = secrets[0].Trim();
+            var awsSecretAccessKey = secrets[1].Trim();
             var amazonIotDataConfig = new AmazonIotDataConfig
             {
                 ServiceURL = "https://a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com/"
             };
-
-            using (var dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig))
-            {
-                var getThingShadowRequest = new GetThingShadowRequest
-                {
-                    ThingName = "Flounder"
-                };
-
-                var theThing = await dataClient.GetThingShadowAsync(getThingShadowRequest, CancellationToken.None);
-
-                var shadowThing =
-                    JsonUtility.FromJson<ShadowThing>(Encoding.UTF8.GetString(theThing.Payload.ToArray()));
-                return shadowThing.state.reported;
-            }
+            _dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig);
         }
 
-        public static async Task UpdateMagicWallColor(Color color)
+        public async Task<WallSquareState> GetIoTThing()
         {
-            var lines = File.ReadAllLines("accesskeys.csv");
-            var secrets = lines[1].Split(',');
-            var awsAccessKeyId = secrets[0];
-            var awsSecretAccessKey = secrets[1];
-            var amazonIotDataConfig = new AmazonIotDataConfig
+            var getThingShadowRequest = new GetThingShadowRequest
             {
-                ServiceURL = "https://a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com/"
+                ThingName = "Flounder"
             };
-            using (var dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig))
+
+            var theThing = await _dataClient.GetThingShadowAsync(getThingShadowRequest, CancellationToken.None);
+            var json = Encoding.UTF8.GetString(theThing.Payload.ToArray());
+            var shadowThing = JsonUtility.FromJson<ShadowThing>(json);
+            return shadowThing.state.reported;
+        }
+
+        public async Task UpdateMagicWallColor(Color color)
+        {
+            var publishRequest = new PublishRequest
             {
-                var publishRequest = new PublishRequest
-                {
-                    Topic = "$aws/things/Flounder/shadow/update",
-                    Payload = new MemoryStream(
-                        Encoding.UTF8.GetBytes(
-                            $"{{ \"state\" : {{ \"desired\" : {{ \"color\":\"#{ColorUtility.ToHtmlStringRGBA(color)}\"}} }} }}"
-                        )
-                    ),
-                    Qos = 1
-                };
-                
-                await dataClient.PublishAsync(publishRequest);
-            }
+                Topic = "$aws/things/Flounder/shadow/update",
+                Payload = new MemoryStream(
+                    Encoding.UTF8.GetBytes(
+                        $"{{ \"state\" : {{ \"desired\" : {{ \"color\":\"#{ColorUtility.ToHtmlStringRGBA(color)}\"}} }} }}"
+                    )
+                ),
+                Qos = 1
+            };
+
+            await _dataClient.PublishAsync(publishRequest);
         }
     }
 }
