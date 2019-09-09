@@ -18,21 +18,21 @@ namespace Graffiti
     [Serializable]
     public class ShadowState
     {
-        public WallSquareState desired;
-        public WallSquareState reported;
+        public GraffitiCanvasState desired;
+        public GraffitiCanvasState reported;
     }
 
     [Serializable]
-    public class WallSquareState
+    public class GraffitiCanvasState
     {
         public string color;
     }
 
-    public class WallSquare
+    public class GraffitiCanvas
     {
         private readonly AmazonIotDataClient _dataClient;
 
-        public WallSquare()
+        public GraffitiCanvas()
         {
             var fileText = Resources.Load<TextAsset>("accesskeys").text;
             var lines = fileText.Split('\n');
@@ -46,7 +46,7 @@ namespace Graffiti
             _dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig);
         }
 
-        public async Task<WallSquareState> GetIoTThing()
+        public async Task<GraffitiCanvasState> GetIoTThing()
         {
             var getThingShadowRequest = new GetThingShadowRequest
             {

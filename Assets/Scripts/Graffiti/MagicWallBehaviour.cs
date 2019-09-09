@@ -5,12 +5,12 @@ namespace Graffiti
 {
     public class MagicWallBehaviour : MonoBehaviour
     {
-        private WallSquare _wallSquare;
+        private GraffitiCanvas _graffitiCanvas;
         public MeshRenderer meshRenderer;
 
         public void Start()
         {
-            _wallSquare = new WallSquare();
+            _graffitiCanvas = new GraffitiCanvas();
         }
 
         public void Update()
@@ -20,8 +20,8 @@ namespace Graffiti
 
         private Color GetColorOfWall()
         {
-            if (_wallSquare == null) return Color.magenta;
-            var state = Task.Run(async () => await _wallSquare.GetIoTThing()).GetAwaiter().GetResult();
+            if (_graffitiCanvas == null) return Color.magenta;
+            var state = Task.Run(async () => await _graffitiCanvas.GetIoTThing()).GetAwaiter().GetResult();
             ColorUtility.TryParseHtmlString(state.color, out var color);
             return color;
         }

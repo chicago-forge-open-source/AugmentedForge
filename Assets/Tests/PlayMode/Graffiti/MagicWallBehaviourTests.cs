@@ -27,8 +27,8 @@ namespace Tests.PlayMode.Graffiti
 
         private static void SetColorOfWallOnIoT(Color color)
         {
-            var wallSquare = new WallSquare();
-            Task.Run(async () => { await wallSquare.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
+            var graffitiCanvas = new GraffitiCanvas();
+            Task.Run(async () => { await graffitiCanvas.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
         }
     }
 }
