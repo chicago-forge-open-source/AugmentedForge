@@ -1,14 +1,21 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Graffiti;
+using UnityEngine;
 
 namespace Editor
 {
     public static class Export
     {
+        [MenuItem("Export/IoTGoGoGo")]
+        public static async Task DoIoTThing()
+        {
+            await WallSquare.UpdateMagicWallColor(Color.clear);
+        }
+
         [MenuItem("Export/TestGit")]
         public static void LogVersion()
         {
@@ -50,7 +57,7 @@ namespace Editor
             }
 
             BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
-            
+
             PlayerSettings.Android.bundleVersionCode = 1;
             PlayerSettings.bundleVersion = $"LOCAL";
         }
