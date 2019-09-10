@@ -16,6 +16,7 @@ public class ArDetectImageBehaviour : MonoBehaviour
     public GameObject arCamera;
     public Func<ARTrackedImage, string> getReferenceName = image => image.referenceImage.name;
     public Func<ARTrackedImage, TrackingState> getTrackingState = image => image.trackingState;
+    public ICompass compass = new RealCompass();
 
     private void OnEnable()
     {
@@ -101,15 +102,14 @@ public class ArDetectImageBehaviour : MonoBehaviour
 
         var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
         var rotationDiff = cameraRotation - trackedImageTransform.rotation.eulerAngles.y;
-        var orientation = syncPoint.Orientation + 180 + rotationDiff;
         
-        if (IsWithinLimits(rotationDiff, distanceFromCameraX, distanceFromCameraZ))
+        if (IsWithinLimits(rotationDiff))
         {
-            calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);
+            calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, compass.TrueHeading);
         }
     }
 
-    private static bool IsWithinLimits(float rotationDiff, float distanceFromCameraX, float distanceFromCameraZ)
+    private static bool IsWithinLimits(float rotationDiff)
     {
         return Math.Abs(rotationDiff) < 5;
     }

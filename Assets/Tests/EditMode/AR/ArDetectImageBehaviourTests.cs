@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AR;
 using NUnit.Framework;
 using SyncPoints;
+using Tests.PlayMode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -32,6 +33,7 @@ namespace Tests.EditMode.AR
             const string name = "Rob's Place";
             var definedSyncPoint = new SyncPoint(name, 10f, 15f, 180);
             Repositories.SyncPointRepository.Save(new[] {definedSyncPoint});
+            _script.compass = new MockCompass {TrueHeading = 180f};
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
             _script.getTrackingState = image => TrackingState.Tracking;
@@ -51,7 +53,7 @@ namespace Tests.EditMode.AR
 
             _script.OnTrackedImagesChanged(events);
             var expectedSyncPoint = new SyncPoint(definedSyncPoint.Name, definedSyncPoint.X, definedSyncPoint.Z,
-                definedSyncPoint.Orientation + 180);
+                180f);
             Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);
         }
 
@@ -62,6 +64,7 @@ namespace Tests.EditMode.AR
             const string name = "Test Two";
             var knownSyncPoint = new SyncPoint(name, 1000f, 100f, 90);
             Repositories.SyncPointRepository.Save(new[] {knownSyncPoint});
+            _script.compass = new MockCompass {TrueHeading = 266f};
 
             var forgeSignImg = _game.AddComponent<ARTrackedImage>();
             _script.getTrackingState = image => TrackingState.Tracking;
@@ -79,7 +82,7 @@ namespace Tests.EditMode.AR
             _script.arCamera.transform.rotation = Quaternion.Euler(0, 254.34f, 0);
 
             _script.OnTrackedImagesChanged(events);
-            var expectedSyncPoint = new SyncPoint(name, 898, 78f, 266);
+            var expectedSyncPoint = new SyncPoint(name, 898, 78f, 266f);
             Assert.AreEqual(expectedSyncPoint, _script.calibrationBehaviour.pendingSyncPoint);
         }
 
@@ -104,9 +107,9 @@ namespace Tests.EditMode.AR
 
             _script.arCamera.transform.position = new Vector3(900, 2.5f, 80);
             _script.arCamera.transform.rotation = Quaternion.Euler(0, 240.34f, 0);
-            
+
             _script.OnTrackedImagesChanged(events);
-            
+
             Assert.AreEqual(null, _script.calibrationBehaviour.pendingSyncPoint);
         }
     }
