@@ -21,7 +21,7 @@ namespace Graffiti
 
         public void Update()
         {
-            meshRenderer.material.color = GetColorOfWall();
+            meshRenderer.material.color = GetColorOfCanvas();
 
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
@@ -34,7 +34,7 @@ namespace Graffiti
             }
         }
 
-        private Color GetColorOfWall()
+        private Color GetColorOfCanvas()
         {
             if (_graffitiCanvas == null) return Color.magenta;
             var state = Task.Run(async () => await _graffitiCanvas.GetIoTThing()).GetAwaiter().GetResult();

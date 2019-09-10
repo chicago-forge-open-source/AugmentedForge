@@ -19,7 +19,7 @@ namespace Tests.PlayMode.Graffiti
         {
             Repositories.LocationsRepository.Save(new[] {new Location("", "ChicagoMap")});
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint("test", 10, 10, 0)});
-            SetColorOfWallOnIoT(Color.blue);
+            SetColorOfCanvasOnIoT(Color.blue);
             SceneManager.LoadScene("ARView");
         }
 
@@ -27,36 +27,38 @@ namespace Tests.PlayMode.Graffiti
         public IEnumerator GraffitiCanvasGetsColorAndAppliesToSelf()
         {
             yield return null;
-            var wall = GameObject.Find("GraffitiCanvas");
-            var wallColor = wall.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(Color.blue, wallColor);
+            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvasColor = canvas.GetComponent<MeshRenderer>().material.color;
+            Assert.AreEqual(Color.blue, canvasColor);
         }
 
         [UnityTest]
         public IEnumerator TappingGraffitiCanvasChangesColorToRed()
         {
             yield return null;
-            var wall = GameObject.Find("GraffitiCanvas");
-            var wallBehaviour = wall.GetComponent<GraffitiCanvasBehaviour>();
+            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
 
-            var position = wall.transform.position;
+            var position = canvas.transform.position;
             var touch = new Touch
             {
                 position = position, deltaPosition = position, phase = TouchPhase.Began
             };
-            wallBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            wallBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiCanvasBehaviour>
+            canvasBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            canvasBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiCanvasBehaviour>
             {
-                ValueToReturn = wallBehaviour
+                ValueToReturn = canvasBehaviour
             };
-            wallBehaviour.Update();
+            
+            canvasBehaviour.Update();
             yield return null;
             yield return null;
-            var wallColor = wall.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(Color.red, wallColor);
+
+            var canvasColor = canvas.GetComponent<MeshRenderer>().material.color;
+            Assert.AreEqual(Color.red, canvasColor);
         }
 
-        private static void SetColorOfWallOnIoT(Color color)
+        private static void SetColorOfCanvasOnIoT(Color color)
         {
             var graffitiCanvas = new GraffitiCanvas();
             Task.Run(async () => { await graffitiCanvas.UpdateGraffitiCanvasColor(color); }).GetAwaiter().GetResult();
