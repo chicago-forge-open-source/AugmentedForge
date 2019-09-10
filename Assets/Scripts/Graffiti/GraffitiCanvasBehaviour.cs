@@ -17,12 +17,11 @@ namespace Graffiti
         {
             _graffitiCanvas = new GraffitiCanvas();
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
+            InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
 
         public void Update()
         {
-            meshRenderer.material.color = GetColorOfCanvas();
-
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
@@ -32,6 +31,11 @@ namespace Graffiti
                     .GetAwaiter()
                     .GetResult();
             }
+        }
+
+        private void PollForCanvasColorChange()
+        {
+            meshRenderer.material.color = GetColorOfCanvas();
         }
 
         private Color GetColorOfCanvas()

@@ -49,11 +49,8 @@ namespace Tests.PlayMode.Graffiti
             {
                 ValueToReturn = canvasBehaviour
             };
-            
-            canvasBehaviour.Update();
-            yield return null;
-            yield return null;
 
+            yield return new WaitForSeconds(2f);
             var canvasColor = canvas.GetComponent<MeshRenderer>().material.color;
             Assert.AreEqual(Color.red, canvasColor);
         }
