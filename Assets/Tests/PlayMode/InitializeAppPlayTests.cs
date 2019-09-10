@@ -50,10 +50,4 @@ namespace Tests.PlayMode
             Assert.AreEqual("Iowa", location);
         }
     }
-
-    internal class MockCompass : ICompass
-    {
-        public bool IsEnabled => true;
-        public float TrueHeading { get; } = 100f;
-    }
 }

@@ -3,6 +3,7 @@ using DataLoaders;
 using Markers;
 using NUnit.Framework;
 using SyncPoints;
+using Tests.PlayMode;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -288,11 +289,5 @@ namespace Tests.EditMode
                 0
             );
         }
-    }
-
-    internal class MockCompass : ICompass
-    {
-        public bool IsEnabled => true;
-        public float TrueHeading { get; set; } = 100f;
     }
 }

@@ -1,12 +1,9 @@
 {
-    "name": "PlayModeTests",
+    "name": "MocksAssembly",
     "references": [
-        "MainScripts",
-        "MocksAssembly"
+        "GUID:de49e61eb9522415e88bdf0189a19d72"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
+    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -102,7 +102,7 @@ public class ArDetectImageBehaviour : MonoBehaviour
         var cameraRotation = arCamera.transform.rotation.eulerAngles.y;
         var rotationDiff = cameraRotation - trackedImageTransform.rotation.eulerAngles.y;
         var orientation = syncPoint.Orientation + 180 + rotationDiff;
-        Debug.Log($"RotationDifference  = {rotationDiff}");
+        
         if (IsWithinLimits(rotationDiff, distanceFromCameraX, distanceFromCameraZ))
         {
             calibrationBehaviour.pendingSyncPoint = new SyncPoint(referenceImageName, syncedX, syncedZ, orientation);

@@ -5,6 +5,7 @@ using Graffiti;
 using Locations;
 using NUnit.Framework;
 using SyncPoints;
+using Tests.Mocks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -59,33 +60,6 @@ namespace Tests.PlayMode.Graffiti
         {
             var graffitiCanvas = new GraffitiCanvas();
             Task.Run(async () => { await graffitiCanvas.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
-        }
-    }
-    
-    internal class MockInputHandler : InputHandler
-    {
-        private readonly List<Touch> _touches;
-
-        public MockInputHandler(List<Touch> touches)
-        {
-            _touches = touches;
-        }
-
-        public int TouchCount => _touches.Count;
-
-        public Touch GetTouch(int index)
-        {
-            return _touches[index];
-        }
-    }
-
-    public class MockPhysicsHandler<TR> : PhysicsHandler where TR : class
-    {
-        public TR ValueToReturn { private get; set; }
-
-        public T Raycast<T>(Ray ray) where T : class
-        {
-            return ValueToReturn as T;
         }
     }
 }

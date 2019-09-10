@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tests.EditMode
+namespace Tests.Mocks
 {
-    internal class MockInputHandler : InputHandler
+    public class MockInputHandler : InputHandler
     {
         private readonly List<Touch> _touches;
 

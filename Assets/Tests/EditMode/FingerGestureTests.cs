@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Tests.Mocks;
 using UnityEngine;
 
 namespace Tests.EditMode

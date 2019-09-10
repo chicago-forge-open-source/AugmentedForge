@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Markers;
 using NUnit.Framework;
+using Tests.Mocks;
 using UnityEngine;
 
 namespace Tests.EditMode.Markers
@@ -137,16 +138,6 @@ namespace Tests.EditMode.Markers
             {
                 ValueToReturn = _controlBehaviour
             };
-        }
-    }
-
-    public class MockPhysicsHandler<TR> : PhysicsHandler where TR : class
-    {
-        public TR ValueToReturn { private get; set; }
-
-        public T Raycast<T>(Ray ray) where T : class
-        {
-            return ValueToReturn as T;
         }
     }
 }

@@ -5,7 +5,8 @@
         "Unity.XR.ARFoundation",
         "Unity.XR.ARSubsystems",
         "Unity.XR.ARSubsystems.Editor",
-        "Unity.XR.ARFoundation.Editor"
+        "Unity.XR.ARFoundation.Editor",
+        "MocksAssembly"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
