@@ -59,7 +59,7 @@ namespace Editor
             BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
 
             PlayerSettings.Android.bundleVersionCode = 1;
-            PlayerSettings.bundleVersion = $"LOCAL";
+            PlayerSettings.bundleVersion = $"1";
         }
     }
 }
