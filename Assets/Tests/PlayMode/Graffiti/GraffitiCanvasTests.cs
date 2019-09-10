@@ -24,7 +24,7 @@ namespace Tests.PlayMode.Graffiti
         [Test]
         public void CanUpdateIoTThing()
         {
-            Task.Run(async () => { await _graffitiCanvas.UpdateMagicWallColor(Color.yellow); }).GetAwaiter().GetResult();
+            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.yellow); }).GetAwaiter().GetResult();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Graffiti
             return shadowThing.state.reported;
         }
 
-        public async Task UpdateMagicWallColor(Color color)
+        public async Task UpdateGraffitiCanvasColor(Color color)
         {
             var publishRequest = new PublishRequest
             {

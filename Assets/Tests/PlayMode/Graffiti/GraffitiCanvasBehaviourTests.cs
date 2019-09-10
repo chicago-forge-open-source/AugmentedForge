@@ -12,7 +12,7 @@ using UnityEngine.TestTools;
 
 namespace Tests.PlayMode.Graffiti
 {
-    public class MagicWallBehaviourTests
+    public class GraffitiCanvasBehaviourTests
     {
         [SetUp]
         public void SetUp()
@@ -24,10 +24,10 @@ namespace Tests.PlayMode.Graffiti
         }
 
         [UnityTest]
-        public IEnumerator MagicWallGetsColorAndAppliesToSelf()
+        public IEnumerator GraffitiCanvasGetsColorAndAppliesToSelf()
         {
             yield return null;
-            var wall = GameObject.Find("MagicWall");
+            var wall = GameObject.Find("GraffitiCanvas");
             var wallColor = wall.GetComponent<MeshRenderer>().material.color;
             Assert.AreEqual(Color.blue, wallColor);
         }
@@ -36,8 +36,8 @@ namespace Tests.PlayMode.Graffiti
         public IEnumerator TappingGraffitiCanvasChangesColorToRed()
         {
             yield return null;
-            var wall = GameObject.Find("MagicWall");
-            var wallBehaviour = wall.GetComponent<MagicWallBehaviour>();
+            var wall = GameObject.Find("GraffitiCanvas");
+            var wallBehaviour = wall.GetComponent<GraffitiCanvasBehaviour>();
 
             var position = wall.transform.position;
             var touch = new Touch
@@ -45,7 +45,7 @@ namespace Tests.PlayMode.Graffiti
                 position = position, deltaPosition = position, phase = TouchPhase.Began
             };
             wallBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            wallBehaviour.physicsHandler = new MockPhysicsHandler<MagicWallBehaviour>
+            wallBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiCanvasBehaviour>
             {
                 ValueToReturn = wallBehaviour
             };
@@ -59,7 +59,7 @@ namespace Tests.PlayMode.Graffiti
         private static void SetColorOfWallOnIoT(Color color)
         {
             var graffitiCanvas = new GraffitiCanvas();
-            Task.Run(async () => { await graffitiCanvas.UpdateMagicWallColor(color); }).GetAwaiter().GetResult();
+            Task.Run(async () => { await graffitiCanvas.UpdateGraffitiCanvasColor(color); }).GetAwaiter().GetResult();
         }
     }
 }

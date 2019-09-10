@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Graffiti
 {
-    public class MagicWallBehaviour : MonoBehaviour
+    public class GraffitiCanvasBehaviour : MonoBehaviour
     {
         public MeshRenderer meshRenderer;
         public InputHandler inputHandler = new UnityInputHandler();
@@ -26,9 +26,9 @@ namespace Graffiti
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
-            if (Equals(this, physicsHandler.Raycast<MagicWallBehaviour>(touchPosition)))
+            if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
             {
-                Task.Run(async () => { await _graffitiCanvas.UpdateMagicWallColor(Color.red); })
+                Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.red); })
                     .GetAwaiter()
                     .GetResult();
             }

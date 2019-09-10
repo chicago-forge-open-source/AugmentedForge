@@ -2414,7 +2414,7 @@ GameObject:
   - component: {fileID: 1285226778}
   - component: {fileID: 1285226782}
   m_Layer: 9
-  m_Name: MagicWall
+  m_Name: GraffitiCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
