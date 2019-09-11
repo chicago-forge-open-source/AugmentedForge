@@ -143,4 +143,4 @@ lint/tmp/
 test-results
 android-output/
 Assets/Scenes/Tests.meta
-accesskeys.csv
+accesskeys.csv*

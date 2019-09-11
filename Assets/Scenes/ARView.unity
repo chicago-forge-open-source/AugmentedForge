@@ -2451,7 +2451,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7e6b1c58686ce4c40be835fb2d2b8219, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2507,6 +2507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1285226779}
   arCameraGameObject: {fileID: 165585583}
+  debugText: {fileID: 40919616}
 --- !u!1 &1317246971
 GameObject:
   m_ObjectHideFlags: 0

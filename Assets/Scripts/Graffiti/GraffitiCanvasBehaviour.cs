@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Markers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Graffiti
 {
@@ -12,6 +14,7 @@ namespace Graffiti
         public GameObject arCameraGameObject;
         private Camera _arCameraComponent;
         private GraffitiCanvas _graffitiCanvas;
+        private Boolean isRed;
 
         public void Start()
         {
@@ -27,9 +30,18 @@ namespace Graffiti
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
             if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
             {
-                Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.red); })
-                    .GetAwaiter()
-                    .GetResult();
+                if (!isRed)
+                {
+                    Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.red); })
+                        .GetAwaiter()
+                        .GetResult();
+                }
+                else
+                {
+                    Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.blue); })
+                        .GetAwaiter()
+                        .GetResult();
+                }
             }
         }
 
@@ -43,6 +55,7 @@ namespace Graffiti
             if (_graffitiCanvas == null) return Color.magenta;
             var state = Task.Run(async () => await _graffitiCanvas.GetIoTThing()).GetAwaiter().GetResult();
             ColorUtility.TryParseHtmlString(state.color, out var color);
+            isRed = color.Equals(Color.red);
             return color;
         }
     }

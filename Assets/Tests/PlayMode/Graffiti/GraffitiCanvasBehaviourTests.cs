@@ -33,12 +33,41 @@ namespace Tests.PlayMode.Graffiti
         }
 
         [UnityTest]
-        public IEnumerator TappingGraffitiCanvasChangesColorToRed()
+        public IEnumerator TappingGraffitiCanvasChangesColor()
         {
             yield return null;
             var canvas = GameObject.Find("GraffitiCanvas");
             var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
+            var initialCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
 
+            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            
+            yield return new WaitForSeconds(2f);
+
+            var newCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
+            Assert.AreNotEqual(initialCanvasColor, newCanvasColor);
+        }
+        
+        [UnityTest]
+        public IEnumerator TappingGraffitiCanvasTwiceChangesColorBackToOriginal()
+        {
+            yield return null;
+            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
+            var initialCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
+
+            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            yield return new WaitForSeconds(2f);
+            
+            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            yield return new WaitForSeconds(2f);
+            
+            var newCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
+            Assert.AreEqual(initialCanvasColor, newCanvasColor);
+        }
+
+        private static IEnumerator TouchGraffitiCanvasOnce(GameObject canvas, GraffitiCanvasBehaviour canvasBehaviour)
+        {
             var position = canvas.transform.position;
             var touch = new Touch
             {
@@ -49,10 +78,10 @@ namespace Tests.PlayMode.Graffiti
             {
                 ValueToReturn = canvasBehaviour
             };
-
-            yield return new WaitForSeconds(2f);
-            var canvasColor = canvas.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(Color.red, canvasColor);
+            
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            canvasBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
         }
 
         private static void SetColorOfCanvasOnIoT(Color color)
