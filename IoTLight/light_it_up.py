@@ -1,6 +1,9 @@
 #!/usr/bin/python
 import json
 import time
+import os
+import subprocess
+import sys
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
@@ -54,6 +57,7 @@ class IoTCommunicator(object):
         print('Shadow Update Sent')
         print('Published state %s\n' % message_json)
 
+
 class FakeIoTLightDevice(object):
     def __init__(self):
         self.light_state = "off"
@@ -64,7 +68,40 @@ class FakeIoTLightDevice(object):
     pass
 
 
+class RealIoTLightDevice(object):
+    def set_light(self, state):
+        control_led(state)
+
+    @property
+    def light_state(self):
+        output = subprocess.check_output('cat /sys/class/leds/led0/brightness')
+
+        if output == '0':
+            return "off"
+        else:
+            return "on"
+
+    pass
+
+
+def control_led(state):
+    if state == 'on':
+        os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
+        os.system('echo 1 | sudo tee /sys/class/leds/led0/brightness')
+
+    elif state == 'off':
+        os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
+        os.system('echo 0 | sudo tee /sys/class/leds/led0/brightness')
+
+
 if __name__ == '__main__':
-    device = FakeIoTLightDevice()
+    arg = sys.argv[1:]
+
+    if arg == ['test']:
+        print("test mode")
+        device = FakeIoTLightDevice()
+    else:
+        device = RealIoTLightDevice()
+
     thing = IoTCommunicator(device)
     thing.start_communication()
