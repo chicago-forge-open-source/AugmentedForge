@@ -48,8 +48,6 @@ class IoTCommunicator(object):
             loop_count += 1
             time.sleep(5)
 
-        # mqttc.disconnect()
-
     def send_shadow_update(self):
         message = {"state": {"reported": {"state": self.device.light_state}}}
         message_json = json.dumps(message)
@@ -69,17 +67,17 @@ class FakeIoTLightDevice(object):
 
 
 class RealIoTLightDevice(object):
+    def __init__(self):
+        self.set_light("off")
+        self._light_state = "off"
+
     def set_light(self, state):
         control_led(state)
+        self._light_state = state
 
     @property
     def light_state(self):
-        output = subprocess.check_output('cat /sys/class/leds/led0/brightness')
-
-        if output == '0':
-            return "off"
-        else:
-            return "on"
+        return self._light_state
 
     pass
 
