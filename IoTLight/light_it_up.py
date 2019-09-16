@@ -1,10 +1,24 @@
 #!/usr/bin/python
 import json
+import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
 
-class IoTLightPi(object):
+class IoTCommunicator(object):
+
+    def __init__(self, device):
+        self.mqttc = AWSIoTMQTTShadowClient('IoTLight')
+        self.mqttc.configureEndpoint('a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com', 8883)
+        self.mqttc.configureCredentials('./certificates/AmazonRootCA1.pem',
+                                        './certificates/IoTLight.private.key',
+                                        './certificates/IoTLight.cert.pem')
+        self.mqttc.configureConnectDisconnectTimeout(10)
+        self.mqttc.configureMQTTOperationTimeout(5)
+        self.device_shadow = self.mqttc.createShadowHandlerWithName('IoTLight', True)
+        self.device_shadow.on_message = self.on_message
+        self.device_shadow.json_encode = self.json_encode
+        self.device = device
 
     def json_encode(self, string):
         return json.dumps(string)
@@ -12,35 +26,45 @@ class IoTLightPi(object):
     def on_message(self, message, response, token):
         print(message)
 
-    def getIoTThing(self):
-        mqttc = AWSIoTMQTTShadowClient('1235')
+    def on_delta(self, message, response, token):
+        print("delta %s" % message)
+        loaded_message = json.loads(message)
+        new_state = loaded_message["state"]["state"]
+        self.device.set_light(new_state)
+        self.send_shadow_update()
 
-        mqttc.configureEndpoint('a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com', 8883)
-        mqttc.configureCredentials('./certificates/AmazonRootCA1.pem',
-                                   './certificates/IoTLight.private.key',
-                                   './certificates/IoTLight.cert.pem')
-        mqttc.configureConnectDisconnectTimeout(10)
-        mqttc.configureMQTTOperationTimeout(5)
-
-        device_shadow = mqttc.createShadowHandlerWithName('IoTLight', True)
-
-        shadow_message = {"state": {"reported": {"temperature": 65}, "desired": {"temperature": 75}}}
-        shadow_message = json.dumps(shadow_message)
-
-        device_shadow.on_message = self.on_message
-        device_shadow.json_encode = self.json_encode
-
+    def start_communication(self):
         print("About to connect")
-        mqttc.connect()
-        print("Connection happneed")
-
-        # sending first shadow update
+        self.mqttc.connect()
         print('Connected')
-        device_shadow.shadowUpdate(shadow_message, self.on_message, 5)
+        self.device_shadow.shadowRegisterDeltaCallback(self.on_delta)
+
+        loop_count = 0
+        while True:
+            self.send_shadow_update()
+            loop_count += 1
+            time.sleep(5)
+
+        # mqttc.disconnect()
+
+    def send_shadow_update(self):
+        message = {"state": {"reported": {"state": self.device.light_state}}}
+        message_json = json.dumps(message)
+        self.device_shadow.shadowUpdate(message_json, self.on_message, 5)
         print('Shadow Update Sent')
-        mqttc.disconnect()
+        print('Published state %s\n' % message_json)
+
+class FakeIoTLightDevice(object):
+    def __init__(self):
+        self.light_state = "off"
+
+    def set_light(self, state):
+        self.light_state = state
+
+    pass
 
 
 if __name__ == '__main__':
-    thing = IoTLightPi()
-    thing.getIoTThing()
+    device = FakeIoTLightDevice()
+    thing = IoTCommunicator(device)
+    thing.start_communication()
