@@ -9,12 +9,14 @@ namespace Graffiti
     public class GraffitiCanvasBehaviour : MonoBehaviour
     {
         public MeshRenderer meshRenderer;
+        public GameObject arCameraGameObject;
+        public Text canvasText;
         public InputHandler inputHandler = new UnityInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
-        public GameObject arCameraGameObject;
         private Camera _arCameraComponent;
         private GraffitiCanvas _graffitiCanvas;
         private Boolean isRed;
+        private TouchScreenKeyboard _keyboard;
 
         public void Start()
         {
@@ -25,24 +27,39 @@ namespace Graffiti
 
         public void Update()
         {
+            Debug.Log("+ Update GCB");
+
+            if (_keyboard != null && _keyboard.status == TouchScreenKeyboard.Status.Done)
+            {
+                Debug.Log(canvasText);
+                canvasText.text = _keyboard.text;
+                _keyboard = null;
+            }
+
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
             if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
             {
+                _keyboard = TouchScreenKeyboard.Open("");
+
                 if (!isRed)
                 {
-                    Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.red); })
-                        .GetAwaiter()
-                        .GetResult();
+                    SendCanvasColorToAWS(Color.red);
                 }
                 else
                 {
-                    Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(Color.blue); })
-                        .GetAwaiter()
-                        .GetResult();
+                    SendCanvasColorToAWS(Color.blue);
                 }
             }
+            Debug.Log("- Update Over GCB");
+        }
+
+        private void SendCanvasColorToAWS(Color color)
+        {
+            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(color); })
+                .GetAwaiter()
+                .GetResult();
         }
 
         private void PollForCanvasColorChange()
