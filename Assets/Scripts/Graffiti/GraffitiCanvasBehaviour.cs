@@ -8,72 +8,68 @@ namespace Graffiti
 {
     public class GraffitiCanvasBehaviour : MonoBehaviour
     {
-        public MeshRenderer meshRenderer;
         public GameObject arCameraGameObject;
         public Text canvasText;
         public InputHandler inputHandler = new UnityInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         private Camera _arCameraComponent;
         private GraffitiCanvas _graffitiCanvas;
-        private Boolean isRed;
-        private TouchScreenKeyboard _keyboard;
+        public TouchScreenKeyboard keyboard;
+        public bool keyboardOpened { get; set; }
 
         public void Start()
         {
             _graffitiCanvas = new GraffitiCanvas();
+            keyboard = new TouchScreenKeyboard(
+                "",
+                TouchScreenKeyboardType.Default,
+                true,
+                false,
+                false,
+                false,
+                "Enter Something Fun!",
+                0
+            );
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
 
         public void Update()
         {
-            Debug.Log("+ Update GCB");
-
-            if (_keyboard != null && _keyboard.status == TouchScreenKeyboard.Status.Done)
+            if (keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done && keyboardOpened)
             {
-                Debug.Log(canvasText);
-                canvasText.text = _keyboard.text;
-                _keyboard = null;
+                SendGraffitiTextToAws(keyboard.text);
+                keyboard = null;
+                keyboardOpened = false;
             }
-
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
             if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
             {
-                _keyboard = TouchScreenKeyboard.Open("");
-
-                if (!isRed)
-                {
-                    SendCanvasColorToAWS(Color.red);
-                }
-                else
-                {
-                    SendCanvasColorToAWS(Color.blue);
-                }
+                keyboard = TouchScreenKeyboard.Open("");
+                keyboardOpened = true;
             }
-            Debug.Log("- Update Over GCB");
         }
 
-        private void SendCanvasColorToAWS(Color color)
+
+        private void SendGraffitiTextToAws(string graffitiText)
         {
-            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasColor(color); })
+            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasText(graffitiText); })
                 .GetAwaiter()
                 .GetResult();
         }
 
         private void PollForCanvasColorChange()
         {
-            meshRenderer.material.color = GetColorOfCanvas();
+            canvasText.text = GetGraffitiTextFromAws();
         }
 
-        private Color GetColorOfCanvas()
+        private string GetGraffitiTextFromAws()
         {
-            if (_graffitiCanvas == null) return Color.magenta;
+            if (_graffitiCanvas == null) return "No Graffiti Canvas";
             var state = Task.Run(async () => await _graffitiCanvas.GetIoTThing()).GetAwaiter().GetResult();
-            ColorUtility.TryParseHtmlString(state.color, out var color);
-            isRed = color.Equals(Color.red);
-            return color;
+            return state.text;
         }
     }
 }

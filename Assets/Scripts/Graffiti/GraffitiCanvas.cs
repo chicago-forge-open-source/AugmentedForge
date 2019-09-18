@@ -25,7 +25,7 @@ namespace Graffiti
     [Serializable]
     public class GraffitiCanvasState
     {
-        public string color;
+        public string text;
     }
 
     public class GraffitiCanvas
@@ -59,14 +59,14 @@ namespace Graffiti
             return shadowThing.state.reported;
         }
 
-        public async Task UpdateGraffitiCanvasColor(Color color)
+        public async Task UpdateGraffitiCanvasText(string canvasText)
         {
             var publishRequest = new PublishRequest
             {
                 Topic = "$aws/things/Flounder/shadow/update",
                 Payload = new MemoryStream(
                     Encoding.UTF8.GetBytes(
-                        $"{{ \"state\" : {{ \"desired\" : {{ \"color\":\"#{ColorUtility.ToHtmlStringRGBA(color)}\"}} }} }}"
+                        $"{{ \"state\" : {{ \"desired\" : {{ \"text\":\"{canvasText}\"}} }} }}"
                     )
                 ),
                 Qos = 1

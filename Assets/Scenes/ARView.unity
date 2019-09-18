@@ -341,7 +341,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Enter Something Fun!
 --- !u!222 &128114736
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2692,7 +2692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff771bf581884bfcb89eeae069fd3408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 1285226779}
   arCameraGameObject: {fileID: 165585583}
   canvasText: {fileID: 128114735}
 --- !u!1 &1317246971

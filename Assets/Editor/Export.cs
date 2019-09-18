@@ -13,7 +13,7 @@ namespace Editor
         [MenuItem("Export/IoTGoGoGo")]
         public static async Task DoIoTThing()
         {
-            await new GraffitiCanvas().UpdateGraffitiCanvasColor(Color.clear);
+            await new GraffitiCanvas().UpdateGraffitiCanvasText("No Text Entered");
         }
 
         [MenuItem("Export/TestGit")]

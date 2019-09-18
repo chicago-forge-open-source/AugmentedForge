@@ -19,51 +19,36 @@ namespace Tests.PlayMode.Graffiti
         {
             Repositories.LocationsRepository.Save(new[] {new Location("", "ChicagoMap")});
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint("test", 10, 10, 0)});
-            SetColorOfCanvasOnIoT(Color.blue);
             SceneManager.LoadScene("ARView");
-        }
-
-        [UnityTest]
-        public IEnumerator GraffitiCanvasGetsColorAndAppliesToSelf()
-        {
-            yield return null;
-            var canvas = GameObject.Find("GraffitiCanvas");
-            var canvasColor = canvas.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(Color.blue, canvasColor);
-        }
-
-        [UnityTest]
-        public IEnumerator TappingGraffitiCanvasChangesColor()
-        {
-            yield return null;
-            var canvas = GameObject.Find("GraffitiCanvas");
-            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
-            var initialCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
-
-            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
-            
-            yield return new WaitForSeconds(2f);
-
-            var newCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
-            Assert.AreNotEqual(initialCanvasColor, newCanvasColor);
         }
         
         [UnityTest]
-        public IEnumerator TappingGraffitiCanvasTwiceChangesColorBackToOriginal()
+        [UnityPlatform(RuntimePlatform.Android, RuntimePlatform.IPhonePlayer)]
+        public IEnumerator OnTouchKeyboardOpens()
         {
             yield return null;
             var canvas = GameObject.Find("GraffitiCanvas");
             var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
-            var initialCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
 
             yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
-            yield return new WaitForSeconds(2f);
-            
+
+            Assert.AreEqual(TouchScreenKeyboard.Status.Visible,canvasBehaviour.keyboard.status);
+        }
+
+        [UnityTest]
+        public IEnumerator OnUserSubmittingTextGraffitiCanvasChangesText()
+        {
+            yield return null;
+            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
+            var initialText = "This is fun";
+
             yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            canvasBehaviour.keyboard.text = initialText;
+            
             yield return new WaitForSeconds(2f);
             
-            var newCanvasColor = canvas.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(initialCanvasColor, newCanvasColor);
+            Assert.AreEqual(initialText, canvasBehaviour.canvasText.text);
         }
 
         private static IEnumerator TouchGraffitiCanvasOnce(GameObject canvas, GraffitiCanvasBehaviour canvasBehaviour)
@@ -82,12 +67,6 @@ namespace Tests.PlayMode.Graffiti
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             canvasBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
-        }
-
-        private static void SetColorOfCanvasOnIoT(Color color)
-        {
-            var graffitiCanvas = new GraffitiCanvas();
-            Task.Run(async () => { await graffitiCanvas.UpdateGraffitiCanvasColor(color); }).GetAwaiter().GetResult();
         }
     }
 }
