@@ -7,10 +7,10 @@ namespace IoTLights
 {
     public class IoTLightBehaviour : MonoBehaviour
     {
-        public MeshRenderer meshRenderer;
         public InputHandler inputHandler = new UnityInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public GameObject arCameraGameObject;
+        public GameObject lightSwitch;
         private Camera _arCameraComponent;
         private IoTLight _ioTLight;
         public bool onOffState;
@@ -29,32 +29,27 @@ namespace IoTLights
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
             if (Equals(this, physicsHandler.Raycast<IoTLightBehaviour>(touchPosition)))
             {
-                if (!onOffState)
-                {
-                    Task.Run(async () => { await _ioTLight.UpdateLightState("on"); })
-                        .GetAwaiter()
-                        .GetResult();
-                }
-                else
-                {
-                    Task.Run(async () => { await _ioTLight.UpdateLightState("off"); })
-                        .GetAwaiter()
-                        .GetResult();
-                }
+                var state = onOffState ? "off" : "on";
+                Task.Run(async () => { await _ioTLight.UpdateLightState(state); })
+                    .GetAwaiter()
+                    .GetResult();
             }
         }
 
         private void PollForIoTLightState()
         {
-            meshRenderer.material.color = GetStateOfLight();
+            print("initial: " + lightSwitch.transform.rotation.eulerAngles);
+            var newRotation = lightSwitch.transform.rotation.eulerAngles;
+            newRotation.y = GetStateOfLight() ? 180f : 0f;
+            lightSwitch.transform.rotation = Quaternion.Euler(newRotation);
+            print("new: " + lightSwitch.transform.rotation.eulerAngles);
         }
 
-        private Color GetStateOfLight()
+        private bool GetStateOfLight()
         {
-            if (_ioTLight == null) return Color.magenta;
             var state = Task.Run(async () => await _ioTLight.GetIoTThing()).GetAwaiter().GetResult();
             onOffState = state.state.Equals("on");
-            return onOffState ? Color.yellow : Color.gray;
+            return onOffState;
         }
     }
 }

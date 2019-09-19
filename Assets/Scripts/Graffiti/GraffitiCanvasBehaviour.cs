@@ -15,32 +15,22 @@ namespace Graffiti
         private Camera _arCameraComponent;
         private GraffitiCanvas _graffitiCanvas;
         public TouchScreenKeyboard keyboard;
-        public bool keyboardOpened { get; set; }
+        private bool _keyboardOpened;
 
         public void Start()
         {
             _graffitiCanvas = new GraffitiCanvas();
-            keyboard = new TouchScreenKeyboard(
-                "",
-                TouchScreenKeyboardType.Default,
-                true,
-                false,
-                false,
-                false,
-                "Enter Something Fun!",
-                0
-            );
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
 
         public void Update()
         {
-            if (keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done && keyboardOpened)
+            if (keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done && _keyboardOpened)
             {
                 SendGraffitiTextToAws(keyboard.text);
                 keyboard = null;
-                keyboardOpened = false;
+                _keyboardOpened = false;
             }
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
@@ -48,7 +38,7 @@ namespace Graffiti
             if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
             {
                 keyboard = TouchScreenKeyboard.Open("");
-                keyboardOpened = true;
+                _keyboardOpened = true;
             }
         }
 

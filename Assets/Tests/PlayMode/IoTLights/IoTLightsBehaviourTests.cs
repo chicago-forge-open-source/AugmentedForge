@@ -28,8 +28,8 @@ namespace Tests.PlayMode.IoTLights
         {
             yield return null;
             var light = GameObject.Find("IoTLight");
-            var lightColor = light.GetComponent<MeshRenderer>().material.color;
-            Assert.AreEqual(Color.yellow, lightColor);
+            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
+            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
         }
 
         [UnityTest]
@@ -39,12 +39,14 @@ namespace Tests.PlayMode.IoTLights
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var initialState = lightBehaviour.onOffState;
+            var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
             
             yield return TouchIoTLightOnce(light, lightBehaviour);
             
             yield return new WaitForSeconds(2f);
             
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
+            Assert.AreNotEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
         }
         
         [UnityTest]
@@ -54,6 +56,7 @@ namespace Tests.PlayMode.IoTLights
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var initialLightState = lightBehaviour.onOffState;
+            var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitForSeconds(2f);
@@ -62,6 +65,7 @@ namespace Tests.PlayMode.IoTLights
             yield return new WaitForSeconds(2f);
             
             Assert.AreEqual(initialLightState, lightBehaviour.onOffState);
+            Assert.AreEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
         }
 
         private static IEnumerator TouchIoTLightOnce(GameObject light, IoTLightBehaviour lightBehaviour)
