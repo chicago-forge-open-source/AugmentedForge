@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Markers;
 using UnityEngine;
 
@@ -38,11 +37,9 @@ namespace IoTLights
 
         private void PollForIoTLightState()
         {
-            print("initial: " + lightSwitch.transform.rotation.eulerAngles);
             var newRotation = lightSwitch.transform.rotation.eulerAngles;
             newRotation.y = GetStateOfLight() ? 180f : 0f;
             lightSwitch.transform.rotation = Quaternion.Euler(newRotation);
-            print("new: " + lightSwitch.transform.rotation.eulerAngles);
         }
 
         private bool GetStateOfLight()

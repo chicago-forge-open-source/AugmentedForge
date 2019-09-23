@@ -14,6 +14,18 @@ namespace Tests.PlayMode.IoTLights
 {
     public class IoTLightsBehaviourTests
     {
+        [UnityTest]
+        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
+        {
+            yield return null;
+            var light = GameObject.Find("IoTLight");
+            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
+            
+            yield return new WaitForSeconds(2f);
+
+            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -21,15 +33,6 @@ namespace Tests.PlayMode.IoTLights
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint("test", 10, 10, 0)});
             SetStateOfLightOnIot("on");
             SceneManager.LoadScene("ARView");
-        }
-
-        [UnityTest]
-        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
-        {
-            yield return null;
-            var light = GameObject.Find("IoTLight");
-            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
-            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
         }
 
         [UnityTest]
@@ -42,7 +45,6 @@ namespace Tests.PlayMode.IoTLights
             var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
             
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            
             yield return new WaitForSeconds(2f);
             
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
