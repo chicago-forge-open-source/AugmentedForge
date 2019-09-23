@@ -1,26 +1,40 @@
 using Markers;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
+using Toggle = UnityEngine.UI.Toggle;
 
 public class HudBehaviour : MonoBehaviour
 {
-        
     private const int MappingLayerBitMask = 1 << 9;
     private static readonly Quaternion MapNorth = Quaternion.Euler(90, 0, 0);
-        
+
     public GameObject arCameraGameObject;
     public GameObject mapCameraGameObject;
     public GameObject arMapOverlayToggle;
     public PresentMarkersBehaviour presentMarkersBehaviour;
-        
+    public BetterToggleGroup drawer;
+
     private ARCameraBackground _cameraBackground;
     private Camera _mapCamera;
+
     public void Start()
     {
         _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
         _mapCamera = mapCameraGameObject.GetComponent<Camera>();
+        drawer.OnChange += TglGroup_OnChange;
     }
-        
+
+    private void TglGroup_OnChange(Toggle newActive)
+    {
+        var prefabName = newActive.transform.GetChild(0).name;
+        var prefab = Resources.Load<GameObject>($"prefabs/{prefabName}");
+        var arPos = arCameraGameObject.transform.position;
+        var newPos = new Vector3(arPos.x, 0, arPos.z);
+        Instantiate(prefab, newPos, Quaternion.Euler(0, 0, 0));
+        newActive.interactable = false; // THERE CAN ONLY BE ONE
+    }
+
     public void OnClick_ArMapOverlayToggle()
     {
         _mapCamera.enabled = !_mapCamera.enabled;
@@ -51,7 +65,7 @@ public class HudBehaviour : MonoBehaviour
         {
             mapMarker.transform.rotation = MapNorth;
         }
-            
+
         arMapOverlayToggle.SetActive(false);
     }
 
