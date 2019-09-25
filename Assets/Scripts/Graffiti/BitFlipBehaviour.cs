@@ -11,6 +11,7 @@ namespace Graffiti
         public Material material;
         public PhysicsHandler physicsHandler;
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
+        private List<Vector2> litPoints = new List<Vector2>();
 
         public void Update()
         {
@@ -27,12 +28,17 @@ namespace Graffiti
             if (inputHandler.TouchCount > 0)
             {
                 var touchPosition = inputHandler.GetTouch(0).position;
-                var targetX = (int) touchPosition.x;
-                var targetY = (int) touchPosition.y;
-                texture.SetPixel(targetX, targetY, Color.white);
+                
+                Debug.Log($"Touch position x {touchPosition.x} + y {touchPosition.y}");
+                litPoints.Add(touchPosition);
             }
 
-
+            litPoints.ForEach(point =>
+            {
+                var targetX = (int) point.x;
+                var targetY = (int) point.y;
+                texture.SetPixel(targetX, targetY, Color.white);
+            });
             texture.Apply();
 
             material.mainTexture = texture;

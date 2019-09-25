@@ -52,6 +52,25 @@ namespace Tests.EditMode.Graffiti
             Assert.AreEqual(mainTexture.GetPixel(4, 4), Color.white);
         }
 
+        [Test]
+        public void Update_TwoTouchsTwoUpdatesTwoWhitePixels()
+        {
+            TouchAndUpdate(4,5);
+            TouchAndUpdate(3,5);
+            
+            var mainTexture = GetMainTexture();
+            Assert.AreEqual(mainTexture.GetPixel(4, 5), Color.white);
+            Assert.AreEqual(mainTexture.GetPixel(3, 5), Color.white);
+        }
+
+        private void TouchAndUpdate(int x, int y)
+        {
+            var touch = new Touch {position = new Vector2(x, y)};
+            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+
+            _behaviour.Update();
+        }
+
         private Texture2D GetMainTexture()
         {
             var mainTexture = _behaviour.material.mainTexture as Texture2D;
