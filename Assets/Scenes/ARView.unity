@@ -3674,6 +3674,7 @@ GameObject:
   - component: {fileID: 1842723823}
   - component: {fileID: 1842723822}
   - component: {fileID: 1842723821}
+  - component: {fileID: 1842723826}
   m_Layer: 9
   m_Name: GraffitiWall
   m_TagString: Untagged
@@ -3768,6 +3769,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &1842723826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842723820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1eb60d28323451a9b298a46b1541477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sketcherCamera: {fileID: 0}
+  material: {fileID: 2100000, guid: 47feb60467194432cbaa4bf544ca7f54, type: 2}
 --- !u!1001 &1871345056
 PrefabInstance:
   m_ObjectHideFlags: 0
