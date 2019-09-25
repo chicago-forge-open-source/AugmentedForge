@@ -6,7 +6,7 @@ namespace IoTLights
 {
     public class IoTLightBehaviour : MonoBehaviour
     {
-        public InputHandler inputHandler = new UnityInputHandler();
+        public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public GameObject arCameraGameObject;
         public GameObject lightSwitch;

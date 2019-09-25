@@ -10,7 +10,7 @@ namespace Graffiti
     {
         public GameObject arCameraGameObject;
         public Text canvasText;
-        public InputHandler inputHandler = new UnityInputHandler();
+        public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         private Camera _arCameraComponent;
         private GraffitiCanvas _graffitiCanvas;
@@ -32,16 +32,24 @@ namespace Graffiti
                 keyboard = null;
                 _keyboardOpened = false;
             }
-            if (inputHandler.TouchCount <= 0) return;
-            var touch = inputHandler.GetTouch(0);
-            var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
-            if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(touchPosition)))
+
+            HandleTouch();
+        }
+
+        private void HandleTouch()
+        {
+            if (inputHandler.TouchCount > 0) HandleTouchAtPosition(inputHandler.GetTouch(0).position);
+        }
+
+        private void HandleTouchAtPosition(Vector2 touchPosition)
+        {
+            var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
+            if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(ray)))
             {
                 keyboard = TouchScreenKeyboard.Open("");
                 _keyboardOpened = true;
             }
         }
-
 
         private void SendGraffitiTextToAws(string graffitiText)
         {

@@ -1,10 +1,23 @@
 using AR;
+using DataLoaders;
 using Markers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 public class OverlayMapBehaviour : MonoBehaviour
 {
+    private static int thing = DoThing();
+
+    private static int DoThing()
+    {
+        if (Repositories.SyncPointRepository.Get().Length == 0)
+        {
+            new ChicagoDataLoader().DataLoad();
+        }
+
+        return 0;
+    }
+
     public GameObject arCameraGameObject;
     public GameObject mapCameraGameObject;
     public GameObject startPoint;
@@ -15,8 +28,8 @@ public class OverlayMapBehaviour : MonoBehaviour
 
     public void Start()
     {
-        var location =  Repositories.LocationsRepository.GetLocationByName();
-        
+        var location = Repositories.LocationsRepository.GetLocationByName();
+
         SetStartPositionBasedOnSyncPoint();
         _cameraBackground = arCameraGameObject.GetComponent<ARCameraBackground>();
         var spritePath = $"Sprites/{location.mapFileName}";
@@ -52,7 +65,7 @@ public class OverlayMapBehaviour : MonoBehaviour
 
         var startPointPosition = startPoint.transform.position;
         locationMarker.transform.position = new Vector3(arCameraPosition.x, startPointPosition.y, arCameraPosition.z);
-        if (_cameraBackground.enabled)
+        if (_cameraBackground != null && _cameraBackground.enabled)
         {
             MoveOverlayMap(arCameraPosition);
         }
@@ -66,7 +79,7 @@ public class OverlayMapBehaviour : MonoBehaviour
 
     private void UpdateMapCameraRotation()
     {
-        if (!_cameraBackground.enabled) return;
+        if (_cameraBackground != null && !_cameraBackground.enabled) return;
         const float divisor = 4f;
         var compassHeading = compass.TrueHeading;
         var mapCameraVector = mapCameraGameObject.transform.rotation.eulerAngles;

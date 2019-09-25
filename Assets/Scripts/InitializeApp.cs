@@ -51,7 +51,7 @@ public class InitializeApp : MonoBehaviour
         PlayerSelections.qrParametersProvided = true;
     }
 
-    private IEnumerator WaitForCompassEnable()
+    private IEnumerator LoadSceneAfterCompassEnable()
     {
         yield return new WaitUntil(() => compass.IsEnabled);
         SceneManager.LoadScene("ARView");
@@ -70,6 +70,6 @@ public class InitializeApp : MonoBehaviour
 
         dataLoader.DataLoad();
         PlayerPrefs.SetString("location", location);
-        StartCoroutine(WaitForCompassEnable());
+        StartCoroutine(LoadSceneAfterCompassEnable());
     }
 }

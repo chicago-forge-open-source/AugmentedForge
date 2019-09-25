@@ -4,7 +4,7 @@ namespace Markers
 {
     public class MarkerControlBehaviour : MonoBehaviour
     {
-        public InputHandler inputHandler = new UnityInputHandler();
+        public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public GameObject arCameraGameObject;
         public Marker marker;

@@ -2,7 +2,7 @@
 
 public class FingerGestures : MonoBehaviour
 {
-    public InputHandler inputHandler = new UnityInputHandler();
+    public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
     private Camera _camera;
 
     public void Start()
