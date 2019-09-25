@@ -12,7 +12,7 @@ using UnityEngine.TestTools;
 
 namespace Tests.PlayMode.Graffiti
 {
-    public class GraffitiCanvasBehaviourTests
+    public class MessageWallBehaviourTests
     {
         [SetUp]
         public void SetUp()
@@ -28,7 +28,7 @@ namespace Tests.PlayMode.Graffiti
         {
             yield return null;
             var canvas = GameObject.Find("GraffitiCanvas");
-            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
+            var canvasBehaviour = canvas.GetComponent<MessageWallBehaviour>();
 
             yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
 
@@ -40,7 +40,7 @@ namespace Tests.PlayMode.Graffiti
         {
             yield return null;
             var canvas = GameObject.Find("GraffitiCanvas");
-            var canvasBehaviour = canvas.GetComponent<GraffitiCanvasBehaviour>();
+            var canvasBehaviour = canvas.GetComponent<MessageWallBehaviour>();
             var initialText = "This is fun";
 
             yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
@@ -51,7 +51,7 @@ namespace Tests.PlayMode.Graffiti
             Assert.AreEqual(initialText, canvasBehaviour.canvasText.text);
         }
 
-        private static IEnumerator TouchGraffitiCanvasOnce(GameObject canvas, GraffitiCanvasBehaviour canvasBehaviour)
+        private static IEnumerator TouchGraffitiCanvasOnce(GameObject canvas, MessageWallBehaviour canvasBehaviour)
         {
             var position = canvas.transform.position;
             var touch = new Touch
@@ -59,7 +59,7 @@ namespace Tests.PlayMode.Graffiti
                 position = position, deltaPosition = position, phase = TouchPhase.Began
             };
             canvasBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            canvasBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiCanvasBehaviour>
+            canvasBehaviour.physicsHandler = new MockPhysicsHandler<MessageWallBehaviour>
             {
                 ValueToReturn = canvasBehaviour
             };

@@ -6,20 +6,20 @@ using UnityEngine.UI;
 
 namespace Graffiti
 {
-    public class GraffitiCanvasBehaviour : MonoBehaviour
+    public class MessageWallBehaviour : MonoBehaviour
     {
         public GameObject arCameraGameObject;
         public Text canvasText;
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         private Camera _arCameraComponent;
-        private GraffitiCanvas _graffitiCanvas;
+        private IoTMessageWall _ioTMessageWall;
         public TouchScreenKeyboard keyboard;
         private bool _keyboardOpened;
 
         public void Start()
         {
-            _graffitiCanvas = new GraffitiCanvas();
+            _ioTMessageWall = new IoTMessageWall();
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
@@ -44,7 +44,7 @@ namespace Graffiti
         private void HandleTouchAtPosition(Vector2 touchPosition)
         {
             var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
-            if (Equals(this, physicsHandler.Raycast<GraffitiCanvasBehaviour>(ray)))
+            if (Equals(this, physicsHandler.Raycast<MessageWallBehaviour>(ray)))
             {
                 keyboard = TouchScreenKeyboard.Open("");
                 _keyboardOpened = true;
@@ -53,7 +53,7 @@ namespace Graffiti
 
         private void SendGraffitiTextToAws(string graffitiText)
         {
-            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasText(graffitiText); })
+            Task.Run(async () => { await _ioTMessageWall.UpdateMessageWallText(graffitiText); })
                 .GetAwaiter()
                 .GetResult();
         }
@@ -65,8 +65,8 @@ namespace Graffiti
 
         private string GetGraffitiTextFromAws()
         {
-            if (_graffitiCanvas == null) return "No Graffiti Canvas";
-            var state = Task.Run(async () => await _graffitiCanvas.GetIoTThing()).GetAwaiter().GetResult();
+            if (_ioTMessageWall == null) return "No Graffiti Canvas";
+            var state = Task.Run(async () => await _ioTMessageWall.GetIoTThing()).GetAwaiter().GetResult();
             return state.text;
         }
     }

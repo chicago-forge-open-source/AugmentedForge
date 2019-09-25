@@ -3,38 +3,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using Graffiti;
 using NUnit.Framework;
-using UnityEngine;
 using Random = System.Random;
 
 namespace Tests.PlayMode.Graffiti
 {
-    public class GraffitiCanvasTests
+    public class IoTMessageWallTests
     {
         private readonly Random _random = new Random();
-        private GraffitiCanvas _graffitiCanvas;
+        private IoTMessageWall _ioTMessageWall;
 
         [SetUp]
         public void SetUp()
         {
-            _graffitiCanvas = new GraffitiCanvas();
+            _ioTMessageWall = new IoTMessageWall();
         }
 
         [Test]
         public void CanGetIoTThing()
         {
-            Task.Run(async () => { await _graffitiCanvas.GetIoTThing(); }).GetAwaiter().GetResult();
+            Task.Run(async () => { await _ioTMessageWall.GetIoTThing(); }).GetAwaiter().GetResult();
         }
 
         [Test]
         public void CanUpdateIoTThing()
         {
             var expectedText = $"Hello World {_random.Next()}";
-            Task.Run(async () => { await _graffitiCanvas.UpdateGraffitiCanvasText(expectedText); }).GetAwaiter()
+            Task.Run(async () => { await _ioTMessageWall.UpdateMessageWallText(expectedText); }).GetAwaiter()
                 .GetResult();
 
             Task.Run(async () =>
             {
-                var graffitiCanvasState = await _graffitiCanvas.GetIoTThing();
+                var graffitiCanvasState = await _ioTMessageWall.GetIoTThing();
 
                 var startTime = DateTime.Now;
                 while (
@@ -42,7 +41,7 @@ namespace Tests.PlayMode.Graffiti
                     && DateTime.Now - startTime < TimeSpan.FromSeconds(2)
                 )
                 {
-                    graffitiCanvasState = await _graffitiCanvas.GetIoTThing();
+                    graffitiCanvasState = await _ioTMessageWall.GetIoTThing();
                     Thread.Yield();
                 }
 
