@@ -27,23 +27,23 @@ namespace Tests.PlayMode.Graffiti
         public IEnumerator OnTouchKeyboardOpens()
         {
             yield return null;
-            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvas = GameObject.Find("MessageWall");
             var canvasBehaviour = canvas.GetComponent<MessageWallBehaviour>();
 
-            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            yield return TouchMessageWallOnce(canvas, canvasBehaviour);
 
             Assert.AreEqual(TouchScreenKeyboard.Status.Visible,canvasBehaviour.keyboard.status);
         }
 
         [UnityTest]
-        public IEnumerator OnUserSubmittingTextGraffitiCanvasChangesText()
+        public IEnumerator OnUserSubmittingTextMessageWallChangesText()
         {
             yield return null;
-            var canvas = GameObject.Find("GraffitiCanvas");
+            var canvas = GameObject.Find("MessageWall");
             var canvasBehaviour = canvas.GetComponent<MessageWallBehaviour>();
             var initialText = "This is fun";
 
-            yield return TouchGraffitiCanvasOnce(canvas, canvasBehaviour);
+            yield return TouchMessageWallOnce(canvas, canvasBehaviour);
             canvasBehaviour.keyboard.text = initialText;
             
             yield return new WaitForSeconds(2f);
@@ -51,7 +51,7 @@ namespace Tests.PlayMode.Graffiti
             Assert.AreEqual(initialText, canvasBehaviour.canvasText.text);
         }
 
-        private static IEnumerator TouchGraffitiCanvasOnce(GameObject canvas, MessageWallBehaviour canvasBehaviour)
+        private static IEnumerator TouchMessageWallOnce(GameObject canvas, MessageWallBehaviour canvasBehaviour)
         {
             var position = canvas.transform.position;
             var touch = new Touch
