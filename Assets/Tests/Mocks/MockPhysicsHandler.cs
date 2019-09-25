@@ -10,5 +10,13 @@ namespace Tests.Mocks
         {
             return ValueToReturn as T;
         }
+
+        public static MockPhysicsHandler<T> ReturnsDetected<T>(T behaviour) where T : class
+        {
+            return new MockPhysicsHandler<T>
+            {
+                ValueToReturn = behaviour
+            };
+        }
     }
 }

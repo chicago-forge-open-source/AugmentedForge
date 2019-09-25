@@ -43,12 +43,18 @@ namespace Graffiti
 
         private void HandleTouchAtPosition(Vector2 touchPosition)
         {
-            var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
-            if (Equals(this, physicsHandler.Raycast<MessageWallBehaviour>(ray)))
+            if (TouchDetected(touchPosition))
             {
                 keyboard = TouchScreenKeyboard.Open("");
                 _keyboardOpened = true;
             }
+        }
+
+        private bool TouchDetected(Vector2 touchPosition)
+        {
+            var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
+            var touchDetected = Equals(this, physicsHandler.Raycast<MessageWallBehaviour>(ray));
+            return touchDetected;
         }
 
         private void SendGraffitiTextToAws(string graffitiText)

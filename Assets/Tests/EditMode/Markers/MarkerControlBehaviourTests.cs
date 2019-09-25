@@ -79,7 +79,7 @@ namespace Tests.EditMode.Markers
 
             var uniqueIdentifier = "Aqua-pup Castle";
             _markerGameObject.name = uniqueIdentifier;
-            _controlBehaviour.physicsHandler = PhysicsHandlerThatReturnsDetected();
+            _controlBehaviour.physicsHandler = MockPhysicsHandler<MarkerControlBehaviour>.ReturnsDetected(_controlBehaviour);
             _controlBehaviour.marker = new Marker("Mr. Mime's Karaoke Fun Times", 0, 0);
 
             _controlBehaviour.Start();
@@ -129,14 +129,6 @@ namespace Tests.EditMode.Markers
             return new MockPhysicsHandler<MarkerControlBehaviour>
             {
                 ValueToReturn = new GameObject().AddComponent<MarkerControlBehaviour>()
-            };
-        }
-
-        private MockPhysicsHandler<MarkerControlBehaviour> PhysicsHandlerThatReturnsDetected()
-        {
-            return new MockPhysicsHandler<MarkerControlBehaviour>
-            {
-                ValueToReturn = _controlBehaviour
             };
         }
     }
