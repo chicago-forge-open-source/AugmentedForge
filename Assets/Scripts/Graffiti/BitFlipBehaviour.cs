@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Markers;
 using UnityEngine;
 
 namespace Graffiti
@@ -8,10 +9,12 @@ namespace Graffiti
     {
         public Camera sketcherCamera;
         public Material material;
+        public PhysicsHandler physicsHandler;
+        public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
 
         public void Update()
         {
-            var texture = new Texture2D(10, 10);
+            var texture = new Texture2D(10, 10) {filterMode = FilterMode.Point};
 
             for (var y = 0; y < texture.height; y++)
             {
@@ -20,6 +23,16 @@ namespace Graffiti
                     texture.SetPixel(x, y, Color.black);
                 }
             }
+
+            if (inputHandler.TouchCount > 0)
+            {
+                var touchPosition = inputHandler.GetTouch(0).position;
+                var targetX = (int) touchPosition.x;
+                var targetY = (int) touchPosition.y;
+                texture.SetPixel(targetX, targetY, Color.white);
+            }
+
+
             texture.Apply();
 
             material.mainTexture = texture;

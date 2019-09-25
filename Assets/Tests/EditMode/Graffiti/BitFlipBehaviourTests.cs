@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Tests.Mocks;
 
 namespace Tests.EditMode.Graffiti
 {
@@ -19,6 +20,7 @@ namespace Tests.EditMode.Graffiti
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
+            _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
         }
 
         [Test]
@@ -35,6 +37,19 @@ namespace Tests.EditMode.Graffiti
                     Assert.AreEqual(mainTexture.GetPixel(x, y), Color.black);
                 }
             }
+        }
+
+        [Test]
+        public void Update_OnTouchColorChangesToWhiteAtTouchLocation()
+        {
+            var touch = new Touch {position = new Vector2(4, 4)};
+            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+
+            _behaviour.Update();
+
+            var mainTexture = GetMainTexture();
+
+            Assert.AreEqual(mainTexture.GetPixel(4, 4), Color.white);
         }
 
         private Texture2D GetMainTexture()
