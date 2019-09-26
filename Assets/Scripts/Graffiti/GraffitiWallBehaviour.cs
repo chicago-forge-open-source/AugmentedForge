@@ -11,6 +11,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Camera _arCameraComponent;
     public Camera _sketcherCamera;
     public Canvas _hudCanvas;
+    public Canvas _sketcherUI;
 
     void Start()
     {
@@ -24,11 +25,21 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private void HandleTouch()
     {
         if (inputHandler.TouchCount > 0)
-            HandleTouchAtPosition(inputHandler.GetTouch(0).position, () =>
-            {
-                _hudCanvas.enabled = false;
-                _sketcherCamera.enabled = true;
-            });
+            HandleTouchAtPosition(inputHandler.GetTouch(0).position, () => { EnableSketchMode(); });
+    }
+
+    private void EnableSketchMode()
+    {
+        _hudCanvas.enabled = false;
+        _sketcherCamera.enabled = true;
+        _sketcherUI.enabled = true;
+    }
+    
+    private void DisableSketchMode()
+    {
+        _hudCanvas.enabled = true;
+        _sketcherCamera.enabled = false;
+        _sketcherUI.enabled = false;
     }
 
     private void HandleTouchAtPosition(Vector2 touchPosition, Action callback)
@@ -46,5 +57,10 @@ public class GraffitiWallBehaviour : MonoBehaviour
         
         var touchDetected = Equals(this, targetBehaviour);
         return touchDetected;
+    }
+
+    public void OkOnClick()
+    {
+        DisableSketchMode();
     }
 }

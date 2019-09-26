@@ -17,11 +17,14 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour = _gameObject.AddComponent<GraffitiWallBehaviour>();
             _graffitiWallBehaviour._arCameraComponent = _gameObject.AddComponent<Camera>();
 
-            var cameraObject = new GameObject();
-            _graffitiWallBehaviour._sketcherCamera = cameraObject.AddComponent<Camera>();
+            var sketcherCameraObject = new GameObject();
+            _graffitiWallBehaviour._sketcherCamera = sketcherCameraObject.AddComponent<Camera>();
             _graffitiWallBehaviour._sketcherCamera.enabled = false;
+            var sketcherCanvas = _gameObject.AddComponent<Canvas>();
+            sketcherCanvas.enabled = false;
+            _graffitiWallBehaviour._sketcherUI = sketcherCanvas;
 
-            var hudCanvas = _gameObject.AddComponent<Canvas>();
+            var hudCanvas = new GameObject().AddComponent<Canvas>();
             hudCanvas.enabled = true;
             _graffitiWallBehaviour._hudCanvas = hudCanvas;
         }
@@ -38,9 +41,24 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.Update();
 
             Assert.IsTrue(_graffitiWallBehaviour._sketcherCamera.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour._sketcherUI.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._hudCanvas.enabled);
         }
 
+        [Test]
+        public void OKOnClick_OnTouchSketcherCameraDisabledAndHudEnabled()
+        {
+            _graffitiWallBehaviour._sketcherCamera.enabled = true;
+            _graffitiWallBehaviour._sketcherUI.enabled = true;
+            _graffitiWallBehaviour._hudCanvas.enabled = false;
+            
+            _graffitiWallBehaviour.OkOnClick();
+
+            Assert.IsFalse(_graffitiWallBehaviour._sketcherCamera.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
+        }
+        
         [Test]
         public void Update_OnNoTouchSketcherCameraDoesNotEnable()
         {
@@ -52,6 +70,8 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.Update();
 
             Assert.IsFalse(_graffitiWallBehaviour._sketcherCamera.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
         }
     }
 }
