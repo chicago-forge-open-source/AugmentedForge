@@ -20,10 +20,14 @@ namespace Tests.EditMode.Graffiti
             var cameraObject = new GameObject();
             _graffitiWallBehaviour._sketcherCamera = cameraObject.AddComponent<Camera>();
             _graffitiWallBehaviour._sketcherCamera.enabled = false;
+
+            var hudCanvas = _gameObject.AddComponent<Canvas>();
+            hudCanvas.enabled = true;
+            _graffitiWallBehaviour._hudCanvas = hudCanvas;
         }
 
         [Test]
-        public void Update_OnTouchSketcherCameraEnabled()
+        public void Update_OnTouchSketcherCameraEnabledAndHudDisabled()
         {
             var touch = new Touch
                 {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2), phase = TouchPhase.Began};
@@ -34,6 +38,7 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.Update();
 
             Assert.IsTrue(_graffitiWallBehaviour._sketcherCamera.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour._hudCanvas.enabled);
         }
 
         [Test]

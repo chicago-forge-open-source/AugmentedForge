@@ -10,6 +10,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
     public Camera _arCameraComponent;
     public Camera _sketcherCamera;
+    public Canvas _hudCanvas;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
         if (inputHandler.TouchCount > 0)
             HandleTouchAtPosition(inputHandler.GetTouch(0).position, () =>
             {
+                _hudCanvas.enabled = false;
                 _sketcherCamera.enabled = true;
             });
     }

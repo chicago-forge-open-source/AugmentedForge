@@ -2144,7 +2144,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420709762}
   m_HandleRect: {fileID: 420709761}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3696,6 +3696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _arCameraComponent: {fileID: 165585584}
   _sketcherCamera: {fileID: 585963815}
+  _hudCanvas: {fileID: 1114040584}
 --- !u!64 &1842723822
 MeshCollider:
   m_ObjectHideFlags: 0
