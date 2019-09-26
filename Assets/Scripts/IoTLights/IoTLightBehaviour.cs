@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Markers;
 using UnityEngine;
 
@@ -26,7 +27,8 @@ namespace IoTLights
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
             var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
-            if (Equals(this, physicsHandler.Raycast<IoTLightBehaviour>(touchPosition)))
+            var (hitBehaviour, _) = physicsHandler.Raycast<IoTLightBehaviour>(touchPosition);
+            if (Equals(this, hitBehaviour))
             {
                 var state = onOffState ? "off" : "on";
                 Task.Run(async () => { await _ioTLight.UpdateLightState(state); })

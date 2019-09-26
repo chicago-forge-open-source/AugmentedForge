@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Markers
@@ -33,7 +34,8 @@ namespace Markers
             {
                 var touch = inputHandler.GetTouch(0);
                 var touchPosition = _arCameraComponent.ScreenPointToRay(touch.position);
-                marker.Active = Equals(this, physicsHandler.Raycast<MarkerControlBehaviour>(touchPosition));
+                var (hitBehaviour, _) = physicsHandler.Raycast<MarkerControlBehaviour>(touchPosition);
+                marker.Active = Equals(this, hitBehaviour);
             }
 
             if (_spinBehaviour.rotatedFullCircle) marker.Active = false;

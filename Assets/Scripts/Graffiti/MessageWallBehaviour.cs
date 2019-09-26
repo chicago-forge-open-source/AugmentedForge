@@ -53,7 +53,8 @@ namespace Graffiti
         private bool TouchDetected(Vector2 touchPosition)
         {
             var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
-            var touchDetected = Equals(this, physicsHandler.Raycast<MessageWallBehaviour>(ray));
+            var (hitBehaviour, _) = physicsHandler.Raycast<MessageWallBehaviour>(ray);
+            var touchDetected = Equals(this, hitBehaviour);
             return touchDetected;
         }
 

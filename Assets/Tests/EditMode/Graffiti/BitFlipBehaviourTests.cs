@@ -21,6 +21,7 @@ namespace Tests.EditMode.Graffiti
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
+            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>();
         }
 
         [Test]
@@ -37,36 +38,57 @@ namespace Tests.EditMode.Graffiti
                     Assert.AreEqual(mainTexture.GetPixel(x, y), Color.black);
                 }
             }
+
+            Assert.AreEqual(50, mainTexture.width);
+            Assert.AreEqual(50, mainTexture.height);
         }
 
         [Test]
         public void Update_OnTouchColorChangesToWhiteAtTouchLocation()
         {
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+
             var touch = new Touch {position = new Vector2(4, 4)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>
+            {
+                ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
+            };
+
 
             _behaviour.Update();
 
             var mainTexture = GetMainTexture();
 
-            Assert.AreEqual(mainTexture.GetPixel(4, 4), Color.white);
+            Assert.AreEqual(mainTexture.GetPixel(50, 0), Color.white);
         }
 
         [Test]
-        public void Update_TwoTouchsTwoUpdatesTwoWhitePixels()
+        public void Update_MultipleTouchesMakeMultipleWhitePixels()
         {
-            TouchAndUpdate(4,5);
-            TouchAndUpdate(3,5);
-            
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+
+            TouchAndUpdate(45, 55);
+            TouchAndUpdate(55, 45);
+            TouchAndUpdate(60, 59.5f);
+
             var mainTexture = GetMainTexture();
-            Assert.AreEqual(mainTexture.GetPixel(4, 5), Color.white);
-            Assert.AreEqual(mainTexture.GetPixel(3, 5), Color.white);
+            
+            Assert.AreEqual(mainTexture.GetPixel(38, 38), Color.white);
+            Assert.AreEqual(mainTexture.GetPixel(12, 12), Color.white);
+            Assert.AreEqual(mainTexture.GetPixel(0, 49), Color.white);
         }
 
-        private void TouchAndUpdate(int x, int y)
+        private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)
         {
-            var touch = new Touch {position = new Vector2(x, y)};
+            var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>
+            {
+                ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
+            };
 
             _behaviour.Update();
         }

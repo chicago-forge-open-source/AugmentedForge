@@ -40,7 +40,9 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private bool TouchDetected(Vector2 touchPosition)
     {
         var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
-        var touchDetected = Equals(this, physicsHandler.Raycast<GraffitiWallBehaviour>(ray));
+        var (targetBehaviour, _) = physicsHandler.Raycast<GraffitiWallBehaviour>(ray);
+        
+        var touchDetected = Equals(this, targetBehaviour);
         return touchDetected;
     }
 }

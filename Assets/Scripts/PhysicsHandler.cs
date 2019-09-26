@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
 public interface PhysicsHandler
 {
-    T Raycast<T>(Ray ray) where T : class;
+    Tuple<T, Vector3> Raycast<T>(Ray ray) where T : class;
 }
