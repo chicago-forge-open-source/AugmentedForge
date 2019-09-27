@@ -3,25 +3,79 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Tests.Mocks;
 
 namespace Tests.EditMode.Graffiti
 {
-    public class BitFlipBehaviourTests
+    public class GraffitiTextureBehaviourTests
     {
         private GameObject _gameObject;
-        private BitFlipBehaviour _behaviour;
+        private GraffitiTextureBehaviour _behaviour;
 
         [SetUp]
         public void Setup()
         {
             _gameObject = new GameObject();
-            _behaviour = _gameObject.AddComponent<BitFlipBehaviour>();
+            _behaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>();
+            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
+        }
+
+        [Test]
+        public void Start_GivenNoSavedTexture_TextureIsAllBlack()
+        {
+            File.Delete(Application.persistentDataPath + "/SavedImage.csv");
+
+            _behaviour.Start();
+
+            var mainTexture = GetMainTexture();
+
+            for (var y = 0; y < mainTexture.height; y++)
+            {
+                for (var x = 0; x < mainTexture.width; x++)
+                {
+                    Assert.AreEqual(mainTexture.GetPixel(x, y), Color.black);
+                }
+            }
+
+            Assert.AreEqual(50, mainTexture.width);
+            Assert.AreEqual(50, mainTexture.height);
+        }
+
+        [Test]
+        public void Start_GivenSavedTexture_TextureIsLoaded()
+        {
+            File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
+                Encoding.UTF8.GetBytes("25,75\n85,10\n")
+            );
+
+            _behaviour.Start();
+
+            var mainTexture = GetMainTexture();
+
+            Assert.AreEqual(mainTexture.GetPixel(25, 75), Color.white);
+            Assert.AreEqual(mainTexture.GetPixel(85, 10), Color.white);
+        }
+
+        [Test]
+        public void Save_WillSaveToFile()
+        {
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+
+            TouchAndUpdate(60, 59.5f);
+            
+            _behaviour.SaveBits();
+            
+            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
+            var fileContent = Encoding.UTF8.GetString(rawBytes);
+            
+            Assert.AreEqual("0,49\n", fileContent);
         }
 
         [Test]
@@ -51,7 +105,7 @@ namespace Tests.EditMode.Graffiti
 
             var touch = new Touch {position = new Vector2(4, 4)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>
+            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -75,7 +129,7 @@ namespace Tests.EditMode.Graffiti
             TouchAndUpdate(60, 59.5f);
 
             var mainTexture = GetMainTexture();
-            
+
             Assert.AreEqual(mainTexture.GetPixel(38, 38), Color.white);
             Assert.AreEqual(mainTexture.GetPixel(12, 12), Color.white);
             Assert.AreEqual(mainTexture.GetPixel(0, 49), Color.white);
@@ -85,7 +139,7 @@ namespace Tests.EditMode.Graffiti
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<BitFlipBehaviour>
+            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };

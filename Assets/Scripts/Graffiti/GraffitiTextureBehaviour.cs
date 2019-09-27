@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Markers;
 using UnityEngine;
 
 namespace Graffiti
 {
-    public class BitFlipBehaviour : MonoBehaviour
+    public class GraffitiTextureBehaviour : MonoBehaviour
     {
         public Camera sketcherCamera;
         public Material material;
@@ -15,6 +18,30 @@ namespace Graffiti
         private const float PlaneWidthMeters = 10f;
         private const float PlaneHeightMeters = 10f;
         private const int TextureSize = 50;
+
+        public void Start()
+        {
+            if (File.Exists(Application.persistentDataPath + "/SavedImage.csv"))
+            {
+                ReadTextureFromFile();
+            }
+
+            material.mainTexture = BuildGraffitiTexture();
+        }
+
+        private void ReadTextureFromFile()
+        {
+            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
+            var lines = Encoding.UTF8.GetString(rawBytes)
+                .Split('\n');
+
+            foreach (var line in lines)
+            {
+                if (line == "") continue;
+                var pairs = line.Split(',');
+                _litPoints.Add(new Vector2(int.Parse(pairs[0]), int.Parse(pairs[1])));
+            }
+        }
 
         public void Update()
         {
@@ -58,9 +85,9 @@ namespace Graffiti
             _litPoints.Add(percentageOfWall);
         }
 
-        private Tuple<BitFlipBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
+        private Tuple<GraffitiTextureBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
         {
-            return physicsHandler.Raycast<BitFlipBehaviour>(sketcherCamera.ScreenPointToRay(touchPosition));
+            return physicsHandler.Raycast<GraffitiTextureBehaviour>(sketcherCamera.ScreenPointToRay(touchPosition));
         }
 
         private static Texture2D MakeBlackTexture()
@@ -93,6 +120,17 @@ namespace Graffiti
         private static float MoveFromCenterToZero(float nominalPositionY)
         {
             return nominalPositionY + 0.5f;
+        }
+
+        public void SaveBits()
+        {
+            var data = string.Join("", _litPoints.Select(point =>
+                $"{(int) Math.Round(point.x)},{(int) Math.Round(point.y)}\n"
+            ));
+
+            File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
+                Encoding.UTF8.GetBytes(data)
+            );
         }
     }
 }

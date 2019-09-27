@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Graffiti;
 using NUnit.Framework;
 using Tests.Mocks;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Tests.EditMode.Graffiti
         {
             _gameObject = new GameObject();
             _graffitiWallBehaviour = _gameObject.AddComponent<GraffitiWallBehaviour>();
+            _graffitiWallBehaviour.graffitiTextureBehaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
             _graffitiWallBehaviour._arCameraComponent = _gameObject.AddComponent<Camera>();
 
             var sketcherCameraObject = new GameObject();
@@ -42,6 +44,7 @@ namespace Tests.EditMode.Graffiti
 
             Assert.IsTrue(_graffitiWallBehaviour._sketcherCamera.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._sketcherUI.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.graffitiTextureBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._hudCanvas.enabled);
         }
 
@@ -56,6 +59,7 @@ namespace Tests.EditMode.Graffiti
 
             Assert.IsFalse(_graffitiWallBehaviour._sketcherCamera.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.graffitiTextureBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
         }
         

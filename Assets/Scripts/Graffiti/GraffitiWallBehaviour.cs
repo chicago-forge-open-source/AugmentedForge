@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Graffiti;
 using Markers;
 using UnityEngine;
 
@@ -12,10 +13,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Camera _sketcherCamera;
     public Canvas _hudCanvas;
     public Canvas _sketcherUI;
-
-    void Start()
-    {
-    }
+    public GraffitiTextureBehaviour graffitiTextureBehaviour;
 
     public void Update()
     {
@@ -31,6 +29,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private void EnableSketchMode()
     {
         _hudCanvas.enabled = false;
+        graffitiTextureBehaviour.enabled = true;
         _sketcherCamera.enabled = true;
         _sketcherUI.enabled = true;
     }
@@ -38,6 +37,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private void DisableSketchMode()
     {
         _hudCanvas.enabled = true;
+        graffitiTextureBehaviour.enabled = false;
         _sketcherCamera.enabled = false;
         _sketcherUI.enabled = false;
     }
@@ -62,5 +62,12 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public void OkOnClick()
     {
         DisableSketchMode();
+
+        SaveTheWall();
+    }
+
+    public void SaveTheWall()
+    {
+        Debug.Log(Application.persistentDataPath);
     }
 }

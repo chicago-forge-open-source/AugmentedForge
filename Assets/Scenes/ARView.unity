@@ -2584,6 +2584,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1842723826}
+        m_MethodName: SaveBits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &998917722
@@ -3909,6 +3920,7 @@ MonoBehaviour:
   _sketcherCamera: {fileID: 585963815}
   _hudCanvas: {fileID: 1114040584}
   _sketcherUI: {fileID: 1883492715}
+  graffitiTextureBehaviour: {fileID: 1842723826}
 --- !u!64 &1842723822
 MeshCollider:
   m_ObjectHideFlags: 0
