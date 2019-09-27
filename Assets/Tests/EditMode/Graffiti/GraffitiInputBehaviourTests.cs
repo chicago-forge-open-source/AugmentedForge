@@ -42,6 +42,24 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
+        public void Save_MultipleSavesTheLastOneWillWin()
+        {
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+
+            TouchAndUpdate(60, 59.5f);
+            _behaviour.SaveBits();
+            _behaviour.ClearOnClick();
+            TouchAndUpdate(40,40);
+            _behaviour.SaveBits();
+
+            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
+            var fileContent = Encoding.UTF8.GetString(rawBytes);
+
+            Assert.AreEqual("50,0\n", fileContent);
+        }
+
+        [Test]
         public void Update_OnTouchColorAddsToLitPointsAtTouchLocation()
         {
             _behaviour.transform.position = new Vector3(50, 50, 50);
@@ -58,6 +76,19 @@ namespace Tests.EditMode.Graffiti
             _behaviour.Update();
 
             Assert.Contains(new Vector2(50, 0), _behaviour.LitPoints);
+        }
+
+        [Test]
+        public void OnClickClearWillRemoveAllDots()
+        {
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+
+            TouchAndUpdate(45, 55);
+            
+            _behaviour.ClearOnClick();
+            
+            Assert.IsEmpty(_behaviour.LitPoints);
         }
 
         [Test]

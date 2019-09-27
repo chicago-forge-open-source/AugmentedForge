@@ -88,5 +88,10 @@ namespace Graffiti
                 Encoding.UTF8.GetBytes(data)
             );
         }
+
+        public void ClearOnClick()
+        {
+            LitPoints.Clear();
+        }
     }
 }
