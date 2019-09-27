@@ -13,17 +13,20 @@ namespace Tests.EditMode.Graffiti
     {
         private GameObject _gameObject;
         private GraffitiTextureBehaviour _behaviour;
+        private GraffitiInputBehaviour _inputBehaviour;
 
         [SetUp]
         public void Setup()
         {
             _gameObject = new GameObject();
             _behaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
-            var sketcherCameraGameObject = new GameObject();
-            _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
+            _inputBehaviour = _gameObject.AddComponent<GraffitiInputBehaviour>();
+            _behaviour.graffitiInputBehaviour = _inputBehaviour;
+            var sketcherCameraGameObject = new GameObject();
+            _inputBehaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
+            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
         }
 
         [Test]
@@ -63,22 +66,6 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
-        public void Save_WillSaveToFile()
-        {
-            _behaviour.transform.position = new Vector3(50, 50, 50);
-            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
-
-            TouchAndUpdate(60, 59.5f);
-            
-            _behaviour.SaveBits();
-            
-            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
-            var fileContent = Encoding.UTF8.GetString(rawBytes);
-            
-            Assert.AreEqual("0,49\n", fileContent);
-        }
-
-        [Test]
         public void UntouchedBehaviourAppliesAllBlackTexture()
         {
             _behaviour.Update();
@@ -104,13 +91,14 @@ namespace Tests.EditMode.Graffiti
             _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
 
             var touch = new Touch {position = new Vector2(4, 4)};
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
+            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
 
 
+            _inputBehaviour.Update();
             _behaviour.Update();
 
             var mainTexture = GetMainTexture();
@@ -138,12 +126,13 @@ namespace Tests.EditMode.Graffiti
         private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
+            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };
 
+            _inputBehaviour.Update();
             _behaviour.Update();
         }
 
