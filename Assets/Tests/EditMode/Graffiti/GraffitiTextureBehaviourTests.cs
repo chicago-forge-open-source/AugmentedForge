@@ -22,7 +22,7 @@ namespace Tests.EditMode.Graffiti
             _behaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
             _inputBehaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
-            _behaviour.sketcherInputBehaviour = _inputBehaviour;
+            _inputBehaviour.graffitiTextureBehaviour = _behaviour;
             var sketcherCameraGameObject = new GameObject();
             _inputBehaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch>());

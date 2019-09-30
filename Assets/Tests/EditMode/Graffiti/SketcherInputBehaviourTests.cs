@@ -9,10 +9,11 @@ using UnityEngine;
 
 namespace Tests.EditMode.Graffiti
 {
-    public class GraffitiInputBehaviourTests
+    public class SketcherInputBehaviourTests
     {
         private GameObject _gameObject;
         private SketcherInputBehaviour _behaviour;
+        private GraffitiTextureBehaviour _textureBehaviour;
 
         [SetUp]
         public void Setup()
@@ -23,6 +24,8 @@ namespace Tests.EditMode.Graffiti
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
             _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
+            _textureBehaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
+            _behaviour.graffitiTextureBehaviour = _textureBehaviour;
         }
 
         [Test]
@@ -75,7 +78,7 @@ namespace Tests.EditMode.Graffiti
 
             _behaviour.Update();
 
-            Assert.Contains(new Vector2(50, 0), _behaviour.LitPoints);
+            Assert.Contains(new Vector2(50, 0), _textureBehaviour.LitPoints);
         }
 
         [Test]
@@ -88,7 +91,7 @@ namespace Tests.EditMode.Graffiti
             
             _behaviour.ClearOnClick();
             
-            Assert.IsEmpty(_behaviour.LitPoints);
+            Assert.IsEmpty(_textureBehaviour.LitPoints);
         }
 
         [Test]
@@ -101,9 +104,9 @@ namespace Tests.EditMode.Graffiti
             TouchAndUpdate(55, 45);
             TouchAndUpdate(60, 59.5f);
 
-            ContainVector2(new Vector2(37.5f, 37.5f), _behaviour.LitPoints, 0.05);
-            ContainVector2(new Vector2(12.5f, 12.5f), _behaviour.LitPoints, 0.05);
-            ContainVector2(new Vector2(0.0f, 48.8f), _behaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(37.5f, 37.5f), _textureBehaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(12.5f, 12.5f), _textureBehaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(0.0f, 48.8f), _textureBehaviour.LitPoints, 0.05);
         }
 
         private void ContainVector2(Vector2 expected, List<Vector2> actualList, double acceptableDelta)

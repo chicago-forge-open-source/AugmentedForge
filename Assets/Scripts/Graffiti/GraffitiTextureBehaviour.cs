@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Graffiti
     public class GraffitiTextureBehaviour : MonoBehaviour
     {
         public Material material;
-        public SketcherInputBehaviour sketcherInputBehaviour;
+        public List<Vector2> LitPoints { get; } = new List<Vector2>();
         private const int TextureSize = 50;
 
         public void Start()
@@ -31,7 +32,7 @@ namespace Graffiti
             {
                 if (line == "") continue;
                 var pairs = line.Split(',');
-                sketcherInputBehaviour.LitPoints.Add(new Vector2(int.Parse(pairs[0]), int.Parse(pairs[1])));
+                LitPoints.Add(new Vector2(int.Parse(pairs[0]), int.Parse(pairs[1])));
             }
         }
 
@@ -50,7 +51,7 @@ namespace Graffiti
 
         private void SetDrawingsOnTexture(Texture2D texture)
         {
-            sketcherInputBehaviour.LitPoints.ForEach(point =>
+            LitPoints.ForEach(point =>
             {
                 var targetX = (int) Math.Round(point.x);
                 var targetY = (int) Math.Round(point.y);

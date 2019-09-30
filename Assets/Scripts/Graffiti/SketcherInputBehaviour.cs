@@ -13,8 +13,7 @@ namespace Graffiti
         public Camera sketcherCamera;
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
-        private SketcherInputBehaviour _sketcherInputBehaviour;
-        public List<Vector2> LitPoints { get; } = new List<Vector2>();
+        public GraffitiTextureBehaviour graffitiTextureBehaviour;
         private const float PlaneWidthMeters = 10f;
         private const float PlaneHeightMeters = 10f;
         private const int TextureSize = 50;
@@ -38,7 +37,7 @@ namespace Graffiti
             Vector2 percentageOfWall = TwoPointsAsPercentToRight(nominalPosition, planeTransform);
             percentageOfWall.Scale(new Vector2(TextureSize, TextureSize));
 
-            LitPoints.Add(percentageOfWall);
+            graffitiTextureBehaviour.LitPoints.Add(percentageOfWall);
         }
 
         private Tuple<GraffitiTextureBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
@@ -65,7 +64,7 @@ namespace Graffiti
 
         public void SaveBits()
         {
-            var data = string.Join("", LitPoints.Select(point =>
+            var data = string.Join("", graffitiTextureBehaviour.LitPoints.Select(point =>
                 $"{(int) Math.Round(point.x)},{(int) Math.Round(point.y)}\n"
             ));
 
@@ -76,7 +75,7 @@ namespace Graffiti
 
         public void ClearOnClick()
         {
-            LitPoints.Clear();
+            graffitiTextureBehaviour.LitPoints.Clear();
         }
     }
 }

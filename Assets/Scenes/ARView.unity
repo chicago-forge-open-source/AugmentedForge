@@ -3379,6 +3379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
+  graffitiTextureBehaviour: {fileID: 1842723826}
 --- !u!114 &1339990774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3392,7 +3393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: dd3a071c84eb74c73a2c3320dd089489, type: 2}
-  sketcherInputBehaviour: {fileID: 1842723827}
 --- !u!64 &1339990776
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4342,7 +4342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 47feb60467194432cbaa4bf544ca7f54, type: 2}
-  sketcherInputBehaviour: {fileID: 1842723827}
 --- !u!114 &1842723827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4356,6 +4355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
+  graffitiTextureBehaviour: {fileID: 1842723826}
 --- !u!1001 &1871345056
 PrefabInstance:
   m_ObjectHideFlags: 0
