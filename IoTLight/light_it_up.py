@@ -1,9 +1,8 @@
 #!/usr/bin/python
 import json
-import time
 import os
-import subprocess
 import sys
+import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
