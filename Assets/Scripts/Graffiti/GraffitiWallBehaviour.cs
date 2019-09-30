@@ -15,7 +15,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Canvas _sketcherUI;
     public GraffitiTextureBehaviour graffitiTextureBehaviour;
     public GraffitiInputBehaviour graffitiInputBehaviour;
-
+    public GameObject sketcherSurface;
 
     public void Start()
     {
@@ -40,6 +40,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
         _sketcherCamera.enabled = true;
         _sketcherUI.enabled = true;
         graffitiInputBehaviour.enabled = true;
+        sketcherSurface.SetActive(true);
     }
 
     private void DisableSketchMode()
@@ -49,6 +50,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
         _sketcherCamera.enabled = false;
         _sketcherUI.enabled = false;
         graffitiInputBehaviour.enabled = false;
+        sketcherSurface.SetActive(false);
     }
 
     private void HandleTouchAtPosition(Vector2 touchPosition, Action callback)
