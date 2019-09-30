@@ -14,12 +14,12 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Canvas _hudCanvas;
     public Canvas _sketcherUI;
     public GraffitiTextureBehaviour graffitiTextureBehaviour;
-    public GraffitiInputBehaviour graffitiInputBehaviour;
+    public SketcherInputBehaviour sketcherInputBehaviour;
     public GameObject sketcherSurface;
 
     public void Start()
     {
-        graffitiInputBehaviour.enabled = false;
+        sketcherInputBehaviour.enabled = false;
     }
 
     public void Update()
@@ -39,7 +39,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
         graffitiTextureBehaviour.enabled = true;
         _sketcherCamera.enabled = true;
         _sketcherUI.enabled = true;
-        graffitiInputBehaviour.enabled = true;
+        sketcherInputBehaviour.enabled = true;
         sketcherSurface.SetActive(true);
     }
 
@@ -49,7 +49,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
         graffitiTextureBehaviour.enabled = false;
         _sketcherCamera.enabled = false;
         _sketcherUI.enabled = false;
-        graffitiInputBehaviour.enabled = false;
+        sketcherInputBehaviour.enabled = false;
         sketcherSurface.SetActive(false);
     }
 
@@ -73,12 +73,5 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public void OkOnClick()
     {
         DisableSketchMode();
-
-        SaveTheWall();
-    }
-
-    public void SaveTheWall()
-    {
-        Debug.Log(Application.persistentDataPath);
     }
 }

@@ -12,13 +12,13 @@ namespace Tests.EditMode.Graffiti
     public class GraffitiInputBehaviourTests
     {
         private GameObject _gameObject;
-        private GraffitiInputBehaviour _behaviour;
+        private SketcherInputBehaviour _behaviour;
 
         [SetUp]
         public void Setup()
         {
             _gameObject = new GameObject();
-            _behaviour = _gameObject.AddComponent<GraffitiInputBehaviour>();
+            _behaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
@@ -67,7 +67,7 @@ namespace Tests.EditMode.Graffiti
 
             var touch = new Touch {position = new Vector2(4, 4)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiInputBehaviour>
+            _behaviour.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -122,7 +122,7 @@ namespace Tests.EditMode.Graffiti
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
             _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiInputBehaviour>
+            _behaviour.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };

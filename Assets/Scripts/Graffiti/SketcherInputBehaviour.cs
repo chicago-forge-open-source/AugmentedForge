@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace Graffiti
 {
-    public class GraffitiInputBehaviour : MonoBehaviour
+    public class SketcherInputBehaviour : MonoBehaviour
     {
         public Camera sketcherCamera;
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
-        private GraffitiInputBehaviour _graffitiInputBehaviour;
+        private SketcherInputBehaviour _sketcherInputBehaviour;
         public List<Vector2> LitPoints { get; } = new List<Vector2>();
         private const float PlaneWidthMeters = 10f;
         private const float PlaneHeightMeters = 10f;
@@ -44,21 +44,6 @@ namespace Graffiti
         private Tuple<GraffitiTextureBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
         {
             return physicsHandler.Raycast<GraffitiTextureBehaviour>(sketcherCamera.ScreenPointToRay(touchPosition));
-        }
-
-        private static Texture2D MakeBlackTexture()
-        {
-            var texture = new Texture2D(TextureSize, TextureSize) {filterMode = FilterMode.Point};
-
-            for (var y = 0; y < texture.height; y++)
-            {
-                for (var x = 0; x < texture.width; x++)
-                {
-                    texture.SetPixel(x, y, Color.black);
-                }
-            }
-
-            return texture;
         }
 
         private Vector2 TwoPointsAsPercentToRight(Vector3 nominalPosition, Transform planeTransform)

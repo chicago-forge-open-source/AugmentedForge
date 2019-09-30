@@ -8,7 +8,7 @@ namespace Graffiti
     public class GraffitiTextureBehaviour : MonoBehaviour
     {
         public Material material;
-        public GraffitiInputBehaviour graffitiInputBehaviour;
+        public SketcherInputBehaviour sketcherInputBehaviour;
         private const int TextureSize = 50;
 
         public void Start()
@@ -31,7 +31,7 @@ namespace Graffiti
             {
                 if (line == "") continue;
                 var pairs = line.Split(',');
-                graffitiInputBehaviour.LitPoints.Add(new Vector2(int.Parse(pairs[0]), int.Parse(pairs[1])));
+                sketcherInputBehaviour.LitPoints.Add(new Vector2(int.Parse(pairs[0]), int.Parse(pairs[1])));
             }
         }
 
@@ -50,7 +50,7 @@ namespace Graffiti
 
         private void SetDrawingsOnTexture(Texture2D texture)
         {
-            graffitiInputBehaviour.LitPoints.ForEach(point =>
+            sketcherInputBehaviour.LitPoints.ForEach(point =>
             {
                 var targetX = (int) Math.Round(point.x);
                 var targetY = (int) Math.Round(point.y);
