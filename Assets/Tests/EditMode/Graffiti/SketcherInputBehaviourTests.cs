@@ -13,7 +13,7 @@ namespace Tests.EditMode.Graffiti
     {
         private GameObject _gameObject;
         private SketcherInputBehaviour _behaviour;
-        private GraffitiTextureBehaviour _textureBehaviour;
+        private TextureBehaviour _textureBehaviour;
 
         [SetUp]
         public void Setup()
@@ -23,9 +23,9 @@ namespace Tests.EditMode.Graffiti
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _behaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
-            _textureBehaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
-            _behaviour.graffitiTextureBehaviour = _textureBehaviour;
+            _behaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>();
+            _textureBehaviour = _gameObject.AddComponent<TextureBehaviour>();
+            _behaviour.textureBehaviour = _textureBehaviour;
         }
 
         [Test]

@@ -16,7 +16,7 @@ namespace Tests.EditMode.Graffiti
         {
             _gameObject = new GameObject();
             _graffitiWallBehaviour = _gameObject.AddComponent<GraffitiWallBehaviour>();
-            _graffitiWallBehaviour.graffitiTextureBehaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
+            _graffitiWallBehaviour.textureBehaviour = _gameObject.AddComponent<TextureBehaviour>();
             _graffitiWallBehaviour.sketcherInputBehaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
             _graffitiWallBehaviour._arCameraComponent = _gameObject.AddComponent<Camera>();
 
@@ -56,7 +56,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsTrue(_graffitiWallBehaviour.sketcherSurface.activeSelf);
             Assert.IsTrue(_graffitiWallBehaviour._sketcherCamera.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._sketcherUI.enabled);
-            Assert.IsTrue(_graffitiWallBehaviour.graffitiTextureBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.textureBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._hudCanvas.enabled);
         }
@@ -74,7 +74,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
             Assert.IsFalse(_graffitiWallBehaviour._sketcherCamera.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
-            Assert.IsFalse(_graffitiWallBehaviour.graffitiTextureBehaviour.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.textureBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
         }

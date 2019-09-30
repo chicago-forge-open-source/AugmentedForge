@@ -9,24 +9,24 @@ using Tests.Mocks;
 
 namespace Tests.EditMode.Graffiti
 {
-    public class GraffitiTextureBehaviourTests
+    public class TextureBehaviourTests
     {
         private GameObject _gameObject;
-        private GraffitiTextureBehaviour _behaviour;
+        private TextureBehaviour _behaviour;
         private SketcherInputBehaviour _inputBehaviour;
 
         [SetUp]
         public void Setup()
         {
             _gameObject = new GameObject();
-            _behaviour = _gameObject.AddComponent<GraffitiTextureBehaviour>();
+            _behaviour = _gameObject.AddComponent<TextureBehaviour>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
             _inputBehaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
-            _inputBehaviour.graffitiTextureBehaviour = _behaviour;
+            _inputBehaviour.textureBehaviour = _behaviour;
             var sketcherCameraGameObject = new GameObject();
             _inputBehaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>();
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>();
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Tests.EditMode.Graffiti
 
             var touch = new Touch {position = new Vector2(4, 4)};
             _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -127,7 +127,7 @@ namespace Tests.EditMode.Graffiti
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
             _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiTextureBehaviour>
+            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };

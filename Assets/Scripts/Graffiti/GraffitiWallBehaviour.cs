@@ -13,7 +13,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Camera _sketcherCamera;
     public Canvas _hudCanvas;
     public Canvas _sketcherUI;
-    public GraffitiTextureBehaviour graffitiTextureBehaviour;
+    public TextureBehaviour textureBehaviour;
     public SketcherInputBehaviour sketcherInputBehaviour;
     public GameObject sketcherSurface;
 
@@ -36,7 +36,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private void EnableSketchMode()
     {
         _hudCanvas.enabled = false;
-        graffitiTextureBehaviour.enabled = true;
+        textureBehaviour.enabled = true;
         _sketcherCamera.enabled = true;
         _sketcherUI.enabled = true;
         sketcherInputBehaviour.enabled = true;
@@ -46,7 +46,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
     private void DisableSketchMode()
     {
         _hudCanvas.enabled = true;
-        graffitiTextureBehaviour.enabled = false;
+        textureBehaviour.enabled = false;
         _sketcherCamera.enabled = false;
         _sketcherUI.enabled = false;
         sketcherInputBehaviour.enabled = false;

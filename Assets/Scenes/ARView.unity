@@ -3379,7 +3379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
-  graffitiTextureBehaviour: {fileID: 1842723826}
+  textureBehaviour: {fileID: 1842723826}
 --- !u!114 &1339990774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4253,7 +4253,7 @@ MonoBehaviour:
   _sketcherCamera: {fileID: 585963815}
   _hudCanvas: {fileID: 1114040584}
   _sketcherUI: {fileID: 1883492715}
-  graffitiTextureBehaviour: {fileID: 1842723826}
+  textureBehaviour: {fileID: 1842723826}
   sketcherInputBehaviour: {fileID: 1842723827}
   sketcherSurface: {fileID: 1339990772}
 --- !u!64 &1842723822
@@ -4355,7 +4355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
-  graffitiTextureBehaviour: {fileID: 1842723826}
+  textureBehaviour: {fileID: 1842723826}
 --- !u!1001 &1871345056
 PrefabInstance:
   m_ObjectHideFlags: 0

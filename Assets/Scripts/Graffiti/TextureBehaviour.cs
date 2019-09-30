@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Graffiti
 {
-    public class GraffitiTextureBehaviour : MonoBehaviour
+    public class TextureBehaviour : MonoBehaviour
     {
         public Material material;
         public List<Vector2> LitPoints { get; } = new List<Vector2>();
