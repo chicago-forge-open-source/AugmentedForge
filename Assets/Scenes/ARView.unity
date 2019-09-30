@@ -2663,7 +2663,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1842723827}
+      - m_Target: {fileID: 1339990773}
         m_MethodName: SaveBits
         m_Mode: 1
         m_Arguments:
@@ -3379,7 +3379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
-  textureBehaviour: {fileID: 1842723826}
+  sketcherTextureBehaviour: {fileID: 1339990774}
+  graffitiTextureBehaviour: {fileID: 1842723826}
 --- !u!114 &1339990774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3975,7 +3976,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1842723827}
+      - m_Target: {fileID: 1339990773}
         m_MethodName: ClearOnClick
         m_Mode: 1
         m_Arguments:
@@ -4229,7 +4230,7 @@ GameObject:
   - component: {fileID: 1842723822}
   - component: {fileID: 1842723821}
   - component: {fileID: 1842723826}
-  - component: {fileID: 1842723827}
+  - component: {fileID: 1842723828}
   m_Layer: 9
   m_Name: GraffitiWall
   m_TagString: Untagged
@@ -4254,7 +4255,7 @@ MonoBehaviour:
   _hudCanvas: {fileID: 1114040584}
   _sketcherUI: {fileID: 1883492715}
   textureBehaviour: {fileID: 1842723826}
-  sketcherInputBehaviour: {fileID: 1842723827}
+  sketcherInputBehaviour: {fileID: 1339990773}
   sketcherSurface: {fileID: 1339990772}
 --- !u!64 &1842723822
 MeshCollider:
@@ -4342,7 +4343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 47feb60467194432cbaa4bf544ca7f54, type: 2}
---- !u!114 &1842723827
+--- !u!114 &1842723828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4351,10 +4352,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842723820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a7a271ec7845b283332b7b729c2c3a, type: 3}
+  m_Script: {fileID: 11500000, guid: a4b82a5996f344b7810260860ebe5249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sketcherCamera: {fileID: 585963815}
   textureBehaviour: {fileID: 1842723826}
 --- !u!1001 &1871345056
 PrefabInstance:

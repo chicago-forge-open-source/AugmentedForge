@@ -1,7 +1,6 @@
 using Graffiti;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -22,7 +21,7 @@ namespace Tests.EditMode.Graffiti
             _behaviour = _gameObject.AddComponent<TextureBehaviour>();
             _behaviour.material = new Material(Shader.Find(" Diffuse"));
             _inputBehaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
-            _inputBehaviour.textureBehaviour = _behaviour;
+            _inputBehaviour.sketcherTextureBehaviour = _behaviour;
             var sketcherCameraGameObject = new GameObject();
             _inputBehaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
@@ -32,8 +31,6 @@ namespace Tests.EditMode.Graffiti
         [Test]
         public void Start_GivenNoSavedTexture_TextureIsAllBlack()
         {
-            File.Delete(Application.persistentDataPath + "/SavedImage.csv");
-
             _behaviour.Start();
 
             var mainTexture = GetMainTexture();
@@ -53,9 +50,8 @@ namespace Tests.EditMode.Graffiti
         [Test]
         public void Start_GivenSavedTexture_TextureIsLoaded()
         {
-            File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
-                Encoding.UTF8.GetBytes("25,75\n85,10\n")
-            );
+            _behaviour.LitPoints.Add(new Vector2(25, 75));
+            _behaviour.LitPoints.Add(new Vector2(85, 10));
 
             _behaviour.Start();
 

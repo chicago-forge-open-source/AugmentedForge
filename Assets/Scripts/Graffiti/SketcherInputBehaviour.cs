@@ -13,7 +13,8 @@ namespace Graffiti
         public Camera sketcherCamera;
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
-        public TextureBehaviour textureBehaviour;
+        public TextureBehaviour sketcherTextureBehaviour;
+        public TextureBehaviour graffitiTextureBehaviour;
         private const float PlaneWidthMeters = 10f;
         private const float PlaneHeightMeters = 10f;
         private const int TextureSize = 50;
@@ -37,7 +38,7 @@ namespace Graffiti
             Vector2 percentageOfWall = TwoPointsAsPercentToRight(nominalPosition, planeTransform);
             percentageOfWall.Scale(new Vector2(TextureSize, TextureSize));
 
-            textureBehaviour.LitPoints.Add(percentageOfWall);
+            sketcherTextureBehaviour.LitPoints.Add(percentageOfWall);
         }
 
         private Tuple<TextureBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
@@ -64,18 +65,21 @@ namespace Graffiti
 
         public void SaveBits()
         {
-            var data = string.Join("", textureBehaviour.LitPoints.Select(point =>
+            var data = string.Join("", sketcherTextureBehaviour.LitPoints.Select(point =>
                 $"{(int) Math.Round(point.x)},{(int) Math.Round(point.y)}\n"
             ));
 
             File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
                 Encoding.UTF8.GetBytes(data)
             );
+
+            graffitiTextureBehaviour.LitPoints.Clear();
+            graffitiTextureBehaviour.LitPoints.AddRange(sketcherTextureBehaviour.LitPoints);
         }
 
         public void ClearOnClick()
         {
-            textureBehaviour.LitPoints.Clear();
+            sketcherTextureBehaviour.LitPoints.Clear();
         }
     }
 }

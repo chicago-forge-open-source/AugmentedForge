@@ -11,21 +11,25 @@ namespace Tests.EditMode.Graffiti
 {
     public class SketcherInputBehaviourTests
     {
-        private GameObject _gameObject;
         private SketcherInputBehaviour _behaviour;
-        private TextureBehaviour _textureBehaviour;
+        private TextureBehaviour _sketcherTextureBehaviour;
+        private TextureBehaviour _graffitiTextureBehaviour;
 
         [SetUp]
         public void Setup()
         {
-            _gameObject = new GameObject();
-            _behaviour = _gameObject.AddComponent<SketcherInputBehaviour>();
+            var sketcher = new GameObject();
+            _behaviour = sketcher.AddComponent<SketcherInputBehaviour>();
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
             _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
             _behaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>();
-            _textureBehaviour = _gameObject.AddComponent<TextureBehaviour>();
-            _behaviour.textureBehaviour = _textureBehaviour;
+            _sketcherTextureBehaviour = sketcher.AddComponent<TextureBehaviour>();
+            _behaviour.sketcherTextureBehaviour = _sketcherTextureBehaviour;
+
+            var graffiti = new GameObject();
+            _graffitiTextureBehaviour = graffiti.AddComponent<TextureBehaviour>();
+            _behaviour.graffitiTextureBehaviour = _graffitiTextureBehaviour;
         }
 
         [Test]
@@ -42,6 +46,20 @@ namespace Tests.EditMode.Graffiti
             var fileContent = Encoding.UTF8.GetString(rawBytes);
 
             Assert.AreEqual("0,49\n", fileContent);
+        }
+        
+        [Test]
+        public void Save_WillSavePointsToGraffitiWall()
+        {
+            _graffitiTextureBehaviour.LitPoints.Add(new Vector2(99, 99));
+            _behaviour.transform.position = new Vector3(50, 50, 50);
+            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
+            TouchAndUpdate(60, 59.5f);
+
+            _behaviour.SaveBits();
+            
+            Assert.AreEqual(1, _graffitiTextureBehaviour.LitPoints.Count);
+            Assert.IsTrue(_graffitiTextureBehaviour.LitPoints.Contains(new Vector2(0, 48.75f)));
         }
 
         [Test]
@@ -75,10 +93,9 @@ namespace Tests.EditMode.Graffiti
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
 
-
             _behaviour.Update();
 
-            Assert.Contains(new Vector2(50, 0), _textureBehaviour.LitPoints);
+            Assert.Contains(new Vector2(50, 0), _sketcherTextureBehaviour.LitPoints);
         }
 
         [Test]
@@ -91,7 +108,7 @@ namespace Tests.EditMode.Graffiti
             
             _behaviour.ClearOnClick();
             
-            Assert.IsEmpty(_textureBehaviour.LitPoints);
+            Assert.IsEmpty(_sketcherTextureBehaviour.LitPoints);
         }
 
         [Test]
@@ -104,9 +121,9 @@ namespace Tests.EditMode.Graffiti
             TouchAndUpdate(55, 45);
             TouchAndUpdate(60, 59.5f);
 
-            ContainVector2(new Vector2(37.5f, 37.5f), _textureBehaviour.LitPoints, 0.05);
-            ContainVector2(new Vector2(12.5f, 12.5f), _textureBehaviour.LitPoints, 0.05);
-            ContainVector2(new Vector2(0.0f, 48.8f), _textureBehaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(37.5f, 37.5f), _sketcherTextureBehaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(12.5f, 12.5f), _sketcherTextureBehaviour.LitPoints, 0.05);
+            ContainVector2(new Vector2(0.0f, 48.8f), _sketcherTextureBehaviour.LitPoints, 0.05);
         }
 
         private void ContainVector2(Vector2 expected, List<Vector2> actualList, double acceptableDelta)
