@@ -46,6 +46,16 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
+        public void OnEnable_WillSetDropPointToMiddleOfScreen()
+        {
+            _dropInputBehaviour.dropPoint = new Vector2(99, 99);
+            _dropInputBehaviour.OnEnable();
+
+            var halfway = _graffitiTextureBehaviour.textureSize / 2;
+            Assert.AreEqual(new Vector2(halfway, halfway), _dropInputBehaviour.dropPoint);
+        }
+
+        [Test]
         public void Update_AddsSketcherPointsToGraffitiPointsWithOffset()
         {
             _graffitiTextureBehaviour.LitPoints.Add(new Vector2(99, 99));
@@ -82,7 +92,7 @@ namespace Tests.EditMode.Graffiti
             Assert.AreEqual(new Vector2(99, 99), _graffitiTextureBehaviour.LitPoints[0]);
             Assert.AreEqual(new Vector2(1, 2) + _dropInputBehaviour.dropPoint, _graffitiTextureBehaviour.LitPoints[1]);
         }
-        
+
         [Test]
         public void Update_WillMoveDropPointWhenPlaneTouchDetectorSaysSo()
         {

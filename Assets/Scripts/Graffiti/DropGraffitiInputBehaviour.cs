@@ -15,13 +15,15 @@ namespace Graffiti
 
         public void OnEnable()
         {
+            var halfway = graffitiTextureBehaviour.textureSize / 2;
+            dropPoint = new Vector2(halfway, halfway);
             _originalGraffitiLitPoints = graffitiTextureBehaviour.LitPoints.ToList();
         }
 
         public void Update()
         {
             var offsetPoints = sketcherTextureBehaviour.LitPoints.Select(point => point + dropPoint);
-            
+
             graffitiTextureBehaviour.LitPoints.Clear();
             graffitiTextureBehaviour.LitPoints.AddRange(_originalGraffitiLitPoints);
             graffitiTextureBehaviour.LitPoints.AddRange(offsetPoints);
