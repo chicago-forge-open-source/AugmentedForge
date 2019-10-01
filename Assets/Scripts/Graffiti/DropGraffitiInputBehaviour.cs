@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Graffiti
 {
     public class DropGraffitiInputBehaviour : MonoBehaviour
     {
         public TextureBehaviour graffitiTextureBehaviour;
-        private List<Vector2> _originalGraffitiLitPoints;
         public TextureBehaviour sketcherTextureBehaviour;
+        private List<Vector2> _originalGraffitiLitPoints;
+        public Vector2 dropPoint;
 
         public void OnEnable()
         {
@@ -19,15 +19,17 @@ namespace Graffiti
 
         public void Update()
         {
+            var offsetPoints = sketcherTextureBehaviour.LitPoints.Select(point => point + dropPoint);
+            graffitiTextureBehaviour.LitPoints.AddRange(offsetPoints);
             // on touch, set offset to right number with input translations
-            graffitiTextureBehaviour.LitPoints.AddRange(sketcherTextureBehaviour.LitPoints);
             // take the wall points,  the offset, and the sketcher points,
             // and set them on the graffiti wall texture behaviour
         }
 
         public void CancelDrop()
         {
-            graffitiTextureBehaviour.LitPoints = _originalGraffitiLitPoints;
+            graffitiTextureBehaviour.LitPoints.Clear();
+            graffitiTextureBehaviour.LitPoints.AddRange(_originalGraffitiLitPoints);
         }
     }
 }

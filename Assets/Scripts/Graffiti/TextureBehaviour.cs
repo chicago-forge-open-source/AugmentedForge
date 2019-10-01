@@ -10,7 +10,7 @@ namespace Graffiti
     public class TextureBehaviour : MonoBehaviour
     {
         public Material material;
-        public List<Vector2> LitPoints { get; set; } = new List<Vector2>();
+        public List<Vector2> LitPoints { get; } = new List<Vector2>();
         public int textureSize = 50;
 
         public void Start()

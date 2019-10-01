@@ -44,15 +44,18 @@ namespace Tests.EditMode.Graffiti
         {
             _graffitiTextureBehaviour.LitPoints.Add(new Vector2(99, 99));
             _sketcherTextureBehaviour.LitPoints.Add(new Vector2(1, 1));
-            _sketcherTextureBehaviour.LitPoints.Add(new Vector2(50, 50));
+            _sketcherTextureBehaviour.LitPoints.Add(new Vector2(5, 5));
+
             _dropInputBehaviour.OnEnable();
+
+            _dropInputBehaviour.dropPoint = new Vector2(20, 30);
 
             _dropInputBehaviour.Update();
 
             Assert.AreEqual(3, _graffitiTextureBehaviour.LitPoints.Count);
             Assert.AreEqual(new Vector2(99, 99), _graffitiTextureBehaviour.LitPoints[0]);
-            Assert.AreEqual(new Vector2(1, 1), _graffitiTextureBehaviour.LitPoints[1]);
-            Assert.AreEqual(new Vector2(50, 50), _graffitiTextureBehaviour.LitPoints[2]);
+            Assert.AreEqual(new Vector2(1, 1) + _dropInputBehaviour.dropPoint, _graffitiTextureBehaviour.LitPoints[1]);
+            Assert.AreEqual(new Vector2(5, 5) + _dropInputBehaviour.dropPoint, _graffitiTextureBehaviour.LitPoints[2]);
         }
     }
 }
