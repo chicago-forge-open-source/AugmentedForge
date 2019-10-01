@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420709762}
   m_HandleRect: {fileID: 420709761}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3394,6 +3394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: dd3a071c84eb74c73a2c3320dd089489, type: 2}
+  textureSize: 50
 --- !u!64 &1339990776
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4254,7 +4255,6 @@ MonoBehaviour:
   _sketcherCamera: {fileID: 585963815}
   _hudCanvas: {fileID: 1114040584}
   _sketcherUI: {fileID: 1883492715}
-  textureBehaviour: {fileID: 1842723826}
   sketcherInputBehaviour: {fileID: 1339990773}
   sketcherSurface: {fileID: 1339990772}
 --- !u!64 &1842723822
@@ -4343,6 +4343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 47feb60467194432cbaa4bf544ca7f54, type: 2}
+  textureSize: 300
 --- !u!114 &1842723828
 MonoBehaviour:
   m_ObjectHideFlags: 0

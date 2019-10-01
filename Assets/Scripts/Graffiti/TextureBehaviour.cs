@@ -11,7 +11,7 @@ namespace Graffiti
     {
         public Material material;
         public List<Vector2> LitPoints { get; } = new List<Vector2>();
-        private const int TextureSize = 50;
+        public int textureSize = 50;
 
         public void Start()
         {
@@ -41,9 +41,9 @@ namespace Graffiti
             });
         }
 
-        private static Texture2D MakeBlackTexture()
+        private Texture2D MakeBlackTexture()
         {
-            var texture = new Texture2D(TextureSize, TextureSize) {filterMode = FilterMode.Point};
+            var texture = new Texture2D(textureSize, textureSize) {filterMode = FilterMode.Point};
 
             for (var y = 0; y < texture.height; y++)
             {

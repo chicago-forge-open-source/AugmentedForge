@@ -47,6 +47,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.gameObject.activeSelf);
         }
 
         [Test]
@@ -66,6 +67,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsTrue(_graffitiWallBehaviour._sketcherUI.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._hudCanvas.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.gameObject.activeSelf);
         }
 
         [Test]
@@ -101,6 +103,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.gameObject.activeSelf);
         }
     }
 }

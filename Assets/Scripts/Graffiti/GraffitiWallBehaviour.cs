@@ -39,10 +39,12 @@ public class GraffitiWallBehaviour : MonoBehaviour
         _sketcherUI.enabled = true;
         sketcherInputBehaviour.enabled = true;
         sketcherSurface.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private void DisableSketchMode()
     {
+        gameObject.SetActive(true);
         _hudCanvas.enabled = true;
         _sketcherCamera.enabled = false;
         _sketcherUI.enabled = false;
