@@ -46,7 +46,8 @@ namespace Tests.EditMode.Graffiti
 
             _graffitiWallBehaviour.dropGraffitiUi.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = true;
-
+            _graffitiWallBehaviour.enabled = false;
+            
             _graffitiWallBehaviour.Start();
 
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
@@ -55,6 +56,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiUi.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.hudCanvas.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.gameObject.activeSelf);
         }
@@ -68,6 +70,7 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.physicsHandler = MockPhysicsHandler<GraffitiWallBehaviour>
                 .ReturnsDetected(_graffitiWallBehaviour);
             _graffitiWallBehaviour.sketcherSurface.SetActive(false);
+            _graffitiWallBehaviour.enabled = true;
 
             _graffitiWallBehaviour.Update();
 
@@ -75,6 +78,7 @@ namespace Tests.EditMode.Graffiti
             Assert.IsTrue(_graffitiWallBehaviour.sketcherCamera.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.sketcherUi.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.hudCanvas.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.gameObject.activeSelf);
         }
@@ -88,6 +92,7 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.hudCanvas.enabled = false;
             _graffitiWallBehaviour.dropGraffitiUi.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = true;
+            _graffitiWallBehaviour.enabled = false;
 
             _graffitiWallBehaviour.ReturnToARMode();
 
@@ -96,8 +101,9 @@ namespace Tests.EditMode.Graffiti
             Assert.IsFalse(_graffitiWallBehaviour.sketcherUi.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiUi.enabled);
-            Assert.IsTrue(_graffitiWallBehaviour.hudCanvas.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.hudCanvas.enabled);
         }
 
         [Test]
@@ -111,17 +117,19 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.sketcherInputBehaviour.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = false;
             _graffitiWallBehaviour.hudCanvas.enabled = true;
+            _graffitiWallBehaviour.enabled = true;
 
             _graffitiWallBehaviour.SwitchToDropGraffitiMode();
 
             Assert.IsTrue(_graffitiWallBehaviour.sketcherCamera.enabled);
             Assert.IsTrue(_graffitiWallBehaviour.gameObject.activeSelf);
+            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiUi.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherUi.enabled);
-            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiUi.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
-            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.hudCanvas.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.enabled);
         }
 
         [Test]

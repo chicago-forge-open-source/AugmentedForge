@@ -8,19 +8,33 @@ namespace Graffiti
     {
         public TextureBehaviour graffitiTextureBehaviour;
         public TextureBehaviour sketcherTextureBehaviour;
-        private List<Vector2> _originalGraffitiLitPoints;
-        public Vector2 dropPoint;
+        public Camera sketcherCamera;
+        public PlaneTouchDetector planeTouchDetector = new UnityPlaneTouchDetector();
+        public Vector2 dropPoint { get; set; }
+        private List<Vector2> _originalGraffitiLitPoints = new List<Vector2>();
 
         public void OnEnable()
         {
             _originalGraffitiLitPoints = graffitiTextureBehaviour.LitPoints.ToList();
-//         current state graffiti texture behaviour and current state of sketcher texture behaviour   
         }
 
         public void Update()
         {
             var offsetPoints = sketcherTextureBehaviour.LitPoints.Select(point => point + dropPoint);
+            
+            graffitiTextureBehaviour.LitPoints.Clear();
+            graffitiTextureBehaviour.LitPoints.AddRange(_originalGraffitiLitPoints);
             graffitiTextureBehaviour.LitPoints.AddRange(offsetPoints);
+
+            UpdateDropPoint();
+        }
+
+        private void UpdateDropPoint()
+        {
+            var touchedPoint = planeTouchDetector.FindTouchedPoint(transform, sketcherCamera,
+                graffitiTextureBehaviour.textureSize);
+            if (touchedPoint.HasValue)
+                dropPoint = touchedPoint.Value;
         }
 
         public void CancelDrop()

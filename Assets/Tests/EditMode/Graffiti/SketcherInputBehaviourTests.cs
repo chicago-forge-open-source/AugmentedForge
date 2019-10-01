@@ -23,7 +23,7 @@ namespace Tests.EditMode.Graffiti
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
 
-            _behaviour.touchHandler = new PlaneTouchHandler
+            _behaviour.touchDetector = new UnityPlaneTouchDetector
             {
                 inputHandler = new MockInputHandler(new List<Touch>()),
                 physicsHandler = new MockPhysicsHandler<TextureBehaviour>()
@@ -92,8 +92,8 @@ namespace Tests.EditMode.Graffiti
             _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
 
             var touch = new Touch {position = new Vector2(4, 4)};
-            _behaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.touchHandler.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
+            _behaviour.touchDetector.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.touchDetector.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -146,8 +146,8 @@ namespace Tests.EditMode.Graffiti
         private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
-            _behaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.touchHandler.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
+            _behaviour.touchDetector.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.touchDetector.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };

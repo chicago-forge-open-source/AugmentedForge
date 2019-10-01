@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Graffiti
 {
-    public class PlaneTouchHandler
+    public class UnityPlaneTouchDetector : PlaneTouchDetector
     {
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
@@ -50,5 +50,10 @@ namespace Graffiti
         {
             return nominalPositionY + 0.5f;
         }
+    }
+
+    public interface PlaneTouchDetector
+    {
+        Vector2? FindTouchedPoint(Transform transform, Camera camera, int textureSize);
     }
 }

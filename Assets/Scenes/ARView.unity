@@ -2502,7 +2502,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420709762}
   m_HandleRect: {fileID: 420709761}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5095,7 +5095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graffitiTextureBehaviour: {fileID: 1842723826}
   sketcherTextureBehaviour: {fileID: 1339990774}
-  dropPoint: {x: 0, y: 0}
+  sketcherCamera: {fileID: 585963815}
 --- !u!114 &1842723828
 MonoBehaviour:
   m_ObjectHideFlags: 0

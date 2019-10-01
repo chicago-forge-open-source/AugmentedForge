@@ -36,6 +36,7 @@ namespace Graffiti
         
         private void EnableSketchMode()
         {
+            enabled = false;
             hudCanvas.enabled = false;
             sketcherCamera.enabled = true;
             sketcherUi.enabled = true;
@@ -46,6 +47,7 @@ namespace Graffiti
 
         private void SwitchToARMode()
         {
+            enabled = true;
             dropGraffitiUi.enabled = false;
             dropGraffitiInputBehaviour.enabled = false;
             gameObject.SetActive(true);
@@ -80,6 +82,7 @@ namespace Graffiti
 
         public void SwitchToDropGraffitiMode()
         {
+            enabled = false;
             sketcherCamera.enabled = true;
             gameObject.SetActive(true);
             dropGraffitiUi.enabled = true;

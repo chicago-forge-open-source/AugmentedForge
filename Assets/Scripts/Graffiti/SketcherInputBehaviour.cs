@@ -11,7 +11,7 @@ namespace Graffiti
     public class SketcherInputBehaviour : MonoBehaviour
     {
         public Camera sketcherCamera;
-        public PlaneTouchHandler touchHandler = new PlaneTouchHandler();
+        public UnityPlaneTouchDetector touchDetector = new UnityPlaneTouchDetector();
         public TextureBehaviour sketcherTextureBehaviour;
         public TextureBehaviour graffitiTextureBehaviour;
 
@@ -24,7 +24,7 @@ namespace Graffiti
 
         private void HandleTouch()
         {
-            var percentageOfWall = touchHandler.FindTouchedPoint(transform, sketcherCamera, TextureSize);
+            var percentageOfWall = touchDetector.FindTouchedPoint(transform, sketcherCamera, TextureSize);
             if (percentageOfWall.HasValue)
             {
                 sketcherTextureBehaviour.LitPoints.Add(percentageOfWall.Value);
