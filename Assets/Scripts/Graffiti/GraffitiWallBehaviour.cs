@@ -18,7 +18,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     public void Start()
     {
-        DisableSketchMode();
+        SwitchToARMode();
     }
 
     public void Update()
@@ -42,8 +42,10 @@ public class GraffitiWallBehaviour : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void DisableSketchMode()
+    private void SwitchToARMode()
     {
+        dropGraffitiUI.enabled = false;
+        dropGraffitiInputBehaviour.enabled = false;
         gameObject.SetActive(true);
         _hudCanvas.enabled = true;
         _sketcherCamera.enabled = false;
@@ -71,10 +73,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     public void ReturnToARMode()
     {
-        dropGraffitiUI.enabled = false;
-        dropGraffitiInputBehaviour.enabled = false;
-
-        DisableSketchMode();
+        SwitchToARMode();
     }
 
     public void SwitchToDropGraffitiMode()
@@ -83,8 +82,8 @@ public class GraffitiWallBehaviour : MonoBehaviour
         gameObject.SetActive(true);
         dropGraffitiUI.enabled = true;
         dropGraffitiInputBehaviour.enabled = true;
-        _hudCanvas.enabled = true;
         
+        _hudCanvas.enabled = false;
         sketcherSurface.SetActive(false);
         _sketcherUI.enabled = false;
         sketcherInputBehaviour.enabled = false;
