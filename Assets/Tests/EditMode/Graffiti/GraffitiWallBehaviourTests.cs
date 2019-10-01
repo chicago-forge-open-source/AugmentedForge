@@ -30,8 +30,9 @@ namespace Tests.EditMode.Graffiti
             var hudCanvas = new GameObject().AddComponent<Canvas>();
             hudCanvas.enabled = true;
             _graffitiWallBehaviour.hudCanvas = hudCanvas;
-            
-            _graffitiWallBehaviour.dropGraffitiInputBehaviour = new GameObject().AddComponent<DropGraffitiInputBehaviour>();
+
+            _graffitiWallBehaviour.dropGraffitiInputBehaviour =
+                new GameObject().AddComponent<DropGraffitiInputBehaviour>();
             _graffitiWallBehaviour.dropGraffitiUi = new GameObject().AddComponent<Canvas>();
         }
 
@@ -45,7 +46,7 @@ namespace Tests.EditMode.Graffiti
 
             _graffitiWallBehaviour.dropGraffitiUi.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = true;
-            
+
             _graffitiWallBehaviour.Start();
 
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
@@ -87,7 +88,7 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.hudCanvas.enabled = false;
             _graffitiWallBehaviour.dropGraffitiUi.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = true;
-            
+
             _graffitiWallBehaviour.ReturnToARMode();
 
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
@@ -110,7 +111,7 @@ namespace Tests.EditMode.Graffiti
             _graffitiWallBehaviour.sketcherInputBehaviour.enabled = true;
             _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = false;
             _graffitiWallBehaviour.hudCanvas.enabled = true;
-            
+
             _graffitiWallBehaviour.SwitchToDropGraffitiMode();
 
             Assert.IsTrue(_graffitiWallBehaviour.sketcherCamera.enabled);
@@ -127,10 +128,14 @@ namespace Tests.EditMode.Graffiti
         public void Update_OnNoTouchSketcherCameraDoesNotEnable()
         {
             var touch = new Touch
-                {position = new Vector2(4, 4), deltaPosition = new Vector2(2, 2), phase = TouchPhase.Began};
+            {
+                position = new Vector2(4, 4),
+                deltaPosition = new Vector2(2, 2),
+                phase = TouchPhase.Began
+            };
+
             _graffitiWallBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
             _graffitiWallBehaviour.physicsHandler = new MockPhysicsHandler<GraffitiWallBehaviour>();
-
             _graffitiWallBehaviour.sketcherInputBehaviour.enabled = false;
 
             _graffitiWallBehaviour.Update();
