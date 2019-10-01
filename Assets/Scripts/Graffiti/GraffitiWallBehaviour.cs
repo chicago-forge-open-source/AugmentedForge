@@ -7,11 +7,11 @@ public class GraffitiWallBehaviour : MonoBehaviour
 {
     public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
     public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
-    public Camera _arCameraComponent;
-    public Camera _sketcherCamera;
-    public Canvas _hudCanvas;
-    public Canvas _sketcherUI;
-    public Canvas dropGraffitiUI;
+    public Camera arCameraComponent;
+    public Camera sketcherCamera;
+    public Canvas hudCanvas;
+    public Canvas sketcherUi;
+    public Canvas dropGraffitiUi;
     public SketcherInputBehaviour sketcherInputBehaviour;
     public GameObject sketcherSurface;
     public DropGraffitiInputBehaviour dropGraffitiInputBehaviour;
@@ -34,9 +34,9 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     private void EnableSketchMode()
     {
-        _hudCanvas.enabled = false;
-        _sketcherCamera.enabled = true;
-        _sketcherUI.enabled = true;
+        hudCanvas.enabled = false;
+        sketcherCamera.enabled = true;
+        sketcherUi.enabled = true;
         sketcherInputBehaviour.enabled = true;
         sketcherSurface.SetActive(true);
         gameObject.SetActive(false);
@@ -44,12 +44,12 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     private void SwitchToARMode()
     {
-        dropGraffitiUI.enabled = false;
+        dropGraffitiUi.enabled = false;
         dropGraffitiInputBehaviour.enabled = false;
         gameObject.SetActive(true);
-        _hudCanvas.enabled = true;
-        _sketcherCamera.enabled = false;
-        _sketcherUI.enabled = false;
+        hudCanvas.enabled = true;
+        sketcherCamera.enabled = false;
+        sketcherUi.enabled = false;
         sketcherInputBehaviour.enabled = false;
         sketcherSurface.SetActive(false);
     }
@@ -64,7 +64,7 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     private bool TouchDetected(Vector2 touchPosition)
     {
-        var ray = _arCameraComponent.ScreenPointToRay(touchPosition);
+        var ray = arCameraComponent.ScreenPointToRay(touchPosition);
         var (targetBehaviour, _) = physicsHandler.Raycast<GraffitiWallBehaviour>(ray);
 
         var touchDetected = Equals(this, targetBehaviour);
@@ -78,14 +78,14 @@ public class GraffitiWallBehaviour : MonoBehaviour
 
     public void SwitchToDropGraffitiMode()
     {
-        _sketcherCamera.enabled = true;
+        sketcherCamera.enabled = true;
         gameObject.SetActive(true);
-        dropGraffitiUI.enabled = true;
+        dropGraffitiUi.enabled = true;
         dropGraffitiInputBehaviour.enabled = true;
         
-        _hudCanvas.enabled = false;
+        hudCanvas.enabled = false;
         sketcherSurface.SetActive(false);
-        _sketcherUI.enabled = false;
+        sketcherUi.enabled = false;
         sketcherInputBehaviour.enabled = false;
     }
 }

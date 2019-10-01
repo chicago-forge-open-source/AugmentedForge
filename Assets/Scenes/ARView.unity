@@ -2502,7 +2502,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420709762}
   m_HandleRect: {fileID: 420709761}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4964,11 +4964,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2359ee4f1ac564c33a6f2f727773b004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _arCameraComponent: {fileID: 165585584}
-  _sketcherCamera: {fileID: 585963815}
-  _hudCanvas: {fileID: 1114040584}
-  _sketcherUI: {fileID: 1883492715}
-  dropGraffitiUI: {fileID: 1671466274}
+  arCameraComponent: {fileID: 165585584}
+  sketcherCamera: {fileID: 585963815}
+  hudCanvas: {fileID: 1114040584}
+  sketcherUi: {fileID: 1883492715}
+  dropGraffitiUi: {fileID: 1671466274}
   sketcherInputBehaviour: {fileID: 1339990773}
   sketcherSurface: {fileID: 1339990772}
   dropGraffitiInputBehaviour: {fileID: 1842723827}
@@ -4996,7 +4996,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
