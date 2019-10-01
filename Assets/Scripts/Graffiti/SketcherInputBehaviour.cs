@@ -11,56 +11,24 @@ namespace Graffiti
     public class SketcherInputBehaviour : MonoBehaviour
     {
         public Camera sketcherCamera;
-        public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
-        public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
+        public PlaneTouchHandler touchHandler = new PlaneTouchHandler();
         public TextureBehaviour sketcherTextureBehaviour;
         public TextureBehaviour graffitiTextureBehaviour;
-        private const float PlaneWidthMeters = 10f;
-        private const float PlaneHeightMeters = 10f;
-        private const int TextureSize = 50;
+
+        private int TextureSize => sketcherTextureBehaviour.textureSize;
 
         public void Update()
         {
-            if (inputHandler.TouchCount > 0)
-            {
-                HandleTouch();
-            }
+            HandleTouch();
         }
 
         private void HandleTouch()
         {
-            var touchPosition = inputHandler.GetTouch(0).position;
-            var (_, hitPoint) = TouchToRayHit(touchPosition);
-
-            var planeTransform = transform;
-            var nominalPosition = hitPoint - planeTransform.position;
-
-            Vector2 percentageOfWall = TwoPointsAsPercentToRight(nominalPosition, planeTransform);
-            percentageOfWall.Scale(new Vector2(TextureSize, TextureSize));
-
-            sketcherTextureBehaviour.LitPoints.Add(percentageOfWall);
-        }
-
-        private Tuple<TextureBehaviour, Vector3> TouchToRayHit(Vector2 touchPosition)
-        {
-            return physicsHandler.Raycast<TextureBehaviour>(sketcherCamera.ScreenPointToRay(touchPosition));
-        }
-
-        private Vector2 TwoPointsAsPercentToRight(Vector3 nominalPosition, Transform planeTransform)
-        {
-            var planeScale = planeTransform.localScale;
-            var planeWidth = planeScale.x * PlaneWidthMeters;
-            var planeHeight = planeScale.z * PlaneHeightMeters;
-
-            var zPercent = 1 - MoveFromCenterToZero(nominalPosition.z / planeWidth);
-            var yPercent = MoveFromCenterToZero(nominalPosition.y / planeHeight);
-
-            return new Vector2(zPercent, yPercent);
-        }
-
-        private static float MoveFromCenterToZero(float nominalPositionY)
-        {
-            return nominalPositionY + 0.5f;
+            var percentageOfWall = touchHandler.FindTouchedPoint(transform, sketcherCamera, TextureSize);
+            if (percentageOfWall.HasValue)
+            {
+                sketcherTextureBehaviour.LitPoints.Add(percentageOfWall.Value);
+            }
         }
 
         public void SaveBits()

@@ -21,9 +21,6 @@ namespace Graffiti
         {
             var offsetPoints = sketcherTextureBehaviour.LitPoints.Select(point => point + dropPoint);
             graffitiTextureBehaviour.LitPoints.AddRange(offsetPoints);
-            // on touch, set offset to right number with input translations
-            // take the wall points,  the offset, and the sketcher points,
-            // and set them on the graffiti wall texture behaviour
         }
 
         public void CancelDrop()

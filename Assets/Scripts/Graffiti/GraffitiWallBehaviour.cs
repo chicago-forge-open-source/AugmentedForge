@@ -32,7 +32,8 @@ namespace Graffiti
             if (inputHandler.TouchCount > 0)
                 HandleTouchAtPosition(inputHandler.GetTouch(0).position, EnableSketchMode);
         }
-
+        
+        
         private void EnableSketchMode()
         {
             hudCanvas.enabled = false;

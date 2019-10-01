@@ -24,8 +24,12 @@ namespace Tests.EditMode.Graffiti
             _inputBehaviour.sketcherTextureBehaviour = _behaviour;
             var sketcherCameraGameObject = new GameObject();
             _inputBehaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
-            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>();
+
+            _inputBehaviour.touchHandler = new PlaneTouchHandler
+            {
+                inputHandler = new MockInputHandler(new List<Touch>()),
+                physicsHandler = new MockPhysicsHandler<TextureBehaviour>()
+            };
         }
 
         [Test]
@@ -87,8 +91,8 @@ namespace Tests.EditMode.Graffiti
             _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
 
             var touch = new Touch {position = new Vector2(4, 4)};
-            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
+            _inputBehaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _inputBehaviour.touchHandler.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -122,8 +126,8 @@ namespace Tests.EditMode.Graffiti
         private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
-            _inputBehaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _inputBehaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
+            _inputBehaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _inputBehaviour.touchHandler.physicsHandler = new MockPhysicsHandler<TextureBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };

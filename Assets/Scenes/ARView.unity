@@ -4519,7 +4519,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671466271}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -5095,6 +5095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graffitiTextureBehaviour: {fileID: 1842723826}
   sketcherTextureBehaviour: {fileID: 1339990774}
+  dropPoint: {x: 0, y: 0}
 --- !u!114 &1842723828
 MonoBehaviour:
   m_ObjectHideFlags: 0

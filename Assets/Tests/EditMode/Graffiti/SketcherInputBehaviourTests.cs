@@ -22,8 +22,13 @@ namespace Tests.EditMode.Graffiti
             _behaviour = sketcher.AddComponent<SketcherInputBehaviour>();
             var sketcherCameraGameObject = new GameObject();
             _behaviour.sketcherCamera = sketcherCameraGameObject.AddComponent<Camera>();
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch>());
-            _behaviour.physicsHandler = new MockPhysicsHandler<TextureBehaviour>();
+
+            _behaviour.touchHandler = new PlaneTouchHandler
+            {
+                inputHandler = new MockInputHandler(new List<Touch>()),
+                physicsHandler = new MockPhysicsHandler<TextureBehaviour>()
+            };
+
             _sketcherTextureBehaviour = sketcher.AddComponent<TextureBehaviour>();
             _behaviour.sketcherTextureBehaviour = _sketcherTextureBehaviour;
 
@@ -87,8 +92,8 @@ namespace Tests.EditMode.Graffiti
             _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
 
             var touch = new Touch {position = new Vector2(4, 4)};
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
+            _behaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.touchHandler.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, 40f, 40f)
             };
@@ -141,8 +146,8 @@ namespace Tests.EditMode.Graffiti
         private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)
         {
             var touch = new Touch {position = new Vector2(gameSpaceZ, gameSpaceY)};
-            _behaviour.inputHandler = new MockInputHandler(new List<Touch> {touch});
-            _behaviour.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
+            _behaviour.touchHandler.inputHandler = new MockInputHandler(new List<Touch> {touch});
+            _behaviour.touchHandler.physicsHandler = new MockPhysicsHandler<SketcherInputBehaviour>
             {
                 ValueToReturn = _behaviour, HitPointToReturn = new Vector3(0, gameSpaceY, gameSpaceZ)
             };
