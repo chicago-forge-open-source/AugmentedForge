@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Graffiti
@@ -18,6 +21,17 @@ namespace Graffiti
             var halfway = graffitiTextureBehaviour.textureSize / 2;
             dropPoint = new Vector2(halfway, halfway);
             _originalGraffitiLitPoints = graffitiTextureBehaviour.LitPoints.ToList();
+        }
+
+        public void SaveBits()
+        {
+            var data = string.Join("", graffitiTextureBehaviour.LitPoints.Select(point =>
+                $"{(int) Math.Round(point.x)},{(int) Math.Round(point.y)}\n"
+            ));
+
+            File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
+                Encoding.UTF8.GetBytes(data)
+            );
         }
 
         public void Update()

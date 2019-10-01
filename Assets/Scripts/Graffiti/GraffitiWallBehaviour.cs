@@ -34,7 +34,7 @@ namespace Graffiti
         }
         
         
-        private void EnableSketchMode()
+        public void EnableSketchMode()
         {
             enabled = false;
             hudCanvas.enabled = false;
@@ -43,6 +43,8 @@ namespace Graffiti
             sketcherInputBehaviour.enabled = true;
             sketcherSurface.SetActive(true);
             gameObject.SetActive(false);
+            dropGraffitiUi.enabled = false;
+            dropGraffitiInputBehaviour.enabled = false;
         }
 
         private void SwitchToARMode()
