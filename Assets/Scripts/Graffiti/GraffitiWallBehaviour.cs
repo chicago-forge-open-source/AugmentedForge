@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Graffiti;
 using Markers;
 using UnityEngine;
@@ -13,8 +11,10 @@ public class GraffitiWallBehaviour : MonoBehaviour
     public Camera _sketcherCamera;
     public Canvas _hudCanvas;
     public Canvas _sketcherUI;
+    public Canvas dropGraffitiUI;
     public SketcherInputBehaviour sketcherInputBehaviour;
     public GameObject sketcherSurface;
+    public DropGraffitiInputBehaviour dropGraffitiInputBehaviour;
 
     public void Start()
     {
@@ -69,8 +69,24 @@ public class GraffitiWallBehaviour : MonoBehaviour
         return touchDetected;
     }
 
-    public void OkOnClick()
+    public void ReturnToARMode()
     {
+        dropGraffitiUI.enabled = false;
+        dropGraffitiInputBehaviour.enabled = false;
+
         DisableSketchMode();
+    }
+
+    public void SwitchToDropGraffitiMode()
+    {
+        _sketcherCamera.enabled = true;
+        gameObject.SetActive(true);
+        dropGraffitiUI.enabled = true;
+        dropGraffitiInputBehaviour.enabled = true;
+        _hudCanvas.enabled = true;
+        
+        sketcherSurface.SetActive(false);
+        _sketcherUI.enabled = false;
+        sketcherInputBehaviour.enabled = false;
     }
 }

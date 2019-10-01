@@ -30,6 +30,9 @@ namespace Tests.EditMode.Graffiti
             var hudCanvas = new GameObject().AddComponent<Canvas>();
             hudCanvas.enabled = true;
             _graffitiWallBehaviour._hudCanvas = hudCanvas;
+            
+            _graffitiWallBehaviour.dropGraffitiInputBehaviour = new GameObject().AddComponent<DropGraffitiInputBehaviour>();
+            _graffitiWallBehaviour.dropGraffitiUI = new GameObject().AddComponent<Canvas>();
         }
 
         [Test]
@@ -71,19 +74,48 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
-        public void OKOnClick_OnTouchSketcherCameraDisabledAndHudEnabled()
+        public void ReturnToARMode_SketcherCameraDisabledAndHudEnabled()
         {
             _graffitiWallBehaviour._sketcherCamera.enabled = true;
             _graffitiWallBehaviour._sketcherUI.enabled = true;
             _graffitiWallBehaviour.sketcherSurface.SetActive(true);
             _graffitiWallBehaviour._hudCanvas.enabled = false;
-
-            _graffitiWallBehaviour.OkOnClick();
+            _graffitiWallBehaviour.dropGraffitiUI.enabled = true;
+            _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = true;
+            
+            _graffitiWallBehaviour.ReturnToARMode();
 
             Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
             Assert.IsFalse(_graffitiWallBehaviour._sketcherCamera.enabled);
             Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
             Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiUI.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
+        }
+
+        [Test]
+        public void SwitchToDropGraffitiMode_EnablesAndDisabledCorrectComponents()
+        {
+            _graffitiWallBehaviour._sketcherCamera.enabled = false;
+            _graffitiWallBehaviour.gameObject.SetActive(false);
+            _graffitiWallBehaviour.sketcherSurface.SetActive(true);
+            _graffitiWallBehaviour._sketcherUI.enabled = true;
+            _graffitiWallBehaviour.dropGraffitiUI.enabled = false;
+            _graffitiWallBehaviour.sketcherInputBehaviour.enabled = true;
+            _graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled = false;
+            _graffitiWallBehaviour._hudCanvas.enabled = false;
+            
+            
+            _graffitiWallBehaviour.SwitchToDropGraffitiMode();
+
+            Assert.IsTrue(_graffitiWallBehaviour._sketcherCamera.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.gameObject.activeSelf);
+            Assert.IsFalse(_graffitiWallBehaviour.sketcherSurface.activeSelf);
+            Assert.IsFalse(_graffitiWallBehaviour._sketcherUI.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiUI.enabled);
+            Assert.IsFalse(_graffitiWallBehaviour.sketcherInputBehaviour.enabled);
+            Assert.IsTrue(_graffitiWallBehaviour.dropGraffitiInputBehaviour.enabled);
             Assert.IsTrue(_graffitiWallBehaviour._hudCanvas.enabled);
         }
 
