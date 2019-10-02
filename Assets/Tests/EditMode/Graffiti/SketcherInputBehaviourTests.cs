@@ -38,54 +38,6 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
-        public void Save_WillSaveToFile()
-        {
-            _behaviour.transform.position = new Vector3(50, 50, 50);
-            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
-
-            TouchAndUpdate(60, 59.5f);
-
-            _behaviour.SaveBits();
-
-            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
-            var fileContent = Encoding.UTF8.GetString(rawBytes);
-
-            Assert.AreEqual("0,49\n", fileContent);
-        }
-        
-        [Test]
-        public void Save_WillSavePointsToGraffitiWall()
-        {
-            _graffitiTextureBehaviour.LitPoints.Add(new Vector2(99, 99));
-            _behaviour.transform.position = new Vector3(50, 50, 50);
-            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
-            TouchAndUpdate(60, 59.5f);
-
-            _behaviour.SaveBits();
-            
-            Assert.AreEqual(1, _graffitiTextureBehaviour.LitPoints.Count);
-            Assert.IsTrue(_graffitiTextureBehaviour.LitPoints.Contains(new Vector2(0, 48.75f)));
-        }
-
-        [Test]
-        public void Save_MultipleSavesTheLastOneWillWin()
-        {
-            _behaviour.transform.position = new Vector3(50, 50, 50);
-            _behaviour.transform.localScale = new Vector3(2f, 5f, 2f);
-
-            TouchAndUpdate(60, 59.5f);
-            _behaviour.SaveBits();
-            _behaviour.ClearOnClick();
-            TouchAndUpdate(40,40);
-            _behaviour.SaveBits();
-
-            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
-            var fileContent = Encoding.UTF8.GetString(rawBytes);
-
-            Assert.AreEqual("50,0\n", fileContent);
-        }
-
-        [Test]
         public void Update_OnTouchColorAddsToLitPointsAtTouchLocation()
         {
             _behaviour.transform.position = new Vector3(50, 50, 50);

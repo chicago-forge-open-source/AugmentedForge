@@ -31,20 +31,6 @@ namespace Graffiti
             }
         }
 
-        public void SaveBits()
-        {
-            var data = string.Join("", sketcherTextureBehaviour.LitPoints.Select(point =>
-                $"{(int) Math.Round(point.x)},{(int) Math.Round(point.y)}\n"
-            ));
-
-            File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
-                Encoding.UTF8.GetBytes(data)
-            );
-
-            graffitiTextureBehaviour.LitPoints.Clear();
-            graffitiTextureBehaviour.LitPoints.AddRange(sketcherTextureBehaviour.LitPoints);
-        }
-
         public void ClearOnClick()
         {
             sketcherTextureBehaviour.LitPoints.Clear();

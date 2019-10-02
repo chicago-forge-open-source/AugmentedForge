@@ -1,3 +1,5 @@
+using System.IO;
+using System.Text;
 using Graffiti;
 using NUnit.Framework;
 using UnityEngine;
@@ -46,6 +48,16 @@ namespace Tests.EditMode.Graffiti
         }
 
         [Test]
+        public void OnEnable_WillSetDropPointToMiddleOfScreen()
+        {
+            _dropInputBehaviour.dropPoint = new Vector2(99, 99);
+            _dropInputBehaviour.OnEnable();
+
+            var halfway = _graffitiTextureBehaviour.textureSize / 2;
+            Assert.AreEqual(new Vector2(halfway, halfway), _dropInputBehaviour.dropPoint);
+        }
+
+        [Test]
         public void Update_AddsSketcherPointsToGraffitiPointsWithOffset()
         {
             _graffitiTextureBehaviour.LitPoints.Add(new Vector2(99, 99));
@@ -82,7 +94,7 @@ namespace Tests.EditMode.Graffiti
             Assert.AreEqual(new Vector2(99, 99), _graffitiTextureBehaviour.LitPoints[0]);
             Assert.AreEqual(new Vector2(1, 2) + _dropInputBehaviour.dropPoint, _graffitiTextureBehaviour.LitPoints[1]);
         }
-        
+
         [Test]
         public void Update_WillMoveDropPointWhenPlaneTouchDetectorSaysSo()
         {
@@ -92,23 +104,53 @@ namespace Tests.EditMode.Graffiti
             _dropInputBehaviour.Update();
 
             Assert.AreEqual(expectedPoint, _dropInputBehaviour.dropPoint);
-            Assert.AreEqual(_dropInputBehaviour.gameObject.transform, _mockPlaneTouchDetector._lastTransform);
-            Assert.AreEqual(_dropInputBehaviour.sketcherCamera, _mockPlaneTouchDetector._lastCamera);
-            Assert.AreEqual(_graffitiTextureBehaviour.textureSize, _mockPlaneTouchDetector._lastTextureSize);
+            Assert.AreEqual(_dropInputBehaviour.gameObject.transform, _mockPlaneTouchDetector.lastTransform);
+            Assert.AreEqual(_dropInputBehaviour.sketcherCamera, _mockPlaneTouchDetector.lastCamera);
+            Assert.AreEqual(_graffitiTextureBehaviour.textureSize, _mockPlaneTouchDetector.lastTextureSize);
+        }
+
+        [Test]
+        public void Save_WillSaveToFile()
+        {
+            _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Add(new Vector2(0, 49));
+
+            _dropInputBehaviour.SaveBits();
+
+            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
+            var fileContent = Encoding.UTF8.GetString(rawBytes);
+
+            Assert.AreEqual("0,49\n", fileContent);
+        }
+
+        [Test]
+        public void Save_MultipleSavesTheLastOneWillWin()
+        {
+            _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Add(new Vector2(0, 49));
+            _dropInputBehaviour.SaveBits();
+
+            _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Clear();
+            _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Add(new Vector2(50, 0));
+
+            _dropInputBehaviour.SaveBits();
+
+            var rawBytes = File.ReadAllBytes(Application.persistentDataPath + "/SavedImage.csv");
+            var fileContent = Encoding.UTF8.GetString(rawBytes);
+
+            Assert.AreEqual("50,0\n", fileContent);
         }
     }
 
     public class MockPlaneTouchDetector : PlaneTouchDetector
     {
-        public Transform _lastTransform;
-        public Camera _lastCamera;
-        public int _lastTextureSize;
+        public Transform lastTransform;
+        public Camera lastCamera;
+        public int lastTextureSize;
 
         public Vector2? FindTouchedPoint(Transform transform, Camera camera, int textureSize)
         {
-            _lastTextureSize = textureSize;
-            _lastCamera = camera;
-            _lastTransform = transform;
+            lastTextureSize = textureSize;
+            lastCamera = camera;
+            lastTransform = transform;
             return PointToReturn;
         }
 

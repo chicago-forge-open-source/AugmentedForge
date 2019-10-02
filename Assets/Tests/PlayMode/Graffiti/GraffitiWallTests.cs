@@ -26,11 +26,11 @@ namespace Tests.PlayMode.Graffiti
         public IEnumerator ClickingSaveOnGraffitiWallWillSave()
         {
             yield return LoadScene();
-            GameObject.Find("SketcherUI").GetComponent<Canvas>().enabled = true;
+            GameObject.Find("DropGraffitiUI").GetComponent<Canvas>().enabled = true;
 
             File.Delete($"{Application.persistentDataPath}/SavedImage.csv");
 
-            GameObject.Find("Save Button").GetComponent<Button>().onClick.Invoke();
+            GameObject.Find("Ok Button").GetComponent<Button>().onClick.Invoke();
 
             Assert.IsTrue(File.Exists($"{Application.persistentDataPath}/SavedImage.csv"));
         }
