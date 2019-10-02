@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Markers;
 using UnityEngine;
 
 namespace Graffiti
@@ -13,7 +7,6 @@ namespace Graffiti
         public Camera sketcherCamera;
         public UnityPlaneTouchDetector touchDetector = new UnityPlaneTouchDetector();
         public TextureBehaviour sketcherTextureBehaviour;
-        public TextureBehaviour graffitiTextureBehaviour;
 
         private int TextureSize => sketcherTextureBehaviour.textureSize;
 

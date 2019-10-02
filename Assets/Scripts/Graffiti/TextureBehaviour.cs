@@ -21,6 +21,7 @@ namespace Graffiti
         public void Update()
         {
             material.mainTexture = BuildGraffitiTexture();
+            Resources.UnloadUnusedAssets();
         }
 
         private Texture2D BuildGraffitiTexture()

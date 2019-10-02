@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Graffiti;
 using NUnit.Framework;
 using Tests.Mocks;
@@ -13,7 +11,6 @@ namespace Tests.EditMode.Graffiti
     {
         private SketcherInputBehaviour _behaviour;
         private TextureBehaviour _sketcherTextureBehaviour;
-        private TextureBehaviour _graffitiTextureBehaviour;
 
         [SetUp]
         public void Setup()
@@ -33,8 +30,7 @@ namespace Tests.EditMode.Graffiti
             _behaviour.sketcherTextureBehaviour = _sketcherTextureBehaviour;
 
             var graffiti = new GameObject();
-            _graffitiTextureBehaviour = graffiti.AddComponent<TextureBehaviour>();
-            _behaviour.graffitiTextureBehaviour = _graffitiTextureBehaviour;
+            graffiti.AddComponent<TextureBehaviour>();
         }
 
         [Test]
