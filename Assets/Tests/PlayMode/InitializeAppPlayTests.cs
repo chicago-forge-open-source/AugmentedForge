@@ -12,6 +12,7 @@ namespace Tests.PlayMode
     
         private IEnumerator SetupScene()
         {
+            PlayerPrefs.DeleteAll();
             SceneManager.LoadScene("InitScene");
             yield return null;
 
@@ -48,6 +49,22 @@ namespace Tests.PlayMode
 
             Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
             Assert.AreEqual("Iowa", location);
+        }
+
+        [UnityTest]
+        public IEnumerator GivenGrandOpeningForgeButtonClickLoadArViewForGrandOpening()
+        {
+            yield return SetupScene();
+            //32, -9.23
+
+            _initScript.OnClick_LoadLocationARView("GrandOpening");
+
+            yield return new WaitForSeconds(0.1f);
+        
+            var location = PlayerPrefs.GetString("location");
+
+            Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+            Assert.AreEqual("GrandOpening", location);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Tests.EditMode
         [SetUp]
         public void Setup()
         {
+            PlayerPrefs.DeleteAll();
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
             _behaviour = _game.AddComponent<ArCalibrationBehaviour>();
@@ -27,6 +28,25 @@ namespace Tests.EditMode
 
             _behaviour.arSessionOrigin = new GameObject();
             _behaviour.arSessionOrigin.AddComponent<ARSessionOrigin>();
+        }
+
+        [Test]
+        public void Start_GivenLocationWithSyncPointScheduleThatSyncPoint()
+        {
+            var startSyncPoint = new SyncPoint("test", 32, -9.23f, 90);
+            PlayerPrefs.SetString("location", "GrandOpening");
+            _behaviour.compass = new MockCompass {TrueHeading = 180f};
+
+            _behaviour.Start();
+
+            var expectedSyncPoint = new SyncPoint(
+                "start with compass",
+                startSyncPoint.X,
+                startSyncPoint.Z,
+                _behaviour.compass.TrueHeading
+            );
+
+            Assert.AreEqual(expectedSyncPoint, _behaviour.pendingSyncPoint);
         }
 
         [Test]
