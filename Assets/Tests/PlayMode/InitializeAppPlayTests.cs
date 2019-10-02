@@ -55,7 +55,6 @@ namespace Tests.PlayMode
         public IEnumerator GivenGrandOpeningForgeButtonClickLoadArViewForGrandOpening()
         {
             yield return SetupScene();
-            //32, -9.23
 
             _initScript.OnClick_LoadLocationARView("GrandOpening");
 

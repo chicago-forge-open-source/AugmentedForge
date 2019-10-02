@@ -1,10 +1,10 @@
 using Markers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
 public class HudBehaviour : MonoBehaviour
 {
-        
     private const int MappingLayerBitMask = 1 << 9;
     private static readonly Quaternion MapNorth = Quaternion.Euler(90, 0, 0);
         
@@ -62,5 +62,10 @@ public class HudBehaviour : MonoBehaviour
         _mapCamera.enabled = true;
         _mapCamera.fieldOfView = 60;
         arMapOverlayToggle.SetActive(true);
+    }
+
+    public void OnClickBack()
+    {
+        SceneManager.LoadScene("InitScene");
     }
 }
