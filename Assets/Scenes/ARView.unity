@@ -4844,7 +4844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1671466272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4891,7 +4891,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671466271}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -5360,10 +5360,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arCameraComponent: {fileID: 165585584}
   sketcherCamera: {fileID: 585963815}
-  hudCanvas: {fileID: 1114040584}
-  sketcherUi: {fileID: 1883492715}
-  dropGraffitiUi: {fileID: 1671466274}
-  sketcherInputBehaviour: {fileID: 1339990773}
+  hudCanvas: {fileID: 1114040580}
+  sketcherUi: {fileID: 1883492712}
+  dropGraffitiUi: {fileID: 1671466271}
   sketcherSurface: {fileID: 1339990772}
   dropGraffitiInputBehaviour: {fileID: 1842723827}
 --- !u!64 &1842723822
@@ -5659,7 +5658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1883492713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5706,7 +5705,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883492712}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

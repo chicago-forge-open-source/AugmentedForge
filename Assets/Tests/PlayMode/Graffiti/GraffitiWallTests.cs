@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using Graffiti;
 using Locations;
 using Markers;
 using NUnit.Framework;
@@ -26,7 +27,7 @@ namespace Tests.PlayMode.Graffiti
         public IEnumerator ClickingSaveOnGraffitiWallWillSave()
         {
             yield return LoadScene();
-            GameObject.Find("DropGraffitiUI").GetComponent<Canvas>().enabled = true;
+            GameObject.Find("GraffitiWall").GetComponent<GraffitiWallBehaviour>().dropGraffitiUi.SetActive(true);
 
             File.Delete($"{Application.persistentDataPath}/SavedImage.csv");
 

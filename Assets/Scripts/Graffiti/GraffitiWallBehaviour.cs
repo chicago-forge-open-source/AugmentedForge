@@ -10,10 +10,9 @@ namespace Graffiti
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         public Camera arCameraComponent;
         public Camera sketcherCamera;
-        public Canvas hudCanvas;
-        public Canvas sketcherUi;
-        public Canvas dropGraffitiUi;
-        public SketcherInputBehaviour sketcherInputBehaviour;
+        public GameObject hudCanvas;
+        public GameObject sketcherUi;
+        public GameObject dropGraffitiUi;
         public GameObject sketcherSurface;
         public DropGraffitiInputBehaviour dropGraffitiInputBehaviour;
 
@@ -37,26 +36,26 @@ namespace Graffiti
         public void EnableSketchMode()
         {
             enabled = false;
-            hudCanvas.enabled = false;
-            sketcherCamera.enabled = true;
-            sketcherUi.enabled = true;
-            sketcherInputBehaviour.enabled = true;
-            sketcherSurface.SetActive(true);
             gameObject.SetActive(false);
-            dropGraffitiUi.enabled = false;
+            hudCanvas.SetActive(false);
+            dropGraffitiUi.SetActive(false);
             dropGraffitiInputBehaviour.enabled = false;
+
+            sketcherCamera.enabled = true;
+            sketcherUi.SetActive(true);
+            sketcherSurface.SetActive(true);
         }
 
         private void SwitchToARMode()
         {
             enabled = true;
-            dropGraffitiUi.enabled = false;
-            dropGraffitiInputBehaviour.enabled = false;
             gameObject.SetActive(true);
-            hudCanvas.enabled = true;
+            hudCanvas.SetActive(true);
+
+            dropGraffitiUi.SetActive(false);
+            dropGraffitiInputBehaviour.enabled = false;
             sketcherCamera.enabled = false;
-            sketcherUi.enabled = false;
-            sketcherInputBehaviour.enabled = false;
+            sketcherUi.SetActive(false);
             sketcherSurface.SetActive(false);
         }
 
@@ -87,13 +86,12 @@ namespace Graffiti
             enabled = false;
             sketcherCamera.enabled = true;
             gameObject.SetActive(true);
-            dropGraffitiUi.enabled = true;
+            dropGraffitiUi.SetActive(true);
             dropGraffitiInputBehaviour.enabled = true;
         
-            hudCanvas.enabled = false;
+            hudCanvas.SetActive(false);
             sketcherSurface.SetActive(false);
-            sketcherUi.enabled = false;
-            sketcherInputBehaviour.enabled = false;
+            sketcherUi.SetActive(false);
         }
     }
 }
