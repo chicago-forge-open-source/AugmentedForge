@@ -1,6 +1,7 @@
 using Markers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 
 public class HudBehaviour : MonoBehaviour
@@ -11,6 +12,7 @@ public class HudBehaviour : MonoBehaviour
     public GameObject arCameraGameObject;
     public GameObject mapCameraGameObject;
     public GameObject arMapOverlayToggle;
+    public GameObject backButton;
     public PresentMarkersBehaviour presentMarkersBehaviour;
         
     private ARCameraBackground _cameraBackground;
@@ -53,15 +55,17 @@ public class HudBehaviour : MonoBehaviour
         }
             
         arMapOverlayToggle.SetActive(false);
+        backButton.SetActive(false);
     }
 
     private void ShowArView()
     {
         _cameraBackground.enabled = true;
         mapCameraGameObject.GetComponent<FingerGestures>().enabled = false;
-        _mapCamera.enabled = true;
+        _mapCamera.enabled = false;
         _mapCamera.fieldOfView = 60;
         arMapOverlayToggle.SetActive(true);
+        backButton.SetActive(true);
     }
 
     public void OnClickBack()

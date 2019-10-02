@@ -31,6 +31,9 @@ namespace Tests.EditMode
             _mapScript.arMapOverlayToggle = new GameObject();
             _mapScript.arMapOverlayToggle.AddComponent<Button>();
 
+            _mapScript.backButton = new GameObject();
+            _mapScript.backButton.AddComponent<Button>();
+
             _mapScript.presentMarkersBehaviour = _game.AddComponent<PresentMarkersBehaviour>();
 
             PlayerPrefs.SetString("location", Chicago);
@@ -191,6 +194,25 @@ namespace Tests.EditMode
             _mapScript.OnClick_MapOnlyToggle();
             _mapScript.OnClick_MapOnlyToggle();
             Assert.IsTrue(_mapScript.arMapOverlayToggle.activeSelf);
+        }
+        
+        [Test]
+        public void GivenShowingMapOnly_BackButtonIsDisabled()
+        {
+            _mapScript.Start();
+
+            _mapScript.OnClick_MapOnlyToggle();
+            Assert.IsFalse(_mapScript.backButton.activeSelf);
+        }
+
+        [Test]
+        public void GivenShowingArView_BackButtonIsEnabled()
+        {
+            _mapScript.Start();
+
+            _mapScript.OnClick_MapOnlyToggle();
+            _mapScript.OnClick_MapOnlyToggle();
+            Assert.IsTrue(_mapScript.backButton.activeSelf);
         }
 
         [Test]
