@@ -7,8 +7,9 @@ namespace Roads
         private LineRenderer NewRoad()
         {
             var road = gameObject.AddComponent<LineRenderer>();
-            road.startWidth = 0.5f;
-            road.endWidth = 0.5f;
+            road.alignment = LineAlignment.TransformZ;
+            road.transform.rotation = Quaternion.Euler(90, 0, 0);
+            road.widthMultiplier = 0.5f;
             road.textureMode = LineTextureMode.Tile;
             road.material = Resources.Load<Material>("Materials/YellowBrickRoad");
             return road;
