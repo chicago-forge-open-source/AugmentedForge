@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Tests.Mocks;
 
@@ -30,6 +31,16 @@ namespace Tests.EditMode.Graffiti
                 inputHandler = new MockInputHandler(new List<Touch>()),
                 physicsHandler = new MockPhysicsHandler<TextureBehaviour>()
             };
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            var pngFilePath = Application.persistentDataPath + "/texture_000.png";
+            if (File.Exists(pngFilePath))
+            {
+                File.Delete(pngFilePath);
+            }
         }
 
         [Test]
@@ -121,6 +132,24 @@ namespace Tests.EditMode.Graffiti
             Assert.AreEqual(mainTexture.GetPixel(38, 38), Color.white);
             Assert.AreEqual(mainTexture.GetPixel(12, 12), Color.white);
             Assert.AreEqual(mainTexture.GetPixel(0, 49), Color.white);
+        }
+
+        [Test]
+        public void SaveTextureToPng()
+        {
+            _behaviour.Start();
+            _behaviour.SaveAsPng();
+            Assert.IsTrue(File.Exists(Application.persistentDataPath + "/texture_000.png"));
+        }
+
+        [Test]
+        public void SaveTextToPngSavesBytesFromTexture()
+        {
+            _behaviour.Start();
+            _behaviour.SaveAsPng();
+            var data = File.ReadAllBytes(Application.persistentDataPath + "/texture_000.png");
+            var mainTextureAs2D = ((Texture2D) _behaviour.material.mainTexture);
+            Assert.IsTrue(data.SequenceEqual(mainTextureAs2D.EncodeToPNG()));
         }
 
         private void TouchAndUpdate(float gameSpaceZ, float gameSpaceY)

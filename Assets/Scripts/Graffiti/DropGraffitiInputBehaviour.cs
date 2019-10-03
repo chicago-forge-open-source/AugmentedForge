@@ -33,6 +33,7 @@ namespace Graffiti
             File.WriteAllBytes(Application.persistentDataPath + "/SavedImage.csv",
                 Encoding.UTF8.GetBytes(data)
             );
+            graffitiTextureBehaviour.SaveAsPng();
         }
 
         public void Update()

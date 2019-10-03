@@ -56,5 +56,11 @@ namespace Graffiti
 
             return texture;
         }
+
+        public void SaveAsPng()
+        {
+            var mainTextureAs2D = ((Texture2D) material.mainTexture);
+            File.WriteAllBytes(Application.persistentDataPath + "/texture_000.png", mainTextureAs2D.EncodeToPNG());
+        }
     }
 }
