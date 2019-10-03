@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SyncPoints
 {
-    public class SyncPointSelectorBehaviour: MonoBehaviour
+    public class SyncPointSelectorBehaviour : MonoBehaviour
     {
         public GameObject buttonPrefab;
         public GameObject scrollContent;
@@ -25,9 +25,9 @@ namespace SyncPoints
                 syncPointGameObject.name = "ScrollItem-" + syncPoint.Name;
                 syncPointGameObject.GetComponentInChildren<Text>().text = syncPoint.Name;
                 syncPointGameObject.GetComponent<Button>().onClick.AddListener(() =>
-                    {
-                        calibrationBehaviour.pendingSyncPoint = syncPoint;
-                    });
+                {
+                    calibrationBehaviour.pendingSyncPoint = syncPoint;
+                });
             }
         }
     }

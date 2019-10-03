@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -65,5 +66,31 @@ namespace Tests.PlayMode
             Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
             Assert.AreEqual("GrandOpening", location);
         }
+
+        [UnityTest]
+        public IEnumerator GivenGrandOpening_DevObjectsAreInactive()
+        {
+            yield return SetupScene();
+
+            _initScript.OnClick_LoadLocationARView("GrandOpening");
+            
+            yield return new WaitForSeconds(0.1f);
+            
+            Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+            Assert.IsFalse(GameObject.FindGameObjectsWithTag("DevMode").Any());
+        } 
+        
+        [UnityTest]
+        public IEnumerator GivenNotGrandOpening_DevObjectsAreActive()
+        {
+            yield return SetupScene();
+
+            _initScript.OnClick_LoadLocationARView("Chicago");
+            
+            yield return new WaitForSeconds(0.1f);
+            
+            Assert.AreEqual("ARView", SceneManager.GetActiveScene().name);
+            Assert.IsTrue(GameObject.FindGameObjectsWithTag("DevMode").Any());
+        } 
     }
 }

@@ -133,11 +133,11 @@ GameObject:
   - component: {fileID: 40919616}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &40919615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -149,12 +149,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1114040581}
-  m_RootOrder: 1
+  m_Father: {fileID: 1677028898}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -199}
+  m_AnchoredPosition: {x: 0, y: -150.00003}
   m_SizeDelta: {x: 670, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &40919616
@@ -230,7 +230,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1114040581}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 92124590}
   m_Layer: 8
   m_Name: Measuring Cube 1-5ft
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1099,7 +1099,7 @@ RectTransform:
   - {fileID: 490311159}
   - {fileID: 1871345057}
   m_Father: {fileID: 1114040581}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1499,7 +1499,7 @@ GameObject:
   - component: {fileID: 463930439}
   m_Layer: 0
   m_Name: Measuring Cube North - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1921,7 +1921,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arCameraGameObject: {fileID: 165585583}
-  debugText: {fileID: 40919616}
   arSessionOrigin: {fileID: 1577749883}
   session: {fileID: 259715465}
 --- !u!114 &543973077
@@ -2064,7 +2063,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: -1.8, y: 89.90301, z: 0}
 --- !u!1 &604959634
 GameObject:
@@ -2080,7 +2079,7 @@ GameObject:
   - component: {fileID: 604959635}
   m_Layer: 0
   m_Name: Studio Entrance Hallway - 0.1m (1)
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2171,7 +2170,7 @@ GameObject:
   - component: {fileID: 633987595}
   m_Layer: 8
   m_Name: Measuring Cube 5 - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2485,7 +2484,7 @@ GameObject:
   - component: {fileID: 746538273}
   m_Layer: 5
   m_Name: Sync Point Selector
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2504,7 +2503,7 @@ RectTransform:
   - {fileID: 1096979799}
   - {fileID: 790463432}
   m_Father: {fileID: 1114040581}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -2926,7 +2925,7 @@ GameObject:
   - component: {fileID: 854905464}
   m_Layer: 8
   m_Name: Measuring Cube 3-5m (maker space size)
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3256,7 +3255,7 @@ GameObject:
   - component: {fileID: 1021815822}
   m_Layer: 8
   m_Name: Measuring Cube 2-5ft
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3454,7 +3453,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1677028898}
-  - {fileID: 40919615}
   - {fileID: 70227930}
   - {fileID: 746538269}
   - {fileID: 273124648}
@@ -4089,7 +4087,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sketcherCamera: {fileID: 585963815}
   sketcherTextureBehaviour: {fileID: 1339990774}
-  graffitiTextureBehaviour: {fileID: 1842723826}
 --- !u!114 &1339990774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4175,7 +4172,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.3, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1 &1350098827
 GameObject:
@@ -4345,7 +4342,7 @@ GameObject:
   - component: {fileID: 1370639141}
   m_Layer: 9
   m_Name: DetectedImageMarker
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4436,7 +4433,7 @@ GameObject:
   - component: {fileID: 1529051433}
   m_Layer: 0
   m_Name: Studio Entrance Hallway - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4527,7 +4524,7 @@ GameObject:
   - component: {fileID: 1562069059}
   m_Layer: 0
   m_Name: Measuring Cube East - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4719,7 +4716,7 @@ RectTransform:
   - {fileID: 323354703}
   - {fileID: 1206350026}
   m_Father: {fileID: 1114040581}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -4920,7 +4917,7 @@ RectTransform:
   - {fileID: 646121660}
   - {fileID: 1350098828}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4940,11 +4937,11 @@ GameObject:
   - component: {fileID: 1677028899}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1677028898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4955,13 +4952,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 40919615}
   m_Father: {fileID: 1114040581}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -199}
+  m_AnchoredPosition: {x: 0, y: -1114}
   m_SizeDelta: {x: 670, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1677028899
@@ -5246,7 +5244,7 @@ GameObject:
   - component: {fileID: 1793089057}
   m_Layer: 0
   m_Name: Measuring Cube West - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5436,7 +5434,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.3, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!114 &1842723826
 MonoBehaviour:
@@ -5733,7 +5731,7 @@ RectTransform:
   - {fileID: 998917720}
   - {fileID: 1732250851}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5754,7 +5752,7 @@ GameObject:
   - component: {fileID: 1985308837}
   m_Layer: 0
   m_Name: Measuring Cube South - 0.1m
-  m_TagString: Untagged
+  m_TagString: DevMode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5880,7 +5878,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: aaa089555d5624f8e8a2db217a2a727e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

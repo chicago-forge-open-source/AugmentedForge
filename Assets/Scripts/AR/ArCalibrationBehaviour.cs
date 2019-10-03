@@ -10,7 +10,6 @@ namespace AR
     public class ArCalibrationBehaviour : MonoBehaviour
     {
         public GameObject arCameraGameObject;
-        public Text debugText;
         public GameObject arSessionOrigin;
         public ICompass compass = new RealCompass();
         public SyncPoint pendingSyncPoint;
@@ -48,11 +47,6 @@ namespace AR
 
         public void Update()
         {
-//            var logLine = $"ARCamera: {arCameraGameObject.transform.position}";
-//            logLine += $"\nSessionOrigin: {arSessionOrigin.transform.position}";
-//            logLine += $"\nSessionOriginRotation: {arSessionOrigin.transform.rotation}";
-//            debugText.text = logLine;
-
             if (pendingSyncPoint != null)
             {
                 SetArSessionOriginPositionAndOrientation(pendingSyncPoint.X, pendingSyncPoint.Z,
@@ -77,8 +71,7 @@ namespace AR
         public bool IsEnabled => Math.Abs(TrueHeading) > 0;
         public float TrueHeading => Input.compass.trueHeading;
     }
-
-
+    
     public static class Helpers
     {
         public static void SetObjectXzPosition(Transform objectTransform, float x, float z)

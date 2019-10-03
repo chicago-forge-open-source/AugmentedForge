@@ -79,5 +79,7 @@ namespace Tests.EditMode.SyncPoints
             textChild.transform.parent = _selectorBehaviour.buttonPrefab.transform;
             textChild.AddComponent<Text>().text = "Blank Scroll Button";
         }
+
+
     }
 }

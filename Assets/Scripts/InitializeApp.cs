@@ -18,9 +18,25 @@ public class InitializeApp : MonoBehaviour
         Input.location.Start();
     }
 
-    void Start()
+    public void Start()
     {
         Branch.initSession(BranchCallbackWithParams);
+    }
+
+    public void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!PlayerPrefs.GetString("location").Equals("GrandOpening")) return;
+        foreach (var devObject in GameObject.FindGameObjectsWithTag("DevMode"))
+        {
+            devObject.SetActive(false);
+        }
+        
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void BranchCallbackWithParams(Dictionary<string, object> parameters, string error)

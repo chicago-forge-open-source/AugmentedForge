@@ -20,7 +20,6 @@ namespace Tests.EditMode
             _game = new GameObject();
             _game.AddComponent<SpriteRenderer>();
             _behaviour = _game.AddComponent<ArCalibrationBehaviour>();
-            _behaviour.debugText = _game.AddComponent<Text>();
 
             _behaviour.arCameraGameObject = new GameObject();
             _behaviour.arCameraGameObject.AddComponent<ARCameraBackground>();
