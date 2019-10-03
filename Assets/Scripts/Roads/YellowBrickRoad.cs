@@ -12,6 +12,8 @@ namespace Roads
             road.widthMultiplier = 0.5f;
             road.textureMode = LineTextureMode.Tile;
             road.material = Resources.Load<Material>("Materials/YellowBrickRoad");
+            road.startWidth = 1.5f;
+            road.endWidth = 1.5f;
             return road;
         }
 
