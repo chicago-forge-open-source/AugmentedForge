@@ -39,7 +39,7 @@ namespace Tests.EditMode
 
             var expectedSyncPoint = new SyncPoint(
                 "start with compass",
-                33,
+                32,
                 -16,
                 _behaviour.compass.TrueHeading
             );
