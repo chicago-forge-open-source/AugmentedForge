@@ -32,7 +32,6 @@ namespace Tests.EditMode
         [Test]
         public void Start_GivenLocationWithSyncPointScheduleThatSyncPoint()
         {
-            var startSyncPoint = new SyncPoint("test", 32, -9.23f, 90);
             PlayerPrefs.SetString("location", "GrandOpening");
             _behaviour.compass = new MockCompass {TrueHeading = 180f};
 
@@ -40,8 +39,8 @@ namespace Tests.EditMode
 
             var expectedSyncPoint = new SyncPoint(
                 "start with compass",
-                startSyncPoint.X,
-                startSyncPoint.Z,
+                33,
+                -16,
                 _behaviour.compass.TrueHeading
             );
 

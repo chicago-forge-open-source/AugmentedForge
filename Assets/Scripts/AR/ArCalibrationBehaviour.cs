@@ -26,7 +26,7 @@ namespace AR
             var repoSyncPoint = Repositories.SyncPointRepository.Get()[0];
             if (PlayerPrefs.GetString("location").Equals("GrandOpening"))
             {
-                repoSyncPoint = new SyncPoint("GrandOpening", 32f, -9.23f, 0);
+                repoSyncPoint = new SyncPoint("GrandOpening", 32f, -16, 0);
             }
             pendingSyncPoint = new SyncPoint(
                 "start with compass",
