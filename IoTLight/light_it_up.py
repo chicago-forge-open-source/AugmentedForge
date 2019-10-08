@@ -6,18 +6,24 @@ import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
+if 'IOT_THING_NAME' in os.environ: 
+    thingName = os.environ['IOT_THING_NAME']
+else:
+    thingName = "IoTLight"
+    
 
 class IoTCommunicator(object):
 
     def __init__(self, device):
-        self.mqttc = AWSIoTMQTTShadowClient('IoTLight')
+        self.mqttc = AWSIoTMQTTShadowClient(thingName)
         self.mqttc.configureEndpoint('a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com', 8883)
         self.mqttc.configureCredentials('./certificates/AmazonRootCA1.pem',
-                                        './certificates/IoTLight.private.key',
-                                        './certificates/IoTLight.cert.pem')
+                                        './certificates/' + thingName + '.private.key',
+                                        './certificates/' + thingName + '.cert.pem')
         self.mqttc.configureConnectDisconnectTimeout(10)
         self.mqttc.configureMQTTOperationTimeout(5)
-        self.device_shadow = self.mqttc.createShadowHandlerWithName('IoTLight', True)
+        self.device_shadow = self.mqttc.createShadowHandlerWithName(thingName, True)
+        self.device_shadow = self.mqttc.createShadowHandlerWithName(thingName, True)
         self.device_shadow.on_message = self.on_message
         self.device_shadow.json_encode = self.json_encode
         self.device = device
