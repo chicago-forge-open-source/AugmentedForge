@@ -78,6 +78,7 @@ class RealIoTLightDevice(object):
 
     def set_light(self, state):
         control_led(state)
+        play_sound_bit('light_bulb_sound.mp3')
         self._light_state = state
 
     @property
@@ -96,6 +97,9 @@ def control_led(state):
         os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
         os.system('echo 0 | sudo tee /sys/class/leds/led0/brightness')
 
+def play_sound_bit(sound_bit):
+    file_name = './sounds/' + sound_bit
+    os.system('omxplayer ' + file_name)
 
 if __name__ == '__main__':
     arg = sys.argv[1:]
