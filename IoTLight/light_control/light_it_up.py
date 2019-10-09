@@ -4,7 +4,6 @@ import os
 import sys
 import time
 
-from playsound import playsound
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
 if 'IOT_THING_NAME' in os.environ: 
@@ -99,7 +98,7 @@ def control_led(state):
 
 def play_sound_bit(sound_bit):
     file_name = './sounds/' + sound_bit
-    playsound(file_name)
+    os.system('omxplayer ' + file_name + " &")
 
 if __name__ == '__main__':
     arg = sys.argv[1:]
