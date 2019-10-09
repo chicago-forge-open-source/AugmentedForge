@@ -6,15 +6,14 @@ import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
-
 class IoTCommunicator(object):
 
     def __init__(self, device):
         self.mqttc = AWSIoTMQTTShadowClient('IoTLight')
         self.mqttc.configureEndpoint('a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com', 8883)
-        self.mqttc.configureCredentials('./certificates/AmazonRootCA1.pem',
-                                        './certificates/IoTLight.private.key',
-                                        './certificates/IoTLight.cert.pem')
+        self.mqttc.configureCredentials('../certificates/AmazonRootCA1.pem',
+                                        '../certificates/IoTLight.private.key',
+                                        '../certificates/IoTLight.cert.pem')
         self.mqttc.configureConnectDisconnectTimeout(10)
         self.mqttc.configureMQTTOperationTimeout(5)
         self.device_shadow = self.mqttc.createShadowHandlerWithName('IoTLight', True)

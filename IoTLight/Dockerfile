@@ -12,8 +12,8 @@ RUN apt-get -q update && \
 RUN pip install AWSIoTPythonSDK
 
 COPY . /app/
-RUN chmod +x /app/light_it_up.py
+RUN chmod +x /app/light_control/light_it_up.py
 
 WORKDIR /app
 
-ENTRYPOINT ["/app/light_it_up.py"]
+ENTRYPOINT ["/app/light_control/light_it_up.py"]
