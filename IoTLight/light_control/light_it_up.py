@@ -6,7 +6,7 @@ import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
-if 'IOT_THING_NAME' in os.environ: 
+if 'IOT_THING_NAME' in os.environ:
     thingName = os.environ['IOT_THING_NAME']
 else:
     thingName = "IoTLight"

@@ -8,7 +8,7 @@ RUN apt-get -q update && \
         python-setuptools \
         python-dev \
         gcc \
-        make  
+        make
 
 RUN pip install AWSIoTPythonSDK
 
