@@ -20,8 +20,12 @@ namespace Tests.EditMode.Graffiti
             var graffitiWall = new GameObject();
             _dropInputBehaviour = graffitiWall.AddComponent<DropGraffitiInputBehaviour>();
             _graffitiTextureBehaviour = graffitiWall.AddComponent<TextureBehaviour>();
-            _graffitiTextureBehaviour.material = new Material(Shader.Find(" Diffuse"));
+            _graffitiTextureBehaviour.material = new Material(Shader.Find(" Diffuse"))
+            {
+                mainTexture = new Texture2D(0, 0)
+            };
             _graffitiTextureBehaviour.textureSize = 10000;
+
             _mockPlaneTouchDetector = new MockPlaneTouchDetector();
             _dropInputBehaviour.planeTouchDetector = _mockPlaneTouchDetector;
 
@@ -113,7 +117,6 @@ namespace Tests.EditMode.Graffiti
         [Test]
         public void Save_WillSaveToFile()
         {
-            _graffitiTextureBehaviour.Start();
             _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Add(new Vector2(0, 49));
 
             _dropInputBehaviour.SaveBits();
@@ -127,7 +130,6 @@ namespace Tests.EditMode.Graffiti
         [Test]
         public void Save_MultipleSavesTheLastOneWillWin()
         {
-            _graffitiTextureBehaviour.Start();
             _dropInputBehaviour.graffitiTextureBehaviour.LitPoints.Add(new Vector2(0, 49));
             _dropInputBehaviour.SaveBits();
 
