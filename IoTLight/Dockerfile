@@ -2,6 +2,7 @@ FROM balenalib/rpi-raspbian:latest
 
 RUN apt-get -q update && \
 	apt-get -qy install \
+	    omxplayer \ 
         python \
         python-pip \
         python-setuptools \
