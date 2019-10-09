@@ -4,22 +4,22 @@ import os
 import sys
 import time
 
+from playsound import playsound
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
 if 'IOT_THING_NAME' in os.environ: 
     thingName = os.environ['IOT_THING_NAME']
 else:
     thingName = "IoTLight"
-    
 
 class IoTCommunicator(object):
 
     def __init__(self, device):
         self.mqttc = AWSIoTMQTTShadowClient(thingName)
         self.mqttc.configureEndpoint('a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com', 8883)
-        self.mqttc.configureCredentials('../certificates/AmazonRootCA1.pem',
-                                        '../certificates/' + thingName + '.private.key',
-                                        '../certificates/' + thingName + '.cert.pem')
+        self.mqttc.configureCredentials('./certificates/AmazonRootCA1.pem',
+                                        './certificates/' + thingName + '.private.key',
+                                        './certificates/' + thingName + '.cert.pem')
         self.mqttc.configureConnectDisconnectTimeout(10)
         self.mqttc.configureMQTTOperationTimeout(5)
         self.device_shadow = self.mqttc.createShadowHandlerWithName(thingName, True)
@@ -40,6 +40,7 @@ class IoTCommunicator(object):
         new_state = loaded_message["state"]["state"]
         self.device.set_light(new_state)
         self.send_shadow_update()
+        play_sound_bit('light_bulb_sound.mp3')
 
     def start_communication(self):
         print("About to connect")
@@ -78,7 +79,6 @@ class RealIoTLightDevice(object):
 
     def set_light(self, state):
         control_led(state)
-        play_sound_bit('light_bulb_sound.mp3')
         self._light_state = state
 
     @property
@@ -99,7 +99,7 @@ def control_led(state):
 
 def play_sound_bit(sound_bit):
     file_name = './sounds/' + sound_bit
-    os.system('omxplayer ' + file_name)
+    playsound(file_name)
 
 if __name__ == '__main__':
     arg = sys.argv[1:]
