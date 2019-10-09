@@ -21,10 +21,6 @@ public class InitializeApp : MonoBehaviour
     public void Start()
     {
         Branch.initSession(BranchCallbackWithParams);
-    }
-
-    public void OnEnable()
-    {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
