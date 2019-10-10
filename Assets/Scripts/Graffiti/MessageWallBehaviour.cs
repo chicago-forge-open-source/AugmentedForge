@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using IoTLights;
 using Markers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,23 +58,25 @@ namespace Graffiti
             return touchDetected;
         }
 
-        private void SendGraffitiTextToAws(string graffitiText)
+        private async void SendGraffitiTextToAws(string graffitiText)
         {
             var desiredState = $"{{ \"text\":\"{graffitiText}\"}}";
-            Task.Run(async () => { await _ioTMessageWall.UpdateThing(desiredState); })
-                .GetAwaiter()
-                .GetResult();
+            await _ioTMessageWall.UpdateThing(desiredState);
         }
 
-        private void PollForCanvasColorChange()
+        private async void PollForCanvasColorChange()
         {
-            canvasText.text = GetGraffitiTextFromAws();
+            var textFromAws = await GetGraffitiTextFromAws();
+            if (canvasText != null)
+            {
+                canvasText.text = textFromAws;
+            }
         }
 
-        private string GetGraffitiTextFromAws()
+        private async Task<string> GetGraffitiTextFromAws()
         {
             if (_ioTMessageWall == null) return "No Graffiti Canvas";
-            var state = Task.Run(async () => await _ioTMessageWall.GetThing()).GetAwaiter().GetResult();
+            var state = await _ioTMessageWall.GetThing();
             return state.text;
         }
     }
