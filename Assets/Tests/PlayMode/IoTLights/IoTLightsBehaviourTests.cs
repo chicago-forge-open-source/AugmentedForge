@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,18 +15,6 @@ namespace Tests.PlayMode.IoTLights
 {
     public class IoTLightsBehaviourTests
     {
-        [UnityTest]
-        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
-        {
-            yield return null;
-            var light = GameObject.Find("IoTLight");
-            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
-            
-            yield return new WaitForSeconds(2f);
-
-            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
-        }
-
         [SetUp]
         public void SetUp()
         {
@@ -36,6 +25,18 @@ namespace Tests.PlayMode.IoTLights
         }
 
         [UnityTest]
+        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
+        {
+            yield return null;
+            var light = GameObject.Find("IoTLight");
+            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
+
+            yield return new WaitUntil(() => Math.Abs(lightSwitch.transform.rotation.eulerAngles.y - 180) < 0.01);
+
+            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
+        }
+
+        [UnityTest]
         public IEnumerator TappingIoTLightChangesState()
         {
             yield return null;
@@ -43,14 +44,15 @@ namespace Tests.PlayMode.IoTLights
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var initialState = lightBehaviour.onOffState;
             var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
-            
+
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            yield return new WaitForSeconds(2f);
             
+            yield return new WaitUntil(() => lightBehaviour.onOffState != initialState);
+
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
             Assert.AreNotEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
         }
-        
+
         [UnityTest]
         public IEnumerator TappingIoTLightTwiceChangesStateBackToOriginal()
         {
@@ -58,16 +60,18 @@ namespace Tests.PlayMode.IoTLights
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var initialLightState = lightBehaviour.onOffState;
-            var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
+            var lightSwitch = lightBehaviour.lightSwitch;
+            var initialZRotation = lightSwitch.transform.rotation.y;
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            yield return new WaitForSeconds(2f);
             
+            yield return new WaitUntil(() => lightBehaviour.onOffState != initialLightState);
+
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            yield return new WaitForSeconds(2f);
-            
+            yield return new WaitUntil(() => lightBehaviour.onOffState == initialLightState);
+
             Assert.AreEqual(initialLightState, lightBehaviour.onOffState);
-            Assert.AreEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
+            Assert.AreEqual(initialZRotation, lightSwitch.transform.rotation.y);
         }
 
         private static IEnumerator TouchIoTLightOnce(GameObject light, IoTLightBehaviour lightBehaviour)
@@ -82,7 +86,7 @@ namespace Tests.PlayMode.IoTLights
             {
                 ValueToReturn = lightBehaviour
             };
-            
+
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             lightBehaviour.inputHandler = new MockInputHandler(new List<Touch>());

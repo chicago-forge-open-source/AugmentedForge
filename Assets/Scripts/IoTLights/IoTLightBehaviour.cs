@@ -19,10 +19,10 @@ namespace IoTLights
         {
             _ioTLight = new IoTLight();
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
-            InvokeRepeating(nameof(PollForIoTLightState), 0.0f, 1f);
+            InvokeRepeating(nameof(PollForIoTLightState), 0.0f, 0.25f);
         }
 
-        public void Update()
+        public async void Update()
         {
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
@@ -31,22 +31,20 @@ namespace IoTLights
             if (Equals(this, hitBehaviour))
             {
                 var state = onOffState ? "off" : "on";
-                Task.Run(async () => { await _ioTLight.UpdateLightState(state); })
-                    .GetAwaiter()
-                    .GetResult();
+                await _ioTLight.UpdateLightState(state);
             }
         }
 
-        private void PollForIoTLightState()
+        private async Task PollForIoTLightState()
         {
             var newRotation = lightSwitch.transform.rotation.eulerAngles;
-            newRotation.y = GetStateOfLight() ? 180f : 0f;
+            newRotation.y = await GetStateOfLight() ? 180f : 0f;
             lightSwitch.transform.rotation = Quaternion.Euler(newRotation);
         }
 
-        private bool GetStateOfLight()
+        private async Task<bool> GetStateOfLight()
         {
-            var state = Task.Run(async () => await _ioTLight.GetIoTThing()).GetAwaiter().GetResult();
+            var state =  await _ioTLight.GetIoTThing();
             onOffState = state.state.Equals("on");
             return onOffState;
         }
