@@ -9,16 +9,14 @@ namespace IoTLights
     {
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
-        public GameObject arCameraGameObject;
+        public Camera _arCameraComponent;
         public GameObject lightSwitch;
-        private Camera _arCameraComponent;
         private Thing _ioTLight;
         public bool onOffState;
 
         public void Start()
         {
             _ioTLight = new Thing("IoTLight");
-            _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForIoTLightState), 0.0f, 0.25f);
         }
 

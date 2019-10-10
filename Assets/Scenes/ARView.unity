@@ -431,6 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84248435}
   - component: {fileID: 84248434}
+  - component: {fileID: 84248436}
   m_Layer: 0
   m_Name: MakerSpaceLights
   m_TagString: Untagged
@@ -467,6 +468,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84248436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84248433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad393f8c088464cafb0cfb90c0a6a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _arCamera: {fileID: 165585584}
 --- !u!1 &92124589
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,7 +2827,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420709762}
   m_HandleRect: {fileID: 420709761}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5571,7 +5585,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.3, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!114 &1842723826
 MonoBehaviour:
@@ -6350,5 +6364,10 @@ PrefabInstance:
       propertyPath: arCameraGameObject
       value: 
       objectReference: {fileID: 165585583}
+    - target: {fileID: 9008423111532889817, guid: 53990fc1f584a4ea7b677a6b2eb09ef3,
+        type: 3}
+      propertyPath: _arCameraComponent
+      value: 
+      objectReference: {fileID: 165585584}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53990fc1f584a4ea7b677a6b2eb09ef3, type: 3}
