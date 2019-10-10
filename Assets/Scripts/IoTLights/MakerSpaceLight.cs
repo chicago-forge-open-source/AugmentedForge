@@ -7,32 +7,12 @@ using Amazon.IotData;
 using Amazon.IotData.Model;
 using UnityEngine;
 
-namespace Graffiti
+namespace IoTLights
 {
-    [Serializable]
-    public class ShadowThing
-    {
-        public ShadowState state;
-    }
-
-    [Serializable]
-    public class ShadowState
-    {
-        public MessageWallState desired;
-        public MessageWallState reported;
-    }
-
-    [Serializable]
-    public class MessageWallState
-    {
-        public string text;
-    }
-
-    public class IoTMessageWall
+    public class MakerSpaceLight
     {
         private readonly AmazonIotDataClient _dataClient;
-
-        public IoTMessageWall()
+        public MakerSpaceLight()
         {
             var fileText = Resources.Load<TextAsset>("accesskeys").text;
             var lines = fileText.Split('\n');
@@ -46,12 +26,12 @@ namespace Graffiti
 
             _dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig);
         }
-
-        public async Task<MessageWallState> GetIoTThing()
+        
+        public async Task<IoTLightState> GetIoTThing()
         {
             var getThingShadowRequest = new GetThingShadowRequest
             {
-                ThingName = "Flounder"
+                ThingName = "MakerSpaceLights"
             };
 
             var theThing = await _dataClient.GetThingShadowAsync(getThingShadowRequest, CancellationToken.None);
@@ -59,15 +39,15 @@ namespace Graffiti
             var shadowThing = JsonUtility.FromJson<ShadowThing>(json);
             return shadowThing.state.reported;
         }
-
-        public async Task UpdateMessageWallText(string canvasText)
+        
+        public async Task UpdateLightState(string state)
         {
             var publishRequest = new PublishRequest
             {
-                Topic = "$aws/things/Flounder/shadow/update",
+                Topic = "$aws/things/MakerSpaceLights/shadow/update",
                 Payload = new MemoryStream(
                     Encoding.UTF8.GetBytes(
-                        $"{{ \"state\" : {{ \"desired\" : {{ \"text\":\"{canvasText}\"}} }} }}"
+                        $"{{ \"state\" : {{ \"desired\" : {{ \"state\":\"{state}\"}} }} }}"
                     )
                 ),
                 Qos = 1
