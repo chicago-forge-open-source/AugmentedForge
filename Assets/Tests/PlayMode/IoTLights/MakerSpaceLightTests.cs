@@ -6,24 +6,24 @@ namespace Tests.PlayMode.IoTLights
 {
     public class MakerSpaceLightTests
     {
-        private MakerSpaceLight _makerSpaceLight;
+        private Thing _makerSpaceLights;
 
         [SetUp]
         public void SetUp()
         {
-            _makerSpaceLight = new MakerSpaceLight();
+            _makerSpaceLights = new Thing("MakerSpaceLights");
         }
 
         [Test]
         public void CanGetIoTThing()
         {
-            Task.Run(async () => { await _makerSpaceLight.GetIoTThing(); }).GetAwaiter().GetResult();
+            Task.Run(async () => { await _makerSpaceLights.GetThing(); }).GetAwaiter().GetResult();
         }
 
         [Test]
         public void CanUpdateIoTThing()
         {
-            Task.Run(async () => { await _makerSpaceLight.UpdateLightState("on"); }).GetAwaiter().GetResult();
+            Task.Run(async () => { await _makerSpaceLights.UpdateThing("{{ \"state\":\"on\"}}"); }).GetAwaiter().GetResult();
         }
     }
 }

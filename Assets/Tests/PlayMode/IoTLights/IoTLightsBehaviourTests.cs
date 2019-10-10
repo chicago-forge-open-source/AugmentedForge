@@ -20,7 +20,7 @@ namespace Tests.PlayMode.IoTLights
             yield return null;
             var light = GameObject.Find("IoTLight");
             var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
-            
+
             yield return new WaitForSeconds(2f);
 
             Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
@@ -43,14 +43,14 @@ namespace Tests.PlayMode.IoTLights
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var initialState = lightBehaviour.onOffState;
             var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
-            
+
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitForSeconds(2f);
-            
+
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
             Assert.AreNotEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
         }
-        
+
         [UnityTest]
         public IEnumerator TappingIoTLightTwiceChangesStateBackToOriginal()
         {
@@ -62,10 +62,10 @@ namespace Tests.PlayMode.IoTLights
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitForSeconds(2f);
-            
+
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitForSeconds(2f);
-            
+
             Assert.AreEqual(initialLightState, lightBehaviour.onOffState);
             Assert.AreEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
         }
@@ -82,7 +82,7 @@ namespace Tests.PlayMode.IoTLights
             {
                 ValueToReturn = lightBehaviour
             };
-            
+
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             lightBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
@@ -90,8 +90,10 @@ namespace Tests.PlayMode.IoTLights
 
         private static void SetStateOfLightOnIot(string state)
         {
-            var light = new IoTLight();
-            Task.Run(async () => { await light.UpdateLightState(state); }).GetAwaiter().GetResult();
+            var light = new Thing("IoTLight");
+            Task.Run(async () => { await light.UpdateThing($"{{ \"state\":\"{state}\"}}"); })
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }

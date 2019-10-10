@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using IoTLights;
 using Markers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +14,13 @@ namespace Graffiti
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         private Camera _arCameraComponent;
-        private IoTMessageWall _ioTMessageWall;
+        private Thing _ioTMessageWall;
         public TouchScreenKeyboard keyboard;
         private bool _keyboardOpened;
 
         public void Start()
         {
-            _ioTMessageWall = new IoTMessageWall();
+            _ioTMessageWall = new Thing("Flounder");
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
@@ -60,7 +61,8 @@ namespace Graffiti
 
         private void SendGraffitiTextToAws(string graffitiText)
         {
-            Task.Run(async () => { await _ioTMessageWall.UpdateMessageWallText(graffitiText); })
+            var desiredState = $"{{ \"text\":\"{graffitiText}\"}}";
+            Task.Run(async () => { await _ioTMessageWall.UpdateThing(desiredState); })
                 .GetAwaiter()
                 .GetResult();
         }
@@ -73,7 +75,7 @@ namespace Graffiti
         private string GetGraffitiTextFromAws()
         {
             if (_ioTMessageWall == null) return "No Graffiti Canvas";
-            var state = Task.Run(async () => await _ioTMessageWall.GetIoTThing()).GetAwaiter().GetResult();
+            var state = Task.Run(async () => await _ioTMessageWall.GetThing()).GetAwaiter().GetResult();
             return state.text;
         }
     }

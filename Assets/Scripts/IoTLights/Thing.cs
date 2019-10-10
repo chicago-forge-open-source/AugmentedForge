@@ -7,7 +7,7 @@ using Amazon.IotData;
 using Amazon.IotData.Model;
 using UnityEngine;
 
-namespace Graffiti
+namespace IoTLights
 {
     [Serializable]
     public class ShadowThing
@@ -18,21 +18,23 @@ namespace Graffiti
     [Serializable]
     public class ShadowState
     {
-        public MessageWallState desired;
-        public MessageWallState reported;
+        public ThingState desired;
+        public ThingState reported;
     }
 
     [Serializable]
-    public class MessageWallState
+    public class ThingState
     {
+        public string state;
         public string text;
     }
 
-    public class IoTMessageWall
+    public class Thing
     {
+        private readonly string _thingName;
         private readonly AmazonIotDataClient _dataClient;
 
-        public IoTMessageWall()
+        public Thing(string thingName)
         {
             var fileText = Resources.Load<TextAsset>("accesskeys").text;
             var lines = fileText.Split('\n');
@@ -44,14 +46,15 @@ namespace Graffiti
                 ServiceURL = "https://a2soq6ydozn6i0-ats.iot.us-west-2.amazonaws.com/"
             };
 
+            _thingName = thingName;
             _dataClient = new AmazonIotDataClient(awsAccessKeyId, awsSecretAccessKey, amazonIotDataConfig);
         }
 
-        public async Task<MessageWallState> GetIoTThing()
+        public async Task<ThingState> GetThing()
         {
             var getThingShadowRequest = new GetThingShadowRequest
             {
-                ThingName = "Flounder"
+                ThingName = _thingName
             };
 
             var theThing = await _dataClient.GetThingShadowAsync(getThingShadowRequest, CancellationToken.None);
@@ -60,14 +63,14 @@ namespace Graffiti
             return shadowThing.state.reported;
         }
 
-        public async Task UpdateMessageWallText(string canvasText)
+        public async Task UpdateThing(string desiredState)
         {
             var publishRequest = new PublishRequest
             {
-                Topic = "$aws/things/Flounder/shadow/update",
+                Topic = $"$aws/things/{_thingName}/shadow/update",
                 Payload = new MemoryStream(
                     Encoding.UTF8.GetBytes(
-                        $"{{ \"state\" : {{ \"desired\" : {{ \"text\":\"{canvasText}\"}} }} }}"
+                        $"{{ \"state\" : {{ \"desired\" : {desiredState} }} }}"
                     )
                 ),
                 Qos = 1
