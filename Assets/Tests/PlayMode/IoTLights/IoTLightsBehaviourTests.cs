@@ -46,7 +46,6 @@ namespace Tests.PlayMode.IoTLights
             var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            
             yield return new WaitUntil(() => lightBehaviour.onOffState != initialState);
 
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
@@ -94,8 +93,10 @@ namespace Tests.PlayMode.IoTLights
 
         private static void SetStateOfLightOnIot(string state)
         {
-            var light = new IoTLight();
-            Task.Run(async () => { await light.UpdateLightState(state); }).GetAwaiter().GetResult();
+            var light = new Thing("IoTLight");
+            Task.Run(async () => { await light.UpdateThing($"{{ \"state\":\"{state}\"}}"); })
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using SyncPoints;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
 namespace AR

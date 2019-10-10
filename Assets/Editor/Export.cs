@@ -3,8 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
-using Graffiti;
-using UnityEngine;
+using IoTLights;
 
 namespace Editor
 {
@@ -13,14 +12,14 @@ namespace Editor
         [MenuItem("Export/IoTGoGoGo")]
         public static async Task DoIoTThing()
         {
-            await new IoTMessageWall().UpdateMessageWallText("No Text Entered");
+            const string desiredState = "{{ \"text\":\"No Text Entered\"}})";
+            await new Thing("Flounder").UpdateThing(desiredState);
         }
 
         [MenuItem("Export/TestGit")]
         public static void LogVersion()
         {
             var thing = CollectTagVersion();
-
             Debug.Log("version " + thing);
         }
 
@@ -31,10 +30,10 @@ namespace Editor
                 UseShellExecute = false,
                 RedirectStandardOutput = true
             };
-            Process process = Process.Start(processStartInfo);
-            process?.WaitForExit();
 
-            return Int32.Parse(process.StandardOutput.ReadToEnd());
+            var process = Process.Start(processStartInfo);
+            process?.WaitForExit();
+            return int.Parse(process.StandardOutput.ReadToEnd());
         }
 
         [MenuItem("Export/Android")]

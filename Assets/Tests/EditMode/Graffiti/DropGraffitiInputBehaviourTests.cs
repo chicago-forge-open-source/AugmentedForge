@@ -3,7 +3,6 @@ using System.Text;
 using Graffiti;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Tests.EditMode.Graffiti
 {

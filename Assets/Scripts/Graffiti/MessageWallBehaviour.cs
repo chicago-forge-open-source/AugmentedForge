@@ -13,13 +13,13 @@ namespace Graffiti
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
         private Camera _arCameraComponent;
-        private IoTMessageWall _ioTMessageWall;
+        private Thing _ioTMessageWall;
         public TouchScreenKeyboard keyboard;
         private bool _keyboardOpened;
 
         public void Start()
         {
-            _ioTMessageWall = new IoTMessageWall();
+            _ioTMessageWall = new Thing("Flounder");
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForCanvasColorChange), 0.0f, 1f);
         }
@@ -60,7 +60,8 @@ namespace Graffiti
 
         private async void SendGraffitiTextToAws(string graffitiText)
         {
-            await _ioTMessageWall.UpdateMessageWallText(graffitiText);
+            var desiredState = $"{{ \"text\":\"{graffitiText}\"}}";
+            await _ioTMessageWall.UpdateThing(desiredState);
         }
 
         private async void PollForCanvasColorChange()
@@ -75,7 +76,7 @@ namespace Graffiti
         private async Task<string> GetGraffitiTextFromAws()
         {
             if (_ioTMessageWall == null) return "No Graffiti Canvas";
-            var state = await _ioTMessageWall.GetIoTThing();
+            var state = await _ioTMessageWall.GetThing();
             return state.text;
         }
     }

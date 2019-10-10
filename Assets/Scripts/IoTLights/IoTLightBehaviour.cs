@@ -12,12 +12,12 @@ namespace IoTLights
         public GameObject arCameraGameObject;
         public GameObject lightSwitch;
         private Camera _arCameraComponent;
-        private IoTLight _ioTLight;
+        private Thing _ioTLight;
         public bool onOffState;
 
         public void Start()
         {
-            _ioTLight = new IoTLight();
+            _ioTLight = new Thing("IoTLight");
             _arCameraComponent = arCameraGameObject.GetComponent<Camera>();
             InvokeRepeating(nameof(PollForIoTLightState), 0.0f, 0.25f);
         }
@@ -31,7 +31,8 @@ namespace IoTLights
             if (Equals(this, hitBehaviour))
             {
                 var state = onOffState ? "off" : "on";
-                await _ioTLight.UpdateLightState(state);
+                var desiredState = $"{{ \"state\":\"{state}\"}}";
+                await _ioTLight.UpdateThing(desiredState);
             }
         }
 
@@ -44,7 +45,7 @@ namespace IoTLights
 
         private async Task<bool> GetStateOfLight()
         {
-            var state =  await _ioTLight.GetIoTThing();
+            var state =  await _ioTLight.GetThing();
             onOffState = state.state.Equals("on");
             return onOffState;
         }
