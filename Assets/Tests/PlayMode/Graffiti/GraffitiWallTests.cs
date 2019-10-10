@@ -2,7 +2,6 @@ using System.Collections;
 using System.IO;
 using Graffiti;
 using Locations;
-using Markers;
 using NUnit.Framework;
 using SyncPoints;
 using UnityEngine;

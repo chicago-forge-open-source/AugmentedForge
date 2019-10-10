@@ -3,9 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
-using Graffiti;
 using IoTLights;
-using UnityEngine;
 
 namespace Editor
 {

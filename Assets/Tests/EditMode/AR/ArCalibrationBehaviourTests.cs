@@ -3,7 +3,6 @@ using NUnit.Framework;
 using SyncPoints;
 using Tests.PlayMode;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
 namespace Tests.EditMode

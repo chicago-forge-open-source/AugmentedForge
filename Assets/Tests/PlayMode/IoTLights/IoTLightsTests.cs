@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
-using Graffiti;
 using IoTLights;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Tests.PlayMode.IoTLights
 {
