@@ -49,7 +49,7 @@ namespace IoTLights
 
             if (lightState.color == null) return colors[0];
             var nextIndex = colors.FindIndex(color => color == lightState.color) + 1;
-            return nextIndex > colors.Count ? colors[0] : colors[nextIndex];
+            return nextIndex >= colors.Count ? colors[0] : colors[nextIndex];
         }
     }
 }

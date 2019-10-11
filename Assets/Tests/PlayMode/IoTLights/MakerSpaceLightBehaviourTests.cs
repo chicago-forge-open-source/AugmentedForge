@@ -31,11 +31,13 @@ namespace Tests.PlayMode.IoTLights
             var makerSpaceLights = GameObject.Find("MakerSpaceLights");
             var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
             var initialState = makerSpaceLightBehaviour.lightState.on;
+            var initialColor = makerSpaceLightBehaviour.lightState.color;
 
             yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
             yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on != initialState);
 
             Assert.AreNotEqual(initialState, makerSpaceLightBehaviour.lightState.on);
+            Assert.AreNotEqual(initialColor, makerSpaceLightBehaviour.lightState.color);
         }
 
         [UnityTest]
@@ -45,6 +47,7 @@ namespace Tests.PlayMode.IoTLights
             var makerSpaceLights = GameObject.Find("MakerSpaceLights");
             var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
             var initialLightState = makerSpaceLightBehaviour.lightState.on;
+            var initialLightColor = makerSpaceLightBehaviour.lightState.color;
 
             yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
 
@@ -54,6 +57,7 @@ namespace Tests.PlayMode.IoTLights
             yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on == initialLightState);
 
             Assert.AreEqual(initialLightState, makerSpaceLightBehaviour.lightState.on);
+            Assert.AreNotEqual(initialLightColor, makerSpaceLightBehaviour.lightState.color);
         }
 
         private static IEnumerator TouchLightOnce(GameObject light, MakerSpaceLightBehaviour lightBehaviour)

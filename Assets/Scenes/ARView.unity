@@ -432,6 +432,8 @@ GameObject:
   - component: {fileID: 84248435}
   - component: {fileID: 84248434}
   - component: {fileID: 84248436}
+  - component: {fileID: 84248438}
+  - component: {fileID: 84248437}
   m_Layer: 0
   m_Name: MakerSpaceLights
   m_TagString: Untagged
@@ -481,6 +483,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arCamera: {fileID: 165585584}
+--- !u!33 &84248437
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84248433}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &84248438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84248433}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6930008, y: 1, z: 0.64086723}
+  m_Center: {x: -0.037651062, y: 0, z: 0.10426426}
 --- !u!1 &92124589
 GameObject:
   m_ObjectHideFlags: 0
@@ -6533,5 +6556,10 @@ PrefabInstance:
       propertyPath: arCameraGameObject
       value: 
       objectReference: {fileID: 165585583}
+    - target: {fileID: 9008423111532889817, guid: 53990fc1f584a4ea7b677a6b2eb09ef3,
+        type: 3}
+      propertyPath: arCameraComponent
+      value: 
+      objectReference: {fileID: 165585584}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53990fc1f584a4ea7b677a6b2eb09ef3, type: 3}
