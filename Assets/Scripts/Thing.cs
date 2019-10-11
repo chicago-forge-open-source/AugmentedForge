@@ -25,6 +25,7 @@ public class ThingState
 {
     public string state;
     public string text;
+    public string color;
 }
 
 public class Thing

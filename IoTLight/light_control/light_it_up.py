@@ -36,8 +36,10 @@ class IoTCommunicator(object):
     def on_delta(self, message, response, token):
         print("delta %s" % message)
         loaded_message = json.loads(message)
-        new_state = loaded_message["state"]["state"]
-        self.device.set_light(new_state)
+        new_state = loaded_message["state"]
+        on_off = new_state["state"]
+        color = new_state["color"]
+        self.device.set_light(on_off, color)
         self.send_shadow_update()
         play_sound_bit('light_bulb_sound.mp3')
 
@@ -54,7 +56,7 @@ class IoTCommunicator(object):
             time.sleep(5)
 
     def send_shadow_update(self):
-        message = {"state": {"reported": {"state": self.device.light_state}}}
+        message = {"state": {"reported": {"state": self.device.light_state, "color": self.device.light_color}}}
         message_json = json.dumps(message)
         self.device_shadow.shadowUpdate(message_json, self.on_message, 5)
         print('Shadow Update Sent')
@@ -64,25 +66,33 @@ class IoTCommunicator(object):
 class FakeIoTLightDevice(object):
     def __init__(self):
         self.light_state = "off"
+        self.light_color = "purple"
 
-    def set_light(self, state):
+    def set_light(self, state, color):
         self.light_state = state
+        self.light_color = color
 
     pass
 
 
 class RealIoTLightDevice(object):
     def __init__(self):
-        self.set_light("off")
+        self.set_light("off", "purple")
         self._light_state = "off"
+        self._light_color = "purple"
 
-    def set_light(self, state):
+    def set_light(self, state, color):
         control_led(state)
         self._light_state = state
+        self._light_color = color
 
     @property
     def light_state(self):
         return self._light_state
+
+    @property
+    def light_color(self):
+        return self._light_color
 
     pass
 
