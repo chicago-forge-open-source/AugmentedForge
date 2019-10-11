@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad393f8c088464cafb0cfb90c0a6a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _arCamera: {fileID: 165585584}
+  arCamera: {fileID: 165585584}
 --- !u!1 &92124589
 GameObject:
   m_ObjectHideFlags: 0
@@ -6367,6 +6367,11 @@ PrefabInstance:
     - target: {fileID: 9008423111532889817, guid: 53990fc1f584a4ea7b677a6b2eb09ef3,
         type: 3}
       propertyPath: _arCameraComponent
+      value: 
+      objectReference: {fileID: 165585584}
+    - target: {fileID: 9008423111532889817, guid: 53990fc1f584a4ea7b677a6b2eb09ef3,
+        type: 3}
+      propertyPath: arCameraComponent
       value: 
       objectReference: {fileID: 165585584}
     m_RemovedComponents: []

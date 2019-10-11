@@ -10,7 +10,7 @@ namespace IoTLights
     {
         public InputHandler inputHandler = UnityTouchInputHandler.BuildInputHandler();
         public PhysicsHandler physicsHandler = new UnityPhysicsHandler();
-        public Camera _arCamera;
+        public Camera arCamera;
         private Thing _makerSpaceLights;
         public (bool on, string color) lightState;
 
@@ -24,8 +24,8 @@ namespace IoTLights
         {
             if (inputHandler.TouchCount <= 0) return;
             var touch = inputHandler.GetTouch(0);
-            var touchPosition = _arCamera.ScreenPointToRay(touch.position);
-            var (hitBehaviour, _) = physicsHandler.Raycast<IoTLightBehaviour>(touchPosition);
+            var touchPosition = arCamera.ScreenPointToRay(touch.position);
+            var (hitBehaviour, _) = physicsHandler.Raycast<MakerSpaceLightBehaviour>(touchPosition);
             if (Equals(this, hitBehaviour))
             {
                 var state = lightState.on ? "off" : "on";
@@ -37,10 +37,7 @@ namespace IoTLights
         private async Task GetStateOfLight()
         {
             var state = await _makerSpaceLights.GetThing();
-            Debug.Log(state);
             lightState = (on: state.state.Equals("on"), state.color);
-            Debug.Log("STATE");
-            Debug.Log(lightState);
         }
 
         private string NextColor()

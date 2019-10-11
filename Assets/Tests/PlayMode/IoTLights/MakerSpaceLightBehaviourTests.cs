@@ -14,8 +14,6 @@ namespace Tests.PlayMode.IoTLights
 {
     public class MakerSpaceLightBehaviourTests
     {
-        private GameObject _makerSpaceLights;
-        private MakerSpaceLightBehaviour _makerSpaceLightBehaviour;
 
         [SetUp]
         public void SetUp()
@@ -24,40 +22,38 @@ namespace Tests.PlayMode.IoTLights
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint("test", 10, 10, 0)});
             SetStateOfLightOnIot("on", "blue");
             SceneManager.LoadScene("ARView");
-            var unused = SetGameObjAndBehaviour();
-        }
-
-        private IEnumerator SetGameObjAndBehaviour()
-        {
-            yield return null;
-            _makerSpaceLights = GameObject.Find("MakerSpaceLights");
-            _makerSpaceLightBehaviour = _makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
         }
 
         [UnityTest]
         public IEnumerator TappingMakerSpaceLightsChangesState()
         {
-            var initialState = _makerSpaceLightBehaviour.lightState.on;
+            yield return null;
+            var makerSpaceLights = GameObject.Find("MakerSpaceLights");
+            var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
+            var initialState = makerSpaceLightBehaviour.lightState.on;
 
-            yield return TouchLightOnce(_makerSpaceLights, _makerSpaceLightBehaviour);
-            yield return new WaitUntil(() => _makerSpaceLightBehaviour.lightState.on != initialState);
+            yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
+            yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on != initialState);
 
-            Assert.AreNotEqual(initialState, _makerSpaceLightBehaviour.lightState.on);
+            Assert.AreNotEqual(initialState, makerSpaceLightBehaviour.lightState.on);
         }
 
         [UnityTest]
         public IEnumerator TappingMakerSpaceLightsTwiceChangesStateBackToOriginal()
         {
-            var initialLightState = _makerSpaceLightBehaviour.lightState.on;
+            yield return null;
+            var makerSpaceLights = GameObject.Find("MakerSpaceLights");
+            var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
+            var initialLightState = makerSpaceLightBehaviour.lightState.on;
 
-            yield return TouchLightOnce(_makerSpaceLights, _makerSpaceLightBehaviour);
+            yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
 
-            yield return new WaitUntil(() => _makerSpaceLightBehaviour.lightState.on != initialLightState);
+            yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on != initialLightState);
 
-            yield return TouchLightOnce(_makerSpaceLights, _makerSpaceLightBehaviour);
-            yield return new WaitUntil(() => _makerSpaceLightBehaviour.lightState.on == initialLightState);
+            yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
+            yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on == initialLightState);
 
-            Assert.AreEqual(initialLightState, _makerSpaceLightBehaviour.lightState.on);
+            Assert.AreEqual(initialLightState, makerSpaceLightBehaviour.lightState.on);
         }
 
         private static IEnumerator TouchLightOnce(GameObject light, MakerSpaceLightBehaviour lightBehaviour)
