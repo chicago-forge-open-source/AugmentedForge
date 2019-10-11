@@ -431,6 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84248435}
   - component: {fileID: 84248434}
+  - component: {fileID: 84248436}
   m_Layer: 0
   m_Name: MakerSpaceLights
   m_TagString: Untagged
@@ -467,6 +468,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84248436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84248433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad393f8c088464cafb0cfb90c0a6a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCamera: {fileID: 165585584}
 --- !u!1 &92124589
 GameObject:
   m_ObjectHideFlags: 0
