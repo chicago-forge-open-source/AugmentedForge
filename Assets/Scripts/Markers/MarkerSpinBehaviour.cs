@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace Markers
 {
     public class MarkerSpinBehaviour : MonoBehaviour
     {
+        private const double SlowdownScale = 2.2;
         private const int FramesPerSecond = 30;
-        private const int RotationAmountPerFrame = 360 / FramesPerSecond;
+        private static readonly int RotationAmountPerFrame = (int) Math.Round(360 / FramesPerSecond / SlowdownScale);
         public Marker marker;
         public bool rotatedFullCircle;
         public int rotationCount;
@@ -16,12 +18,17 @@ namespace Markers
             rotationCount = 0;
         }
 
+        public void OnMouseUp()
+        {
+            gameObject.GetComponent<AudioSource>().Play();
+        }
+
         public void Update()
         {
             if (!marker.Active) return;
             transform.Rotate(0, RotationAmountPerFrame, 0);
             rotationCount++;
-            rotatedFullCircle = rotationCount == FramesPerSecond;
+            rotatedFullCircle = rotationCount == Math.Round(FramesPerSecond * SlowdownScale);
         }
 
         public void OnDisable()

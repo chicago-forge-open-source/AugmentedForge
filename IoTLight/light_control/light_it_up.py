@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import time
+import subprocess
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
@@ -36,12 +37,11 @@ class IoTCommunicator(object):
     def on_delta(self, message, response, token):
         print("delta %s" % message)
         loaded_message = json.loads(message)
-        new_state = loaded_message["state"]
-        on_off = new_state["state"]
-        color = new_state["color"]
-        self.device.set_light(on_off, color)
-        self.send_shadow_update()
+        new_state = loaded_message["state"]["state"]
         play_sound_bit('light_bulb_sound.mp3')
+        time.sleep(1.5)
+        self.device.set_light(new_state)
+        self.send_shadow_update()
 
     def start_communication(self):
         print("About to connect")
@@ -56,7 +56,7 @@ class IoTCommunicator(object):
             time.sleep(5)
 
     def send_shadow_update(self):
-        message = {"state": {"reported": {"state": self.device.light_state, "color": self.device.light_color}}}
+        message = {"state": {"reported": {"state": self.device.light_state}}}
         message_json = json.dumps(message)
         self.device_shadow.shadowUpdate(message_json, self.on_message, 5)
         print('Shadow Update Sent')
@@ -66,33 +66,25 @@ class IoTCommunicator(object):
 class FakeIoTLightDevice(object):
     def __init__(self):
         self.light_state = "off"
-        self.light_color = "purple"
 
-    def set_light(self, state, color):
+    def set_light(self, state):
         self.light_state = state
-        self.light_color = color
 
     pass
 
 
 class RealIoTLightDevice(object):
     def __init__(self):
-        self.set_light("off", "purple")
+        self.set_light("off")
         self._light_state = "off"
-        self._light_color = "purple"
 
-    def set_light(self, state, color):
+    def set_light(self, state):
         control_led(state)
         self._light_state = state
-        self._light_color = color
 
     @property
     def light_state(self):
         return self._light_state
-
-    @property
-    def light_color(self):
-        return self._light_color
 
     pass
 
@@ -108,7 +100,8 @@ def control_led(state):
 
 def play_sound_bit(sound_bit):
     file_name = './sounds/' + sound_bit
-    os.system('omxplayer ' + file_name + " &")
+    #os.system('omxplayer ' + file_name + " &")
+    subprocess.Popen(['omxplayer ' + file_name], shell=True)
 
 if __name__ == '__main__':
     arg = sys.argv[1:]

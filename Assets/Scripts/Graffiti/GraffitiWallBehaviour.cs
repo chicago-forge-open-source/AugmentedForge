@@ -15,6 +15,9 @@ namespace Graffiti
         public GameObject dropGraffitiUi;
         public GameObject sketcherSurface;
         public DropGraffitiInputBehaviour dropGraffitiInputBehaviour;
+        public GameObject iotLight;
+        public GameObject avocado;
+        public GameObject messageWall;
 
         public void Start()
         {
@@ -31,14 +34,17 @@ namespace Graffiti
             if (inputHandler.TouchCount > 0)
                 HandleTouchAtPosition(inputHandler.GetTouch(0).position, EnableSketchMode);
         }
-        
-        
+
+
         public void EnableSketchMode()
         {
             enabled = false;
             gameObject.SetActive(false);
             hudCanvas.SetActive(false);
             dropGraffitiUi.SetActive(false);
+            iotLight.SetActive(false);
+            avocado.SetActive(false);
+            messageWall.SetActive(false);
             dropGraffitiInputBehaviour.enabled = false;
 
             sketcherCamera.enabled = true;
@@ -51,6 +57,9 @@ namespace Graffiti
             enabled = true;
             gameObject.SetActive(true);
             hudCanvas.SetActive(true);
+            iotLight.SetActive(true);
+            avocado.SetActive(true);
+            messageWall.SetActive(true);
 
             dropGraffitiUi.SetActive(false);
             dropGraffitiInputBehaviour.enabled = false;
@@ -88,7 +97,7 @@ namespace Graffiti
             gameObject.SetActive(true);
             dropGraffitiUi.SetActive(true);
             dropGraffitiInputBehaviour.enabled = true;
-        
+
             hudCanvas.SetActive(false);
             sketcherSurface.SetActive(false);
             sketcherUi.SetActive(false);

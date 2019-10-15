@@ -16,6 +16,7 @@ public class InitializeApp : MonoBehaviour
     {
         Input.compass.enabled = true;
         Input.location.Start();
+        Input.multiTouchEnabled = false;
     }
 
     public void Start()
