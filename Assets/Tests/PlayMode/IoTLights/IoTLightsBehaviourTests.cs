@@ -25,31 +25,35 @@ namespace Tests.PlayMode.IoTLights
         }
 
         [UnityTest]
-        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
-        {
-            yield return null;
-            var light = GameObject.Find("IoTLight");
-            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
-            yield return new WaitUntil(() => Math.Abs(lightSwitch.transform.rotation.eulerAngles.y - 180) < 0.001);
-
-            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
-        }
-
-        [UnityTest]
         public IEnumerator TappingIoTLightChangesState()
         {
             yield return null;
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
+            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
+            lightSwitch.transform.rotation = Quaternion.Euler(0,0,0);
+
             var initialState = lightBehaviour.onOffState;
-            var initialZRotation = lightBehaviour.lightSwitch.transform.rotation.y;
+            var initialZRotation = lightSwitch.transform.rotation.y;
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitUntil(() => lightBehaviour.onOffState != initialState);
-            yield return new WaitForSeconds(2f);
 
             Assert.AreNotEqual(initialState, lightBehaviour.onOffState);
-            Assert.AreNotEqual(initialZRotation, lightBehaviour.lightSwitch.transform.rotation.y);
+            Assert.AreNotEqual(initialZRotation, lightSwitch.transform.rotation.y);
+        }
+
+        [UnityTest]
+        public IEnumerator IoTLightGetsStateAndAppliesToSelf()
+        {
+            yield return null;
+            var light = GameObject.Find("IoTLight");
+            var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
+            lightSwitch.transform.rotation = Quaternion.Euler(0,0,0);
+
+            yield return new WaitUntil(() => Math.Abs(lightSwitch.transform.rotation.eulerAngles.y - 180) < 0.01);
+
+            Assert.AreEqual(180, lightSwitch.transform.rotation.eulerAngles.y);
         }
 
         [UnityTest]
@@ -58,18 +62,18 @@ namespace Tests.PlayMode.IoTLights
             yield return null;
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
-            var initialLightState = lightBehaviour.onOffState;
             var lightSwitch = lightBehaviour.lightSwitch;
+            lightSwitch.transform.rotation = Quaternion.Euler(0,0,0);
+
+            var initialLightState = lightBehaviour.onOffState;
             var initialZRotation = lightSwitch.transform.rotation.y;
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
-            
+
             yield return new WaitUntil(() => lightBehaviour.onOffState != initialLightState);
 
             yield return TouchIoTLightOnce(light, lightBehaviour);
             yield return new WaitUntil(() => lightBehaviour.onOffState == initialLightState);
-
-            yield return new WaitForSeconds(2f);
 
             Assert.AreEqual(initialLightState, lightBehaviour.onOffState);
             Assert.AreEqual(initialZRotation, lightSwitch.transform.rotation.y);

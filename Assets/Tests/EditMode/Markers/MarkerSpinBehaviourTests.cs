@@ -1,3 +1,4 @@
+using System;
 using Markers;
 using NUnit.Framework;
 using UnityEngine;
@@ -6,8 +7,9 @@ namespace Tests.EditMode.Markers
 {
     public class MarkerSpinBehaviourTests
     {
+        private const double SlowdownScale = 2.2;
         private const int FramesPerSecond = 30;
-        private const int ExpectedRotationAmount = 360 / FramesPerSecond;
+        private static readonly int ExpectedRotationAmount = (int) Math.Round(360 / FramesPerSecond / SlowdownScale);
         private GameObject _markerGameObject;
         private MarkerSpinBehaviour _markerBehaviour;
 
@@ -68,7 +70,7 @@ namespace Tests.EditMode.Markers
             var rotation = Quaternion.Euler(0, initialRotation, 0);
             _markerGameObject.transform.rotation = rotation;
             _markerBehaviour.rotatedFullCircle = false;
-            _markerBehaviour.rotationCount = 29;
+            _markerBehaviour.rotationCount = 65;
 
             _markerBehaviour.Update();
 
