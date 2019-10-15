@@ -34,5 +34,45 @@ namespace Tests.PlayMode.Graffiti
 
             Assert.IsTrue(File.Exists($"{Application.persistentDataPath}/SavedImage.csv"));
         }
+
+        [UnityTest]
+        public IEnumerator SelectedOKButtonDoesNotAllowDropPointToBeUpdated()
+        {
+            yield return LoadScene();
+            var wallBehaviour = GameObject.Find("GraffitiWall").GetComponent<GraffitiWallBehaviour>();
+            var wallInputBehavior = wallBehaviour.dropGraffitiInputBehaviour;
+            wallInputBehavior.planeTouchDetector 
+                = new MockPlaneTouchDetector(new Vector2(0, 0));
+
+            wallBehaviour.dropGraffitiUi.SetActive(true);
+            Vector2 dropPointBefore = wallInputBehavior.dropPoint;
+            GameObject.Find("Ok Button").GetComponent<Button>().Select();
+            wallInputBehavior.Update();
+            Vector2 dropPointAfter = wallInputBehavior.dropPoint;
+            
+            Assert.IsTrue(dropPointBefore.Equals(dropPointAfter));
+        }
+    }
+    
+    public class MockPlaneTouchDetector : PlaneTouchDetector
+    {
+        public Transform lastTransform;
+        public Camera lastCamera;
+        public int lastTextureSize;
+
+        public MockPlaneTouchDetector(Vector2 touchToReturn)
+        {
+            PointToReturn = touchToReturn;
+        }
+
+        public Vector2? FindTouchedPoint(Transform transform, Camera camera, int textureSize)
+        {
+            lastTextureSize = textureSize;
+            lastCamera = camera;
+            lastTransform = transform;
+            return PointToReturn;
+        }
+
+        public Vector2? PointToReturn { get; set; }
     }
 }

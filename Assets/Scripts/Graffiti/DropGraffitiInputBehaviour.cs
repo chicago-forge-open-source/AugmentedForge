@@ -50,8 +50,12 @@ namespace Graffiti
         {
             var touchedPoint = planeTouchDetector.FindTouchedPoint(transform, sketcherCamera,
                 graffitiTextureBehaviour.textureSize);
-            if (touchedPoint.HasValue)
+            if (touchedPoint.HasValue 
+                && !(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+            )
+            {
                 dropPoint = touchedPoint.Value;
+            }
         }
 
         public void CancelDrop()
