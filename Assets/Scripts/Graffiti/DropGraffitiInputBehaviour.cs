@@ -50,12 +50,26 @@ namespace Graffiti
         {
             var touchedPoint = planeTouchDetector.FindTouchedPoint(transform, sketcherCamera,
                 graffitiTextureBehaviour.textureSize);
-            if (touchedPoint.HasValue 
-                && !(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+            if (touchedPoint.HasValue && NoGameObjectSelectionIsDetected()
             )
             {
                 dropPoint = touchedPoint.Value;
             }
+        }
+
+        private static bool NoGameObjectSelectionIsDetected()
+        {
+            return EventSystemIsNotRunning() || NoGameObjectIsSelected();
+        }
+
+        private static bool NoGameObjectIsSelected()
+        {
+            return !UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        }
+
+        private static bool EventSystemIsNotRunning()
+        {
+            return UnityEngine.EventSystems.EventSystem.current == null;
         }
 
         public void CancelDrop()
