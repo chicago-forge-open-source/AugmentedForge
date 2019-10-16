@@ -18,7 +18,7 @@ namespace Graffiti
         private void HandleTouch()
         {
             var percentageOfWall = touchDetector.FindTouchedPoint(transform, sketcherCamera, TextureSize);
-            if (percentageOfWall.HasValue)
+            if (percentageOfWall.HasValue && NoGameObjectSelectionIsDetected())
             {
                 sketcherTextureBehaviour.LitPoints.Add(percentageOfWall.Value);
             }
@@ -27,6 +27,21 @@ namespace Graffiti
         public void ClearOnClick()
         {
             sketcherTextureBehaviour.LitPoints.Clear();
+        }
+
+        private static bool NoGameObjectSelectionIsDetected()
+        {
+            return EventSystemIsNotRunning() || NoGameObjectIsSelected();
+        }
+
+        private static bool NoGameObjectIsSelected()
+        {
+            return !UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        }
+
+        private static bool EventSystemIsNotRunning()
+        {
+            return UnityEngine.EventSystems.EventSystem.current == null;
         }
     }
 }
