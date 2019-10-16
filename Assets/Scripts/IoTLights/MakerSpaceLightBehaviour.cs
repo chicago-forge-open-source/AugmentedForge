@@ -29,7 +29,7 @@ namespace IoTLights
             if (Equals(this, hitBehaviour))
             {
                 var state = lightState.on ? "off" : "on";
-                var desiredState = $"{{ \"state\":\"{state}\", \"color\": \"{NextColor()}\"}}";
+                var desiredState = $"{{ \"state\":\"{state}\", \"color\": \"purple\"}}";
                 await _makerSpaceLights.UpdateThing(desiredState);
             }
         }
@@ -37,7 +37,7 @@ namespace IoTLights
         private async Task GetStateOfLight()
         {
             var state = await _makerSpaceLights.GetThing();
-            lightState = (on: state.state.Equals("on"), state.color);
+            lightState = (on: state.state.Equals("on"), "purple");
         }
 
         private string NextColor()

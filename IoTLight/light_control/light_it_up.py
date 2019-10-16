@@ -4,11 +4,14 @@ import os
 import sys
 import time
 import subprocess
+import RPi.GPIO as GPIO
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
 if 'IOT_THING_NAME' in os.environ:
     thingName = os.environ['IOT_THING_NAME']
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(7, GPIO.OUT)
 else:
     thingName = "IoTLight"
 
@@ -38,8 +41,6 @@ class IoTCommunicator(object):
         print("delta %s" % message)
         loaded_message = json.loads(message)
         new_state = loaded_message["state"]["state"]
-        play_sound_bit('light_bulb_sound.mp3')
-        time.sleep(1.5)
         self.device.set_light(new_state)
         self.send_shadow_update()
 
@@ -79,7 +80,10 @@ class RealIoTLightDevice(object):
         self._light_state = "off"
 
     def set_light(self, state):
-        control_led(state)
+        if thingName == "IoTLight":
+            control_led(state)
+        if thingName == "MakerSpaceLights":
+            control_gpio(state)
         self._light_state = state
 
     @property
@@ -91,16 +95,26 @@ class RealIoTLightDevice(object):
 
 def control_led(state):
     if state == 'on':
+        play_sound_bit('light_bulb_sound.mp3')
+        time.sleep(1.25)
         os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
         os.system('echo 1 | sudo tee /sys/class/leds/led0/brightness')
 
     elif state == 'off':
         os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
         os.system('echo 0 | sudo tee /sys/class/leds/led0/brightness')
+        
+def control_gpio(state):
+    if state == 'on':
+        play_sound_bit('light_bulb_sound.mp3')
+        time.sleep(1.25)
+        GPIO.output(7, GPIO.HIGH)
+
+    elif state == 'off':
+        GPIO.output(7, GPIO.LOW)
 
 def play_sound_bit(sound_bit):
     file_name = './sounds/' + sound_bit
-    #os.system('omxplayer ' + file_name + " &")
     subprocess.Popen(['omxplayer ' + file_name], shell=True)
 
 if __name__ == '__main__':

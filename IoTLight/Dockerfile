@@ -10,7 +10,7 @@ RUN apt-get -q update && \
         gcc \
         make
 
-RUN pip install AWSIoTPythonSDK
+RUN pip install AWSIoTPythonSDK RPi.GPIO
 
 COPY . /app/
 RUN chmod +x /app/light_control/light_it_up.py

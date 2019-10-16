@@ -14,13 +14,12 @@ namespace Tests.PlayMode.IoTLights
 {
     public class MakerSpaceLightBehaviourTests
     {
-
         [SetUp]
         public void SetUp()
         {
             Repositories.LocationsRepository.Save(new[] {new Location("", "ChicagoMap")});
             Repositories.SyncPointRepository.Save(new[] {new SyncPoint("test", 10, 10, 0)});
-            SetStateOfLightOnIot("on", "blue");
+            SetStateOfLightOnIot("on");
             SceneManager.LoadScene("ARView");
         }
 
@@ -28,23 +27,15 @@ namespace Tests.PlayMode.IoTLights
         public IEnumerator TappingMakerSpaceLightsChangesState()
         {
             yield return null;
-            
-            var makerSpaceLights = GameObject.Find("MakerSpaceLights");
-            if (makerSpaceLights == null)
-            {
-                Assert.IsTrue(true);
-                yield break;
-            }
 
+            var makerSpaceLights = GameObject.Find("MakerSpaceLights");
             var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
             var initialState = makerSpaceLightBehaviour.lightState.on;
-            var initialColor = makerSpaceLightBehaviour.lightState.color;
 
             yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
             yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on != initialState);
 
             Assert.AreNotEqual(initialState, makerSpaceLightBehaviour.lightState.on);
-            Assert.AreNotEqual(initialColor, makerSpaceLightBehaviour.lightState.color);
         }
 
         [UnityTest]
@@ -52,15 +43,8 @@ namespace Tests.PlayMode.IoTLights
         {
             yield return null;
             var makerSpaceLights = GameObject.Find("MakerSpaceLights");
-            if (makerSpaceLights == null)
-            {
-                Assert.IsTrue(true);
-                yield break;
-            }
-
             var makerSpaceLightBehaviour = makerSpaceLights.GetComponent<MakerSpaceLightBehaviour>();
             var initialLightState = makerSpaceLightBehaviour.lightState.on;
-            var initialLightColor = makerSpaceLightBehaviour.lightState.color;
 
             yield return TouchLightOnce(makerSpaceLights, makerSpaceLightBehaviour);
 
@@ -70,7 +54,6 @@ namespace Tests.PlayMode.IoTLights
             yield return new WaitUntil(() => makerSpaceLightBehaviour.lightState.on == initialLightState);
 
             Assert.AreEqual(initialLightState, makerSpaceLightBehaviour.lightState.on);
-            Assert.AreNotEqual(initialLightColor, makerSpaceLightBehaviour.lightState.color);
         }
 
         private static IEnumerator TouchLightOnce(GameObject light, MakerSpaceLightBehaviour lightBehaviour)
@@ -91,10 +74,10 @@ namespace Tests.PlayMode.IoTLights
             lightBehaviour.inputHandler = new MockInputHandler(new List<Touch>());
         }
 
-        private static void SetStateOfLightOnIot(string state, string color)
+        private static void SetStateOfLightOnIot(string state)
         {
             var light = new Thing("MakerSpaceLights");
-            Task.Run(async () => { await light.UpdateThing($"{{ \"state\":\"{state}\", \"color\":\"{color}\"}}"); })
+            Task.Run(async () => { await light.UpdateThing($"{{ \"state\":\"{state}\", \"color\":\"purple\"}}"); })
                 .GetAwaiter()
                 .GetResult();
         }
