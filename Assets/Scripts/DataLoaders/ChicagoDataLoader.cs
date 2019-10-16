@@ -44,9 +44,8 @@ namespace DataLoaders
 
             var makerToGreaterMHub = new Road(new[]
             {
-                new RoadPoint(0, _makerSpace),
-                new RoadPoint(1, _entrance),
-                new RoadPoint(2, _greaterMHub)
+                new RoadPoint(0, _entrance),
+                new RoadPoint(1, _greaterMHub)
             });
 
             return new[] {makerToKitchen, makerToGreaterMHub};
