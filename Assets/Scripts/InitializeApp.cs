@@ -67,6 +67,7 @@ public class InitializeApp : MonoBehaviour
     private IEnumerator LoadSceneAfterCompassEnable()
     {
         yield return new WaitUntil(() => compass.IsEnabled);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("ARView");
     }
 
