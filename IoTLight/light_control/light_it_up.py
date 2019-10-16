@@ -95,7 +95,7 @@ class RealIoTLightDevice(object):
 
 def control_led(state):
     if state == 'on':
-        play_sound_bit('light_bulb_sound.mp3')
+        play_sound_bit('light_bulb_sound.mp3', "-o alsa:hw:USB,0")
         time.sleep(1.25)
         os.system('echo none | sudo tee /sys/class/leds/led0/trigger')
         os.system('echo 1 | sudo tee /sys/class/leds/led0/brightness')
@@ -113,9 +113,9 @@ def control_gpio(state):
     elif state == 'off':
         GPIO.output(7, GPIO.LOW)
 
-def play_sound_bit(sound_bit):
+def play_sound_bit(sound_bit, device = ""):
     file_name = './sounds/' + sound_bit
-    subprocess.Popen(['omxplayer ' + file_name], shell=True)
+    subprocess.Popen(['omxplayer ' + device + ' ' + file_name], shell=True)
 
 if __name__ == '__main__':
     arg = sys.argv[1:]
