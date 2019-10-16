@@ -69,6 +69,7 @@ public class HudBehaviour : MonoBehaviour
 
     public void OnClickBack()
     {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("InitScene");
     }
 }
