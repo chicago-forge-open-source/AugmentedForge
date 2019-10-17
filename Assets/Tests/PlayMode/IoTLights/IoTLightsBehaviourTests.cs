@@ -31,7 +31,6 @@ namespace Tests.PlayMode.IoTLights
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var lightSwitch = light.GetComponent<IoTLightBehaviour>().lightSwitch;
-            lightSwitch.transform.rotation = Quaternion.Euler(0,0,0);
 
             var initialState = lightBehaviour.onOffState;
             var initialZRotation = lightSwitch.transform.rotation.y;
@@ -63,7 +62,6 @@ namespace Tests.PlayMode.IoTLights
             var light = GameObject.Find("IoTLight");
             var lightBehaviour = light.GetComponent<IoTLightBehaviour>();
             var lightSwitch = lightBehaviour.lightSwitch;
-            lightSwitch.transform.rotation = Quaternion.Euler(0,0,0);
 
             var initialLightState = lightBehaviour.onOffState;
             var initialZRotation = lightSwitch.transform.rotation.y;

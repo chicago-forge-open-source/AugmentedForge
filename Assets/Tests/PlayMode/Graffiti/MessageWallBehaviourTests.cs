@@ -40,7 +40,7 @@ namespace Tests.PlayMode.Graffiti
             yield return null;
             var canvas = GameObject.Find("MessageWall");
             var canvasBehaviour = canvas.GetComponent<MessageWallBehaviour>();
-            var initialText = "This is fun";
+            var initialText = "Welcome to the Forge!";
 
             yield return TouchMessageWallOnce(canvas, canvasBehaviour);
             canvasBehaviour.keyboard.text = initialText;
