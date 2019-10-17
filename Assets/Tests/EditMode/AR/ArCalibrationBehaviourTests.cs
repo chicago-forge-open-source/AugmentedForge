@@ -38,9 +38,9 @@ namespace Tests.EditMode
 
             var expectedSyncPoint = new SyncPoint(
                 "start with compass",
-                32,
-                -16,
-                _behaviour.compass.TrueHeading
+                30.3f, 
+                -20.6f,
+                270
             );
 
             Assert.AreEqual(expectedSyncPoint, _behaviour.pendingSyncPoint);

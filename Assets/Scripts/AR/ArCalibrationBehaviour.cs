@@ -25,13 +25,14 @@ namespace AR
             var repoSyncPoint = Repositories.SyncPointRepository.Get()[0];
             if (PlayerPrefs.GetString("location").Equals("GrandOpening"))
             {
-                repoSyncPoint = new SyncPoint("GrandOpening", 32f, -16, 0);
+                repoSyncPoint = new SyncPoint("GrandOpening", 30.3f, -20.6f, 0);
             }
+
             pendingSyncPoint = new SyncPoint(
                 "start with compass",
                 repoSyncPoint.X,
                 repoSyncPoint.Z,
-                compass.TrueHeading
+                repoSyncPoint.Name.Equals("GrandOpening") ? 270 : compass.TrueHeading
             );
         }
 
@@ -70,7 +71,7 @@ namespace AR
         public bool IsEnabled => Math.Abs(TrueHeading) > 0;
         public float TrueHeading => Input.compass.trueHeading;
     }
-    
+
     public static class Helpers
     {
         public static void SetObjectXzPosition(Transform objectTransform, float x, float z)

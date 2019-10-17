@@ -35,7 +35,6 @@ namespace Graffiti
                 HandleTouchAtPosition(inputHandler.GetTouch(0).position, EnableSketchMode);
         }
 
-
         public void EnableSketchMode()
         {
             enabled = false;
@@ -82,7 +81,7 @@ namespace Graffiti
             var (targetBehaviour, _) = physicsHandler.Raycast<GraffitiWallBehaviour>(ray);
 
             var touchDetected = Equals(this, targetBehaviour);
-            return touchDetected;
+            return touchDetected && NoGameObjectSelectionIsDetected();
         }
 
         public void ReturnToARMode()
@@ -101,6 +100,21 @@ namespace Graffiti
             hudCanvas.SetActive(false);
             sketcherSurface.SetActive(false);
             sketcherUi.SetActive(false);
+        }
+        
+        private static bool NoGameObjectSelectionIsDetected()
+        {
+            return EventSystemIsNotRunning() || NoGameObjectIsSelected();
+        }
+
+        private static bool NoGameObjectIsSelected()
+        {
+            return !UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        }
+
+        private static bool EventSystemIsNotRunning()
+        {
+            return UnityEngine.EventSystems.EventSystem.current == null;
         }
     }
 }
