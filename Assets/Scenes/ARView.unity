@@ -464,7 +464,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84248433}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.01, y: 2.011, z: -22.96}
+  m_LocalPosition: {x: 32.407, y: 2.011, z: -22.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6438,7 +6438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arCamera: {fileID: 165585584}
   screenPoint: {x: 0, y: 0, z: 0}
-  BoxTexture: {fileID: 2800000, guid: ecc34bd88da9f4f2a9a8af9a65e99969, type: 3}
+  BoxTexture: {fileID: 2800000, guid: ab92f124126e7445f85f6afa0509d44c, type: 3}
 --- !u!1001 &1871345056
 PrefabInstance:
   m_ObjectHideFlags: 0
